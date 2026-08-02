@@ -2594,6 +2594,13 @@ nav.side{padding:9px 10px}
 .m5-daycard-h{font-size:13.5px;font-weight:800;color:#16233f;padding:8px 10px 6px;display:flex;align-items:center;gap:8px}
 .m5-todaypill{background:var(--m5gold);color:#1b2a49;font-size:10px;font-weight:800;padding:2px 8px;border-radius:20px;text-transform:uppercase;letter-spacing:.03em}
 .m5-dayempty{font-size:12.5px;color:#9aa3b2;padding:6px 10px 10px}
+/* ---- Today section (top of Virtual Calls) ---- */
+.m5-todaysec{border-color:var(--m5gold);box-shadow:0 0 0 1px var(--m5gold),0 4px 16px rgba(232,183,58,.18)}
+.m5-todayhd{color:#16233f !important;display:flex;align-items:center;gap:9px}
+.m5-etpill{background:#0e2244;color:#fff;font-size:9.5px;font-weight:800;padding:2px 8px;border-radius:20px;letter-spacing:.05em}
+.m5-todaynote{font-size:13px;color:#4a5568;padding:2px 10px 8px;line-height:1.5}
+.m5-todaynote.m5-restday{color:#5a6678}
+.m5-todaynote b{color:#16233f}
 
 /* ---- Gold buttons for FB/WhatsApp/Discord + button icons + optional note ---- */
 .m5-lnk.fb,.m5-lnk.wa,.m5-lnk.dc{background:#c9a227!important;color:#2a2205!important}
@@ -2689,6 +2696,47 @@ nav.side{padding:9px 10px}
 .m5-popfb b{color:#c9971f}
 .m5-poperr img{display:none}
 .m5-poperr .m5-popfb{display:inline-block}
+
+/* ===================================================================== */
+/* ==================  MOBILE LAYER  (phones ≤ 768px)  ================== */
+/* Desktop (>768px) is completely unaffected — every rule below is gated  */
+/* behind the media query or the hidden-by-default hamburger.             */
+/* ===================================================================== */
+.m5-hamb{display:none;align-items:center;justify-content:center;width:40px;height:40px;flex-shrink:0;border:none;border-radius:11px;background:linear-gradient(150deg,#17294c,#0e2244);color:#fff;cursor:pointer;padding:0}
+.m5-hamb svg{width:22px;height:22px;stroke:#fff;stroke-width:2.2;fill:none;stroke-linecap:round}
+.m5-hamb:active{transform:scale(.93)}
+.m5-backdrop{position:fixed;inset:0;background:rgba(7,15,30,.55);z-index:900;opacity:0;pointer-events:none;transition:opacity .25s}
+
+@media(max-width:768px){
+  html,body{overflow-x:hidden;max-width:100%}
+  /* --- sidebar becomes an off-canvas drawer --- */
+  #app>aside{position:fixed;top:0;left:0;height:100vh;height:100dvh;width:min(85vw,310px);z-index:1000;
+             transform:translateX(-100%);transition:transform .27s cubic-bezier(.4,0,.2,1);
+             box-shadow:0 0 44px rgba(0,0,0,.5);overflow-y:auto}
+  body.m5-navopen #app>aside{transform:translateX(0)}
+  body.m5-navopen .m5-backdrop{opacity:1;pointer-events:auto}
+  /* --- main takes the full width --- */
+  #app>main{width:100%;min-width:0}
+  /* --- top bar + hamburger --- */
+  .topbar{padding:9px 13px;gap:11px}
+  .m5-hamb{display:inline-flex}
+  .crumb{font-size:16px;font-weight:800}
+  .topright{gap:9px}
+  .statuschip{font-size:10.5px;padding:4px 9px;white-space:nowrap}
+  .protobanner{padding:7px 14px;font-size:11.5px;line-height:1.45}
+  /* --- content spacing --- */
+  .content{padding:16px 14px 40px}
+  h1.page{font-size:22px;line-height:1.2}
+  .sub{font-size:13.5px}
+  /* --- collapse every multi-column layout to a single column --- */
+  .grid2,.tiles,.course-grid,.tool-grid,.m5-daygrid,.m5-modrow,.m5-comprow,
+  .m5-poprow,.m5-hrow,.m5-tgrid,.m5-splitrow{grid-template-columns:1fr !important}
+  /* --- keep wide media inside the screen --- */
+  .content img,.content table,.content pre,.content iframe,.toolframe{max-width:100% !important}
+  .toolframe{height:1500px}
+  /* --- roomier tap targets for call/list rows --- */
+  .m5-callrow,.navitem{min-height:44px}
+}
 </style>
 
 <script>
@@ -2874,16 +2922,46 @@ try{
   }
   if(typeof DAILY!=='undefined'&&typeof WEEK!=='undefined'){
     var m5vcall=function(e){return '<a class="m5-callrow" href="'+e.link+'" target="_blank" rel="noopener"><span class="m5-crchip">'+m5icon(m5CallIcon(e.n))+'</span><span class="m5-crtext"><span class="m5-crname">'+e.n+'</span><span class="m5-crtime">'+e.t+'</span></span><span class="m5-crjoin">Join</span></a>';};
+    // Day-of-week anchored to Eastern time (the schedule is EST), so "Today"
+    // is correct no matter what timezone the agent's phone/computer is set to.
+    var m5ETParts=function(){
+      try{
+        var f=new Intl.DateTimeFormat('en-US',{timeZone:'America/New_York',weekday:'long',month:'long',day:'numeric'});
+        var parts={}; f.formatToParts(new Date()).forEach(function(p){parts[p.type]=p.value;});
+        var idx=DAYNAMES.indexOf(parts.weekday);
+        return {day:(idx<0?new Date().getDay():idx), label:parts.weekday+', '+parts.month+' '+parts.day};
+      }catch(e){
+        var d=new Date().getDay(); return {day:d, label:DAYNAMES[d]};
+      }
+    };
     window.vVirtual=function(){
-      var today=new Date().getDay();
-      var h='<h1 class="page">Virtual Calls/Training</h1><p class="sub">Your weekly training calls (EST). Today is highlighted.</p>';
+      var _et=m5ETParts(); var today=_et.day;
+      var h='<h1 class="page">Virtual Calls/Training</h1><p class="sub">Your weekly training calls (all times EST). Today is highlighted below.</p>';
+      // ---- TODAY section (always shows what to join right now) ----
+      var _liveDials=null; for(var _i=0;_i<DAILY.length;_i++){ if(/live dials/i.test(DAILY[_i].n)){_liveDials=DAILY[_i];break;} }
+      var _todayCalls=(WEEK[today]||[]);
+      h+='<div class="m5-callsec m5-todaysec"><div class="m5-callsec-h m5-todayhd">Today · '+_et.label+' <span class="m5-etpill">Eastern</span></div>';
+      if(_todayCalls.length){
+        h+='<div class="m5-todaynote">You have '+_todayCalls.length+' scheduled team call'+(_todayCalls.length>1?'s':'')+' today, plus the everyday calls.</div>';
+        h+=_todayCalls.map(m5vcall).join('');
+      }else{
+        h+='<div class="m5-todaynote m5-restday">No scheduled <b>team</b> calls today'+(today===0?' — enjoy your Sunday!':'.')+' '+(_liveDials?'Live Dials still run, and your':'Your')+' everyday calls below run daily.</div>';
+        if(_liveDials){ h+=m5vcall(_liveDials); }
+      }
+      h+='</div>';
       if(typeof imageCard==='function'&&typeof IMG_READING!=='undefined'){
         h+='<div class="m5-callsec-h" style="padding-left:2px">Daily posts to share</div>';
         h+='<div class="course-grid" style="margin-bottom:14px">'+imageCard('reading',IMG_READING,'daily-reading.png','Daily Morning Reading — Mon–Sat 8:00 AM EST')+imageCard('vbo',IMG_VBO,'vbo-everyday.png','Virtual Business Overview — every day · share to invite')+'</div>';
       }
       h+='<div class="m5-callsec"><div class="m5-callsec-h">Every Day</div>'+DAILY.map(m5vcall).join('')+'</div>';
       h+='<div class="m5-daygrid">';
-      for(var d=1;d<=6;d++){var evs=WEEK[d]||[];h+='<div class="m5-daycard'+(d===today?' today':'')+'"><div class="m5-daycard-h">'+DAYNAMES[d]+(d===today?'<span class="m5-todaypill">Today</span>':'')+'</div>'+(evs.length?evs.map(m5vcall).join(''):'<div class="m5-dayempty">Daily calls only.</div>')+'</div>';}
+      [1,2,3,4,5,6,0].forEach(function(d){
+        var evs=WEEK[d]||[];
+        var body=evs.length?evs.map(m5vcall).join('')
+                 :(d===0&&_liveDials?m5vcall(_liveDials)+'<div class="m5-dayempty">No scheduled team calls — Live Dials run daily.</div>'
+                                    :'<div class="m5-dayempty">Daily calls only.</div>');
+        h+='<div class="m5-daycard'+(d===today?' today':'')+'"><div class="m5-daycard-h">'+DAYNAMES[d]+(d===today?'<span class="m5-todaypill">Today</span>':'')+'</div>'+body+'</div>';
+      });
       h+='</div>';
       h+='<div class="m5-callsec" style="margin-top:18px"><div class="m5-callsec-h">Call Recordings &amp; Repository</div>'+m5RowList(m5PairRows(REC))+'</div>';
       if(typeof IMG_SHAWN!=='undefined'&&typeof shareBtns==='function'){
@@ -2896,9 +2974,33 @@ try{
 window.m5ToggleExpand=function(el){var p=el.closest&&el.closest('.m5-expand');if(p)p.classList.toggle('open');};
 window.m5FallbackCopy=function(t){try{var ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.left='-9999px';ta.style.opacity='0';document.body.appendChild(ta);ta.focus();ta.select();document.execCommand('copy');document.body.removeChild(ta);}catch(e){}};
 window.m5CopyMsg=function(id,btn){var el=document.getElementById(id);if(!el)return;var txt=el.innerHTML.replace(/<br\s*\/?>/gi,'\n').replace(/<\/p>\s*<p[^>]*>/gi,'\n\n').replace(/<[^>]+>/g,'');var d=document.createElement('textarea');d.innerHTML=txt;txt=d.value;function done(){var o=btn.getAttribute('data-orig');if(o===null){btn.setAttribute('data-orig',btn.innerHTML);}btn.classList.add('copied');btn.innerHTML='✓ Copied';setTimeout(function(){btn.classList.remove('copied');btn.innerHTML=btn.getAttribute('data-orig')||'Copy';},1600);}if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,function(){m5FallbackCopy(txt);done();});}else{m5FallbackCopy(txt);done();}};
-function m5Start(){_mo=new MutationObserver(function(){if(window.__m5t)clearTimeout(window.__m5t);window.__m5t=setTimeout(m5Reskin,40);});m5Reskin();}
+/* ---------------- Mobile drawer nav (phones ≤768px) ---------------- */
+function m5NavClose(){document.body.classList.remove('m5-navopen');}
+function m5MobileInit(){
+  try{
+    if(!document.querySelector('.m5-backdrop')){
+      var bd=document.createElement('div');bd.className='m5-backdrop';
+      bd.addEventListener('click',m5NavClose);
+      (document.body||document.documentElement).appendChild(bd);
+    }
+    var tb=document.querySelector('.topbar');
+    if(tb&&!tb.querySelector('.m5-hamb')){
+      var b=document.createElement('button');
+      b.className='m5-hamb';b.setAttribute('aria-label','Open menu');
+      b.innerHTML='<svg viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>';
+      b.addEventListener('click',function(ev){ev.stopPropagation();document.body.classList.toggle('m5-navopen');});
+      tb.insertBefore(b,tb.firstChild);
+    }
+    var sn=document.getElementById('sidenav');
+    if(sn&&!sn.__m5bound){sn.__m5bound=1;sn.addEventListener('click',function(){setTimeout(m5NavClose,10);});}
+    var sf=document.querySelector('.side-foot');
+    if(sf&&!sf.__m5bound){sf.__m5bound=1;sf.addEventListener('click',m5NavClose);}
+    if(!window.__m5resize){window.__m5resize=1;window.addEventListener('resize',function(){if(window.innerWidth>768)m5NavClose();});}
+  }catch(e){}
+}
+function m5Start(){_mo=new MutationObserver(function(){if(window.__m5t)clearTimeout(window.__m5t);window.__m5t=setTimeout(m5Reskin,40);});m5Reskin();m5MobileInit();}
 if(document.body){m5Start();}else{document.addEventListener('DOMContentLoaded',m5Start);}
-setTimeout(m5Reskin,400);
+setTimeout(function(){m5Reskin();m5MobileInit();},400);
 })();
 </script>
 </body>
