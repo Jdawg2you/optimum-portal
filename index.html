@@ -741,6 +741,7 @@ function logout(){document.getElementById('app').classList.add('hidden');documen
 function startApp(){
   m5HideAll();
   if(typeof m5CurrentUser!=='undefined'&&m5CurrentUser.email) store.data.email=(m5CurrentUser.email||'').trim().toLowerCase();
+  if(typeof m5CurrentUser!=='undefined'&&m5CurrentUser.phone) store.data.phone=(''+m5CurrentUser.phone).trim();
   document.getElementById('app').classList.remove('hidden');
   document.getElementById('avatar').textContent=((store.data.first[0]||'A')+(store.data.last[0]||'')).toUpperCase();
   var sn=document.getElementById('m5-suname'); if(sn)sn.textContent=store.data.first||'Agent';
@@ -1854,19 +1855,26 @@ try{
         '<div class="m5-exbody"><div class="m5-complist">'+compRows+'</div></div></div>';
       var PORTAL='https://portal.ffloptimum.com';
       var link='<a href="'+PORTAL+'" target="_blank" rel="noopener">'+PORTAL+'</a>';
+      var _sfirst=(store.data.first||'').trim(), _slast=(store.data.last||'').trim();
+      var _sname=(_sfirst+' '+_slast).trim();
+      var _sphone=(((store.data.phone)||(typeof m5CurrentUser!=='undefined'&&m5CurrentUser.phone)||'')+'').trim();
+      var _semail=(((store.data.email)||(typeof m5CurrentUser!=='undefined'&&m5CurrentUser.email)||'')+'').trim();
+      var sig=(_sname||'[Your name]');
+      if(_sphone) sig+='<br>'+_sphone;
+      if(_semail) sig+='<br>'+_semail;
       var msgUnlic='Welcome to the team! First, save my contact info so you can always reach me.<br><br>'+
-        'Click the link below to head to our team onboarding site — that will be your main resource for everything. Right now your focus is getting <b>licensed within 2 weeks</b>! (FIRST — WATCH THE VIDEO ON THE HOME PAGE!)<br><br>'+link+'<br><br>'+
-        'Please let me know if you have any questions along the way. Again, congratulations — I\'m excited to have you on the team. Let\'s go!!!!<br>-[Your name]';
+        'Click the link below to head to our team onboarding site — that will be your main resource for everything. Right now your focus is getting <b>licensed within 2 weeks</b>!<br><br>'+link+'<br><br>'+
+        'Please let me know if you have any questions along the way. Again, congratulations — I\'m excited to have you on the team. Let\'s go!!!!<br>'+sig;
       var msgLic='Welcome to the team! First, save my contact info so you can always reach me.<br><br>'+
-        'Click the link below to head to our team onboarding site — that will be your main resource for everything. Right now your focus is getting <b>contracted and appointed with our carriers as quickly as possible</b>, and beginning your initial training. (FIRST — WATCH THE VIDEO ON THE HOME PAGE!)<br><br>'+link+'<br><br>'+
-        'Please let me know if you have any questions along the way. Again, congratulations — I\'m excited to have you on the team. Let\'s go!!!!<br>-[Your name]';
+        'Click the link below to head to our team onboarding site — that will be your main resource for everything. Right now your focus is getting <b>contracted and appointed with our carriers as quickly as possible</b>, and beginning your initial training.<br><br>'+link+'<br><br>'+
+        'Please let me know if you have any questions along the way. Again, congratulations — I\'m excited to have you on the team. Let\'s go!!!!<br>'+sig;
       var ex='<div class="m5-expand" id="m5-enroll">'+
         '<div class="m5-exhead" onclick="m5ToggleExpand(this)"><span class="m5-exchip" data-ico="users"></span>'+
           '<span class="m5-extext"><span class="m5-exname">How to enroll your new hire</span><span class="m5-exsub">Welcome them, set expectations, then add them to the system — tap to open.</span></span>'+
           '<span class="m5-exchev">›</span></div>'+
         '<div class="m5-exbody">'+
           '<div class="m5-estep"><div class="m5-estep-h"><span class="m5-estep-n">1</span>Welcome your new hire &amp; set expectations</div>'+
-            '<p>The moment someone joins, reach out and welcome them. Copy the message that matches your new hire, paste it into a text or email, replace <b>[Your name]</b> with your name, and send it. Each message points them to the onboarding portal — their home base.</p>'+
+            '<p>The moment someone joins, reach out and welcome them. Copy the message that matches your new hire — it\'s already signed with your name, phone, and email — paste it into a text or email and send it. Each message points them to the onboarding portal — their home base.</p>'+
             '<div class="m5-msgcard"><div class="m5-msgcard-h"><span class="m5-msgcard-t">New Unlicensed Agent</span><button class="m5-copybtn" onclick="m5CopyMsg(\'m5-msg-unlic\',this)"><span data-ico="clip"></span> Copy</button></div>'+
               '<div class="m5-msgbody" id="m5-msg-unlic">'+msgUnlic+'</div></div>'+
             '<p class="m5-fine"><b>Then set expectations:</b> get their state exam scheduled ASAP, the course done and passed within 1–2 weeks, and have them connect with you every few days.</p>'+
