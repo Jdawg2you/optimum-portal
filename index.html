@@ -2038,6 +2038,48 @@ function m5Start(){_mo=new MutationObserver(function(){if(window.__m5t)clearTime
 if(document.body){m5Start();}else{document.addEventListener('DOMContentLoaded',m5Start);}
 setTimeout(function(){m5Reskin();m5MobileInit();},400);
 })();
+
+/* ===== Browser Back button = previous in-app screen (Option A) ===== */
+(function(){
+  if(!window.history||!window.history.pushState) return;
+  var _busy=false, _seeded=false;
+  function snap(){
+    var v=(typeof currentView==='function')?currentView():'dashboard';
+    if(v==='academy'&&typeof m5acad!=='undefined'&&m5acad){
+      return {m5:1,v:'academy',a:{view:m5acad.view,mod:m5acad.mod,les:m5acad.les}};
+    }
+    return {m5:1,v:v};
+  }
+  function record(){
+    if(_busy) return;
+    var s=snap();
+    try{
+      if(!_seeded){ history.replaceState(s,''); _seeded=true; }
+      else { history.pushState(s,''); }
+    }catch(e){}
+  }
+  function restore(s){
+    if(!s||!s.m5) return;
+    _busy=true;
+    try{
+      if(s.v==='academy'){
+        if(typeof m5acad!=='undefined'&&s.a){ m5acad={view:s.a.view||'home',mod:s.a.mod||null,les:s.a.les||null}; }
+        if(typeof render==='function') render('academy');
+        var cr=document.getElementById('crumb'); if(cr) cr.textContent='Academy';
+        document.querySelectorAll('.navitem').forEach(function(n){n.classList.toggle('active',n.dataset.view==='academy');});
+        window.scrollTo(0,0);
+      } else if(typeof go==='function'){ go(s.v); }
+    }catch(e){}
+    _busy=false;
+  }
+  function wrap(name){
+    var f=window[name];
+    if(typeof f!=='function') return;
+    window[name]=function(){ var r=f.apply(this,arguments); if(!_busy) record(); return r; };
+  }
+  wrap('go'); wrap('acadGoMod'); wrap('acadGoLes'); wrap('acadGoHome');
+  window.addEventListener('popstate', function(ev){ restore(ev.state); });
+})();
 </script>
 </body>
 </html>
