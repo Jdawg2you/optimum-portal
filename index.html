@@ -850,7 +850,7 @@ function vAcademy(){
 function openSales(k){salesOpen=salesOpen===k?null:k;render('sales');}
 function openCarrier(n){carrierOpen=carrierOpen===n?null:n;render('sales');}
 function vSales(){
-  const tiles=[['scripts','📝','Sales Scripts','All call scripts'],['legacy','🛡️','Legacy Safeguard','Free end-of-life planning you offer clients'],['eapp','💻','Electronic Applications','Carrier e-app platforms'],['carriers','🏢','Carrier Portals','Portals, training, guides'],['ce','🎓','Continuing Education','CE & compliance'],['pres','📊','Presentation Materials','Illustrations, needs analysis'],['deck','🖥️','Sales Presentations','Decks for every product']];
+  const tiles=[['scripts','📝','Sales Scripts','All call scripts'],['retention','🔁','Client Retention/Service','Copy-paste client touchpoints'],['legacy','🛡️','Legacy Safeguard','Free end-of-life planning you offer clients'],['eapp','💻','Electronic Applications','Carrier e-app platforms'],['carriers','🏢','Carrier Portals','Portals, training, guides'],['ce','🎓','Continuing Education','CE & compliance'],['pres','📊','Presentation Materials','Illustrations, needs analysis'],['deck','🖥️','Sales Presentations','Decks for every product']];
   const grid=tiles.map(t=>`<div class="tool ${salesOpen===t[0]?'sel':''}" onclick="openSales('${t[0]}')"><div class="tic">${t[1]}</div><div class="tt">${t[2]}</div><div class="td">${t[3]}</div></div>`).join('');
   return `<h1 class="page">Sales Tools</h1><p class="sub">Tap a tool to open it — its links appear below.</p><div class="tool-grid">${grid}</div>${salesOpen?salesPanel(salesOpen):''}`;
 }
@@ -899,7 +899,8 @@ function vSupport(){return `<h1 class="page">Support</h1><p class="sub">Quick ho
 function vProfile(){return `<h1 class="page">Profile</h1><p class="sub">Your account.</p>
   <div class="listcard"><div class="li"><div class="lt">Name</div><div class="ld">${store.data.first} ${store.data.last}</div></div>
   <div class="li"><div class="lt">Email <span style="font-size:11px;color:var(--ink-soft);font-weight:500">(your login &amp; how your progress is saved)</span></div><div class="ld">${store.data.email||'—'}</div></div>
-  <div class="li"><div class="lt">Status</div><div class="ld">${store.data.status==='licensed'?'Licensed Agent':'Unlicensed Agent'}</div></div></div>
+  <div class="li"><div class="lt">Status</div><div class="ld">${store.data.status==='licensed'?'Licensed Agent':'Unlicensed Agent'}</div></div>
+  <div class="li"><div style="flex:1"><div class="lt">Agency name <span style="font-size:11px;color:var(--ink-soft);font-weight:500">(signs your client messages — defaults to Family First Life; set your own and it's saved)</span></div><div style="display:flex;gap:8px;align-items:center;margin-top:6px;flex-wrap:wrap"><input id="m5-agency-in" value="${(store.data.agency||'').replace(/"/g,'&quot;')}" placeholder="e.g. Family First Life" style="padding:9px 11px;border:1px solid var(--line);border-radius:8px;font-size:14px;min-width:200px;font-family:inherit"><button class="btn" style="width:auto;padding:9px 16px" onclick="m5SaveAgency()">Save</button></div></div></div></div>
   ${store.data.status==='licensed'?`<button class="btn" style="width:auto;padding:10px 18px;background:#eef2fa;color:var(--brand-deep)" onclick="m5EnterPreview()"><span data-ico="user" style="display:inline-flex;vertical-align:-3px;margin-right:6px"></span>Preview the unlicensed agent experience</button>`:''}
   <button class="btn" style="width:auto;padding:10px 18px;background:#fbecea;color:var(--red);margin-left:8px" onclick="resetAll()">Reset all progress</button>`;}
 function switchStatus(){store.data.status=store.data.status==='licensed'?'unlicensed':'licensed';store.save();syncChip();buildNav();go('dashboard');toast('Switched view');}
@@ -2091,81 +2092,85 @@ setTimeout(function(){m5Reskin();m5MobileInit();},400);
   window.addEventListener('popstate', function(ev){ restore(ev.state); });
 })();
 
-/* ===== Client Retention + Legacy Safeguard (Sales Tools) ===== */
+/* ===== Client Retention / Service + Legacy Safeguard (Sales Tools) ===== */
 function m5CretWho(){
   var nm=((store.data.first||'')+' '+(store.data.last||'')).trim()||'[Your name]';
   var ph=(((store.data.phone)||(typeof m5CurrentUser!=='undefined'&&m5CurrentUser.phone)||'[your number]')+'').trim();
-  return {nm:nm,ph:ph};
+  var em=(((store.data.email)||(typeof m5CurrentUser!=='undefined'&&m5CurrentUser.email)||'')+'').trim();
+  return {nm:nm,ph:ph,em:em};
 }
-function m5CretFill(s){var w=m5CretWho();return String(s||'').split('{AGENT}').join(w.nm).split('{PHONE}').join(w.ph);}
+function m5CretFill(s){var w=m5CretWho();s=String(s||'').split('{AGENT}').join(w.nm).split('{PHONE}').join(w.ph);var ag=((store.data&&store.data.agency)||'').trim()||'Family First Life';s=s.split('[Your Agency Name]').join(ag);return s;}
+function m5SaveAgency(){var el=document.getElementById('m5-agency-in');if(!el)return;store.data.agency=(el.value||'').trim();store.save();if(typeof toast==='function')toast('Agency saved ✓');}
 var CRET_GEN=[
  {n:'1–3 Days After Sale',w:'Welcome & Questions Call',goal:'Answer questions and build trust.',
-  call:`Hi [Client Name], this is [Rep Name] with Optimum Financial Solutions. I'm calling on behalf of your life insurance agent, {AGENT}, just to personally welcome you and check in on your new policy. We're excited you've taken this step in protecting your family and your financial future!
+  call:`Hi [Client Name], this is {AGENT}, your life insurance agent with [Your Agency Name]. I'm calling to personally welcome you and check in on your new policy. I'm excited you've taken this step to protect your family and your financial future!
 
-Do you have any questions so far about how your policy works or what to expect next? We're here to make everything easy and clear for you.`,
-  vm:`Hi [Client Name], this is [Rep Name] with Optimum Financial Solutions, calling on behalf of your life insurance agent, {AGENT}. Just wanted to welcome you and check in to see if you had any questions about your new policy. You can reach me at {PHONE}. Have a great day!`,
-  text:`Hi [Client Name], this is [Rep Name] with Optimum Financial Solutions. Reaching out on behalf of your agent {AGENT} just to welcome you and see if you had any questions about your new policy.`},
+Do you have any questions so far about how your policy works or what to expect next? I'm here to make everything easy and clear for you.`,
+  vm:`Hi [Client Name], this is {AGENT}, your life insurance agent with [Your Agency Name]. I just wanted to welcome you and check in to see if you had any questions about your new policy. You can reach me anytime at {PHONE}. Have a great day!`,
+  text:`Hi [Client Name], this is {AGENT}, your life insurance agent with [Your Agency Name]. Just reaching out to welcome you and see if you had any questions about your new policy.`},
  {n:'2–3 Days Before First Payment',w:'Payment Reminder',goal:'Prevent a missed first payment.',
-  call:`Hi [Client Name], this is [Rep Name] with Optimum Financial Solutions. I'm calling on behalf of your life insurance agent, {AGENT}. Just a quick friendly reminder — your first policy payment is scheduled in the next couple of days. We just want to make sure everything is good to go so there's no interruption in coverage.
+  call:`Hi [Client Name], this is {AGENT} with [Your Agency Name]. Just a quick friendly reminder — your first policy payment is scheduled in the next couple of days. I want to make sure everything's good to go so there's no interruption in your coverage.
 
 Do you have any questions about the billing, or need to update your payment info in any way?`,
-  vm:`Hi [Client Name], this is [Rep Name] with Optimum Financial Solutions on behalf of your life insurance agent, {AGENT}. Your first policy payment is coming up in the next couple of days. If you have any questions or need to update your payment info, give us a quick call as soon as possible at {PHONE}.`,
-  text:`Hi [Client Name], this is [Rep Name] from Optimum Financial Solutions. Just a quick reminder on behalf of your agent {AGENT} that your first policy payment is coming up. Let me know if you need anything.`},
+  vm:`Hi [Client Name], this is {AGENT} with [Your Agency Name]. Your first policy payment is coming up in the next couple of days. If you have any questions or need to update your payment info, give me a quick call as soon as you can at {PHONE}.`,
+  text:`Hi [Client Name], it's {AGENT} with [Your Agency Name]. Just a quick reminder that your first policy payment is coming up. Let me know if you need anything.`},
  {n:'2 Weeks After Sale',w:'Check-In + Family Referral',goal:'Keep engagement high and see if others need help.',
-  call:`Hi [Client Name], this is [Rep Name] with Optimum Financial Solutions, following up on behalf of your life insurance agent, {AGENT}. We just wanted to check in and make sure you've received your policy in the mail — if not, that's not unusual, as they're usually larger packages, but it's good for us to check on.
+  call:`Hi [Client Name], this is {AGENT} with [Your Agency Name], following up on your new policy. I wanted to check in and make sure you've received your policy in the mail — if not, that's not unusual, since they're usually larger packages, but it's good for me to check on.
 
-Also, many of {AGENT}'s clients, after getting their own coverage, think of others who may need it too — is there anyone in your circle who might need the same kind of help you just got?`,
-  vm:`Hi [Client Name], this is [Rep Name] with Optimum Financial Solutions. I'm calling on behalf of your agent, {AGENT}, just to check in and see if you had any questions. We're also happy to help any family members you may have in mind. Call us at {PHONE} if we can be of help.`,
-  text:`Hi [Client Name], this is [Rep Name] with Optimum Financial Solutions. Just checking in on behalf of your agent {AGENT} to see if you have any questions or if there's anyone in your family who may need help.`},
+Also, a lot of my clients, once they have their own coverage in place, start thinking about others who may need it too — is there anyone in your circle who might need the same kind of help you just got?`,
+  vm:`Hi [Client Name], this is {AGENT} with [Your Agency Name], just checking in to see if you had any questions. I'm also happy to help any family members you may have in mind. Call me at {PHONE} if I can help with anything.`,
+  text:`Hi [Client Name], it's {AGENT} with [Your Agency Name]. Just checking in to see if you have any questions — or if there's anyone in your family who may need help too.`},
  {n:'3 Days Before 2nd Payment',w:'Friendly Payment Reminder',goal:'Prevent an early lapse from a missed second payment.',
-  call:`Hi [Client Name], this is [Rep Name] with Optimum Financial Solutions. I'm calling on behalf of your life insurance agent, {AGENT}, to give you a quick reminder that your second policy payment is coming up in a few days. Since this is still a new account, we just like to make sure everything's smooth and set up correctly.
+  call:`Hi [Client Name], this is {AGENT} with [Your Agency Name]. I wanted to give you a quick reminder that your second policy payment is coming up in a few days. Since this is still a new account, I just like to make sure everything's smooth and set up correctly.
 
 Do you have any questions?`,
-  vm:`Hi [Client Name], this is [Rep Name] from Optimum Financial Solutions on behalf of your agent {AGENT}. Just a quick reminder your second payment is coming up. Let us know if you need anything at {PHONE}.`,
-  text:`Hi [Client Name], this is [Rep Name] with Optimum Financial Solutions. Just a quick heads-up on behalf of {AGENT} that your second policy payment is coming up. Let me know if you need anything.`},
+  vm:`Hi [Client Name], this is {AGENT} with [Your Agency Name]. Just a quick reminder that your second payment is coming up. Let me know if you need anything — you can reach me at {PHONE}.`,
+  text:`Hi [Client Name], it's {AGENT} with [Your Agency Name]. Quick heads-up that your second policy payment is coming up. Let me know if you need anything.`},
  {n:'3 Months After Anniversary',w:'Questions & Family Help',goal:'Deepen the relationship and ask about referrals.',
-  call:`Hi [Client Name], this is [Rep Name] with Optimum Financial Solutions, calling from the office of {AGENT}, your life insurance agent. I'm checking in now that you've had your policy for a few months. Do you have any questions about your coverage or how things have been working?
+  call:`Hi [Client Name], this is {AGENT}, your life insurance agent with [Your Agency Name]. I'm checking in now that you've had your policy for a few months. Do you have any questions about your coverage or how everything's been working?
 
-Also, we find that once someone gets their own plan in place, they start thinking about others who'd like the same peace of mind — is there anyone you'd like us to contact that we could help as well?`,
-  vm:`Hi [Client Name], this is [Rep Name] with Optimum Financial Solutions. I'm reaching out on behalf of your agent {AGENT} to check in and see if you have any questions about your policy — or if there's someone else in your family we might be able to help. Call us at {PHONE} when you can.`,
-  text:`Hi [Client Name], this is [Rep Name] with Optimum Financial Solutions. Checking in on behalf of {AGENT} to see if you have any questions or if there's anyone else in your family who may need help.`},
+Also, I find that once someone has their own plan in place, they start thinking about others who'd like the same peace of mind — is there anyone you'd like me to reach out to and help as well?`,
+  vm:`Hi [Client Name], this is {AGENT} with [Your Agency Name]. I'm just checking in to see if you have any questions about your policy — or if there's someone else in your family I might be able to help. Call me at {PHONE} when you get a chance.`,
+  text:`Hi [Client Name], it's {AGENT} with [Your Agency Name]. Checking in to see if you have any questions, or if there's anyone else in your family who may need help.`},
  {n:'6-Month Check-In',w:'Maintain Connection',goal:'Keep retention high and create a touchpoint.',
-  call:`Hi [Client Name], this is [Rep Name] from Optimum Financial Solutions. I'm calling on behalf of your life insurance agent, {AGENT}, just to check in — it's been about 6 months since your policy was set up, and we want to make sure everything is going well.
+  call:`Hi [Client Name], this is {AGENT} with [Your Agency Name]. I'm just checking in — it's been about six months since we set up your policy, and I want to make sure everything's going well.
 
-Do you have any questions you'd like to talk with {AGENT} about?`,
-  vm:`Hi [Client Name], this is [Rep Name] with Optimum Financial Solutions, checking in on behalf of {AGENT}. It's been about 6 months since your policy was set up — let us know if you have any questions. You can reach us at {PHONE}.`,
-  text:`Hi [Client Name], this is [Rep Name] with Optimum Financial Solutions. Reaching out on behalf of {AGENT} for your 6-month policy check-in. Let me know if you have any questions or need help with anything.`},
- {n:'2 Weeks Before 1-Year Anniversary',w:'Book Policy Review',goal:'Set the annual review appointment with the agent.',
-  call:`Hi [Client Name], this is [Rep Name] with Optimum Financial Solutions, calling on behalf of your life insurance agent, {AGENT}. You're coming up on your 1-year policy anniversary, and we like to celebrate that by doing a full policy review with {AGENT}. It's a great time to see how everything's going, answer any questions, and talk about what's next.
+Is there anything you'd like to go over, or any questions I can answer for you?`,
+  vm:`Hi [Client Name], this is {AGENT} with [Your Agency Name], checking in for your six-month mark. Let me know if you have any questions — you can reach me at {PHONE}.`,
+  text:`Hi [Client Name], it's {AGENT} with [Your Agency Name]. Reaching out for your six-month policy check-in. Let me know if you have any questions or need help with anything.`},
+ {n:'2 Weeks Before 1-Year Anniversary',w:'Book Policy Review',goal:'Set the annual review appointment.',
+  call:`Hi [Client Name], this is {AGENT} with [Your Agency Name]. You're coming up on your one-year policy anniversary, and I like to celebrate that with a full policy review. It's a great time to see how everything's going, answer any questions, and talk about what's next.
 
-Let's go ahead and get that scheduled — do mornings or afternoons work better for you?`,
-  vm:`Hi [Client Name], this is [Rep Name] with Optimum Financial Solutions, calling on behalf of {AGENT}. Your policy anniversary is coming up, and {AGENT} would love to schedule a review with you. Give us a call back at {PHONE} and we'll get it set up.`,
-  text:`Hi [Client Name], this is [Rep Name] with Optimum Financial Solutions. On behalf of {AGENT}, we'd like to schedule your annual policy review. Let me know what days or times work best for you.`}
+Let's get that scheduled — do mornings or afternoons work better for you?`,
+  vm:`Hi [Client Name], this is {AGENT} with [Your Agency Name]. Your policy anniversary is coming up, and I'd love to schedule a quick review with you. Give me a call back at {PHONE} and we'll get it set up.`,
+  text:`Hi [Client Name], it's {AGENT} with [Your Agency Name]. You're coming up on your one-year policy anniversary — I'd like to schedule your annual review. What days or times work best for you?`}
 ];
 var CRET_MISS=[
  {n:'First Missed Payment',w:'Friendly Courtesy Call',goal:'Gently alert the client and offer help.',
-  call:`Hi [Client Name], this is [Rep Name] with Optimum Financial Solutions, calling on behalf of your life insurance agent, {AGENT}. I just wanted to give you a quick courtesy call — it looks like your most recent policy payment didn't go through. These things happen; it could be something as simple as your deposit hitting a day off.
+  call:`Hi [Client Name], this is {AGENT}, your life insurance agent with [Your Agency Name]. I wanted to give you a quick courtesy call — it looks like your most recent policy payment didn't go through. These things happen; it could be something as simple as your deposit hitting a day off.
 
-We want to make sure everything stays on track so your coverage stays active — this policy is in place to protect your family and build a strong financial foundation for the future. Would you like help updating your payment method or checking your billing info?`,
-  vm:`Hi [Client Name], this is [Rep Name] with Optimum Financial Solutions, calling on behalf of your life insurance agent, {AGENT}. I just wanted to let you know it looks like your most recent payment didn't go through. We'd love to help you get that resolved so there's no interruption in your coverage. Feel free to call or text us back at {PHONE} — we're happy to assist!`,
-  text:`Hi [Client Name], this is [Rep Name] from Optimum Financial Solutions. On behalf of your agent {AGENT} — your recent policy payment didn't go through. If this happened in error, or if you'd like help updating your billing info, let us know.`},
+I want to make sure everything stays on track so your coverage stays active — this policy is here to protect your family and build a strong foundation for your future. Would you like help updating your payment method or checking your billing info?`,
+  vm:`Hi [Client Name], this is {AGENT} with [Your Agency Name]. I just wanted to let you know it looks like your most recent payment didn't go through. I'd love to help you get that resolved so there's no interruption in your coverage. Feel free to call or text me back at {PHONE} — happy to help!`,
+  text:`Hi [Client Name], it's {AGENT} with [Your Agency Name]. It looks like your recent policy payment didn't go through. If it happened in error, or if you'd like help updating your billing info, just let me know.`},
  {n:'Second Attempt',w:'Escalated Follow-Up',goal:'Urge action while reinforcing the long-term benefits.',
-  call:`Hi [Client Name], it's [Rep Name] again from Optimum Financial Solutions. I'm reaching out on behalf of your life insurance agent, {AGENT}. We noticed your policy is still showing an unpaid balance, and we're concerned because it's at risk of going out of good standing. We know how important this coverage is for your family's protection — and for the future cash value it's building for you.
+  call:`Hi [Client Name], it's {AGENT} again with [Your Agency Name]. I'm following up because your policy is still showing an unpaid balance, and I'm concerned it's at risk of going out of good standing. I know how important this coverage is for your family's protection — and for the future value it's building for you.
 
-Let's take a moment to get this back on track so there's no disruption in your benefits. I can help you now over the phone, or walk you through how to update it online — whatever's easiest for you.`,
-  vm:`Hi [Client Name], this is [Rep Name] with Optimum Financial Solutions, calling again on behalf of {AGENT}. Your policy is still showing an unpaid balance, and we'd really like to help before it risks falling out of good standing. Please give us a call at {PHONE} — even if you just have questions or need help making the update.`,
-  text:`Hi [Client Name], it's [Rep Name] from Optimum Financial Solutions. Your policy is still showing a missed payment. On behalf of {AGENT}, we'd like to help get that resolved before your benefits are at risk. Let me know if you need assistance.`},
+Let's take a moment to get this back on track so there's no disruption in your benefits. I can help you right now over the phone, or walk you through how to update it online — whatever's easiest for you.`,
+  vm:`Hi [Client Name], this is {AGENT} with [Your Agency Name], following up again. Your policy is still showing an unpaid balance, and I'd really like to help before it risks falling out of good standing. Please give me a call at {PHONE} — even if you just have questions or need help making the update.`,
+  text:`Hi [Client Name], it's {AGENT} with [Your Agency Name]. Your policy is still showing a missed payment, and I'd like to help get it resolved before your benefits are at risk. Let me know if you need a hand.`},
  {n:'Final Call',w:'Policy at Immediate Risk of Lapse',goal:'Create urgency with care — the final chance to save the policy.',
-  call:`Hi [Client Name], this is [Rep Name] from Optimum Financial Solutions, calling urgently on behalf of your life insurance agent, {AGENT}. I want to make sure you're aware — your policy is now in danger of lapsing, which means your family would no longer be protected and the future financial value you're building would be lost. We know this policy was set up for a reason — to give you peace of mind and long-term security.
+  call:`Hi [Client Name], this is {AGENT} with [Your Agency Name], and I'm reaching out urgently. I want to make sure you're aware — your policy is now in danger of lapsing, which would mean your family is no longer protected and the future value you've been building would be lost. I know we set this policy up for a reason — to give you peace of mind and long-term security.
 
-We don't want you to lose this coverage. If we can update your payment today, we can still save the policy and keep everything in force. Can we take care of that now, or would you like help logging in to make the payment?`,
-  vm:`Hi [Client Name], this is [Rep Name] with Optimum Financial Solutions. I'm calling urgently on behalf of your life insurance agent, {AGENT}. Your policy is now in danger of lapsing due to a missed payment, and we'd really like to help before that happens. Please call us today at {PHONE} so we can try to keep your coverage in place.`,
-  text:`Hi [Client Name], this is [Rep Name] with Optimum Financial Solutions. Your policy is now at risk of lapsing. On behalf of {AGENT}, please call or text if you need help keeping your coverage active — we don't want you to lose it.`}
+I don't want you to lose this coverage. If we can update your payment today, we can still save the policy and keep everything in force. Can we take care of that now, or would you like me to help you log in to make the payment?`,
+  vm:`Hi [Client Name], this is {AGENT} with [Your Agency Name], reaching out urgently. Your policy is now in danger of lapsing due to a missed payment, and I'd really like to help before that happens. Please call me today at {PHONE} so we can keep your coverage in place.`,
+  text:`Hi [Client Name], it's {AGENT} with [Your Agency Name]. Your policy is now at risk of lapsing. Please call or text me so I can help you keep your coverage active — I don't want you to lose it.`}
 ];
 var _cretN=0;
 function m5CretCard(item){
+  var w=m5CretWho();
+  var sig='<br><br>'+w.nm+'<br>'+w.ph+(w.em?'<br>'+w.em:'');
   var blocks=[['Call Script',item.call],['Voicemail',item.vm],['Text Message',item.text]];
-  var body=blocks.map(function(b){ if(!b[1])return ''; var id='cret'+(++_cretN); var html=m5CretFill(b[1]).replace(/\n/g,'<br>');
+  var body=blocks.map(function(b){ if(!b[1])return ''; var id='cret'+(++_cretN); var html=m5CretFill(b[1]).replace(/\n/g,'<br>')+sig;
     return '<div class="m5-msgcard"><div class="m5-msgcard-h"><span class="m5-msgcard-t">'+b[0]+'</span><button class="m5-copybtn" onclick="m5CopyMsg(\''+id+'\',this)"><span data-ico="clip"></span> Copy</button></div><div class="m5-msgbody" id="'+id+'">'+html+'</div></div>';
   }).join('');
   return '<div class="m5-expand"><div class="m5-exhead" onclick="m5ToggleExpand(this)"><span class="m5-exchip" data-ico="msg"></span><span class="m5-extext"><span class="m5-exname">'+item.n+' — '+item.w+'</span><span class="m5-exsub">Goal: '+item.goal+'</span></span><span class="m5-exchev">›</span></div><div class="m5-exbody">'+body+'</div></div>';
@@ -2173,9 +2178,11 @@ function m5CretCard(item){
 function m5RetentionPanel(){
   _cretN=0;
   var w=m5CretWho();
-  var intro='<div class="lc-sub">Simple copy-and-paste touchpoints to keep your clients happy and on the books — for when you don\'t have a CRM doing it automatically (a brand-new-agent must-have). Every message is already signed as <b>'+w.nm+'</b> with your number. Just fill in <b>[Client Name]</b> — and <b>[Rep Name]</b> if someone is calling for you.</div>';
+  var ag=((store.data&&store.data.agency)||'').trim();
+  var agLine=ag?('Your agency (<b>'+ag+'</b>) fills in automatically — change it anytime under Profile.'):('Your agency name defaults to <b>Family First Life</b>. Since most agents use their own agency name publicly, you can set yours once under <b>Profile</b> and it will fill in automatically from then on. You just fill in your client\'s name.');
+  var intro='<div class="lc-sub">Simple copy-and-paste touchpoints to keep your clients happy and on the books — perfect for agents not yet using a CRM. Every script is written as <b>you</b> and already signed with your name, number, and email ('+w.nm+'). '+agLine+'</div>';
   var hd=function(t){return '<div style="font-size:12.5px;font-weight:800;color:#16233f;margin:20px 0 8px;text-transform:uppercase;letter-spacing:.03em">'+t+'</div>';};
-  return '<div class="listcard" style="margin-top:16px"><h3>🔁 Client Retention</h3>'+intro+
+  return '<div class="listcard" style="margin-top:16px"><h3>🔁 Client Retention / Service</h3>'+intro+
     hd('General calls &middot; status: Submitted, In Underwriting, Approved, or Issued/Paid')+CRET_GEN.map(m5CretCard).join('')+
     hd('If they miss a payment &middot; status: Lapse Pending')+CRET_MISS.map(m5CretCard).join('')+
     '</div>';
