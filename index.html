@@ -428,7 +428,7 @@
     </div>
     <div class="field"><label>Email</label><input id="li-email" type="text" placeholder="you@email.com"></div>
     <div class="field"><label>Phone number</label><input id="li-phone" type="text" placeholder="(555) 123-4567"></div>
-    <button class="btn" onclick="doLogin()">Continue &rarr;</button>
+    <button class="btn" id="li-btn" onclick="doLogin()">Continue &rarr;</button>
     <div class="m5-err" id="li-err"></div>
     <div class="demo-note">We match you by phone number first, then email &mdash; so it's fine if either one changed.
       <div class="m5-demobtns">
@@ -697,9 +697,24 @@ function doLogin(){
   var err=document.getElementById('li-err');
   if(!first||(!email&&!phone)){err.textContent='Enter your first name plus an email or phone number.';err.style.display='block';return;}
   err.style.display='none';
-  var r=lookupAgent(first,last,email,phone);
-  m5CurrentUser={first:(r.name||first),last:last,email:email,phone:phone};
-  routeTo(r.status, r.name||first, last);
+  var btn=document.getElementById('li-btn');
+  function go(status,nm,ln,em){ m5CurrentUser={first:(nm||first),last:(ln||last),email:((em||email)||'').trim().toLowerCase(),phone:phone}; routeTo(status, nm||first, ln||last); }
+  function baked(){ var r=lookupAgent(first,last,email,phone); go(r.status, r.name||first, last); }
+  if(typeof m5BackendLookup==='function'){
+    if(btn){ btn.disabled=true; if(!btn.getAttribute('data-orig'))btn.setAttribute('data-orig',btn.innerHTML); btn.innerHTML='Checking\u2026'; }
+    m5BackendLookup(email, phone, function(match){
+      if(btn){ btn.disabled=false; if(btn.getAttribute('data-orig'))btn.innerHTML=btn.getAttribute('data-orig'); }
+      if(match && match.found===true){
+        go(match.licensed?'lic':'pre', match.first||first, match.last||last, match.email);
+      } else if(match && match.found===false){
+        baked();   // definitively not in the live sheet -> baked list (covers Jesse), else not-registered
+      } else {
+        baked();   // backend unreachable/timeout -> baked snapshot fallback
+      }
+    });
+  } else {
+    baked();
+  }
 }
 function logout(){document.getElementById('app').classList.add('hidden');document.getElementById('login').classList.remove('hidden');}
 function startApp(){
@@ -955,6 +970,18 @@ function m5BackendLoad(cb){
       if(cb)cb(true);
     })
     .catch(function(){ if(cb)cb(false); });
+}
+/* ---- Live login lookup: match against the Google Sheet in real time (email OR phone) ---- */
+function m5BackendLookup(email, phone, cb){
+  var done=false; function once(x){ if(done)return; done=true; cb(x); }
+  if(!BACKEND_URL){ once(null); return; }
+  var t=setTimeout(function(){ once(null); }, 7000); // slow/hung backend → fall back
+  try{
+    fetch(BACKEND_URL,{method:'POST',body:JSON.stringify({action:'lookup',email:(email||'').trim().toLowerCase(),phone:(phone||'')})})
+      .then(function(r){return r.json();})
+      .then(function(j){ clearTimeout(t); once(j&&j.ok?(j.match||{found:false}):null); })
+      .catch(function(){ clearTimeout(t); once(null); });
+  }catch(e){ clearTimeout(t); once(null); }
 }
 var m5CurrentUser={first:'',last:'',email:'',phone:''};
 if(!store.data.promoted)store.data.promoted=[];
