@@ -674,7 +674,7 @@ const NAV=[
   {g:'Learn'},
   {v:'faststart',ic:'🚀',t:'Fast Start'},
   {v:'academy',ic:'🎓',t:'Academy',lockUnl:true},
-  {v:'virtual',ic:'📅',t:'Calls / Events'},
+  {v:'virtual',ic:'📅',t:'Virtual Calls/Events'},
   {v:'recruiting',ic:'🤝',t:'Recruiting'},
   {v:'health',ic:'❤️',t:'Health'},
   {v:'selfdev',ic:'📚',t:'Self Development'},
@@ -704,7 +704,7 @@ document.getElementById('sidenav').addEventListener('click',e=>{const it=e.targe
 
 function go(view){
   document.querySelectorAll('.navitem').forEach(n=>n.classList.toggle('active',n.dataset.view===view));
-  const names={dashboard:'Dashboard',faststart:'Fast Start',academy:'Academy',sales:'Sales Tools',systools:'Systems/Tools',goalcard:'Goal Card',leads:'Leads',calc:'Commission Calculator',recruiting:'Recruiting',selfdev:'Self Development',resources:'Resources',health:'Health',virtual:'Calls / Events',inperson:'In-Person Events',support:'General Support',gethelp:'Get Help',kpi:'My KPIs',profile:'Profile'};
+  const names={dashboard:'Dashboard',faststart:'Fast Start',academy:'Academy',sales:'Sales Tools',systools:'Systems/Tools',goalcard:'Goal Card',leads:'Leads',calc:'Commission Calculator',recruiting:'Recruiting',selfdev:'Self Development',resources:'Resources',health:'Health',virtual:'Virtual Calls/Events',inperson:'In-Person Events',support:'General Support',gethelp:'Get Help',kpi:'My KPIs',profile:'Profile'};
   document.getElementById('crumb').textContent=names[view]||'';
   window.scrollTo(0,0); render(view);
 }
@@ -2048,7 +2048,7 @@ try{
     window.vVirtual=function(){
       window.m5CAL=[];
       var _et=m5ETParts(); var today=_et.day;
-      var h='<h1 class="page">Calls / Events</h1><p class="sub">Today\'s calls, upcoming events, your full weekly schedule, and recordings — all in one place (all times ET).</p>';
+      var h='<h1 class="page">Virtual Calls/Events</h1><p class="sub">Today\'s calls, upcoming events, your full weekly schedule, and recordings — all in one place (all times ET).</p>';
       var _liveDials=null; for(var _i=0;_i<DAILY.length;_i++){ if(/live dials/i.test(DAILY[_i].n)){_liveDials=DAILY[_i];break;} }
       var _todayCalls=(WEEK[today]||[]);
       // 1) TODAY
