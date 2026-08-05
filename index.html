@@ -687,7 +687,6 @@ const NAV=[
   {v:'calc',ic:'🧮',t:'Commission Calculator'},
   {v:'kpi',ic:'📈',t:'My KPIs'},
   {g:'Connect'},
-  {v:'inperson',ic:'📍',t:'In-Person Events'},
   {v:'support',ic:'💬',t:'General Support'},
   {v:'gethelp',ic:'❓',t:'Get Help'},
   {v:'profile',ic:'👤',t:'Profile'},
@@ -2090,8 +2089,10 @@ try{
       h+='<div class="m5-evhero conv"'+(_cv?' style="background-image:url('+_cv+')"':'')+'><div class="m5-evhero-in">'+
         '<span class="m5-evbadge gold">Save the Date</span>'+
         '<div class="m5-evtitle">2027 FFL Annual Convention</div>'+
-        '<div class="m5-evmeta">Dates &amp; venue — coming soon</div>'+
-        '<div class="m5-evbtns"><button class="m5-evbtn gold" onclick="window.open(\'https://familyfirstlife.com/annualconvention/\',\'_blank\')">ℹ️ Convention Info</button></div>'+
+        '<div class="m5-evmeta">January 27–30, 2027 · Irving, Texas</div>'+
+        '<div class="m5-cd" id="m5-cd-conv"></div>'+
+        '<div class="m5-evbtns"><button class="m5-evbtn reg" onclick="window.open(\'https://familyfirstlife.com/annualconvention/\',\'_blank\')">🎟 Register Now</button>'+
+        '<button class="m5-evbtn cal" onclick="m5AddConvention()">📅 Add to Calendar</button></div>'+
         '</div></div>';
       // 6) SCHEDULE SNAPSHOT
       if(typeof imgData==='function'&&imgData('schedule')){
@@ -2398,8 +2399,11 @@ function m5download(fn,text){try{var b=new Blob([text],{type:'text/calendar;char
 function m5calReg(e,day){if(e.allday||e.sessions)return -1;var byday;if(e.days&&e.days.length){byday=e.days.map(function(d){return M5_BYDAY[d];}).join(',');}else if(day!=null){byday=M5_BYDAY[day];}else{return -1;}var rrule=e.recur||('FREQ=WEEKLY;BYDAY='+byday);var dur=e.dur||(/reading|huddle/i.test(e.n)?30:60);var fd=(e.days&&e.days.length)?e.days[0]:day;window.m5CAL.push({n:e.n,s:e.s,dur:dur,link:e.link,rrule:rrule,day:fd});return window.m5CAL.length-1;}
 window.m5AddCal=function(i){var c=window.m5CAL[i];if(!c)return;var d=m5nextDOW(c.day);var st=m5fmtLocal(d,c.s);var en=m5fmtLocal(d,c.s+c.dur);var uid=c.n.replace(/[^a-z0-9]/gi,'').toLowerCase()+'-'+c.day+'@ffloptimum';var L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Optimum Portal//Calls//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH'].concat(M5_VTZ,['BEGIN:VEVENT','UID:'+uid,'DTSTAMP:'+m5nowStamp(),'DTSTART;TZID=America/New_York:'+st,'DTEND;TZID=America/New_York:'+en,'RRULE:'+c.rrule,'SUMMARY:'+m5icsEsc(c.n),'DESCRIPTION:'+m5icsEsc('Optimum team call. Join: '+c.link),'LOCATION:'+m5icsEsc(c.link),'URL:'+c.link,'BEGIN:VALARM','TRIGGER:-PT10M','ACTION:DISPLAY','DESCRIPTION:'+m5icsEsc('Reminder: '+c.n),'END:VALARM','END:VEVENT','END:VCALENDAR']);m5download(c.n.replace(/[^a-z0-9]+/gi,'-').toLowerCase()+'.ics',L.join('\r\n'));if(typeof toast==='function')toast('Calendar invite downloaded ✓');};
 window.m5AddIgnyte=function(){var L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Optimum Portal//Events//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH','BEGIN:VEVENT','UID:ignyte-fall-2026@ffloptimum','DTSTAMP:'+m5nowStamp(),'DTSTART;VALUE=DATE:20260910','DTEND;VALUE=DATE:20260911','SUMMARY:'+m5icsEsc('Ignyte Fall 2026 Sales Conference'),'DESCRIPTION:'+m5icsEsc('FFL Optimum — Ignyte Fall 2026 Sales Conference. Register: https://www.eventbrite.com/e/ignyte-fall-2026-sales-conference-tickets-1990889795973'),'LOCATION:TBC','URL:https://www.eventbrite.com/e/ignyte-fall-2026-sales-conference-tickets-1990889795973','BEGIN:VALARM','TRIGGER:-P1D','ACTION:DISPLAY','DESCRIPTION:Ignyte is tomorrow','END:VALARM','END:VEVENT','END:VCALENDAR'];m5download('ignyte-fall-2026.ics',L.join('\r\n'));if(typeof toast==='function')toast('Calendar invite downloaded ✓');};
+window.m5AddConvention=function(){var L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Optimum Portal//Events//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH','BEGIN:VEVENT','UID:ffl-annual-convention-2027@ffloptimum','DTSTAMP:'+m5nowStamp(),'DTSTART;VALUE=DATE:20270127','DTEND;VALUE=DATE:20270131','SUMMARY:'+m5icsEsc('2027 FFL Annual Convention'),'DESCRIPTION:'+m5icsEsc('Family First Life Annual Convention — Irving, Texas. Register: https://familyfirstlife.com/annualconvention/'),'LOCATION:'+m5icsEsc('Irving, Texas'),'URL:https://familyfirstlife.com/annualconvention/','BEGIN:VALARM','TRIGGER:-P1W','ACTION:DISPLAY','DESCRIPTION:FFL Annual Convention next week','END:VALARM','END:VEVENT','END:VCALENDAR'];m5download('ffl-annual-convention-2027.ics',L.join('\r\n'));if(typeof toast==='function')toast('Calendar invite downloaded ✓');};
 window.m5IgnyteTarget=new Date(2026,8,10,0,0,0);
-window.m5EvTick=function(){var el=document.getElementById('m5-cd-ignyte');if(!el)return;var ms=window.m5IgnyteTarget-new Date();if(ms<=0){el.innerHTML='<div class="u"><div class="n">Now</div><div class="l">Live</div></div>';return;}var s=Math.floor(ms/1000),d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60),ss=s%60;function u(n,l){return '<div class="u"><div class="n">'+n+'</div><div class="l">'+l+'</div></div>';}el.innerHTML=u(d,'Days')+u(m5pad2(h),'Hrs')+u(m5pad2(m),'Min')+u(m5pad2(ss),'Sec');};
+window.m5ConvTarget=new Date(2027,0,27,0,0,0);
+window.m5cdRender=function(el,target){var ms=target-new Date();if(ms<=0){el.innerHTML='<div class="u"><div class="n">Now</div><div class="l">Live</div></div>';return;}var s=Math.floor(ms/1000),d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60),ss=s%60;function u(n,l){return '<div class="u"><div class="n">'+n+'</div><div class="l">'+l+'</div></div>';}el.innerHTML=u(d,'Days')+u(m5pad2(h),'Hrs')+u(m5pad2(m),'Min')+u(m5pad2(ss),'Sec');};
+window.m5EvTick=function(){var a=document.getElementById('m5-cd-ignyte');if(a)window.m5cdRender(a,window.m5IgnyteTarget);var b=document.getElementById('m5-cd-conv');if(b)window.m5cdRender(b,window.m5ConvTarget);};
 if(!window.m5EvInt){window.m5EvInt=setInterval(function(){window.m5EvTick();},1000);}
 </script>
 </body>
