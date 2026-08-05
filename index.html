@@ -572,7 +572,7 @@ const FAST=[
   {id:'golive',mn:'g',icon:'7',t:'Cleared to Dial',items:[
     {id:'gl_gate',l:'Passed the go-live gate in the Academy',d:'You have finished <b>Shadow &amp; Go Live</b> — full script + core objections, unaided. That is your green light.'},
     {id:'gl_ready',l:'Final pre-dial check',d:'<ul class="m5-ckbul"><li>Carrier log handy</li><li>E-app guide bookmarked</li><li>My schedule is set, and I have clear goals</li><li>I\'ve let my manager know the exact day and time I\'m going to start dialing.</li></ul>'},
-    {id:'gl_goal',l:'I have my goal card handy (or activity tracker)',d:'<ul class="m5-ckbul"><li>I have printed out copies of my goal card to start using when I dial.</li></ul>'},
+    {id:'gl_goal',l:'I have my goal card handy (or activity tracker)',d:'Set your daily goal, plan your blocks, and log your dials right in the portal — it tracks your trends day over day. Prefer paper? Print a copy from the same page.<div class="m5-btnrow"><a class="m5-lnk go" data-go="goalcard" style="cursor:pointer"><span class="m5-bico" data-ico="target"></span> Open your Goal Card</a></div>'},
     {id:'gl_leads',l:'Set up your leads',d:'Head to the <b>Leads</b> page to join GOAT, register where you buy leads, and choose your strategy.<div class="m5-btnrow"><a class="m5-lnk go" data-go="leads" style="cursor:pointer"><span class="m5-bico" data-ico="funnel"></span> Go to Leads</a></div>'},
   ]},
 ];
@@ -617,7 +617,7 @@ const BOOKS=[
   {t:'Goals!',by:'Brian Tracy',blurb:'Get everything you want, faster than you thought.',pdf:'https://oceanofpdf.com/authors/brian-tracy/pdf-epub-goals-how-to-get-everything-you-want-3rd-ed-download/'}];
 const RES_TILES=[
   {k:'videos',i:'🎬',t:'Training Videos',s:'Awesome training videos',items:[]},
-  {k:'tracker',i:'📊',t:'Activity Tracker & Goal Card',s:'Track your daily activity + set your goal',items:[['Daily Activity Tracker (worksheet)','','https://tracker.johnwetmore.com/data/Dial_Tracker_Client_Worksheet.pdf'],['Goal Card','','https://drive.google.com/file/d/1LHViRydK2hyXy9GGNwudIee0IRfNoI4v/view?usp=drive_open']]},
+  {k:'tracker',i:'📊',t:'Activity Tracker & Goal Card',s:'Plan blocks, log dials, track your trends',items:[['Goal Card + Activity Dashboard','Your live daily tracker — plan blocks, log dials, and see your trends.','go:goalcard'],['Daily Activity Tracker (printable worksheet)','Optional paper worksheet if you prefer to write it down.','https://tracker.johnwetmore.com/data/Dial_Tracker_Client_Worksheet.pdf']]},
   {k:'scripts',i:'📝',t:'Scripts',s:'All call scripts',reuse:'scripts'},
   {k:'guides',i:'📄',t:'Guides & PDFs',s:'Cleared to Dial checklist, Client Profile, IUL Tree',items:[['Cleared to Dial — New-Agent Checklist','Everything you need before your first call','https://portal.ffloptimum.com/cleared-to-dial-checklist.pdf'],['New Client Profile Sheet','','https://drive.google.com/file/d/1VV0XqZdnn-quJ91uGWRY7QjPSyvKvsYh/view'],['IUL Decision Tree','','https://drive.google.com/file/d/157kcSaRkBH5bR37ZiRPgM5ypCgr0sKNR/view'],['Emoji Leaderboard How-To','','https://docs.google.com/document/d/1rl5YRBlO0d2yrt93Vig2Wmc02wWkipqe0c40N48BOpE/edit']]},
   {k:'va',i:'🎖️',t:'VA Benefits',s:'Burial · VALife · VGLI',items:[['VA Burial Benefits','','https://www.benefits.va.gov/compensation/claims-special-burial.asp'],['VALife Overview','','https://www.va.gov/life-insurance/options-eligibility/valife/'],['VGLI Overview','','https://www.va.gov/life-insurance/options-eligibility/vgli/']]},
@@ -635,7 +635,7 @@ const MISC=[['Register your numbers (reduce spam)','How-to guide'],['Get more pi
 const SCRIPTS_L=[['VET Script (Veteran — outbound)','Start here','https://docs.google.com/document/d/1I2OptXZINPdO5QxJTd9boXPMxYG6cAWqtgnd6XR0x8E/edit'],['IUL Script (Bifurcated)','After you\'re selling','https://docs.google.com/document/d/1SyIokJ963Ruj9bRMFlhE0UST5ObJ5YWeRZCS2MII9Ls/edit'],['Mortgage Protection Script (Hybrid)','MP','https://docs.google.com/document/d/1A1Ne23k4X-FdGi99Ks_LMmh0wj1MVWaqDZNVK0u6xi0/edit'],['Inbound Script','Inbound leads','https://docs.google.com/document/d/1GJtePXAMZI3bLkvlQuy6E-OgyFvBY3Ax7M254cnwyqg/edit'],['Short Duration Inbound Script','Inbound','https://docs.google.com/document/d/1bHsREwf0uFYERWm5jBHdvrumGkExrnYQ84A6kaS7V9A/edit']];
 const EAPP_L=[['Transamerica — Advisor Experience (E-app)','','https://secure.transamerica.com/login/sign-in/login.html'],['AIG / Corebridge — E-app','','https://www.connext.corebridgefinancial.com/life/connext-portal/public/login'],['Royal Neighbors — E-app','','https://agent.royalneighbors.org/secure'],['How to complete an application (guide)','','https://mytrustedadvisor.wixsite.com/eappguides']];
 const CE_L=[['RegEd','','https://www.reged.com/'],['SuranceBay CE & Training','Also available by logging into the Gateway','https://accounts.surancebay.com/oauth/authorize?redirect_uri=https:%2F%2Fsurelc.surancebay.com%2Fproducer%2Foauth%3FreturnUrl%3D%252Fprofile%252Fcontact-info%253FgaId%253D689%2526gaId%253D689%2526branch%253DFFL%252520National%2526branchVisible%253Dtrue%2526branchEditable%253Dfalse%2526branchRequired%253Dfalse%2526autoAdd%253Dfalse%2526requestMethod%253DGET&gaId=689&client_id=surecrmweb&response_type=code'],['Saliva Training','','https://www.salivatraining.com/CRLSalivaTraining/ST_Base/default.cfm']];
-const PRES_L=[['Client Profile / Needs Analysis Sheet','','https://drive.google.com/file/d/1VV0XqZdnn-quJ91uGWRY7QjPSyvKvsYh/view'],['NLG Basic Illustration','','https://drive.google.com/file/d/1cWqnw1-ZfQdROqDr3RgrVY6-Z090kZK6/view'],['IUL Decision Tree','','https://drive.google.com/file/d/157kcSaRkBH5bR37ZiRPgM5ypCgr0sKNR/view'],['Goal Card','','']];
+const PRES_L=[['Client Profile / Needs Analysis Sheet','','https://drive.google.com/file/d/1VV0XqZdnn-quJ91uGWRY7QjPSyvKvsYh/view'],['NLG Basic Illustration','','https://drive.google.com/file/d/1cWqnw1-ZfQdROqDr3RgrVY6-Z090kZK6/view'],['IUL Decision Tree','','https://drive.google.com/file/d/157kcSaRkBH5bR37ZiRPgM5ypCgr0sKNR/view'],['Goal Card','Plan blocks, log dials, track your trends','go:goalcard']];
 // Core carriers — tap to expand portal / training / guides / brochures
 const CARRIERS=[
   {name:'Americo',tags:['FEX','IUL','MP','Term'],phone:'800-231-0801',links:[['★ Americo FFL Agent Hub — all tools & brochures','https://ffl.americo.com/'],['Agent Portal','https://portal.americoagent.com/'],['Training Portal (FFL)','https://americotraining.com/'],['IUL Training','https://americoiul.com/']]},
@@ -682,6 +682,7 @@ const NAV=[
   {g:'Sell'},
   {v:'sales',ic:'🧰',t:'Sales Tools'},
   {v:'systools',ic:'⚙️',t:'Systems/Tools'},
+  {v:'goalcard',ic:'🎯',t:'Goal Card'},
   {v:'leads',ic:'💰',t:'Leads'},
   {v:'calc',ic:'🧮',t:'Commission Calculator'},
   {v:'kpi',ic:'📈',t:'My KPIs'},
@@ -703,7 +704,7 @@ document.getElementById('sidenav').addEventListener('click',e=>{const it=e.targe
 
 function go(view){
   document.querySelectorAll('.navitem').forEach(n=>n.classList.toggle('active',n.dataset.view===view));
-  const names={dashboard:'Dashboard',faststart:'Fast Start',academy:'Academy',sales:'Sales Tools',systools:'Systems/Tools',leads:'Leads',calc:'Commission Calculator',recruiting:'Recruiting',selfdev:'Self Development',resources:'Resources',health:'Health',virtual:'Virtual Calls/Training',inperson:'In-Person Events',support:'General Support',gethelp:'Get Help',kpi:'My KPIs',profile:'Profile'};
+  const names={dashboard:'Dashboard',faststart:'Fast Start',academy:'Academy',sales:'Sales Tools',systools:'Systems/Tools',goalcard:'Goal Card',leads:'Leads',calc:'Commission Calculator',recruiting:'Recruiting',selfdev:'Self Development',resources:'Resources',health:'Health',virtual:'Virtual Calls/Training',inperson:'In-Person Events',support:'General Support',gethelp:'Get Help',kpi:'My KPIs',profile:'Profile'};
   document.getElementById('crumb').textContent=names[view]||'';
   window.scrollTo(0,0); render(view);
 }
@@ -780,6 +781,7 @@ function render(view){_cv=view;const el=document.getElementById('content');
   else if(view==='selfdev')el.innerHTML=vSelfDev();
   else if(view==='resources')el.innerHTML=vResources();
   else if(view==='systools')el.innerHTML=m5SysTools();
+  else if(view==='goalcard')el.innerHTML=m5GoalCard();
   else if(view==='leads')el.innerHTML=m5Leads();
   else if(view==='health')el.innerHTML=m5Health();
   else if(view==='gethelp')el.innerHTML=m5GetHelp();
@@ -853,7 +855,7 @@ function vSales(){
   const grid=tiles.map(t=>`<div class="tool ${salesOpen===t[0]?'sel':''}" onclick="openSales('${t[0]}')"><div class="tic">${t[1]}</div><div class="tt">${t[2]}</div><div class="td">${t[3]}</div></div>`).join('');
   return `<h1 class="page">Sales Tools</h1><p class="sub">Tap a tool to open it — its links appear below.</p><div class="tool-grid">${grid}</div>${salesOpen?salesPanel(salesOpen):''}`;
 }
-function linkRow(r){return `<div class="li"><div><div class="lt">${r[0]}</div>${r[1]?`<div class="ld">${r[1]}</div>`:''}</div><button class="openbtn" onclick="${r[2]?`window.open('${r[2]}','_blank')`:`toast('Link coming soon')`}">Open</button></div>`;}
+function linkRow(r){const nav=r[2]&&r[2].indexOf('go:')===0;const act=r[2]?(nav?`go('${r[2].slice(3)}')`:`window.open('${r[2]}','_blank')`):`toast('Link coming soon')`;return `<div class="li"><div><div class="lt">${r[0]}</div>${r[1]?`<div class="ld">${r[1]}</div>`:''}</div><button class="openbtn" onclick="${act}">Open</button></div>`;}
 function listPanel(title,sub,rows){return `<div class="listcard" style="margin-top:16px"><h3>${title}</h3>${sub?`<div class="lc-sub">${sub}</div>`:''}${rows.length?rows.map(linkRow).join(''):'<p class="muted" style="font-size:13px">Links coming soon.</p>'}</div>`;}
 function salesPanel(k){
   if(k==='retention')return (typeof m5RetentionPanel==='function')?m5RetentionPanel():'';
@@ -1287,6 +1289,7 @@ function m5TrainingLibrary(){
 }
 function m5SysTools(){
   var items=[
+    {i:"🎯",l:"Goal Card + Activity Tracker",d:"Plan your day in blocks, log your dials, and track your trends day over day.",onclick:"go('goalcard')"},
     {i:"🗂️",l:"CRM login",d:"GOAT is your CRM — sign in to manage your leads and business.",url:"https://goatleads.com/registration/new?affiliate_id=66c4aa379e0123651ad2f0e6"},
     {i:"📣",l:"Share FFL Opportunity Invite App",d:"Invite others to learn about the FFL opportunity.",url:"https://jdawg2you.github.io/Share-FFL/shareffl.html"},
     {i:"📦",l:"Package of Protection Pro",d:"Build and present your Package of Protection for clients.",url:"https://mypoppro.com/"}
@@ -1723,6 +1726,85 @@ body.m5-previewing #m5-prelic .m5-signout{visibility:hidden}
   .m5-call{min-width:0;width:100%;flex:none}
   .m5-dashpanel.open .m5-dashinner{max-height:1200px}
 }
+/* ===== Goal Card + Activity Dashboard ===== */
+#m5gc-app{--gcn:#16233f;--gcg:#c9a227;--gcl:#e5e9f0;--gci:#1f2a44;--gcs:#6b7688;--gcgood:#1a8f5a;--gcbad:#c0392b;color:var(--gci)}
+#m5gc-app .m5gc-card{background:#fff;border:1px solid var(--gcl);border-radius:16px;padding:20px;margin-top:16px;box-shadow:0 8px 26px rgba(20,35,63,.06)}
+#m5gc-app .m5gc-stitle{text-align:center;font-family:Georgia,'Times New Roman',serif;font-size:22px;color:var(--gcn);letter-spacing:.06em;font-weight:700}
+#m5gc-app .m5gc-stars{text-align:center;color:var(--gcg);font-size:15px;letter-spacing:3px;margin:4px 0 8px}
+#m5gc-app .m5gc-ssub{text-align:center;font-size:13px;color:var(--gcs);margin:0 0 14px}
+#m5gc-app .m5gc-row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+#m5gc-app .m5gc-fld{font-size:11px;font-weight:800;color:var(--gcs);text-transform:uppercase;letter-spacing:.03em;display:flex;flex-direction:column;gap:6px}
+#m5gc-app .m5gc-fld input{font-size:15px;padding:9px 11px;border:1px solid var(--gcl);border-radius:9px;font-family:inherit;color:var(--gci);background:#fff}
+#m5gc-app .m5gc-fld input:focus{outline:none;border-color:var(--gcg)}
+#m5gc-app .m5gc-track{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:14px 0 4px}
+#m5gc-app .m5gc-stat{background:#f7fafe;border:1px solid var(--gcl);border-radius:11px;padding:10px 6px;text-align:center}
+#m5gc-app .m5gc-stat .l{font-size:9px;font-weight:800;color:var(--gcs);text-transform:uppercase}
+#m5gc-app .m5gc-stat .v{font-size:20px;font-weight:800;color:var(--gcn);margin-top:2px}
+#m5gc-app .m5gc-stat.hl{background:#fbf7e9;border-color:#efe3b8}
+#m5gc-app .m5gc-stat.hl .v{color:#a9861d}
+#m5gc-app .m5gc-planbar{background:#f4f7fc;border:1px solid #dde6f2;border-radius:12px;padding:12px 14px;margin:14px 0 2px}
+#m5gc-app .m5gc-planbar .pintro{font-size:12.5px;color:var(--gcs);margin-bottom:10px}
+#m5gc-app .m5gc-planbar .pintro b{color:var(--gcn)}
+#m5gc-app .m5gc-planbar .plangrid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+#m5gc-app .m5gc-planbar .plan{background:#fff;border:1px solid var(--gcl);border-radius:10px;padding:8px;text-align:center}
+#m5gc-app .m5gc-planbar .plan .l{font-size:9px;font-weight:800;color:var(--gcs);text-transform:uppercase}
+#m5gc-app .m5gc-planbar .plan .v{font-size:17px;font-weight:800;color:var(--gcn);margin-top:2px}
+#m5gc-app .m5gc-planbar .plan.acc .v{color:#a9861d}
+#m5gc-app .m5gc-prog{background:#f4f6fa;border:1px solid var(--gcl);border-radius:12px;padding:12px 14px;margin:12px 0 4px}
+#m5gc-app .m5gc-prog .pt{font-size:14px;font-weight:700;color:var(--gcn)}
+#m5gc-app .m5gc-barp{height:9px;background:#e3e8f0;border-radius:6px;overflow:hidden;margin-top:8px}
+#m5gc-app .m5gc-barp>i{display:block;height:100%;background:linear-gradient(90deg,#1a8f5a,#38b06f);border-radius:6px}
+#m5gc-app table.m5gc-act{width:100%;border-collapse:collapse;margin-top:14px;font-size:13.5px}
+#m5gc-app table.m5gc-act th{background:var(--gcn);color:#fff;padding:9px 5px;font-size:10.5px;font-weight:700;text-align:center}
+#m5gc-app table.m5gc-act th small{display:block;font-weight:500;color:#b9c6e0;font-size:9px;margin-top:2px}
+#m5gc-app table.m5gc-act td{border:1px solid var(--gcl);padding:5px;text-align:center}
+#m5gc-app table.m5gc-act td.time{background:#f4f6fa;font-weight:700;color:var(--gcn);font-size:12px;white-space:nowrap}
+#m5gc-app table.m5gc-act tr.planned td.time{box-shadow:inset 4px 0 0 var(--gcg)}
+#m5gc-app table.m5gc-act tr.planned td{background:#fcfaf1}
+#m5gc-app table.m5gc-act input[type=number]{width:52px;text-align:center;font-size:14px;padding:6px 4px;border:1px solid var(--gcl);border-radius:7px;font-family:inherit;background:#fff}
+#m5gc-app table.m5gc-act input[type=number]:focus{outline:none;border-color:var(--gcg)}
+#m5gc-app table.m5gc-act input[type=checkbox]{width:19px;height:19px;accent-color:var(--gcg);cursor:pointer}
+#m5gc-app table.m5gc-act td.rp{font-weight:800;color:var(--gcn);background:#f7fafe}
+#m5gc-app table.m5gc-act tr.tot td{background:var(--gcn);color:#fff;font-weight:800;font-size:13px;padding:9px 5px}
+#m5gc-app .m5gc-btns{text-align:center;margin-top:18px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+#m5gc-app .m5gc-btn{border:0;border-radius:9px;padding:11px 20px;font-size:13.5px;font-weight:800;cursor:pointer;font-family:inherit}
+#m5gc-app .m5gc-btn.p{background:var(--gcg);color:#16233f}
+#m5gc-app .m5gc-btn.s{background:var(--gcn);color:#fff}
+#m5gc-app .m5gc-btn.g{background:#eef1f6;color:var(--gcn)}
+#m5gc-app .m5gc-dashh{font-family:Georgia,serif;font-size:20px;color:var(--gcn);font-weight:700}
+#m5gc-app .m5gc-hint{background:#f4f7fc;border:1px dashed #cdd8ee;border-radius:10px;padding:10px 12px;font-size:12.5px;color:var(--gcs);margin:10px 0}
+#m5gc-app .m5gc-cmp3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:12px}
+#m5gc-app .m5gc-cmp{background:#f7fafe;border:1px solid var(--gcl);border-radius:14px;padding:14px}
+#m5gc-app .m5gc-cmp .ct{font-size:11px;font-weight:800;color:var(--gcs);text-transform:uppercase}
+#m5gc-app .m5gc-cmp .cbig{font-size:28px;font-weight:800;color:var(--gcn);margin:6px 0 2px;line-height:1}
+#m5gc-app .m5gc-cmp .cunit{font-size:12px;color:var(--gcs);font-weight:600}
+#m5gc-app .m5gc-delta{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;font-weight:800;padding:3px 9px;border-radius:20px;margin-top:8px}
+#m5gc-app .m5gc-delta.up{background:#e6f5ee;color:var(--gcgood)}
+#m5gc-app .m5gc-delta.down{background:#fbeae7;color:var(--gcbad)}
+#m5gc-app .m5gc-delta.flat{background:#eef1f6;color:var(--gcs)}
+#m5gc-app .m5gc-cmp .cprev{font-size:11.5px;color:var(--gcs);margin-top:8px}
+#m5gc-app .m5gc-avgstrip{display:grid;grid-template-columns:repeat(5,1fr);gap:9px;margin-top:14px}
+#m5gc-app .m5gc-avg{background:#fff;border:1px solid var(--gcl);border-radius:11px;padding:10px 6px;text-align:center}
+#m5gc-app .m5gc-avg .l{font-size:9px;font-weight:800;color:var(--gcs);text-transform:uppercase}
+#m5gc-app .m5gc-avg .v{font-size:18px;font-weight:800;color:var(--gcn);margin-top:2px}
+#m5gc-app .m5gc-hlgrid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;margin-top:14px}
+#m5gc-app .m5gc-hlc{display:flex;gap:11px;align-items:flex-start;background:linear-gradient(135deg,#fbfcfe,#f4f7fc);border:1px solid var(--gcl);border-radius:13px;padding:13px}
+#m5gc-app .m5gc-hlc .ic{font-size:21px}
+#m5gc-app .m5gc-hlc .ht{font-size:10.5px;font-weight:800;color:var(--gcs);text-transform:uppercase}
+#m5gc-app .m5gc-hlc .hv{font-size:15px;font-weight:800;color:var(--gcn);margin-top:2px}
+#m5gc-app .m5gc-hlc .hd{font-size:11.5px;color:var(--gcs);margin-top:2px}
+#m5gc-app .m5gc-chart{margin-top:18px}
+#m5gc-app .m5gc-chart h4{font-size:12px;font-weight:800;color:var(--gcs);text-transform:uppercase;margin:0 0 12px}
+#m5gc-app .m5gc-bars{display:flex;align-items:flex-end;gap:8px;height:150px;padding:0 4px;border-bottom:2px solid var(--gcl)}
+#m5gc-app .m5gc-b{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+#m5gc-app .m5gc-b .col{width:70%;max-width:44px;background:linear-gradient(180deg,#2c4a86,#16233f);border-radius:6px 6px 0 0;position:relative}
+#m5gc-app .m5gc-b .col.goal{background:linear-gradient(180deg,#38b06f,#1a8f5a)}
+#m5gc-app .m5gc-b .col .n{position:absolute;top:-18px;left:50%;transform:translateX(-50%);font-size:11px;font-weight:800;color:var(--gcn)}
+#m5gc-app .m5gc-b .lab{font-size:10.5px;color:var(--gcs);margin-top:7px;font-weight:600}
+#m5gc-app .m5gc-b .dow{font-size:9.5px;color:#9aa4b5}
+#m5gc-app .m5gc-legend{font-size:11.5px;color:var(--gcs);margin-top:12px;text-align:center}
+@media(max-width:720px){#m5gc-app .m5gc-row2,#m5gc-app .m5gc-cmp3,#m5gc-app .m5gc-hlgrid{grid-template-columns:1fr}#m5gc-app .m5gc-track,#m5gc-app .m5gc-avgstrip,#m5gc-app .m5gc-planbar .plangrid{grid-template-columns:repeat(2,1fr)}#m5gc-app table.m5gc-act input[type=number]{width:40px}}
+@media print{body *{visibility:hidden!important}#m5gc-printarea,#m5gc-printarea *{visibility:visible!important}#m5gc-printarea{position:absolute;left:0;top:0;width:100%;box-shadow:none;border:none;margin:0}#m5gc-app .m5gc-noprint,.m5gc-noprint{display:none!important}}
 </style>
 
 <script>
@@ -1784,7 +1866,7 @@ function m5CallIcon(n){n=(n||'').toLowerCase();
  return 'calendar';
 }
 function m5icon(n){var i=ICO[n]||ICO.folder;return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+i+'</svg>';}
-var NAVICO={dashboard:'dash',faststart:'rocket',academy:'cap',sales:'briefcase',systools:'sliders',leads:'funnel',calc:'calc',recruiting:'users',selfdev:'book',resources:'folder',health:'heart',virtual:'calendar',inperson:'pin',support:'chat',gethelp:'buoy',kpi:'target',profile:'user'};
+var NAVICO={dashboard:'dash',faststart:'rocket',academy:'cap',sales:'briefcase',systools:'sliders',goalcard:'bars',leads:'funnel',calc:'calc',recruiting:'users',selfdev:'book',resources:'folder',health:'heart',virtual:'calendar',inperson:'pin',support:'chat',gethelp:'buoy',kpi:'target',profile:'user'};
 var NAVGOLD={dashboard:1,faststart:1,academy:1,sales:1,calc:1,resources:1,kpi:1};
 var TITLEICO=[['sales scripts','pen'],['electronic app','laptop'],['carrier portal','shield'],['continuing education','cap'],['presentation material','bars'],['sales presentation','present'],['training video','play'],['guides & pdf','file'],['guides and pdf','file'],['va benefit','award'],['agent compensation','dollar'],['gateway','login'],['the hub','globe'],['crm center','monitor'],['crm login','monitor'],['integrityconnect','shieldc'],['integrity connect','shieldc'],['newsletter','news'],['business card','card'],['fast start playbook','clap'],['objection handling','msg'],['product & carrier','file'],['product and carrier','file'],['presentation walk','present'],['power dialer','phone'],['quoting engine','calc'],['lead order','clip'],['share ffl','mega'],['vbo','present'],['webinar','present'],['enroll a new hire','users'],['recruiting resource','file'],['recruiter playbook','clap'],['talk track','msg'],['why recruit','users'],['recruit','users'],['compensation','dollar'],['register your number','phone'],['more pickups','phone'],['adding other state','award'],['state license','award'],['leaderboard','bars'],['contact for help','headset'],['recordings','clap'],['weekly schedule','calendar'],['agency in goat','users'],['where you buy leads','clip'],['lead strategy','target'],['the winning system','award'],['message your upline','msg'],['ask the optimum','chat'],['message jesse','chat'],['whatsapp','chat'],['reduce spam','phone'],['more pickups','phone'],['other state license','award'],['contact support','headset'],['faq','book'],['submit a ticket','ticket'],['scripts','pen']];
 function icoForTitle(t){t=(t||'').toLowerCase();for(var i=0;i<TITLEICO.length;i++){if(t.indexOf(TITLEICO[i][0])>=0)return TITLEICO[i][1];}return 'folder';}
@@ -2192,6 +2274,54 @@ function m5LegacyPanel(){
   var rows=[['Quick Overview','A quick overview of the program.','https://integrity.com/legacysafeguard/'],['Member Site','Clients log in here to learn about this now-free service you provide for them.','https://legacysafeguard.com/'],['Legacy Safeguard University','Learn how this service benefits your clients.','https://legacysafeguarduniversity.com/'],['Agent Registration','Register your agent account to start offering the service.','https://legacysafeguarduniversity.com/my-account/'],['Client Enrollment','The form to enroll a client in Legacy Safeguard.','https://legacysafeguarduniversity.com/enrollment-form/'],['YouTube Overview Video','A short video overview of this free service.','https://www.youtube.com/watch?v=Sy2VygVyMnY']];
   return listPanel('🛡️ Legacy Safeguard',blurb,rows);
 }
+
+/* ===== Goal Card + Activity Dashboard ===== */
+var M5GC_BLOCKS=["8–10 AM","10–12 PM","12–2 PM","2–4 PM","4–6 PM","6–8 PM","8–10 PM"];
+var M5GC_W={c:1,p:3,a:2,s:5};
+var M5GC_DEFGOAL=40;
+var M5GC_DOW=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+var m5gcDate=null;
+function m5gcIso(d){return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
+function m5gcAdd(d,n){var x=new Date(d);x.setDate(x.getDate()+n);return x;}
+function m5gcSOW(d){var x=new Date(d);x.setHours(0,0,0,0);x.setDate(x.getDate()-x.getDay());return x;}
+function m5gcOrd(n){var s=["th","st","nd","rd"],v=n%100;return n+(s[(v-20)%10]||s[v]||s[0]);}
+function m5gcStore(){if(!store.data.goalcards||typeof store.data.goalcards!=='object')store.data.goalcards={};return store.data.goalcards;}
+function m5gcBlank(){return M5GC_BLOCKS.map(function(){return [0,0,0,0];});}
+function m5gcBlankPlan(){return M5GC_BLOCKS.map(function(){return false;});}
+function m5gcStats(rec){var t={c:0,p:0,a:0,s:0,pts:0,planned:0,worked:0,pw:0};if(!rec)return t;(rec.blocks||[]).forEach(function(b,i){if(!b)return;var has=(b[0]+b[1]+b[2]+b[3])>0;var pl=rec.planned&&rec.planned[i];t.c+=b[0];t.p+=b[1];t.a+=b[2];t.s+=b[3];if(has)t.worked++;if(pl)t.planned++;if(pl&&has)t.pw++;});t.pts=t.c*M5GC_W.c+t.p*M5GC_W.p+t.a*M5GC_W.a+t.s*M5GC_W.s;return t;}
+function m5GoalCard(){var today=new Date();today.setHours(0,0,0,0);m5gcDate=m5gcIso(today);setTimeout(m5gcInit,0);return '<h1 class="page">🎯 Goal Card</h1><p class="sub">Plan your blocks, log your dials, and watch your activity trends build day over day.</p><div id="m5gc-app"></div>';}
+function m5gcInit(){var host=document.getElementById('m5gc-app');if(!host)return;m5gcStore();host.innerHTML=m5gcShell();m5gcBuildBody();m5gcRender();var de=document.getElementById('m5gc-date');if(de){de.value=m5gcDate;de.addEventListener('change',function(){m5gcDate=this.value;var rec=m5gcStore()[m5gcDate];var g=document.getElementById('m5gc-goal');if(g)g.value=rec?rec.goal:M5GC_DEFGOAL;m5gcBuildBody();m5gcRender();});}var ge=document.getElementById('m5gc-goal');if(ge)ge.addEventListener('input',m5gcRender);}
+function m5gcShell(){var st=m5gcStore();var rec=st[m5gcDate];var goal=(rec&&rec.goal)||M5GC_DEFGOAL;return '<div id="m5gc-printarea" class="m5gc-card">'+
+ '<div class="m5gc-stitle">THE GOAL CARD</div><div class="m5gc-stars">★ ★ ★ ★ ★</div>'+
+ '<div class="m5gc-ssub">Plan your blocks, then enter your activity. Points and totals calculate automatically.</div>'+
+ '<div class="m5gc-row2"><label class="m5gc-fld">Daily Point Goal<input id="m5gc-goal" type="number" min="0" value="'+goal+'"></label><label class="m5gc-fld">Date<input id="m5gc-date" type="date"></label></div>'+
+ '<div class="m5gc-track">'+
+   '<div class="m5gc-stat"><div class="l">Contacts</div><div class="v" id="m5gc-t-c">0</div></div>'+
+   '<div class="m5gc-stat"><div class="l">Presentations</div><div class="v" id="m5gc-t-p">0</div></div>'+
+   '<div class="m5gc-stat"><div class="l">Appointments</div><div class="v" id="m5gc-t-a">0</div></div>'+
+   '<div class="m5gc-stat"><div class="l">Sales</div><div class="v" id="m5gc-t-s">0</div></div>'+
+   '<div class="m5gc-stat"><div class="l">Total Points</div><div class="v" id="m5gc-t-pts">0</div></div>'+
+   '<div class="m5gc-stat hl"><div class="l">Goal %</div><div class="v" id="m5gc-t-pct">0%</div></div></div>'+
+ '<div class="m5gc-planbar"><div class="pintro">☑ <b>Start of day:</b> check the blocks you’re committing to work. <b>End of day:</b> see how you did against your plan.</div>'+
+   '<div class="plangrid"><div class="plan"><div class="l">Blocks Planned</div><div class="v" id="m5gc-p-plan">0</div></div>'+
+   '<div class="plan"><div class="l">Blocks Worked</div><div class="v" id="m5gc-p-work">0</div></div>'+
+   '<div class="plan acc"><div class="l">On-Plan</div><div class="v" id="m5gc-p-adh">—</div></div>'+
+   '<div class="plan"><div class="l">Pts / Planned Block</div><div class="v" id="m5gc-p-eff">—</div></div></div></div>'+
+ '<div class="m5gc-prog"><div style="display:flex;justify-content:space-between;align-items:center"><span class="pt">Daily Goal Progress</span><span class="pt" id="m5gc-prog-txt">0 of '+goal+' points</span></div><div class="m5gc-barp"><i id="m5gc-prog-bar" style="width:0%"></i></div></div>'+
+ '<table class="m5gc-act"><thead><tr><th>TIME</th><th>PLAN<small>working?</small></th><th>CONTACTS<small>1 pt</small></th><th>PRESENTATIONS<small>3 pts</small></th><th>APPOINTMENTS<small>2 pts</small></th><th>SALES<small>5 pts</small></th><th>ROW POINTS<small>auto</small></th></tr></thead><tbody id="m5gc-body"></tbody><tfoot><tr class="tot"><td>Daily Totals</td><td id="m5gc-f-plan">0</td><td id="m5gc-f-c">0</td><td id="m5gc-f-p">0</td><td id="m5gc-f-a">0</td><td id="m5gc-f-s">0</td><td id="m5gc-f-pts">0</td></tr></tfoot></table>'+
+ '<div class="m5gc-btns m5gc-noprint"><button class="m5gc-btn s" onclick="m5gcSave()">Save Today’s Card</button><button class="m5gc-btn p" onclick="window.print()">Print Goal Card</button><button class="m5gc-btn g" onclick="m5gcReset()">Reset</button></div>'+
+ '</div>'+
+ '<div class="m5gc-card m5gc-noprint"><div class="m5gc-dashh">📊 My Activity Dashboard</div><div class="m5gc-ssub" style="text-align:left;margin:2px 0 4px">How you’re trending — updates every time you save a card.</div><div id="m5gc-empty"></div><div class="m5gc-cmp3" id="m5gc-cmp3"></div><div class="m5gc-avgstrip" id="m5gc-avg"></div><div class="m5gc-hlgrid" id="m5gc-hl"></div><div class="m5gc-chart"><h4>Last 7 days — points per day</h4><div class="m5gc-bars" id="m5gc-bars"></div><div class="m5gc-legend">Green bars = you hit your daily goal that day.</div></div></div>';}
+function m5gcBuildBody(){var body=document.getElementById('m5gc-body');if(!body)return;var rec=m5gcStore()[m5gcDate];var blocks=rec&&rec.blocks?rec.blocks:m5gcBlank();var planned=rec&&rec.planned?rec.planned:m5gcBlankPlan();var h='';M5GC_BLOCKS.forEach(function(tl,i){h+='<tr><td class="time">'+tl+'</td><td><input type="checkbox" data-plan="'+i+'"'+(planned[i]?' checked':'')+'></td>'+['c','p','a','s'].map(function(k,ci){var v=(blocks[i]&&blocks[i][ci])||0;return '<td><input type="number" min="0" inputmode="numeric" data-b="'+i+'" data-c="'+ci+'" placeholder="0" value="'+(v?v:'')+'" onfocus="this.select()"></td>';}).join('')+'<td class="rp" id="m5gc-rp-'+i+'">0</td></tr>';});body.innerHTML=h;body.querySelectorAll('input[type=number]').forEach(function(inp){inp.addEventListener('input',m5gcRender);});body.querySelectorAll('input[type=checkbox]').forEach(function(inp){inp.addEventListener('change',m5gcRender);});}
+function m5gcReadGrid(){var blocks=m5gcBlank(),planned=m5gcBlankPlan();document.querySelectorAll('#m5gc-body input[type=number]').forEach(function(inp){blocks[+inp.dataset.b][+inp.dataset.c]=Math.max(0,parseInt(inp.value||'0',10)||0);});document.querySelectorAll('#m5gc-body input[type=checkbox]').forEach(function(inp){planned[+inp.dataset.plan]=inp.checked;});return {blocks:blocks,planned:planned};}
+function m5gcRender(){var g=m5gcReadGrid();var ge=document.getElementById('m5gc-goal');var goal=Math.max(1,parseInt((ge&&ge.value)||M5GC_DEFGOAL,10));g.blocks.forEach(function(b,i){var rp=b[0]*M5GC_W.c+b[1]*M5GC_W.p+b[2]*M5GC_W.a+b[3]*M5GC_W.s;var cell=document.getElementById('m5gc-rp-'+i);if(cell){cell.textContent=rp;var tr=cell.parentNode;if(tr)tr.classList.toggle('planned',!!g.planned[i]);}});m5gcStore()[m5gcDate]={goal:goal,blocks:g.blocks,planned:g.planned};var st=m5gcStats(m5gcStore()[m5gcDate]);var set=function(id,v){var e=document.getElementById(id);if(e)e.textContent=v;};set('m5gc-t-c',st.c);set('m5gc-t-p',st.p);set('m5gc-t-a',st.a);set('m5gc-t-s',st.s);set('m5gc-t-pts',st.pts);set('m5gc-t-pct',Math.round(st.pts/goal*100)+'%');set('m5gc-f-plan',st.planned);set('m5gc-f-c',st.c);set('m5gc-f-p',st.p);set('m5gc-f-a',st.a);set('m5gc-f-s',st.s);set('m5gc-f-pts',st.pts);set('m5gc-prog-txt',st.pts+' of '+goal+' points');var pb=document.getElementById('m5gc-prog-bar');if(pb)pb.style.width=Math.min(100,Math.round(st.pts/goal*100))+'%';set('m5gc-p-plan',st.planned);set('m5gc-p-work',st.worked);set('m5gc-p-adh',st.planned?(Math.round(st.pw/st.planned*100)+'%'):'—');set('m5gc-p-eff',st.planned?Math.round(st.pts/st.planned):'—');m5gcDash();}
+function m5gcSave(){m5gcRender();if(typeof store.save==='function')store.save();if(typeof toast==='function')toast('Goal Card saved ✓');}
+function m5gcReset(){var ge=document.getElementById('m5gc-goal');var goal=Math.max(1,parseInt((ge&&ge.value)||M5GC_DEFGOAL,10));m5gcStore()[m5gcDate]={goal:goal,blocks:m5gcBlank(),planned:m5gcBlankPlan()};m5gcBuildBody();m5gcRender();}
+function m5gcRange(from,to){var t={c:0,p:0,a:0,s:0,pts:0,days:0,hits:0,planned:0,pw:0,best:{pts:-1,date:null}};var st=m5gcStore();for(var d=new Date(from);d<=to;d=m5gcAdd(d,1)){var rec=st[m5gcIso(d)];if(!rec)continue;var s=m5gcStats(rec);t.c+=s.c;t.p+=s.p;t.a+=s.a;t.s+=s.s;t.pts+=s.pts;t.days++;t.planned+=s.planned;t.pw+=s.pw;if(s.pts>=rec.goal&&s.pts>0)t.hits++;if(s.pts>t.best.pts)t.best={pts:s.pts,date:new Date(d)};}return t;}
+function m5gcDelta(cur,prev){var d=cur-prev,pct='';if(prev>0)pct=' '+(d>=0?'+':'')+Math.round(d/prev*100)+'%';if(d>0)return '<span class="m5gc-delta up">▲ +'+d+pct+'</span>';if(d<0)return '<span class="m5gc-delta down">▼ '+d+pct+'</span>';return '<span class="m5gc-delta flat">— even</span>';}
+function m5gcStreak(){var st=m5gcStore();var today=new Date();today.setHours(0,0,0,0);var s=0;for(var i=0;i<120;i++){var d=m5gcAdd(today,-i);var rec=st[m5gcIso(d)];if(i===0){if(rec){var p0=m5gcStats(rec).pts;if(p0>=rec.goal&&p0>0)s++;}continue;}if(!rec)break;var p=m5gcStats(rec).pts;if(p>=rec.goal&&p>0)s++;else break;}return s;}
+function m5gcDash(){var today=new Date();today.setHours(0,0,0,0);var yst=m5gcAdd(today,-1);var tT=m5gcRange(today,today),tY=m5gcRange(yst,yst);var sw=m5gcSOW(today),off=today.getDay(),lw=m5gcAdd(sw,-7);var tW=m5gcRange(sw,today),tLW=m5gcRange(lw,m5gcAdd(lw,off));var som=new Date(today.getFullYear(),today.getMonth(),1);var lomEnd=m5gcAdd(som,-1),lom=new Date(lomEnd.getFullYear(),lomEnd.getMonth(),1);var lomThru=new Date(lom.getFullYear(),lom.getMonth(),Math.min(today.getDate(),lomEnd.getDate()));var tM=m5gcRange(som,today),tLM=m5gcRange(lom,lomThru);var H=function(id,html){var e=document.getElementById(id);if(e)e.innerHTML=html;};var cmp=function(t,cur,prev,pv){return '<div class="m5gc-cmp"><div class="ct">'+t+'</div><div class="cbig">'+cur+'</div><div class="cunit">points</div>'+m5gcDelta(cur,prev)+'<div class="cprev">'+pv+'</div></div>';};H('m5gc-cmp3',cmp('Today vs Yesterday',tT.pts,tY.pts,'Yesterday: '+tY.pts+' pts')+cmp('This Week vs Last Week',tW.pts,tLW.pts,'Last week, same days: '+tLW.pts+' pts')+cmp('This Month vs Last Month',tM.pts,tLM.pts,'Last month, thru the '+m5gcOrd(today.getDate())+': '+tLM.pts+' pts'));var avg=function(l,v){return '<div class="m5gc-avg"><div class="l">'+l+'</div><div class="v">'+v+'</div></div>';};var ad=tW.days;H('m5gc-avg',avg('Avg pts / day',ad?Math.round(tW.pts/ad):0)+avg('Avg contacts',ad?(tW.c/ad).toFixed(1):0)+avg('Avg present.',ad?(tW.p/ad).toFixed(1):0)+avg('Avg appts',ad?(tW.a/ad).toFixed(1):0)+avg('Avg sales',ad?(tW.s/ad).toFixed(1):0));var arr=[{k:'Contacts',v:tW.c*M5GC_W.c,n:tW.c},{k:'Presentations',v:tW.p*M5GC_W.p,n:tW.p},{k:'Appointments',v:tW.a*M5GC_W.a,n:tW.a},{k:'Sales',v:tW.s*M5GC_W.s,n:tW.s}];arr.sort(function(a,b){return b.v-a.v;});var top=arr[0];var streak=m5gcStreak(),hit=tM.days?Math.round(tM.hits/tM.days*100):0;var best=tW.best.date?(M5GC_DOW[tW.best.date.getDay()]+' — '+tW.best.pts+' pts'):'—';var eff=tW.planned?Math.round(tW.pts/tW.planned):0,adh=tW.planned?Math.round(tW.pw/tW.planned*100):0;var hl=function(ic,t,v,d){return '<div class="m5gc-hlc"><div class="ic">'+ic+'</div><div><div class="ht">'+t+'</div><div class="hv">'+v+'</div><div class="hd">'+d+'</div></div></div>';};H('m5gc-hl',hl('💪','Strength this week',top.v?top.k:'—',top.v?(top.n+' this week ('+top.v+' pts — biggest driver)'):'Log activity to see this')+hl('🏆','Best day this week',best,'Your highest single-day points')+hl('🔥','Goal-hit streak',streak+(streak===1?' day':' days'),'Consecutive days hitting your goal')+hl('⚡','Efficiency',eff+' pts / block','Points per block you planned this week')+hl('🎯','Plan adherence',adh+'%','You worked '+tW.pw+' of '+tW.planned+' planned blocks this week')+hl('✅','Goal-hit rate (month)',hit+'%',tM.hits+' of '+tM.days+' active days at goal'));var totalCards=0,st2=m5gcStore();for(var k in st2){if(m5gcStats(st2[k]).pts>0)totalCards++;}var emp=document.getElementById('m5gc-empty');if(emp)emp.innerHTML=(totalCards<=1)?'<div class="m5gc-hint">Save a card each day and your trends, averages, streaks, and highlights fill in here automatically.</div>':'';m5gcBars(today);}
+function m5gcBars(today){var wrap=document.getElementById('m5gc-bars');if(!wrap)return;var st=m5gcStore();var vals=[],max=1;for(var i=6;i>=0;i--){var d=m5gcAdd(today,-i);var rec=st[m5gcIso(d)];var P=rec?m5gcStats(rec).pts:0;var g=rec?rec.goal:M5GC_DEFGOAL;vals.push({d:d,P:P,g:g});if(P>max)max=P;}var h='';vals.forEach(function(o){var ht=Math.round(o.P/Math.max(max,o.g)*100),hit=o.P>=o.g&&o.P>0;h+='<div class="m5gc-b" title="'+m5gcIso(o.d)+' — '+o.P+' pts (goal '+o.g+')"><div class="col'+(hit?' goal':'')+'" style="height:'+Math.max(o.P>0?6:0,ht)+'%"><span class="n">'+(o.P||'')+'</span></div><div class="lab">'+(o.d.getMonth()+1)+'/'+o.d.getDate()+'</div><div class="dow">'+M5GC_DOW[o.d.getDay()]+'</div></div>';});wrap.innerHTML=h;}
 </script>
 </body>
 </html>
