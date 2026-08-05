@@ -674,7 +674,7 @@ const NAV=[
   {g:'Learn'},
   {v:'faststart',ic:'🚀',t:'Fast Start'},
   {v:'academy',ic:'🎓',t:'Academy',lockUnl:true},
-  {v:'virtual',ic:'📅',t:'Virtual Calls/Training'},
+  {v:'virtual',ic:'📅',t:'Calls / Events'},
   {v:'recruiting',ic:'🤝',t:'Recruiting'},
   {v:'health',ic:'❤️',t:'Health'},
   {v:'selfdev',ic:'📚',t:'Self Development'},
@@ -704,7 +704,7 @@ document.getElementById('sidenav').addEventListener('click',e=>{const it=e.targe
 
 function go(view){
   document.querySelectorAll('.navitem').forEach(n=>n.classList.toggle('active',n.dataset.view===view));
-  const names={dashboard:'Dashboard',faststart:'Fast Start',academy:'Academy',sales:'Sales Tools',systools:'Systems/Tools',goalcard:'Goal Card',leads:'Leads',calc:'Commission Calculator',recruiting:'Recruiting',selfdev:'Self Development',resources:'Resources',health:'Health',virtual:'Virtual Calls/Training',inperson:'In-Person Events',support:'General Support',gethelp:'Get Help',kpi:'My KPIs',profile:'Profile'};
+  const names={dashboard:'Dashboard',faststart:'Fast Start',academy:'Academy',sales:'Sales Tools',systools:'Systems/Tools',goalcard:'Goal Card',leads:'Leads',calc:'Commission Calculator',recruiting:'Recruiting',selfdev:'Self Development',resources:'Resources',health:'Health',virtual:'Calls / Events',inperson:'In-Person Events',support:'General Support',gethelp:'Get Help',kpi:'My KPIs',profile:'Profile'};
   document.getElementById('crumb').textContent=names[view]||'';
   window.scrollTo(0,0); render(view);
 }
@@ -1805,6 +1805,38 @@ body.m5-previewing #m5-prelic .m5-signout{visibility:hidden}
 #m5gc-app .m5gc-legend{font-size:11.5px;color:var(--gcs);margin-top:12px;text-align:center}
 @media(max-width:720px){#m5gc-app .m5gc-row2,#m5gc-app .m5gc-cmp3,#m5gc-app .m5gc-hlgrid{grid-template-columns:1fr}#m5gc-app .m5gc-track,#m5gc-app .m5gc-avgstrip,#m5gc-app .m5gc-planbar .plangrid{grid-template-columns:repeat(2,1fr)}#m5gc-app table.m5gc-act input[type=number]{width:40px}}
 @media print{body *{visibility:hidden!important}#m5gc-printarea,#m5gc-printarea *{visibility:visible!important}#m5gc-printarea{position:absolute;left:0;top:0;width:100%;box-shadow:none;border:none;margin:0}#m5gc-app .m5gc-noprint,.m5gc-noprint{display:none!important}}
+/* ===== Calls / Events — hero + calendar ===== */
+.m5-evseclabel{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#8a93a5;margin:22px 2px 2px}
+.m5-evhero{position:relative;border-radius:16px;overflow:hidden;margin:10px 0 6px;color:#fff;background:#16233f;background-size:cover;background-position:center;box-shadow:0 10px 28px rgba(20,35,63,.18)}
+.m5-evhero::before{content:"";position:absolute;inset:0;background:linear-gradient(115deg,rgba(11,20,40,.88),rgba(11,20,40,.56))}
+.m5-evhero.conv::before{background:linear-gradient(115deg,rgba(26,15,42,.88),rgba(20,12,42,.58))}
+.m5-evhero-in{position:relative;padding:24px 24px 22px}
+.m5-evbadge{display:inline-block;background:#b23a2e;color:#fff;font-size:11px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;padding:5px 11px;border-radius:6px}
+.m5-evbadge.gold{background:var(--m5gold);color:#1b2a49}
+.m5-evtitle{font-family:Georgia,'Times New Roman',serif;font-size:30px;line-height:1.06;font-weight:800;margin:12px 0 4px}
+.m5-evmeta{font-size:14px;color:#cdd8ee;margin-bottom:14px}
+.m5-cd{display:flex;gap:9px;margin:6px 0 16px;flex-wrap:wrap}
+.m5-cd .u{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.22);border-radius:10px;padding:8px 0;width:62px;text-align:center}
+.m5-cd .u .n{font-size:22px;font-weight:800;line-height:1}
+.m5-cd .u .l{font-size:9px;letter-spacing:.06em;text-transform:uppercase;color:#c4d0e6;margin-top:4px}
+.m5-evbtns{display:flex;gap:10px;flex-wrap:wrap}
+.m5-evbtn{border:0;border-radius:9px;padding:11px 18px;font-size:13.5px;font-weight:800;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:7px}
+.m5-evbtn.reg{background:#b23a2e;color:#fff}
+.m5-evbtn.cal{background:#fff;color:#16233f}
+.m5-evbtn.gold{background:var(--m5gold);color:#1b2a49}
+.m5-evbtn:hover{filter:brightness(1.05)}
+.m5-crbtns{flex-shrink:0;display:flex;gap:7px;align-items:center}
+.m5-crjoin{border:0;cursor:pointer;font-family:inherit}
+.m5-crcal{flex-shrink:0;background:#f4efe0;color:#8a6d16;border:1px solid #e7dab4;font-weight:800;font-size:12px;padding:8px 13px;border-radius:8px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.m5-crcal:hover{filter:brightness(1.03)}
+.m5-trio{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:8px 0 4px}
+@media(max-width:820px){.m5-trio{grid-template-columns:1fr}}
+.m5-tcard{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 2px 8px rgba(20,35,63,.05);display:flex;flex-direction:column}
+.m5-tcard img{width:100%;display:block;border-bottom:1px solid var(--line)}
+.m5-tcard-b{padding:13px 15px 15px;flex:1;display:flex;flex-direction:column;gap:8px}
+.m5-tcard-t{font-weight:800;font-size:14.5px;color:#16233f}
+.m5-tcard-d{font-size:12.5px;color:#6b7688;flex:1}
+.m5-tcard .btn,.m5-tcard .openbtn{width:100%;justify-content:center;text-align:center}
 </style>
 
 <script>
@@ -2000,7 +2032,7 @@ try{
     };
   }
   if(typeof DAILY!=='undefined'&&typeof WEEK!=='undefined'){
-    var m5vcall=function(e){return '<a class="m5-callrow" href="'+e.link+'" target="_blank" rel="noopener"><span class="m5-crchip">'+m5icon(m5CallIcon(e.n))+'</span><span class="m5-crtext"><span class="m5-crname">'+e.n+'</span><span class="m5-crtime">'+e.t+(e.note?' · '+e.note:'')+'</span></span><span class="m5-crjoin">Join</span></a>';};
+    var m5vcall=function(e,day){var _idx=m5calReg(e,(day==null?null:day));var _cal=_idx>=0?'<button class="m5-crcal" onclick="m5AddCal('+_idx+')">＋ Calendar</button>':'';return '<div class="m5-callrow"><span class="m5-crchip">'+m5icon(m5CallIcon(e.n))+'</span><span class="m5-crtext"><span class="m5-crname">'+e.n+'</span><span class="m5-crtime">'+e.t+(e.note?' · '+e.note:'')+'</span></span><span class="m5-crbtns"><button class="m5-crjoin" onclick="window.open(\''+e.link+'\',\'_blank\')">Join</button>'+_cal+'</span></div>';};
     // Day-of-week anchored to Eastern time (the schedule is EST), so "Today"
     // is correct no matter what timezone the agent's phone/computer is set to.
     var m5ETParts=function(){
@@ -2014,43 +2046,73 @@ try{
       }
     };
     window.vVirtual=function(){
+      window.m5CAL=[];
       var _et=m5ETParts(); var today=_et.day;
-      var h='<h1 class="page">Virtual Calls/Training</h1><p class="sub">Your weekly training calls (all times EST). Today is highlighted below.</p>';
-      // ---- TODAY section (always shows what to join right now) ----
+      var h='<h1 class="page">Calls / Events</h1><p class="sub">Today\'s calls, upcoming events, your full weekly schedule, and recordings — all in one place (all times ET).</p>';
       var _liveDials=null; for(var _i=0;_i<DAILY.length;_i++){ if(/live dials/i.test(DAILY[_i].n)){_liveDials=DAILY[_i];break;} }
       var _todayCalls=(WEEK[today]||[]);
+      // 1) TODAY
       h+='<div class="m5-callsec m5-todaysec"><div class="m5-callsec-h m5-todayhd">Today · '+_et.label+' <span class="m5-etpill">Eastern</span></div>';
       if(_todayCalls.length){
         h+='<div class="m5-todaynote">You have '+_todayCalls.length+' scheduled team call'+(_todayCalls.length>1?'s':'')+' today, plus the everyday calls.</div>';
-        h+=_todayCalls.map(m5vcall).join('');
+        h+=_todayCalls.map(function(e){return m5vcall(e,today);}).join('');
       }else{
         h+='<div class="m5-todaynote m5-restday">No scheduled <b>team</b> calls today'+(today===0?' — enjoy your Sunday!':'.')+' '+(_liveDials?'Live Dials still run, and your':'Your')+' everyday calls below run daily.</div>';
-        if(_liveDials){ h+=m5vcall(_liveDials); }
+        if(_liveDials){ h+=m5vcall(_liveDials,null); }
       }
       h+='</div>';
-      if(typeof IMG_READING!=='undefined'){
-        var m5dlCard=function(k,src,name,cap){return '<div class="listcard"><div class="lc-sub">'+cap+'</div><img src="'+src+'" style="width:100%;border-radius:11px;border:1px solid var(--line);display:block" alt="'+cap+'"><div style="margin-top:9px"><button class="openbtn" onclick="dlImg(\''+k+'\',\''+name+'\')">⬇ Download</button></div></div>';};
-        h+='<div class="m5-callsec-h" style="padding-left:2px">Start your day right — and share the opportunity with everyone</div>';
-        h+='<div class="course-grid" style="margin-bottom:14px">'+m5dlCard('reading',IMG_READING,'daily-reading.png','Start every morning strong — post the Daily Reading (Mon–Sat)')+m5dlCard('vbo',IMG_VBO,'vbo-everyday.png','Share the opportunity — post the VBO every single day')+'</div>';
-      }
-      h+='<div class="m5-callsec"><div class="m5-callsec-h">Every Day</div>'+DAILY.map(m5vcall).join('')+'</div>';
+      // 2) NEXT EVENT — Ignyte hero
+      var _ig=(typeof imgData==='function'&&imgData('ignyte'))?imgData('ignyte'):'';
+      h+='<div class="m5-evseclabel">Next Event</div>';
+      h+='<div class="m5-evhero"'+(_ig?' style="background-image:url('+_ig+')"':'')+'><div class="m5-evhero-in">'+
+        '<span class="m5-evbadge">Upcoming Event</span>'+
+        '<div class="m5-evtitle">Ignyte Fall 2026 Sales Conference</div>'+
+        '<div class="m5-evmeta">Thursday, September 10, 2026</div>'+
+        '<div class="m5-cd" id="m5-cd-ignyte"></div>'+
+        '<div class="m5-evbtns"><button class="m5-evbtn reg" onclick="window.open(\'https://www.eventbrite.com/e/ignyte-fall-2026-sales-conference-tickets-1990889795973\',\'_blank\')">🎟 Register Now</button>'+
+        '<button class="m5-evbtn cal" onclick="m5AddIgnyte()">📅 Add to Calendar</button></div>'+
+        '</div></div>';
+      // 3) EVERY DAY
+      h+='<div class="m5-callsec"><div class="m5-callsec-h">Every Day</div>'+DAILY.map(function(e){return m5vcall(e,null);}).join('')+'</div>';
+      // 4) WEEKLY SCHEDULE
       h+='<div class="m5-daygrid">';
       [1,2,3,4,5,6,0].forEach(function(d){
         var evs=WEEK[d]||[];
-        var body=evs.length?evs.map(m5vcall).join('')
-                 :(d===0&&_liveDials?m5vcall(_liveDials)+'<div class="m5-dayempty">No scheduled team calls — Live Dials run daily.</div>'
+        var body=evs.length?evs.map(function(e){return m5vcall(e,d);}).join('')
+                 :(d===0&&_liveDials?m5vcall(_liveDials,null)+'<div class="m5-dayempty">No scheduled team calls — Live Dials run daily.</div>'
                                     :'<div class="m5-dayempty">Daily calls only.</div>');
         h+='<div class="m5-daycard'+(d===today?' today':'')+'"><div class="m5-daycard-h">'+DAYNAMES[d]+(d===today?'<span class="m5-todaypill">Today</span>':'')+'</div>'+body+'</div>';
       });
       h+='</div>';
+      // 5) ANNUAL CONVENTION hero
+      var _cv=(typeof imgData==='function'&&imgData('convention'))?imgData('convention'):'';
+      h+='<div class="m5-evseclabel">Annual Convention</div>';
+      h+='<div class="m5-evhero conv"'+(_cv?' style="background-image:url('+_cv+')"':'')+'><div class="m5-evhero-in">'+
+        '<span class="m5-evbadge gold">Save the Date</span>'+
+        '<div class="m5-evtitle">2027 FFL Annual Convention</div>'+
+        '<div class="m5-evmeta">Dates &amp; venue — coming soon</div>'+
+        '<div class="m5-evbtns"><button class="m5-evbtn gold" onclick="window.open(\'https://familyfirstlife.com/annualconvention/\',\'_blank\')">ℹ️ Convention Info</button></div>'+
+        '</div></div>';
+      // 6) SCHEDULE SNAPSHOT
       if(typeof imgData==='function'&&imgData('schedule')){
         h+='<div class="m5-callsec-h" style="padding-left:2px;margin-top:6px">Weekly schedule — save it &amp; keep it handy</div>';
         h+='<div class="listcard" style="text-align:center"><img src="'+imgData('schedule')+'" style="width:100%;border-radius:12px;border:1px solid var(--line);box-shadow:var(--shadow);display:block" alt="FFL Success Zone Weekly Training Schedule"><div style="margin-top:10px"><button class="openbtn" onclick="dlImg(\'schedule\',\'weekly-training-schedule.jpg\')">⬇ Download the schedule</button></div></div>';
       }
+      // 7) RECORDINGS
       h+='<div class="m5-callsec" style="margin-top:18px"><div class="m5-callsec-h">Call Recordings &amp; Repository</div>'+m5RowList(m5PairRows(REC))+'</div>';
-      if(typeof IMG_SHAWN!=='undefined'&&typeof shareBtns==='function'){
-        h+='<div class="m5-callsec-h" style="padding-left:2px">Coaching</div><div class="listcard" style="text-align:center"><div class="lc-sub" style="text-align:left">Shawn Meaike\'s exclusive coaching — Fridays 12 PM EST (also on the schedule above).</div><img src="'+IMG_SHAWN+'" style="max-width:340px;width:100%;border-radius:12px;border:1px solid var(--line);box-shadow:var(--shadow)" alt="Shawn Meaike Coaching Program"><div style="margin-top:12px"><button class="btn" style="width:auto;padding:11px 22px" onclick="window.open(\'https://www.pitchmetv.com/coaching-program\',\'_blank\')">Join Shawn\'s Coaching — $9.97/mo →</button></div><div style="margin-top:8px">'+shareBtns('shawn','shawn-coaching.png')+'</div></div>';
+      // 8) BOTTOM TRIO — Shawn + Reading + VBO
+      h+='<div class="m5-evseclabel">Coaching &amp; Daily Shares</div><div class="m5-trio">';
+      if(typeof IMG_SHAWN!=='undefined'){
+        h+='<div class="m5-tcard"><img src="'+IMG_SHAWN+'" alt="Shawn Meaike Coaching Program"><div class="m5-tcard-b"><div class="m5-tcard-t">Shawn Meaike Coaching</div><div class="m5-tcard-d">Exclusive coaching — Fridays 12 PM ET.</div><button class="btn" onclick="window.open(\'https://www.pitchmetv.com/coaching-program\',\'_blank\')">Join — $9.97/mo →</button></div></div>';
       }
+      if(typeof imgData==='function'&&imgData('reading')){
+        h+='<div class="m5-tcard"><img src="'+imgData('reading')+'" alt="Daily Morning Reading"><div class="m5-tcard-b"><div class="m5-tcard-t">Daily Morning Reading</div><div class="m5-tcard-d">Mon–Sat 8:00 AM ET · post it to start strong.</div><button class="openbtn" onclick="dlImg(\'reading\',\'daily-reading.png\')">⬇ Download to share</button></div></div>';
+      }
+      if(typeof imgData==='function'&&imgData('vbo')){
+        h+='<div class="m5-tcard"><img src="'+imgData('vbo')+'" alt="Virtual Business Overview"><div class="m5-tcard-b"><div class="m5-tcard-t">Virtual Business Overview</div><div class="m5-tcard-d">Every day · share to invite prospects.</div><button class="openbtn" onclick="dlImg(\'vbo\',\'vbo-everyday.png\')">⬇ Download to share</button></div></div>';
+      }
+      h+='</div>';
+      setTimeout(function(){if(window.m5EvTick)window.m5EvTick();},30);
       return h;
     };
   }
@@ -2322,6 +2384,23 @@ function m5gcDelta(cur,prev){var d=cur-prev,pct='';if(prev>0)pct=' '+(d>=0?'+':'
 function m5gcStreak(){var st=m5gcStore();var today=new Date();today.setHours(0,0,0,0);var s=0;for(var i=0;i<120;i++){var d=m5gcAdd(today,-i);var rec=st[m5gcIso(d)];if(i===0){if(rec){var p0=m5gcStats(rec).pts;if(p0>=rec.goal&&p0>0)s++;}continue;}if(!rec)break;var p=m5gcStats(rec).pts;if(p>=rec.goal&&p>0)s++;else break;}return s;}
 function m5gcDash(){var today=new Date();today.setHours(0,0,0,0);var yst=m5gcAdd(today,-1);var tT=m5gcRange(today,today),tY=m5gcRange(yst,yst);var sw=m5gcSOW(today),off=today.getDay(),lw=m5gcAdd(sw,-7);var tW=m5gcRange(sw,today),tLW=m5gcRange(lw,m5gcAdd(lw,off));var som=new Date(today.getFullYear(),today.getMonth(),1);var lomEnd=m5gcAdd(som,-1),lom=new Date(lomEnd.getFullYear(),lomEnd.getMonth(),1);var lomThru=new Date(lom.getFullYear(),lom.getMonth(),Math.min(today.getDate(),lomEnd.getDate()));var tM=m5gcRange(som,today),tLM=m5gcRange(lom,lomThru);var H=function(id,html){var e=document.getElementById(id);if(e)e.innerHTML=html;};var cmp=function(t,cur,prev,pv){return '<div class="m5gc-cmp"><div class="ct">'+t+'</div><div class="cbig">'+cur+'</div><div class="cunit">points</div>'+m5gcDelta(cur,prev)+'<div class="cprev">'+pv+'</div></div>';};H('m5gc-cmp3',cmp('Today vs Yesterday',tT.pts,tY.pts,'Yesterday: '+tY.pts+' pts')+cmp('This Week vs Last Week',tW.pts,tLW.pts,'Last week, same days: '+tLW.pts+' pts')+cmp('This Month vs Last Month',tM.pts,tLM.pts,'Last month, thru the '+m5gcOrd(today.getDate())+': '+tLM.pts+' pts'));var avg=function(l,v){return '<div class="m5gc-avg"><div class="l">'+l+'</div><div class="v">'+v+'</div></div>';};var ad=tW.days;H('m5gc-avg',avg('Avg pts / day',ad?Math.round(tW.pts/ad):0)+avg('Avg contacts',ad?(tW.c/ad).toFixed(1):0)+avg('Avg present.',ad?(tW.p/ad).toFixed(1):0)+avg('Avg appts',ad?(tW.a/ad).toFixed(1):0)+avg('Avg sales',ad?(tW.s/ad).toFixed(1):0));var arr=[{k:'Contacts',v:tW.c*M5GC_W.c,n:tW.c},{k:'Presentations',v:tW.p*M5GC_W.p,n:tW.p},{k:'Appointments',v:tW.a*M5GC_W.a,n:tW.a},{k:'Sales',v:tW.s*M5GC_W.s,n:tW.s}];arr.sort(function(a,b){return b.v-a.v;});var top=arr[0];var streak=m5gcStreak(),hit=tM.days?Math.round(tM.hits/tM.days*100):0;var best=tW.best.date?(M5GC_DOW[tW.best.date.getDay()]+' — '+tW.best.pts+' pts'):'—';var eff=tW.planned?Math.round(tW.pts/tW.planned):0,adh=tW.planned?Math.round(tW.pw/tW.planned*100):0;var hl=function(ic,t,v,d){return '<div class="m5gc-hlc"><div class="ic">'+ic+'</div><div><div class="ht">'+t+'</div><div class="hv">'+v+'</div><div class="hd">'+d+'</div></div></div>';};H('m5gc-hl',hl('💪','Strength this week',top.v?top.k:'—',top.v?(top.n+' this week ('+top.v+' pts — biggest driver)'):'Log activity to see this')+hl('🏆','Best day this week',best,'Your highest single-day points')+hl('🔥','Goal-hit streak',streak+(streak===1?' day':' days'),'Consecutive days hitting your goal')+hl('⚡','Efficiency',eff+' pts / block','Points per block you planned this week')+hl('🎯','Plan adherence',adh+'%','You worked '+tW.pw+' of '+tW.planned+' planned blocks this week')+hl('✅','Goal-hit rate (month)',hit+'%',tM.hits+' of '+tM.days+' active days at goal'));var totalCards=0,st2=m5gcStore();for(var k in st2){if(m5gcStats(st2[k]).pts>0)totalCards++;}var emp=document.getElementById('m5gc-empty');if(emp)emp.innerHTML=(totalCards<=1)?'<div class="m5gc-hint">Save a card each day and your trends, averages, streaks, and highlights fill in here automatically.</div>':'';m5gcBars(today);}
 function m5gcBars(today){var wrap=document.getElementById('m5gc-bars');if(!wrap)return;var st=m5gcStore();var vals=[],max=1;for(var i=6;i>=0;i--){var d=m5gcAdd(today,-i);var rec=st[m5gcIso(d)];var P=rec?m5gcStats(rec).pts:0;var g=rec?rec.goal:M5GC_DEFGOAL;vals.push({d:d,P:P,g:g});if(P>max)max=P;}var h='';vals.forEach(function(o){var ht=Math.round(o.P/Math.max(max,o.g)*100),hit=o.P>=o.g&&o.P>0;h+='<div class="m5gc-b" title="'+m5gcIso(o.d)+' — '+o.P+' pts (goal '+o.g+')"><div class="col'+(hit?' goal':'')+'" style="height:'+Math.max(o.P>0?6:0,ht)+'%"><span class="n">'+(o.P||'')+'</span></div><div class="lab">'+(o.d.getMonth()+1)+'/'+o.d.getDate()+'</div><div class="dow">'+M5GC_DOW[o.d.getDay()]+'</div></div>';});wrap.innerHTML=h;}
+
+/* ===== Calls / Events — calendar (.ics) + countdown ===== */
+window.m5CAL=window.m5CAL||[];
+var M5_BYDAY=['SU','MO','TU','WE','TH','FR','SA'];
+function m5pad2(n){return (n<10?'0':'')+n;}
+function m5icsEsc(s){return String(s).replace(/([,;\\])/g,'\\$1').replace(/\n/g,'\\n');}
+function m5nowStamp(){var d=new Date();return d.getUTCFullYear()+m5pad2(d.getUTCMonth()+1)+m5pad2(d.getUTCDate())+'T'+m5pad2(d.getUTCHours())+m5pad2(d.getUTCMinutes())+m5pad2(d.getUTCSeconds())+'Z';}
+function m5nextDOW(dow){var d=new Date();d.setHours(0,0,0,0);var t=(dow==null?d.getDay():dow);var diff=(t-d.getDay()+7)%7;d.setDate(d.getDate()+diff);return d;}
+function m5fmtLocal(d,mins){var hh=Math.floor(mins/60),mm=mins%60;return d.getFullYear()+m5pad2(d.getMonth()+1)+m5pad2(d.getDate())+'T'+m5pad2(hh)+m5pad2(mm)+'00';}
+var M5_VTZ=['BEGIN:VTIMEZONE','TZID:America/New_York','BEGIN:DAYLIGHT','TZOFFSETFROM:-0500','TZOFFSETTO:-0400','TZNAME:EDT','DTSTART:19700308T020000','RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU','END:DAYLIGHT','BEGIN:STANDARD','TZOFFSETFROM:-0400','TZOFFSETTO:-0500','TZNAME:EST','DTSTART:19701101T020000','RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU','END:STANDARD','END:VTIMEZONE'];
+function m5download(fn,text){try{var b=new Blob([text],{type:'text/calendar;charset=utf-8'});var url=URL.createObjectURL(b);var a=document.createElement('a');a.href=url;a.download=fn;document.body.appendChild(a);a.click();setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},120);}catch(e){}}
+function m5calReg(e,day){if(e.allday||e.sessions)return -1;var byday;if(e.days&&e.days.length){byday=e.days.map(function(d){return M5_BYDAY[d];}).join(',');}else if(day!=null){byday=M5_BYDAY[day];}else{return -1;}var rrule=e.recur||('FREQ=WEEKLY;BYDAY='+byday);var dur=e.dur||(/reading|huddle/i.test(e.n)?30:60);var fd=(e.days&&e.days.length)?e.days[0]:day;window.m5CAL.push({n:e.n,s:e.s,dur:dur,link:e.link,rrule:rrule,day:fd});return window.m5CAL.length-1;}
+window.m5AddCal=function(i){var c=window.m5CAL[i];if(!c)return;var d=m5nextDOW(c.day);var st=m5fmtLocal(d,c.s);var en=m5fmtLocal(d,c.s+c.dur);var uid=c.n.replace(/[^a-z0-9]/gi,'').toLowerCase()+'-'+c.day+'@ffloptimum';var L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Optimum Portal//Calls//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH'].concat(M5_VTZ,['BEGIN:VEVENT','UID:'+uid,'DTSTAMP:'+m5nowStamp(),'DTSTART;TZID=America/New_York:'+st,'DTEND;TZID=America/New_York:'+en,'RRULE:'+c.rrule,'SUMMARY:'+m5icsEsc(c.n),'DESCRIPTION:'+m5icsEsc('Optimum team call. Join: '+c.link),'LOCATION:'+m5icsEsc(c.link),'URL:'+c.link,'BEGIN:VALARM','TRIGGER:-PT10M','ACTION:DISPLAY','DESCRIPTION:'+m5icsEsc('Reminder: '+c.n),'END:VALARM','END:VEVENT','END:VCALENDAR']);m5download(c.n.replace(/[^a-z0-9]+/gi,'-').toLowerCase()+'.ics',L.join('\r\n'));if(typeof toast==='function')toast('Calendar invite downloaded ✓');};
+window.m5AddIgnyte=function(){var L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Optimum Portal//Events//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH','BEGIN:VEVENT','UID:ignyte-fall-2026@ffloptimum','DTSTAMP:'+m5nowStamp(),'DTSTART;VALUE=DATE:20260910','DTEND;VALUE=DATE:20260911','SUMMARY:'+m5icsEsc('Ignyte Fall 2026 Sales Conference'),'DESCRIPTION:'+m5icsEsc('FFL Optimum — Ignyte Fall 2026 Sales Conference. Register: https://www.eventbrite.com/e/ignyte-fall-2026-sales-conference-tickets-1990889795973'),'LOCATION:TBC','URL:https://www.eventbrite.com/e/ignyte-fall-2026-sales-conference-tickets-1990889795973','BEGIN:VALARM','TRIGGER:-P1D','ACTION:DISPLAY','DESCRIPTION:Ignyte is tomorrow','END:VALARM','END:VEVENT','END:VCALENDAR'];m5download('ignyte-fall-2026.ics',L.join('\r\n'));if(typeof toast==='function')toast('Calendar invite downloaded ✓');};
+window.m5IgnyteTarget=new Date(2026,8,10,0,0,0);
+window.m5EvTick=function(){var el=document.getElementById('m5-cd-ignyte');if(!el)return;var ms=window.m5IgnyteTarget-new Date();if(ms<=0){el.innerHTML='<div class="u"><div class="n">Now</div><div class="l">Live</div></div>';return;}var s=Math.floor(ms/1000),d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60),ss=s%60;function u(n,l){return '<div class="u"><div class="n">'+n+'</div><div class="l">'+l+'</div></div>';}el.innerHTML=u(d,'Days')+u(m5pad2(h),'Hrs')+u(m5pad2(m),'Min')+u(m5pad2(ss),'Sec');};
+if(!window.m5EvInt){window.m5EvInt=setInterval(function(){window.m5EvTick();},1000);}
 </script>
 </body>
 </html>
