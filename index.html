@@ -1,4 +1,4 @@
-<!DOCTYPE html><!-- redeploy-nudge2 -->
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -448,7 +448,7 @@
   <div class="login-card">
     <div class="m5-logoimg m5-loginlogo"></div>
     <h2>Welcome &mdash; let's get you in</h2>
-    <p class="k">Enter your info and we'll take you straight to the right place. No passwords, and no need to tell us your license status &mdash; we already know.</p>
+    <p class="k">Enter your name, email, and phone and we'll take you straight to the right place. No passwords, and no need to tell us your license status &mdash; we already know.</p>
     <div class="row2">
       <div class="field"><label>First name</label><input id="li-first" type="text" placeholder="First"></div>
       <div class="field"><label>Last name</label><input id="li-last" type="text" placeholder="Last"></div>
@@ -715,7 +715,9 @@ function doLogin(){
   var email=(document.getElementById('li-email').value||'').trim();
   var phone=(document.getElementById('li-phone').value||'').trim();
   var err=document.getElementById('li-err');
-  if(!first||(!email&&!phone)){err.textContent='Enter your first name plus an email or phone number.';err.style.display='block';return;}
+  if(!first||!last){err.textContent='Please enter your first and last name.';err.style.display='block';return;}
+  if(!email||email.indexOf('@')<1||email.indexOf('.')<email.indexOf('@')){err.textContent='Please enter a valid email address \u2014 first name, last name, email, and phone are all required.';err.style.display='block';return;}
+  if(!phone||phone.replace(/\D/g,'').length<10){err.textContent='Please enter a valid phone number (at least 10 digits) \u2014 first name, last name, email, and phone are all required.';err.style.display='block';return;}
   err.style.display='none';
   var btn=document.getElementById('li-btn');
   function go(status,nm,ln,em){ m5CurrentUser={first:(nm||first),last:(ln||last),email:((em||email)||'').trim().toLowerCase(),phone:phone}; routeTo(status, nm||first, ln||last); }
