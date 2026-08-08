@@ -728,6 +728,7 @@ function doLogin(){
     m5BackendLookup(email, phone, function(match){
       if(btn){ btn.disabled=false; if(btn.getAttribute('data-orig'))btn.innerHTML=btn.getAttribute('data-orig'); }
       if(match && match.found===true){
+        try{ if(match.code) store.data.refCode=match.code; }catch(e){}
         go(match.licensed?'lic':'pre', match.first||first, match.last||last, match.email);
       } else if(match && match.found===false){
         baked();   // definitively not in the live sheet -> baked list (covers Jesse), else not-registered
@@ -905,6 +906,7 @@ function vProfile(){return `<h1 class="page">Profile</h1><p class="sub">Your acc
   <div class="li"><div class="lt">Email <span style="font-size:11px;color:var(--ink-soft);font-weight:500">(your login &amp; how your progress is saved)</span></div><div class="ld">${store.data.email||'—'}</div></div>
   <div class="li"><div class="lt">Status</div><div class="ld">${store.data.status==='licensed'?'Licensed Agent':'Unlicensed Agent'}</div></div>
   <div class="li"><div style="flex:1"><div class="lt">Agency name <span style="font-size:11px;color:var(--ink-soft);font-weight:500">(signs your client messages — defaults to Family First Life; set your own and it's saved)</span></div><div style="display:flex;gap:8px;align-items:center;margin-top:6px;flex-wrap:wrap"><input id="m5-agency-in" value="${(store.data.agency||'').replace(/"/g,'&quot;')}" placeholder="e.g. Family First Life" style="padding:9px 11px;border:1px solid var(--line);border-radius:8px;font-size:14px;min-width:200px;font-family:inherit"><button class="btn" style="width:auto;padding:9px 16px" onclick="m5SaveAgency()">Save</button></div></div></div></div>
+  ${typeof m5RecruitLinkCard==='function'?m5RecruitLinkCard():''}
   ${store.data.status==='licensed'?`<button class="btn" style="width:auto;padding:10px 18px;background:#eef2fa;color:var(--brand-deep)" onclick="m5EnterPreview()"><span data-ico="user" style="display:inline-flex;vertical-align:-3px;margin-right:6px"></span>Preview the unlicensed agent experience</button>`:''}
   <button class="btn" style="width:auto;padding:10px 18px;background:#fbecea;color:var(--red);margin-left:8px" onclick="resetAll()">Reset all progress</button>`;}
 function switchStatus(){store.data.status=store.data.status==='licensed'?'unlicensed':'licensed';store.save();syncChip();buildNav();go('dashboard');toast('Switched view');}
@@ -3171,6 +3173,20 @@ function m5PairRows(rows){return rows.map(function(r){
   else if(s){o.d=s;}
   return o;
 });}
+/* ---- Personal recruiting link (ref code comes from login lookup) ---- */
+window.m5MyRefCode=function(){ return (typeof store!=='undefined'&&store.data&&store.data.refCode)||''; }
+window.m5MyRegLink=function(){ var c=m5MyRefCode(); return 'https://portal.ffloptimum.com/register.html'+(c?('?ref='+c):''); }
+window.m5CopyMyLink=function(btn){ var i=document.getElementById('m5-reglink'); if(!i)return; try{ i.select(); }catch(e){} try{ navigator.clipboard.writeText(i.value); }catch(e){} if(btn){ var o=btn.textContent; btn.textContent='Copied ✓'; setTimeout(function(){ btn.textContent=o; }, 1500); } }
+window.m5RecruitLinkCard=function(){
+  var link=m5MyRegLink(), code=m5MyRefCode();
+  var body = code
+    ? '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><input id="m5-reglink" readonly value="'+link+'" onclick="this.select()" style="flex:1;min-width:210px;font-size:13px;padding:10px 12px;border:1px solid #dbe3f0;border-radius:9px;background:#f7f9fc;color:#16233f;font-family:inherit"><button onclick="m5CopyMyLink(this)" style="background:#16233f;color:#fff;border:0;border-radius:9px;padding:10px 18px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap">Copy link</button></div>'
+    : '<div style="font-size:12.5px;color:#8a93a9">Your link will appear here once your account syncs — log out and back in if you do not see it.</div>';
+  return '<div style="background:#fff;border:1px solid #e3e8f2;border-left:4px solid #c9a227;border-radius:14px;padding:16px 18px;margin-top:14px;box-shadow:0 6px 20px rgba(20,35,63,.05)">'+
+    '<div style="font-size:12px;font-weight:800;color:#a9861d;text-transform:uppercase;letter-spacing:.05em">Your personal recruiting link</div>'+
+    '<p style="font-size:12.5px;color:#55617d;margin:6px 0 12px;line-height:1.5">Send this to anyone you bring on. When they register through your link, they are automatically placed on your team, under you.</p>'+
+    body+'</div>';
+}
 try{
   if(typeof m5RowList==='function'){
     window.vRecruiting=function(){
@@ -3194,7 +3210,7 @@ try{
           '<span class="m5-extext"><span class="m5-exname">Compensation documents</span><span class="m5-exsub">General, by product, IUL/annuity, producer &amp; VP bonus — tap to open.</span></span>'+
           '<span class="m5-exchev">›</span></div>'+
         '<div class="m5-exbody"><div class="m5-complist">'+compRows+'</div></div></div>';
-      var PORTAL='https://portal.ffloptimum.com/join.html';
+      var PORTAL=m5MyRegLink();
       var link='<a href="'+PORTAL+'" target="_blank" rel="noopener">'+PORTAL+'</a>';
       var _sfirst=(store.data.first||'').trim(), _slast=(store.data.last||'').trim();
       var _sname=(_sfirst+' '+_slast).trim();
@@ -3204,10 +3220,10 @@ try{
       if(_sphone) sig+='<br>'+_sphone;
       if(_semail) sig+='<br>'+_semail;
       var msgUnlic='Welcome to the team! First, save my contact info so you can always reach me.<br><br>'+
-        'Click the link below to head to our team onboarding site — that will be your main resource for everything. Right now your focus is getting <b>licensed within 2 weeks</b>!<br><br>'+link+'<br><br>'+
+        'Click your personal registration link below to get registered and into our team portal — your home base for everything. Right now your focus is getting <b>licensed within 2 weeks</b>!<br><br>'+link+'<br><br>'+
         'Please let me know if you have any questions along the way. Again, congratulations — I\'m excited to have you on the team. Let\'s go!!!!<br>'+sig;
       var msgLic='Welcome to the team! First, save my contact info so you can always reach me.<br><br>'+
-        'Click the link below to head to our team onboarding site — that will be your main resource for everything. Right now your focus is getting <b>contracted and appointed with our carriers as quickly as possible</b>, and beginning your initial training.<br><br>'+link+'<br><br>'+
+        'Click your personal registration link below to get registered and into our team portal — your home base for everything. Right now your focus is getting <b>contracted and appointed with our carriers as quickly as possible</b>, and beginning your initial training.<br><br>'+link+'<br><br>'+
         'Please let me know if you have any questions along the way. Again, congratulations — I\'m excited to have you on the team. Let\'s go!!!!<br>'+sig;
       var ex='<div class="m5-expand" id="m5-enroll">'+
         '<div class="m5-exhead" onclick="m5ToggleExpand(this)"><span class="m5-exchip" data-ico="users"></span>'+
@@ -3244,7 +3260,7 @@ try{
       return '<h1 class="page">Recruiting</h1><p class="sub">Build your team — resources, webinar system, and comp.</p>'+
         m5RowList([topItems[0]])+qrCard+m5RowList(topItems.slice(1))+
         '<div class="m5-seclabel" style="margin-top:26px">Compensation</div>'+comp+
-        '<div class="m5-seclabel" style="margin-top:26px">Bringing on a new agent</div>'+ex+
+        '<div class="m5-seclabel" style="margin-top:26px">Bringing on a new agent</div>'+m5RecruitLinkCard()+ex+
         '<div class="m5-previewcard"><div class="m5-pvtitle"><span class="m5-pvi" data-ico="user"></span>See it from their side</div>'+
           '<p class="m5-pvsub">Preview exactly what your new agent sees before they\'re licensed — the full pre-licensing experience. Nothing you do here is saved or tracked.</p>'+
           '<button class="m5-pvbtn" onclick="m5EnterPreview()">Preview the unlicensed agent experience &rarr;</button></div>';
