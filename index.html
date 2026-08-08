@@ -717,7 +717,7 @@ function doLogin(){
   var phone=(document.getElementById('li-phone').value||'').trim();
   var err=document.getElementById('li-err');
   if(!first||!last){err.textContent='Please enter your first and last name.';err.style.display='block';return;}
-  if(!email||email.indexOf('@')<1||email.indexOf('.')<email.indexOf('@')){err.textContent='Please enter a valid email address \u2014 first name, last name, email, and phone are all required.';err.style.display='block';return;}
+  if(!email||email.indexOf('@')<1||email.lastIndexOf('.')<email.indexOf('@')+2||email.lastIndexOf('.')===email.length-1){err.textContent='Please enter a valid email address \u2014 first name, last name, email, and phone are all required.';err.style.display='block';return;}
   if(!phone||phone.replace(/\D/g,'').length<10){err.textContent='Please enter a valid phone number (at least 10 digits) \u2014 first name, last name, email, and phone are all required.';err.style.display='block';return;}
   err.style.display='none';
   var btn=document.getElementById('li-btn');
