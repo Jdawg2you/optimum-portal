@@ -1062,8 +1062,9 @@ function lookupAgent(first,last,email,phone){
 }
 function previewAs(s){ m5CurrentUser={first:(s==="lic"?"Megan":(s==="pre"?"Kane":"there")),last:(s==="lic"?"West":""),email:"",phone:""}; routeTo(s, m5CurrentUser.first, m5CurrentUser.last); }
 function routeTo(status,first,last){
-  if(status==="lic"){store.data.status="licensed";store.data.first=first||"Agent";store.data.last=last||"";store.save();startApp();}
-  else if(status==="pre"){showPre(first||"there");}
+  function _capture(){ if(typeof m5CurrentUser!=='undefined'){ if(m5CurrentUser.email) store.data.email=(m5CurrentUser.email||'').trim().toLowerCase(); if(m5CurrentUser.phone) store.data.phone=(''+m5CurrentUser.phone).trim(); } try{ store.data.t_lastLogin=(new Date()).toISOString(); }catch(e){} }
+  if(status==="lic"){store.data.status="licensed";store.data.first=first||"Agent";store.data.last=last||"";_capture();store.save();startApp();}
+  else if(status==="pre"){store.data.status="unlicensed";store.data.first=first||"there";store.data.last=last||"";_capture();try{store.save();}catch(e){}showPre(first||"there");}
   else{showNotReg();}
 }
 function m5HideAll(){["login","app","m5-prelic","m5-notreg"].forEach(function(id){var el=document.getElementById(id);if(el)el.classList.add("hidden");});}
