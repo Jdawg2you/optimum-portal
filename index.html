@@ -749,6 +749,7 @@ function startApp(){
   document.getElementById('avatar').textContent=((store.data.first[0]||'A')+(store.data.last[0]||'')).toUpperCase();
   var sn=document.getElementById('m5-suname'); if(sn)sn.textContent=store.data.first||'Agent';
   syncChip(); buildNav(); go('dashboard');
+  if(typeof m5EnsureMyCode==='function') m5EnsureMyCode();
   if(typeof m5BackendLoad==='function') m5BackendLoad(function(){ try{ store.data.t_lastLogin=(new Date()).toISOString(); store.save(); syncChip();buildNav();render(currentView()); }catch(e){} });
 }
 function syncChip(){const c=document.getElementById('statuschip');if(store.data.status==='licensed'){c.textContent='Licensed Agent';c.className='statuschip';}else{c.textContent='Unlicensed Agent';c.className='statuschip unl';}}
@@ -1013,6 +1014,20 @@ function m5BackendLookup(email, phone, cb){
       .then(function(j){ clearTimeout(t); once(j&&j.ok?(j.match||{found:false}):null); })
       .catch(function(){ clearTimeout(t); once(null); });
   }catch(e){ clearTimeout(t); once(null); }
+}
+/* ---- Guarantee every logged-in agent has a ref code (self-healing) ---- */
+function m5EnsureMyCode(){
+  try{
+    if(store.data&&store.data.refCode) return;
+    if(typeof BACKEND_URL==='undefined'||!BACKEND_URL) return;
+    var email=((store.data&&store.data.email)||'').trim().toLowerCase();
+    var phone=(store.data&&store.data.phone)||'';
+    if(!email&&!phone) return;
+    fetch(BACKEND_URL,{method:'POST',body:JSON.stringify({action:'code',email:email,phone:phone,first:(store.data.first||''),last:(store.data.last||'')})})
+      .then(function(r){return r.json();})
+      .then(function(j){ if(j&&j.ok&&j.code){ store.data.refCode=j.code; if(store._saveLocal)store._saveLocal(); if(typeof render==='function'&&typeof currentView==='function') render(currentView()); } })
+      .catch(function(){});
+  }catch(e){}
 }
 var m5CurrentUser={first:'',last:'',email:'',phone:''};
 if(!store.data.promoted)store.data.promoted=[];
@@ -3184,7 +3199,7 @@ window.m5RecruitLinkCard=function(){
     : '<div style="font-size:12.5px;color:#8a93a9">Your link will appear here once your account syncs — log out and back in if you do not see it.</div>';
   return '<div style="background:#fff;border:1px solid #e3e8f2;border-left:4px solid #c9a227;border-radius:14px;padding:16px 18px;margin-top:14px;box-shadow:0 6px 20px rgba(20,35,63,.05)">'+
     '<div style="font-size:12px;font-weight:800;color:#a9861d;text-transform:uppercase;letter-spacing:.05em">Your personal recruiting link</div>'+
-    '<p style="font-size:12.5px;color:#55617d;margin:6px 0 12px;line-height:1.5">Send this to anyone you bring on. When they register through your link, they are automatically placed on your team, under you.</p>'+
+    '<p style="font-size:12.5px;color:#55617d;margin:6px 0 12px;line-height:1.5">Send this to anyone you bring onto your team. When they register through your link, they are automatically placed on your team in the Optimum Portal. You still need to follow the rest of the FFL enrollment steps on the recruiting page.</p>'+
     body+'</div>';
 }
 try{
