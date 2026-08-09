@@ -729,7 +729,7 @@ function doLogin(){
   err.style.display='none';
   var btn=document.getElementById('li-btn');
   function go(status,nm,ln,em){ m5CurrentUser={first:(nm||first),last:(ln||last),email:((em||email)||'').trim().toLowerCase(),phone:phone}; routeTo(status, nm||first, ln||last); }
-  function baked(){ try{ store.data.admin=false; }catch(e){} var r=lookupAgent(first,last,email,phone); go(r.status, r.name||first, last); }
+  function baked(){ try{ if(store.data.admin!==true) store.data.admin=false; }catch(e){} var r=lookupAgent(first,last,email,phone); go(r.status, r.name||first, last); }
   if(typeof m5BackendLookup==='function'){
     if(btn){ btn.disabled=true; if(!btn.getAttribute('data-orig'))btn.setAttribute('data-orig',btn.innerHTML); btn.innerHTML='Checking\u2026'; }
     m5BackendLookup(email, phone, function(match){
@@ -1021,7 +1021,7 @@ function m5BackendLoad(cb){
 function m5BackendLookup(email, phone, cb){
   var done=false; function once(x){ if(done)return; done=true; cb(x); }
   if(!BACKEND_URL){ once(null); return; }
-  var t=setTimeout(function(){ once(null); }, 7000); // slow/hung backend → fall back
+  var t=setTimeout(function(){ once(null); }, 12000); // slow/hung backend → fall back
   try{
     fetch(BACKEND_URL,{method:'POST',body:JSON.stringify({action:'lookup',email:(email||'').trim().toLowerCase(),phone:(phone||'')})})
       .then(function(r){return r.json();})
