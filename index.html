@@ -3713,7 +3713,7 @@ I don't want you to lose this coverage. If we can update your payment today, we 
   text:`Hi [Client Name], it's {AGENT} with [Your Agency Name]. Your policy is now at risk of lapsing. Please call or text me so I can help you keep your coverage active — I don't want you to lose it.`}
 ];
 var CRET_BENE=[
- {n:'The Day You Write the Policy',w:'Reach Out to the Beneficiary',goal:'Put a real person in their hands — not a 1-800 number.',
+ {n:'Day of Your Sale',w:'Text the Beneficiary — Introduce Yourself',goal:'Put a real person in their hands — not a 1-800 number.',
   text:`Hi [Name],
 My name is {AGENT}, and I'm the life insurance agent who worked with [Client's first name] on their coverage. They named you as a beneficiary on their policy, and they wanted to make sure you had a real person to reach out to rather than just a 1-800 number and a stack of paperwork.
 There's nothing you need to do right now — I just wanted to introduce myself and put my information in your hands. Whenever the time comes, you can call or text me directly. My job is to make the process simple: I'll walk you through the few steps needed and help get the funds released quickly so the immediate expenses are taken care of and you've got a little breathing room when you need it most.
@@ -3738,7 +3738,7 @@ function m5RetentionPanel(){
   var intro='<div class="lc-sub">Simple copy-and-paste touchpoints to keep your clients happy and on the books — perfect for agents not yet using a CRM. Every script is written as <b>you</b> and already signed with your name, number, and email ('+w.nm+'). '+agLine+'</div>';
   var hd=function(t){return '<div style="font-size:12.5px;font-weight:800;color:#16233f;margin:20px 0 8px;text-transform:uppercase;letter-spacing:.03em">'+t+'</div>';};
   return '<div class="listcard" style="margin-top:16px"><h3>🔁 Client Retention / Service</h3>'+intro+
-    hd('Reach out to the beneficiary &middot; the day you write the policy')+CRET_BENE.map(m5CretCard).join('')+
+    hd('Reach out to the beneficiary')+CRET_BENE.map(m5CretCard).join('')+
     hd('General calls &middot; status: Submitted, In Underwriting, Approved, or Issued/Paid')+CRET_GEN.map(m5CretCard).join('')+
     hd('If they miss a payment &middot; status: Lapse Pending')+CRET_MISS.map(m5CretCard).join('')+
     '</div>';
