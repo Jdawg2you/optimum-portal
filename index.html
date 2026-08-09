@@ -691,10 +691,13 @@ const NAV=[
   {v:'support',ic:'💬',t:'General Support'},
   {v:'gethelp',ic:'❓',t:'Get Help'},
   {v:'profile',ic:'👤',t:'Profile'},
+  {g:'Agency',admin:true},
+  {v:'agency',ic:'📊',t:'Agency Dashboard',admin:true},
 ];
 function buildNav(){
   const unl=store.data.status==='unlicensed';
   document.getElementById('sidenav').innerHTML=NAV.map(n=>{
+    if(n.admin&&store.data.admin!==true)return '';
     if(n.g)return `<div class="navgroup">${n.g}</div>`;
     const locked=n.lockUnl&&unl;
     return `<div class="navitem ${locked?'locked':''}" data-view="${n.v}" data-locked="${locked}"><span class="ic">${n.ic}</span> ${n.t}${locked?'<span class="lk">🔒</span>':''}</div>`;
@@ -704,7 +707,7 @@ document.getElementById('sidenav').addEventListener('click',e=>{const it=e.targe
 
 function go(view){
   document.querySelectorAll('.navitem').forEach(n=>n.classList.toggle('active',n.dataset.view===view));
-  const names={dashboard:'Dashboard',faststart:'Fast Start',academy:'Academy',sales:'Sales Tools',systools:'Systems/Tools',goalcard:'Goal Card',leads:'Leads',calc:'Commission Calculator',recruiting:'Recruiting',selfdev:'Self Development',resources:'Resources',health:'Health',virtual:'Virtual Calls/Events',inperson:'In-Person Events',support:'General Support',gethelp:'Get Help',kpi:'My KPIs',profile:'Profile'};
+  const names={dashboard:'Dashboard',faststart:'Fast Start',academy:'Academy',sales:'Sales Tools',systools:'Systems/Tools',goalcard:'Goal Card',leads:'Leads',calc:'Commission Calculator',recruiting:'Recruiting',selfdev:'Self Development',resources:'Resources',health:'Health',virtual:'Virtual Calls/Events',inperson:'In-Person Events',support:'General Support',gethelp:'Get Help',kpi:'My KPIs',profile:'Profile',agency:'Agency Dashboard'};
   document.getElementById('crumb').textContent=names[view]||'';
   window.scrollTo(0,0); render(view);
 }
@@ -722,7 +725,7 @@ function doLogin(){
   err.style.display='none';
   var btn=document.getElementById('li-btn');
   function go(status,nm,ln,em){ m5CurrentUser={first:(nm||first),last:(ln||last),email:((em||email)||'').trim().toLowerCase(),phone:phone}; routeTo(status, nm||first, ln||last); }
-  function baked(){ var r=lookupAgent(first,last,email,phone); go(r.status, r.name||first, last); }
+  function baked(){ try{ store.data.admin=false; }catch(e){} var r=lookupAgent(first,last,email,phone); go(r.status, r.name||first, last); }
   if(typeof m5BackendLookup==='function'){
     if(btn){ btn.disabled=true; if(!btn.getAttribute('data-orig'))btn.setAttribute('data-orig',btn.innerHTML); btn.innerHTML='Checking\u2026'; }
     m5BackendLookup(email, phone, function(match){
@@ -730,6 +733,7 @@ function doLogin(){
       if(match && match.found===true){
         try{ if(match.code) store.data.refCode=match.code; }catch(e){}
         try{ store.data.hasNPN = (match.licensed ? !!match.hasNPN : false); }catch(e){}
+        try{ store.data.admin = (match.admin===true); }catch(e){}
         go(match.licensed?'lic':'pre', match.first||first, match.last||last, match.email);
       } else if(match && match.found===false){
         baked();   // definitively not in the live sheet -> baked list (covers Jesse), else not-registered
@@ -792,6 +796,7 @@ function render(view){_cv=view;const el=document.getElementById('content');
   else if(view==='leads')el.innerHTML=m5Leads();
   else if(view==='health')el.innerHTML=m5Health();
   else if(view==='gethelp')el.innerHTML=m5GetHelp();
+  else if(view==='agency')el.innerHTML=m5AgencyDash();
   else if(view==='virtual')el.innerHTML=vVirtual();
   else if(view==='inperson')el.innerHTML=vInperson();
   else if(view==='support')el.innerHTML=vSupport();
@@ -2698,6 +2703,52 @@ function acadLessonView(a,b){var m=acadFindMod(a);if(!m)return acadHomeView();va
 <style>
 /* ============================= M5 VISUAL RESKIN ============================= */
 :root{--m5gold:#e8b73a;--m5navy:#0b1a34;}
+
+/* ===== Agency Dashboard ===== */
+.ag-wrap{max-width:1180px}
+.ag-load{background:#fff;border:1px solid #e5e9f2;border-radius:14px;padding:40px;text-align:center;color:#55617d;font-size:15px}
+.ag-filters{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}
+.ag-fbtn{border:1px solid #d9e0ee;background:#fff;color:#16233f;border-radius:999px;padding:7px 15px;font-weight:700;font-size:13px;cursor:pointer}
+.ag-fbtn.on{background:#16233f;color:#fff;border-color:#16233f}
+.ag-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:0 0 18px}
+.ag-stat{background:#fff;border:1px solid #e5e9f2;border-radius:14px;padding:15px 16px;box-shadow:0 4px 14px rgba(20,35,63,.04)}
+.ag-stat .k{font-size:11px;font-weight:800;color:#8a93a9;text-transform:uppercase;letter-spacing:.05em}
+.ag-stat .v{font-size:30px;font-weight:800;color:#16233f;line-height:1.1;margin-top:3px}
+.ag-stat .s{font-size:12px;color:#55617d;margin-top:2px}
+.ag-grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:18px}
+.ag-grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:18px}
+.ag-card{background:#fff;border:1px solid #e5e9f2;border-radius:16px;padding:18px 20px;box-shadow:0 6px 18px rgba(20,35,63,.05)}
+.ag-card h3{margin:0 0 3px;font-size:15px;color:#16233f}
+.ag-card .sub{margin:0 0 14px;font-size:12.5px;color:#8a93a9}
+.ag-funnel-row{display:flex;align-items:center;gap:10px;margin:7px 0}
+.ag-funnel-lab{width:118px;font-size:12.5px;color:#55617d;text-align:right;font-weight:600}
+.ag-funnel-bar{flex:1;background:#eef2f8;border-radius:7px;height:26px;position:relative;overflow:hidden}
+.ag-funnel-fill{position:absolute;left:0;top:0;bottom:0;border-radius:7px;display:flex;align-items:center;padding-left:10px;color:#fff;font-weight:800;font-size:12.5px}
+.ag-funnel-pct{width:44px;text-align:right;font-weight:800;font-size:13px;color:#16233f}
+.ag-mixbar{display:flex;height:34px;border-radius:9px;overflow:hidden;margin-bottom:8px}
+.ag-mixseg{display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:12.5px;min-width:0}
+.ag-legend{display:flex;gap:16px;font-size:12px;color:#55617d;margin-top:2px}
+.ag-dot{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px;vertical-align:middle}
+.ag-bars{display:flex;align-items:flex-end;gap:6px;height:120px;margin-top:12px}
+.ag-bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.ag-bar .bv{font-size:12px;font-weight:800;color:#16233f;margin-bottom:3px}
+.ag-bar .bfill{width:100%;border-radius:6px 6px 0 0;min-height:3px}
+.ag-bar .bl{font-size:10.5px;color:#8a93a9;margin-top:5px;text-align:center}
+.ag-big{font-size:34px;font-weight:800;color:#16233f;line-height:1;margin-top:2px}
+.ag-soon{background:repeating-linear-gradient(45deg,#f7f9fc,#f7f9fc 10px,#f2f5fb 10px,#f2f5fb 20px);border:1px dashed #cfd8ea;border-radius:14px;padding:20px;text-align:center;color:#8a93a9;font-size:12.5px;line-height:1.5}
+.ag-soon .t{font-weight:800;color:#55617d;font-size:14px;margin-bottom:4px}
+.ag-tablewrap{overflow-x:auto}
+.ag-table{width:100%;border-collapse:collapse;font-size:13px}
+.ag-table th{text-align:left;background:#16233f;color:#fff;padding:10px 10px;font-size:11.5px;font-weight:700;cursor:pointer;white-space:nowrap}
+.ag-table th:hover{background:#1f2c4e}
+.ag-table td{padding:9px 10px;border-bottom:1px solid #eef2f8;color:#16233f;white-space:nowrap}
+.ag-table tr:hover td{background:#f9fbfe}
+.ag-pill{display:inline-block;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:800}
+.ag-pill.lic{background:#e6f2ea;color:#1f7a44}
+.ag-pill.unl{background:#fdeee7;color:#b5561f}
+.ag-mini{display:inline-block;width:56px;height:7px;background:#eef2f8;border-radius:5px;overflow:hidden;vertical-align:middle;margin-right:6px}
+.ag-mini > span{display:block;height:100%;border-radius:5px}
+@media(max-width:900px){ .ag-grid2,.ag-grid3{grid-template-columns:1fr} }
 aside{background:linear-gradient(180deg,#0c1c3a 0%,#0a1730 100%)!important}
 
 /* ---- Sidebar OPTIMUM wordmark header ---- */
@@ -3733,6 +3784,132 @@ window.m5ConvTarget=new Date(2027,0,27,0,0,0);
 window.m5cdRender=function(el,target){var ms=target-new Date();if(ms<=0){el.innerHTML='<div class="u"><div class="n">Now</div><div class="l">Live</div></div>';return;}var s=Math.floor(ms/1000),d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60),ss=s%60;function u(n,l){return '<div class="u"><div class="n">'+n+'</div><div class="l">'+l+'</div></div>';}el.innerHTML=u(d,'Days')+u(m5pad2(h),'Hrs')+u(m5pad2(m),'Min')+u(m5pad2(ss),'Sec');};
 window.m5EvTick=function(){var a=document.getElementById('m5-cd-ignyte');if(a)window.m5cdRender(a,window.m5IgnyteTarget);var b=document.getElementById('m5-cd-conv');if(b)window.m5cdRender(b,window.m5ConvTarget);};
 if(!window.m5EvInt){window.m5EvInt=setInterval(function(){window.m5EvTick();},1000);}
+
+/* ===================== AGENCY DASHBOARD (admin only) ===================== */
+window.m5Ag={loaded:false,err:'',agents:[],filter:'all',sortKey:'name',sortDir:1};
+window.m5AgencyDash=function(){
+  if(typeof store==='undefined'||store.data.admin!==true) return '<h1 class="page">Agency Dashboard</h1><p class="sub">This area is for admins only.</p>';
+  if(!m5Ag.loaded){ m5AgFetch(); return '<h1 class="page"><span data-ico="dash" style="vertical-align:-3px"></span> Agency Dashboard</h1><p class="sub">Your team\'s live progress, straight from your sheet.</p><div class="ag-load">Loading team data…</div>'; }
+  if(m5Ag.err) return '<h1 class="page">Agency Dashboard</h1><p class="sub">Could not load the roster.</p><div class="ag-load">'+(m5Ag.err==='forbidden'?'This account is not flagged as an admin (column F on Manual Adds).':'Network issue — reopen this page in a moment.')+'</div>';
+  return m5AgRender();
+};
+window.m5AgFetch=function(){
+  try{
+    if(typeof BACKEND_URL==='undefined'||!BACKEND_URL){ m5Ag.loaded=true; m5Ag.err='network'; return; }
+    var email=((store.data&&store.data.email)||'').trim().toLowerCase();
+    var phone=(store.data&&store.data.phone)||'';
+    fetch(BACKEND_URL,{method:'POST',body:JSON.stringify({action:'roster',email:email,phone:phone})})
+      .then(function(r){return r.json();})
+      .then(function(j){ m5Ag.loaded=true; if(j&&j.ok){ m5Ag.agents=j.agents||[]; m5Ag.err=''; } else { m5Ag.err=(j&&j.error)||'error'; } if(typeof currentView==='function'&&currentView()==='agency'&&typeof render==='function') render('agency'); })
+      .catch(function(){ m5Ag.loaded=true; m5Ag.err='network'; if(typeof currentView==='function'&&currentView()==='agency'&&typeof render==='function') render('agency'); });
+  }catch(e){ m5Ag.loaded=true; m5Ag.err='network'; }
+};
+window.m5AgSet=function(f){ m5Ag.filter=f; if(typeof render==='function') render('agency'); };
+window.m5AgSort=function(k){ if(m5Ag.sortKey===k){ m5Ag.sortDir*=-1; } else { m5Ag.sortKey=k; m5Ag.sortDir=1; } if(typeof render==='function') render('agency'); };
+function m5AgDays(iso){ if(!iso)return null; var d=new Date(iso); if(isNaN(d.getTime()))return null; return Math.floor((Date.now()-d.getTime())/864e5); }
+function m5AgDiff(a,b){ if(!a||!b)return null; var d1=new Date(a),d2=new Date(b); if(isNaN(d1.getTime())||isNaN(d2.getTime()))return null; return Math.round((d2.getTime()-d1.getTime())/864e5); }
+function m5AgNum(v){ if(v===''||v==null)return null; var n=Number(v); return isNaN(n)?null:n; }
+function m5AgFilt(){ return (m5Ag.agents||[]).filter(function(a){ if(m5Ag.filter==='lic')return a.licensed; if(m5Ag.filter==='unl')return !a.licensed; if(m5Ag.filter==='active'){var d=m5AgDays(a.lastLogin);return d!=null&&d<=7;} return true; }); }
+function m5AgEsc(s){ return String(s==null?'':s).replace(/[&<>]/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;'})[c];}); }
+function m5AgDate(iso){ if(!iso)return '—'; var d=new Date(iso); if(isNaN(d.getTime()))return '—'; return d.toLocaleDateString('en-US',{month:'short',day:'numeric'}); }
+function m5AgAgo(iso){ var d=m5AgDays(iso); if(d==null)return '—'; if(d<=0)return 'Today'; if(d===1)return 'Yesterday'; if(d<30)return d+' days ago'; return m5AgDate(iso); }
+function m5AgFB(f,lab){ return '<button class="ag-fbtn'+(m5Ag.filter===f?' on':'')+'" onclick="m5AgSet(\''+f+'\')">'+lab+'</button>'; }
+function m5AgStat(k,v,s){ return '<div class="ag-stat"><div class="k">'+k+'</div><div class="v">'+v+'</div>'+(s?'<div class="s">'+s+'</div>':'')+'</div>'; }
+function m5AgFunnel(rows,total){
+  return rows.map(function(r){ var pct= total? Math.round(r[1]/total*100):0;
+    return '<div class="ag-funnel-row"><div class="ag-funnel-lab">'+r[0]+'</div><div class="ag-funnel-bar"><div class="ag-funnel-fill" style="width:'+Math.max(pct,4)+'%;background:'+r[2]+'">'+r[1]+'</div></div><div class="ag-funnel-pct">'+pct+'%</div></div>';
+  }).join('');
+}
+function m5AgMix(l1,v1,l2,v2,c1,c2){
+  var t=(v1+v2)||1; var p1=Math.round(v1/t*100), p2=100-p1;
+  return '<div class="ag-mixbar"><div class="ag-mixseg" style="width:'+p1+'%;background:'+c1+'">'+(p1>12?p1+'%':'')+'</div><div class="ag-mixseg" style="width:'+p2+'%;background:'+c2+'">'+(p2>12?p2+'%':'')+'</div></div><div class="ag-legend"><span><span class="ag-dot" style="background:'+c1+'"></span>'+l1+' · '+v1+'</span><span><span class="ag-dot" style="background:'+c2+'"></span>'+l2+' · '+v2+'</span></div>';
+}
+function m5AgBucket(vals,edges){ var counts=[]; for(var i=0;i<=edges.length;i++)counts.push(0); vals.forEach(function(v){ var placed=false; for(var i=0;i<edges.length;i++){ if(v<=edges[i]){counts[i]++;placed=true;break;} } if(!placed)counts[counts.length-1]++; }); return counts; }
+function m5AgTimeCard(title,sub,vals,labels,color,edges){
+  edges=edges||[7,14,21,30,45];
+  var counts=m5AgBucket(vals,edges);
+  var avg= vals.length? Math.round(vals.reduce(function(s,x){return s+x;},0)/vals.length):0;
+  var max=Math.max.apply(null,counts.concat([1]));
+  var bars=counts.map(function(c,i){ var h=Math.round(c/max*100); return '<div class="ag-bar"><div class="bv">'+c+'</div><div class="bfill" style="height:'+Math.max(h,3)+'%;background:'+color+'"></div><div class="bl">'+(labels[i]||'')+'</div></div>'; }).join('');
+  return '<div class="ag-card"><h3>'+title+'</h3><p class="sub">'+sub+'</p><div class="ag-big">'+avg+' <span style="font-size:14px;color:#8a93a9">days avg</span></div><div class="sub" style="margin:2px 0 0">'+(vals.length? vals.length+' with data':'no data yet')+'</div><div class="ag-bars">'+bars+'</div></div>';
+}
+function m5AgMiniBar(pct,color){ pct=(pct==null)?0:pct; return '<span class="ag-mini"><span style="width:'+Math.max(0,Math.min(100,pct))+'%;background:'+color+'"></span></span>'+pct+'%'; }
+function m5AgSortVal(a,k){
+  if(k==='statusS')return a.licensed?1:0;
+  if(k==='licV')return a.licensed?101:(m5AgNum(a.gylPct)||0);
+  if(k==='fsV')return m5AgNum(a.fsPct)||0;
+  if(k==='acV')return m5AgNum(a.acadPct)||0;
+  if(k==='lastV')return a.lastLogin?(new Date(a.lastLogin)).getTime():0;
+  if(k==='joined')return a.joined?(new Date(a.joined)).getTime():0;
+  if(k==='gcCards')return a.gcCards||0;
+  if(k==='source')return a.source||'';
+  return (a.name||'').toLowerCase();
+}
+function m5AgTable(){
+  var A=m5AgFilt().slice();
+  var k=m5Ag.sortKey, dir=m5Ag.sortDir;
+  A.sort(function(a,b){ var va=m5AgSortVal(a,k), vb=m5AgSortVal(b,k); if(va<vb)return -1*dir; if(va>vb)return 1*dir; return 0; });
+  var cols=[['name','Agent'],['statusS','Status'],['joined','Joined'],['source','Source'],['licV','① License'],['fsV','② Fast Start'],['acV','③ Academy'],['lastV','Last active'],['gcCards','Goal cards']];
+  var head=cols.map(function(c){ var arrow=(k===c[0])?(dir>0?' ▲':' ▼'):''; return '<th onclick="m5AgSort(\''+c[0]+'\')">'+c[1]+arrow+'</th>'; }).join('');
+  var rows=A.map(function(a){
+    var lic=a.licensed;
+    var licCell= lic? '<span style="color:#1f7a44;font-weight:800">✓</span>' : m5AgMiniBar(m5AgNum(a.gylPct),'#2f6df0');
+    var fsCell= lic? m5AgMiniBar(m5AgNum(a.fsPct),'#1f9d55') : '—';
+    var acCell= lic? m5AgMiniBar(m5AgNum(a.acadPct),'#c9a227') : '—';
+    var last= a.lastLogin? m5AgAgo(a.lastLogin) : '<span style="color:#b5561f">Never logged in</span>';
+    return '<tr><td><b>'+m5AgEsc(a.name)+'</b></td><td><span class="ag-pill '+(lic?'lic':'unl')+'">'+(lic?'Licensed':'Unlicensed')+'</span></td><td>'+m5AgDate(a.joined)+'</td><td>'+(a.source==='Manual'?'Manual':'Form')+'</td><td>'+licCell+'</td><td>'+fsCell+'</td><td>'+acCell+'</td><td>'+last+'</td><td>'+(a.gcCards||0)+'</td></tr>';
+  }).join('');
+  return '<div class="ag-card" style="padding:0;overflow:hidden"><div style="padding:16px 20px 6px"><h3>Agent roster</h3><p class="sub">Every agent, all three tracks side by side. Click any column to sort. Showing '+A.length+'.</p></div><div class="ag-tablewrap"><table class="ag-table"><thead><tr>'+head+'</tr></thead><tbody>'+rows+'</tbody></table></div></div>';
+}
+function m5AgRender(){
+  var A=m5Ag.agents||[];
+  var total=A.length;
+  var loggedIn=A.filter(function(a){return a.loggedIn;}).length;
+  var licensed=A.filter(function(a){return a.licensed;}).length;
+  var unlic=total-licensed;
+  var active7=A.filter(function(a){var d=m5AgDays(a.lastLogin);return d!=null&&d<=7;}).length;
+  var li=A.filter(function(a){return a.loggedIn;});
+  var avgComp= li.length? Math.round(li.reduce(function(s,a){ var p= a.licensed? (m5AgNum(a.fsPct)||0) : (m5AgNum(a.gylPct)||0); return s+p; },0)/li.length):0;
+  var fFs=A.filter(function(a){return (m5AgNum(a.fsPct)||0)>=100;}).length;
+  var fAc=A.filter(function(a){return (m5AgNum(a.acadPct)||0)>=100;}).length;
+  var srcMan=A.filter(function(a){return a.source==='Manual';}).length;
+  var srcForm=total-srcMan;
+  var licDays=A.map(function(a){ return m5AgDiff(a.firstLogin, a.npnOn||a.appliedOn); }).filter(function(x){return x!=null&&x>=0;});
+  var fsDays=A.map(function(a){return m5AgNum(a.fsDays);}).filter(function(x){return x!=null&&x>=0;});
+  var acDays=A.map(function(a){return m5AgNum(a.acadDays);}).filter(function(x){return x!=null&&x>=0;});
+  var gcUsing=A.filter(function(a){return a.gcUsing;}).length;
+  var gcCards30=A.reduce(function(s,a){return s+(a.gcCards30||0);},0);
+  var h='<div class="ag-wrap">';
+  h+='<h1 class="page"><span data-ico="dash" style="vertical-align:-3px"></span> Agency Dashboard</h1><p class="sub">Your whole team\'s progress, live from your sheet · '+total+' agents on the roster.</p>';
+  h+='<div class="ag-filters">'+m5AgFB('all','All agents')+m5AgFB('lic','Licensed')+m5AgFB('unl','Unlicensed')+m5AgFB('active','Active (7d)')+'</div>';
+  h+='<div class="ag-stats">'
+    +m5AgStat('Total agents',total,'on the roster')
+    +m5AgStat('Logged in',loggedIn,total?Math.round(loggedIn/total*100)+'% of roster':'')
+    +m5AgStat('Licensed',licensed,'')
+    +m5AgStat('Unlicensed',unlic,'in the pipeline')
+    +m5AgStat('Active (7d)',active7,'logged in this week')
+    +m5AgStat('Avg completion',avgComp+'%','of logged-in agents')
+    +'</div>';
+  h+='<div class="ag-grid2">';
+  h+='<div class="ag-card"><h3>Onboarding funnel</h3><p class="sub">Where the roster sits — and where people fall off.</p>'
+    +m5AgFunnel([['Added to portal',total,'#16233f'],['Logged in',loggedIn,'#2f6df0'],['Got licensed',licensed,'#3f7be0'],['Fast Start done',fFs,'#5a93e6'],['Academy done',fAc,'#8fbaf0']],total)+'</div>';
+  h+='<div class="ag-card"><h3>Roster mix</h3><p class="sub">Licensed vs unlicensed, and how they arrived.</p>'
+    +m5AgMix('Licensed',licensed,'Unlicensed',unlic,'#2f6df0','#e67a3a')+'<div style="height:10px"></div>'
+    +m5AgMix('Self-registered',srcForm,'Manual add',srcMan,'#1f9d55','#c9a227')+'</div>';
+  h+='</div>';
+  h+='<div class="ag-grid3">';
+  h+=m5AgTimeCard('① Time to get licensed','First login → NPN entered.',licDays,['0-7','8-14','15-21','22-30','31-45','45+'],'#2f6df0');
+  h+=m5AgTimeCard('② Time through Fast Start','License → Fast Start done.',fsDays,['0-3','4-7','8-14','15-21','22-30','30+'],'#1f9d55',[3,7,14,21,30]);
+  h+=m5AgTimeCard('③ Time through Academy','First login → Academy complete.',acDays,['0-7','8-14','15-21','22-30','31-45','45+'],'#c9a227');
+  h+='</div>';
+  h+='<div class="ag-grid2">';
+  h+='<div class="ag-card"><h3>Goal Card adoption</h3><p class="sub">Who\'s planning &amp; logging their activity.</p><div style="display:flex;gap:32px;flex-wrap:wrap"><div><div class="ag-big">'+gcUsing+' <span style="font-size:15px;color:#8a93a9">/ '+total+'</span></div><div class="sub" style="margin-top:2px">using the Goal Card</div></div><div><div class="ag-big">'+gcCards30+'</div><div class="sub" style="margin-top:2px">cards logged (30d)</div></div></div></div>';
+  h+='<div class="ag-card"><h3>Top Engagers &amp; What\'s Popular</h3><p class="sub">Engagement ranking &amp; section popularity.</p><div class="ag-soon"><div class="t">Coming soon</div>These two need per-login and per-section counting, which we can switch on whenever you\'re ready — nothing else changes.</div></div>';
+  h+='</div>';
+  h+=m5AgTable();
+  h+='</div>';
+  return h;
+}
 </script>
 </body>
 </html>
