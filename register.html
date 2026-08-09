@@ -293,10 +293,25 @@
 
 <script>
   var BACKEND='https://script.google.com/macros/s/AKfycbzf1JRBpWwXO0IfRPbvFCsI8T7rptmc9dllbUlt6nVbpu0t9tnQ7dm3P-gQnpgZtdSk/exec';
-  // ---- referral capture (?ref=CODE) ----
+  // ---- referral capture (?ref=CODE) — show the sponsor's real name when we can resolve it ----
   var ref=new URLSearchParams(location.search).get('ref');
-  if(ref){ document.getElementById('refchip').style.display='flex';
-    document.getElementById('reftext').textContent='Referred by sponsor code: '+ref; }
+  if(ref){
+    document.getElementById('refchip').style.display='flex';
+    document.getElementById('reftext').textContent='Referred by sponsor code: '+ref;
+    // JSONP lookup (cross-origin read isn't allowed on the normal endpoint, so we use a script tag)
+    window.__sponsorCb=function(res){
+      try{
+        if(res && res.found){
+          var nm=((res.first||'')+' '+(res.last||'')).trim();
+          if(nm) document.getElementById('reftext').textContent='Referred by '+nm;
+        }
+      }catch(e){}
+    };
+    var s=document.createElement('script');
+    s.src=BACKEND+'?action=sponsor&code='+encodeURIComponent(ref)+'&callback=__sponsorCb';
+    s.onerror=function(){}; // leave the code showing if the lookup fails
+    document.head.appendChild(s);
+  }
 
   // ---- licensed toggle ----
   document.getElementById('licensed').addEventListener('change',function(){
