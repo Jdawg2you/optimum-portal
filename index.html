@@ -710,6 +710,7 @@ function go(view){
   const names={dashboard:'Dashboard',faststart:'Fast Start',academy:'Academy',sales:'Sales Tools',systools:'Systems/Tools',goalcard:'Goal Card',leads:'Leads',calc:'Commission Calculator',recruiting:'Recruiting',selfdev:'Self Development',resources:'Resources',health:'Health',virtual:'Virtual Calls/Events',inperson:'In-Person Events',support:'General Support',gethelp:'Get Help',kpi:'My KPIs',profile:'Profile',agency:'Agency Dashboard'};
   document.getElementById('crumb').textContent=names[view]||'';
   window.scrollTo(0,0); render(view);
+  try{ if(typeof m5TrackSection==='function') m5TrackSection(view); }catch(e){}
 }
 
 /* ---------- AUTH ---------- */
@@ -755,7 +756,7 @@ function startApp(){
   var sn=document.getElementById('m5-suname'); if(sn)sn.textContent=store.data.first||'Agent';
   syncChip(); buildNav(); go('dashboard');
   if(typeof m5EnsureMyCode==='function') m5EnsureMyCode();
-  if(typeof m5BackendLoad==='function') m5BackendLoad(function(){ try{ store.data.t_lastLogin=(new Date()).toISOString(); store.save(); syncChip();buildNav();render(currentView()); }catch(e){} });
+  if(typeof m5BackendLoad==='function') m5BackendLoad(function(){ try{ store.data.t_lastLogin=(new Date()).toISOString(); if(store.data.admin!==true){ store.data.logins=(store.data.logins||0)+1; } store.save(); syncChip();buildNav();render(currentView()); }catch(e){} });
 }
 function syncChip(){const c=document.getElementById('statuschip');if(store.data.status==='licensed'){c.textContent='Licensed Agent';c.className='statuschip';}else{c.textContent='Unlicensed Agent';c.className='statuschip unl';}}
 
@@ -2748,7 +2749,20 @@ function acadLessonView(a,b){var m=acadFindMod(a);if(!m)return acadHomeView();va
 .ag-pill.unl{background:#fdeee7;color:#b5561f}
 .ag-mini{display:inline-block;width:56px;height:7px;background:#eef2f8;border-radius:5px;overflow:hidden;vertical-align:middle;margin-right:6px}
 .ag-mini > span{display:block;height:100%;border-radius:5px}
-@media(max-width:900px){ .ag-grid2,.ag-grid3{grid-template-columns:1fr} }
+.ag-eng{display:flex;align-items:center;gap:11px;margin:11px 0}
+.ag-engn{width:22px;height:22px;border-radius:50%;background:#eef2f8;color:#55617d;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.ag-eng:first-child .ag-engn{background:#c9a227;color:#fff}
+.ag-engname{font-weight:700;font-size:13.5px;color:#16233f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ag-engmeta{font-size:11.5px;color:#8a93a9;margin:1px 0 4px}
+.ag-engbarwrap{background:#eef2f8;border-radius:5px;height:7px;overflow:hidden}
+.ag-engbarwrap>span{display:block;height:100%;background:linear-gradient(90deg,#c9a227,#e8b73a);border-radius:5px}
+.ag-engscore{font-weight:800;font-size:14px;color:#16233f;flex:0 0 auto}
+.ag-poprow{display:flex;align-items:center;gap:12px;margin:9px 0}
+.ag-poplab{width:150px;font-size:12.5px;color:#16233f;font-weight:600;text-align:right;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ag-popbar{flex:1;background:#eef2f8;border-radius:6px;height:16px;overflow:hidden}
+.ag-popbar>span{display:block;height:100%;background:#2f6df0;border-radius:6px}
+.ag-popval{width:44px;text-align:right;font-weight:800;font-size:13px;color:#16233f}
+@media(max-width:900px){ .ag-grid2,.ag-grid3{grid-template-columns:1fr} .ag-poplab{width:110px} }
 aside{background:linear-gradient(180deg,#0c1c3a 0%,#0a1730 100%)!important}
 
 /* ---- Sidebar OPTIMUM wordmark header ---- */
@@ -3786,7 +3800,18 @@ window.m5EvTick=function(){var a=document.getElementById('m5-cd-ignyte');if(a)wi
 if(!window.m5EvInt){window.m5EvInt=setInterval(function(){window.m5EvTick();},1000);}
 
 /* ===================== AGENCY DASHBOARD (admin only) ===================== */
-window.m5Ag={loaded:false,err:'',agents:[],filter:'all',sortKey:'name',sortDir:1};
+window.m5Ag={loaded:false,err:'',agents:[],popularity:{},filter:'all',sortKey:'name',sortDir:1};
+/* Lightweight engagement counter — bumps a per-section counter on nav. Guarded; never throws into nav. */
+window.m5TrackSection=function(view){
+  try{
+    if(typeof store==='undefined'||!store.data) return;
+    if(!view||view==='dashboard'||view==='agency') return;
+    if(store.data.admin===true) return;
+    if(!store.data.sectionOpens||typeof store.data.sectionOpens!=='object') store.data.sectionOpens={};
+    store.data.sectionOpens[view]=(store.data.sectionOpens[view]||0)+1;
+    if(typeof store.save==='function') store.save();
+  }catch(e){}
+};
 window.m5AgencyDash=function(){
   if(typeof store==='undefined'||store.data.admin!==true) return '<h1 class="page">Agency Dashboard</h1><p class="sub">This area is for admins only.</p>';
   if(!m5Ag.loaded){ m5AgFetch(); return '<h1 class="page"><span data-ico="dash" style="vertical-align:-3px"></span> Agency Dashboard</h1><p class="sub">Your team\'s live progress, straight from your sheet.</p><div class="ag-load">Loading team data…</div>'; }
@@ -3800,7 +3825,7 @@ window.m5AgFetch=function(){
     var phone=(store.data&&store.data.phone)||'';
     fetch(BACKEND_URL,{method:'POST',body:JSON.stringify({action:'roster',email:email,phone:phone})})
       .then(function(r){return r.json();})
-      .then(function(j){ m5Ag.loaded=true; if(j&&j.ok){ m5Ag.agents=j.agents||[]; m5Ag.err=''; } else { m5Ag.err=(j&&j.error)||'error'; } if(typeof currentView==='function'&&currentView()==='agency'&&typeof render==='function') render('agency'); })
+      .then(function(j){ m5Ag.loaded=true; if(j&&j.ok){ m5Ag.agents=j.agents||[]; m5Ag.popularity=j.popularity||{}; m5Ag.err=''; } else { m5Ag.err=(j&&j.error)||'error'; } if(typeof currentView==='function'&&currentView()==='agency'&&typeof render==='function') render('agency'); })
       .catch(function(){ m5Ag.loaded=true; m5Ag.err='network'; if(typeof currentView==='function'&&currentView()==='agency'&&typeof render==='function') render('agency'); });
   }catch(e){ m5Ag.loaded=true; m5Ag.err='network'; }
 };
@@ -3834,6 +3859,24 @@ function m5AgTimeCard(title,sub,vals,labels,color,edges){
   return '<div class="ag-card"><h3>'+title+'</h3><p class="sub">'+sub+'</p><div class="ag-big">'+avg+' <span style="font-size:14px;color:#8a93a9">days avg</span></div><div class="sub" style="margin:2px 0 0">'+(vals.length? vals.length+' with data':'no data yet')+'</div><div class="ag-bars">'+bars+'</div></div>';
 }
 function m5AgMiniBar(pct,color){ pct=(pct==null)?0:pct; return '<span class="ag-mini"><span style="width:'+Math.max(0,Math.min(100,pct))+'%;background:'+color+'"></span></span>'+pct+'%'; }
+function m5AgEngScore(a){ return (a.logins||0)*3 + (a.sectionsUsed||0) + (a.gcCards||0); }
+function m5AgTopEngagers(){
+  var A=(m5Ag.agents||[]).filter(function(a){return a.loggedIn;}).map(function(a){ return {a:a,s:m5AgEngScore(a)}; }).filter(function(x){return x.s>0;});
+  A.sort(function(x,y){return y.s-x.s;});
+  var top=A.slice(0,5); var max=top.length?top[0].s:1; var body;
+  if(!top.length){ body='<div class="ag-soon" style="padding:16px"><div class="t">No engagement yet</div>As agents log in and open sections, your most active people rank here.</div>'; }
+  else { body=top.map(function(x,i){ var a=x.a; return '<div class="ag-eng"><div class="ag-engn">'+(i+1)+'</div><div style="flex:1;min-width:0"><div class="ag-engname">'+m5AgEsc(a.name)+'</div><div class="ag-engmeta">'+(a.licensed?'Licensed':'Unlicensed')+' · '+(a.logins||0)+' logins · '+(a.sectionsUsed||0)+' sections · '+(a.gcCards||0)+' cards</div><div class="ag-engbarwrap"><span style="width:'+Math.round(x.s/max*100)+'%"></span></div></div><div class="ag-engscore">'+x.s+'</div></div>'; }).join(''); }
+  return '<div class="ag-card"><h3>Top engagers</h3><p class="sub">Ranked by logins, sections opened &amp; Goal Card activity.</p>'+body+'</div>';
+}
+function m5AgNavLabel(v){ try{ if(typeof NAV!=='undefined'){ for(var i=0;i<NAV.length;i++){ if(NAV[i].v===v) return NAV[i].t; } } }catch(e){} return v; }
+function m5AgPopular(){
+  var pop=m5Ag.popularity||{}; var arr=[]; for(var k in pop){ if(pop.hasOwnProperty(k)) arr.push([k,pop[k]]); }
+  arr.sort(function(a,b){return b[1]-a[1];}); arr=arr.slice(0,10);
+  var max=arr.length?arr[0][1]:1; var body;
+  if(!arr.length){ body='<div class="ag-soon" style="padding:16px"><div class="t">No section opens tracked yet</div>Once agents start moving around the portal, the sections they open most show up here.</div>'; }
+  else { body=arr.map(function(r){ return '<div class="ag-poprow"><div class="ag-poplab">'+m5AgEsc(m5AgNavLabel(r[0]))+'</div><div class="ag-popbar"><span style="width:'+Math.round(r[1]/max*100)+'%"></span></div><div class="ag-popval">'+r[1]+'</div></div>'; }).join(''); }
+  return '<div class="ag-card" style="margin-bottom:18px"><h3>What\'s popular</h3><p class="sub">Which portal sections agents open most — what\'s landing, and what to promote.</p>'+body+'</div>';
+}
 function m5AgSortVal(a,k){
   if(k==='statusS')return a.licensed?1:0;
   if(k==='licV')return a.licensed?101:(m5AgNum(a.gylPct)||0);
@@ -3903,9 +3946,10 @@ function m5AgRender(){
   h+=m5AgTimeCard('③ Time through Academy','First login → Academy complete.',acDays,['0-7','8-14','15-21','22-30','31-45','45+'],'#c9a227');
   h+='</div>';
   h+='<div class="ag-grid2">';
+  h+=m5AgTopEngagers();
   h+='<div class="ag-card"><h3>Goal Card adoption</h3><p class="sub">Who\'s planning &amp; logging their activity.</p><div style="display:flex;gap:32px;flex-wrap:wrap"><div><div class="ag-big">'+gcUsing+' <span style="font-size:15px;color:#8a93a9">/ '+total+'</span></div><div class="sub" style="margin-top:2px">using the Goal Card</div></div><div><div class="ag-big">'+gcCards30+'</div><div class="sub" style="margin-top:2px">cards logged (30d)</div></div></div></div>';
-  h+='<div class="ag-card"><h3>Top Engagers &amp; What\'s Popular</h3><p class="sub">Engagement ranking &amp; section popularity.</p><div class="ag-soon"><div class="t">Coming soon</div>These two need per-login and per-section counting, which we can switch on whenever you\'re ready — nothing else changes.</div></div>';
   h+='</div>';
+  h+=m5AgPopular();
   h+=m5AgTable();
   h+='</div>';
   return h;
