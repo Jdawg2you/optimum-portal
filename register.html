@@ -109,11 +109,23 @@
   .foot{text-align:center;color:var(--muted);font-size:11px;margin-top:22px;line-height:1.6}
 
   /* success */
-  .done{display:none;text-align:center;padding:36px 20px}
+  .done{display:none;text-align:center;padding:34px 20px 40px}
   .done .big{font-size:46px}
   .done h2{color:var(--navy);font-size:22px;margin:10px 0 6px}
   .done p{color:var(--ink2);font-size:14px;margin:0 auto;max-width:400px;line-height:1.55}
   .done .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-top:18px;text-align:left;font-size:12.5px;color:var(--ink2)}
+  .done .okcheck{width:100px;height:100px;margin:0 auto 2px;display:block}
+  .done .headline{font-size:32px;line-height:1.08;font-weight:800;color:var(--navy);margin:10px 0 8px;letter-spacing:-.01em}
+  .done .welcome{font-size:19px;font-weight:800;color:var(--navy);margin:0 0 10px}
+  .done .lede{font-size:15px;color:var(--ink2);line-height:1.6;margin:0 auto;max-width:340px}
+  .done .lede b{color:var(--navy)}
+  .done .focus{margin:22px auto 0;max-width:360px;text-align:left;background:#fbfaf4;border:1px solid #ece2bf;border-left:5px solid var(--gold);border-radius:14px;padding:16px 18px}
+  .done .focus .eyebrow{font-size:11px;font-weight:800;color:var(--gold-d);text-transform:uppercase;letter-spacing:.07em;margin:0 0 7px}
+  .done .focus p{margin:0;font-size:13.5px;color:var(--ink);line-height:1.6;max-width:none}
+  .done .focus p b{color:var(--navy)}
+  .done .cta{display:block;width:100%;max-width:360px;margin:20px auto 0;background:var(--gold);color:var(--navy);text-decoration:none;text-align:center;border-radius:12px;padding:15px 18px;font-weight:800;font-size:15.5px;box-shadow:0 8px 20px rgba(201,162,39,.28)}
+  .done .tip{font-size:12px;color:var(--muted);margin:15px auto 0;max-width:330px;line-height:1.55}
+  .done .tip b{color:var(--ink2)}
   .done .card b{color:var(--navy)}
 </style>
 </head>
@@ -259,11 +271,23 @@
 
   <!-- Success -->
   <div class="done" id="done">
-    <div class="big">✅</div>
-    <h2>You're registered!</h2>
-    <p>Welcome to the FFL Optimum team. <b>This portal is your home base from now on.</b> Bookmark it — next time you just log in with your name, email, and phone. No password to remember.</p>
-    <a class="submit" href="https://portal.ffloptimum.com/" style="display:inline-block;text-decoration:none;max-width:320px;margin:22px auto 0">Go to your portal →</a>
-    <p style="font-size:12.5px;color:var(--muted);margin-top:16px">Tip: tap your browser's menu and choose "Add to bookmarks" or "Add to Home Screen" so it's one tap next time.</p>
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+      <linearGradient id="og" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4cf72"/><stop offset="1" stop-color="#bf951c"/></linearGradient>
+      <radialGradient id="ogring" cx="50%" cy="50%" r="50%"><stop offset="62%" stop-color="rgba(201,162,39,0)"/><stop offset="80%" stop-color="rgba(201,162,39,.22)"/><stop offset="100%" stop-color="rgba(201,162,39,0)"/></radialGradient>
+      <symbol id="okcheck" viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="58" fill="url(#ogring)"/>
+        <circle cx="60" cy="60" r="41" fill="url(#og)"/>
+        <circle cx="60" cy="60" r="41" fill="none" stroke="#16233f" stroke-opacity=".14" stroke-width="1.5"/>
+        <path d="M43 61 L55 73 L79 47" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="97" cy="34" r="2.6" fill="#c9a227" opacity=".7"/><circle cx="26" cy="40" r="1.9" fill="#c9a227" opacity=".55"/><circle cx="30" cy="86" r="2.1" fill="#c9a227" opacity=".5"/>
+      </symbol></defs></svg>
+    <svg class="okcheck"><use href="#okcheck"/></svg>
+    <div class="headline">You're registered!</div>
+    <div class="welcome">Welcome to the FFL Optimum team.</div>
+    <p class="lede"><b>This portal is your home base from now on.</b> Bookmark it — next time you just log in with your name, email, and phone. No password to remember.</p>
+    <div class="focus" id="doneFocus"></div>
+    <a class="cta" id="doneCta" href="https://portal.ffloptimum.com/">Log in to the portal →</a>
+    <p class="tip"><b>Bookmark tip:</b> tap your browser's menu and choose "Add to Bookmarks" or "Add to Home Screen" so it's one tap next time.</p>
   </div>
 </div>
 
@@ -367,6 +391,16 @@
       }catch(e){}
       // give the request a moment to leave the browser, then show success
       setTimeout(function(){
+        var isLic = g('licensed')==='yes';
+        var focus=document.getElementById('doneFocus');
+        var cta=document.getElementById('doneCta');
+        if(isLic){
+          focus.innerHTML='<div class="eyebrow">Your first move</div><p>Jump straight into your <b>New Agent Fast Start</b> — your step-by-step launch plan. Log in below to begin, and be sure to <b>bookmark the FFL Optimum Agent Portal</b>. This is your home base for everything: onboarding now, and running your whole business going forward.</p>';
+          cta.textContent='Log in & start Fast Start →';
+        } else {
+          focus.innerHTML='<div class="eyebrow">Your next 2 weeks</div><p>Focus on <b>getting your license</b>. Log in below to start the process — and be sure to <b>bookmark the FFL Optimum Agent Portal</b>. This is your home base for everything: your onboarding now, and running your whole business going forward.</p>';
+          cta.textContent='Log in to the portal →';
+        }
         document.getElementById('form').style.display='none';
         document.getElementById('done').style.display='block';
         window.scrollTo({top:0,behavior:'smooth'});
