@@ -3894,6 +3894,38 @@ window.m5AgencyDash=function(){
   if(m5Ag.err) return '<h1 class="page">Agency Dashboard</h1><p class="sub">Could not load the roster.</p><div class="ag-load">'+(m5Ag.err==='forbidden'?'This account is not flagged as an admin (column F on Manual Adds).':'Network issue — reopen this page in a moment.')+'</div>';
   return m5AgRender();
 };
+// Collapse a person split across two rows by an email/phone change: same full name,
+// where one row carries progress (loggedIn) and the other doesn't. Keeps the current-email
+// (intake) row and overlays the progress from the stale-email row.
+window.m5AgDedupe=function(agents){
+  agents=agents||[];
+  var groups={};
+  for(var i=0;i<agents.length;i++){
+    var nk=String(agents[i].name||'').trim().toLowerCase().replace(/\s+/g,' ');
+    if(!nk||nk.indexOf(' ')<0) continue;
+    (groups[nk]=groups[nk]||[]).push(i);
+  }
+  var drop={};
+  for(var nk in groups){
+    var g=groups[nk]; if(g.length!==2) continue;
+    var a=agents[g[0]], b=agents[g[1]];
+    if(!!a.loggedIn===!!b.loggedIn) continue;   // only the "one has progress, one doesn't" case
+    var base=a.loggedIn?b:a, prog=a.loggedIn?a:b, dropIdx=a.loggedIn?g[0]:g[1];
+    base.loggedIn=true;
+    base.licensed=base.licensed||prog.licensed;
+    base.firstLogin=prog.firstLogin||base.firstLogin||'';
+    base.lastLogin=prog.lastLogin||base.lastLogin||'';
+    ['gylPct','fsPct','acadPct','daysToLic'].forEach(function(k){ if(base[k]===''||base[k]==null) base[k]=prog[k]; });
+    base.appliedOn=base.appliedOn||prog.appliedOn||'';
+    base.npnOn=base.npnOn||prog.npnOn||'';
+    base.gcUsing=base.gcUsing||prog.gcUsing;
+    base.gcCards=Math.max(base.gcCards||0,prog.gcCards||0);
+    base.gcCards30=Math.max(base.gcCards30||0,prog.gcCards30||0);
+    drop[dropIdx]=true;
+  }
+  var out=[]; for(var i=0;i<agents.length;i++){ if(!drop[i]) out.push(agents[i]); }
+  return out;
+};
 window.m5AgFetch=function(){
   try{
     if(typeof BACKEND_URL==='undefined'||!BACKEND_URL){ m5Ag.loaded=true; m5Ag.err='network'; return; }
@@ -3901,7 +3933,7 @@ window.m5AgFetch=function(){
     var phone=(store.data&&store.data.phone)||'';
     fetch(BACKEND_URL,{method:'POST',body:JSON.stringify({action:'roster',email:email,phone:phone})})
       .then(function(r){return r.json();})
-      .then(function(j){ m5Ag.loaded=true; if(j&&j.ok){ m5Ag.agents=j.agents||[]; m5Ag.popularity=j.popularity||{}; m5Ag.err=''; } else { m5Ag.err=(j&&j.error)||'error'; } if(typeof currentView==='function'&&currentView()==='agency'&&typeof render==='function') render('agency'); })
+      .then(function(j){ m5Ag.loaded=true; if(j&&j.ok){ m5Ag.agents=m5AgDedupe(j.agents||[]); m5Ag.popularity=j.popularity||{}; m5Ag.err=''; } else { m5Ag.err=(j&&j.error)||'error'; } if(typeof currentView==='function'&&currentView()==='agency'&&typeof render==='function') render('agency'); })
       .catch(function(){ m5Ag.loaded=true; m5Ag.err='network'; if(typeof currentView==='function'&&currentView()==='agency'&&typeof render==='function') render('agency'); });
   }catch(e){ m5Ag.loaded=true; m5Ag.err='network'; }
 };
