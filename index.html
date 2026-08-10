@@ -3755,53 +3755,169 @@ function m5LegacyPanel(){
   return listPanel('🛡️ Legacy Safeguard',blurb,rows);
 }
 
-/* ===== Goal Card + Activity Dashboard ===== */
+/* ===== Goal Card + Activity Tracker ===== */
 var M5GC_BLOCKS=["8–10 AM","10–12 PM","12–2 PM","2–4 PM","4–6 PM","6–8 PM","8–10 PM"];
 var M5GC_W={c:1,p:3,a:2,s:5};
 var M5GC_DEFGOAL=40;
 var M5GC_DOW=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-var m5gcDate=null;
+var M5GC_MON=["January","February","March","April","May","June","July","August","September","October","November","December"];
+var m5gcDate=null, m5gcView='day';
 function m5gcIso(d){return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2);}
 function m5gcAdd(d,n){var x=new Date(d);x.setDate(x.getDate()+n);return x;}
-function m5gcSOW(d){var x=new Date(d);x.setHours(0,0,0,0);x.setDate(x.getDate()-x.getDay());return x;}
-function m5gcOrd(n){var s=["th","st","nd","rd"],v=n%100;return n+(s[(v-20)%10]||s[v]||s[0]);}
+function m5gcParseD(s){var d=new Date(s+'T00:00:00');return isNaN(d.getTime())?new Date():d;}
+function m5gcMoney(n){n=Math.round(n||0);return '$'+n.toLocaleString('en-US');}
+function m5gcNum(n){return (Math.round((n||0)*100)/100).toLocaleString('en-US');}
+function m5gcRatio(a,b){return b>0?a/b:0;}
 function m5gcStore(){if(!store.data.goalcards||typeof store.data.goalcards!=='object')store.data.goalcards={};return store.data.goalcards;}
-function m5gcBlank(){return M5GC_BLOCKS.map(function(){return [0,0,0,0];});}
+function m5gcBlank(){return M5GC_BLOCKS.map(function(){return [0,0,0,0,0];});}
 function m5gcBlankPlan(){return M5GC_BLOCKS.map(function(){return false;});}
-function m5gcStats(rec){var t={c:0,p:0,a:0,s:0,pts:0,planned:0,worked:0,pw:0};if(!rec)return t;(rec.blocks||[]).forEach(function(b,i){if(!b)return;var has=(b[0]+b[1]+b[2]+b[3])>0;var pl=rec.planned&&rec.planned[i];t.c+=b[0];t.p+=b[1];t.a+=b[2];t.s+=b[3];if(has)t.worked++;if(pl)t.planned++;if(pl&&has)t.pw++;});t.pts=t.c*M5GC_W.c+t.p*M5GC_W.p+t.a*M5GC_W.a+t.s*M5GC_W.s;return t;}
-function m5GoalCard(){var today=new Date();today.setHours(0,0,0,0);m5gcDate=m5gcIso(today);setTimeout(m5gcInit,0);return '<h1 class="page">🎯 Goal Card</h1><p class="sub">Plan your blocks, log your dials, and watch your activity trends build day over day.</p><div id="m5gc-app"></div>';}
-function m5gcInit(){var host=document.getElementById('m5gc-app');if(!host)return;m5gcStore();host.innerHTML=m5gcShell();m5gcBuildBody();m5gcRender();var de=document.getElementById('m5gc-date');if(de){de.value=m5gcDate;de.addEventListener('change',function(){m5gcDate=this.value;var rec=m5gcStore()[m5gcDate];var g=document.getElementById('m5gc-goal');if(g)g.value=rec?rec.goal:M5GC_DEFGOAL;m5gcBuildBody();m5gcRender();});}var ge=document.getElementById('m5gc-goal');if(ge)ge.addEventListener('input',m5gcRender);}
-function m5gcShell(){var st=m5gcStore();var rec=st[m5gcDate];var goal=(rec&&rec.goal)||M5GC_DEFGOAL;return '<div id="m5gc-printarea" class="m5gc-card">'+
+function m5gcStats(rec){var t={c:0,p:0,a:0,s:0,dials:0,pts:0,planned:0,worked:0,pw:0};if(!rec)return t;(rec.blocks||[]).forEach(function(b,i){if(!b)return;var dl=b[4]||0;var has=((b[0]||0)+(b[1]||0)+(b[2]||0)+(b[3]||0)+dl)>0;var pl=rec.planned&&rec.planned[i];t.c+=b[0]||0;t.p+=b[1]||0;t.a+=b[2]||0;t.s+=b[3]||0;t.dials+=dl;if(has)t.worked++;if(pl)t.planned++;if(pl&&has)t.pw++;});t.pts=t.c*M5GC_W.c+t.p*M5GC_W.p+t.a*M5GC_W.a+t.s*M5GC_W.s;return t;}
+function m5gcHoursFor(rec,st){st=st||m5gcStats(rec);if(rec&&rec.hours!=null&&rec.hours!=='')return +rec.hours||0;return st.worked*2;}
+
+function m5gcStyle(){return '<style>'+
+'#m5gc-app .m5gcx-seg{display:inline-flex;background:#fff;border:1px solid var(--gcl);border-radius:12px;padding:4px;gap:4px;box-shadow:0 4px 12px rgba(20,35,63,.04)}'+
+'#m5gc-app .m5gcx-seg button{border:0;background:transparent;padding:9px 20px;border-radius:9px;font-size:14px;font-weight:800;color:var(--gcs);cursor:pointer;font-family:inherit}'+
+'#m5gc-app .m5gcx-seg button.on{background:var(--gcn);color:#fff}'+
+'#m5gc-app .m5gcx-rangelab{font-size:12.5px;color:var(--gcs);margin:10px 2px 0}#m5gc-app .m5gcx-rangelab b{color:var(--gcn)}'+
+'#m5gc-app .m5gcx-scroll{overflow-x:auto}'+
+'#m5gc-app .m5gcx-stp{display:inline-flex;align-items:center;gap:3px}'+
+'#m5gc-app .m5gcx-mn{width:22px;height:30px;border:1px solid var(--gcl);background:#f6f8fc;border-radius:7px;font-size:16px;font-weight:800;color:var(--gcn);cursor:pointer;line-height:1;padding:0;font-family:inherit}'+
+'#m5gc-app .m5gcx-mn:hover{border-color:var(--gcg);background:#fdf8ea}'+
+'#m5gc-app .m5gcx-stp input[type=number]{width:44px;-webkit-appearance:none;-moz-appearance:textfield}'+
+'#m5gc-app .m5gcx-sub2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}'+
+'#m5gc-app .m5gcx-money{display:flex;align-items:center;border:1px solid var(--gcl);border-radius:9px;background:#fff;padding:2px 10px}'+
+'#m5gc-app .m5gcx-money span{color:var(--gcs);font-size:16px;font-weight:800}'+
+'#m5gc-app .m5gcx-money input{border:0;outline:0;font-size:16px;font-weight:800;color:var(--gci);width:100%;padding:8px 6px;background:transparent;font-family:inherit}'+
+'#m5gc-app .m5gcx-sub{font-size:11px;color:var(--gcs);margin-top:5px;font-weight:600;text-transform:none;letter-spacing:0}#m5gc-app .m5gcx-sub a{color:#a9861d;font-weight:800}'+
+'#m5gc-app .m5gcx-sec{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--gcs);font-weight:800;margin:20px 2px 9px}'+
+'#m5gc-app .m5gcx-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:11px}'+
+'#m5gc-app .m5gcx-stat{border:1px solid var(--gcl);border-radius:13px;padding:13px 15px;background:#fff}'+
+'#m5gc-app .m5gcx-stat .k{font-size:12px;color:var(--gcs);font-weight:700}'+
+'#m5gc-app .m5gcx-stat .v{font-size:25px;font-weight:800;letter-spacing:-.5px;margin-top:4px;color:var(--gcn)}'+
+'#m5gc-app .m5gcx-stat .sub{font-size:11px;color:var(--gcs);margin-top:3px}'+
+'#m5gc-app .m5gcx-stat.hl{background:linear-gradient(135deg,#16233f,#1f2f4f);border-color:#16233f}#m5gc-app .m5gcx-stat.hl .k{color:rgba(255,255,255,.7)}#m5gc-app .m5gcx-stat.hl .v{color:#fff}'+
+'#m5gc-app .m5gcx-grid.worth .v{color:var(--gcgood)}'+
+'#m5gc-app .m5gcx-frow{display:flex;align-items:center;gap:12px;margin:8px 0}'+
+'#m5gc-app .m5gcx-frow .fl{width:120px;font-size:13px;font-weight:700;color:var(--gcn);flex:0 0 auto}'+
+'#m5gc-app .m5gcx-frow .fbar{flex:1;height:24px;background:#eef2f8;border-radius:8px;overflow:hidden}'+
+'#m5gc-app .m5gcx-frow .ff{height:100%;border-radius:8px;background:linear-gradient(90deg,#2c4a86,#4f78c8);display:flex;align-items:center;padding-left:10px;color:#fff;font-size:12px;font-weight:800;min-width:32px}'+
+'#m5gc-app .m5gcx-frow .fn{width:88px;text-align:right;font-size:12px;color:var(--gcs);flex:0 0 auto}#m5gc-app .m5gcx-frow .fn b{color:var(--gcn);font-size:14px}'+
+'#m5gc-app .m5gcx-note{font-size:12px;color:var(--gcs);margin-top:15px;line-height:1.5;background:#f4f7fc;border-radius:10px;padding:11px 14px;border:1px solid var(--gcl)}#m5gc-app .m5gcx-note b{color:var(--gcn)}'+
+'#m5gc-app .m5gcx-tot{display:grid;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));border:1px solid var(--gcl);border-radius:13px;overflow:hidden}'+
+'#m5gc-app .m5gcx-tc{padding:11px 8px;text-align:center;border-right:1px solid var(--gcl);border-bottom:1px solid var(--gcl);background:#fff}'+
+'#m5gc-app .m5gcx-tc .tk{font-size:9.5px;text-transform:uppercase;letter-spacing:.04em;color:var(--gcs);font-weight:800}'+
+'#m5gc-app .m5gcx-tc .tv{font-size:21px;font-weight:800;color:var(--gcn);margin-top:2px}'+
+'#m5gc-app .m5gcx-tc.acc{background:#0f1c33}#m5gc-app .m5gcx-tc.acc .tk{color:rgba(255,255,255,.6)}#m5gc-app .m5gcx-tc.acc .tv{color:#fff}'+
+'#m5gc-app .m5gcx-tc.gold{background:#fbf7e9}#m5gc-app .m5gcx-tc.gold .tv{color:#a9861d}'+
+'#m5gc-app .m5gcx-pdchart{display:flex;align-items:flex-end;gap:8px;height:160px;padding:16px 4px 0;border-bottom:1px solid var(--gcl)}'+
+'#m5gc-app .m5gcx-pdcol{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;min-width:0}'+
+'#m5gc-app .m5gcx-pdbar{width:74%;max-width:44px;border-radius:6px 6px 0 0;background:linear-gradient(180deg,#2c4a86,#16233f);position:relative;display:flex;justify-content:center}'+
+'#m5gc-app .m5gcx-pdbar.off{background:#e7ebf3}'+
+'#m5gc-app .m5gcx-pdval{position:absolute;top:-17px;font-size:11px;font-weight:800;color:var(--gcn);white-space:nowrap}'+
+'#m5gc-app .m5gcx-pdlabs{display:flex;gap:8px;margin-top:6px}'+
+'#m5gc-app .m5gcx-pdlab{flex:1;text-align:center;font-size:10.5px;color:var(--gcs);min-width:0}#m5gc-app .m5gcx-pdlab b{display:block;color:var(--gcn);font-size:11.5px}#m5gc-app .m5gcx-pdlab .hh{display:block;font-size:10px;color:var(--gcs);margin-top:1px}#m5gc-app .m5gcx-pdlab.off b{color:#b7bfce}'+
+'@media(max-width:720px){#m5gc-app .m5gcx-sub2{grid-template-columns:1fr}#m5gc-app .m5gcx-stp input[type=number]{width:38px}#m5gc-app .m5gcx-mn{width:20px}}'+
+'</style>';}
+
+function m5GoalCard(){var today=new Date();today.setHours(0,0,0,0);m5gcDate=m5gcIso(today);m5gcView='day';setTimeout(m5gcInit,0);return '<h1 class="page">🎯 Goal Card</h1><p class="sub">Plan your blocks, log your dials, and watch your activity build day over day.</p><div id="m5gc-app"></div>';}
+function m5gcInit(){var host=document.getElementById('m5gc-app');if(!host)return;m5gcStore();host.innerHTML=m5gcStyle()+'<div class="m5gcx-seg" id="m5gc-seg"><button data-v="day" class="on">Daily</button><button data-v="week">Weekly</button><button data-v="month">Monthly</button></div><div class="m5gcx-rangelab" id="m5gc-rangelab"></div><div id="m5gc-view"></div>';var seg=document.getElementById('m5gc-seg');seg.addEventListener('click',function(e){var b=e.target.closest('button');if(!b)return;[].forEach.call(seg.querySelectorAll('button'),function(x){x.classList.remove('on');});b.classList.add('on');m5gcView=b.dataset.v;m5gcRenderView();});m5gcRenderView();}
+
+function m5gcRenderView(){var v=document.getElementById('m5gc-view');if(!v)return;if(m5gcView==='day'){v.innerHTML=m5gcDailyShell();m5gcBuildBody();m5gcWireDaily();m5gcRenderDaily();}else{m5gcRenderRollup();}m5gcRangeLabel();}
+
+function m5gcDailyShell(){var st=m5gcStore();var rec=st[m5gcDate];var goal=(rec&&rec.goal)||M5GC_DEFGOAL;var ip=(rec&&rec.ip)||0;var hrs=(rec&&rec.hours!=null&&rec.hours!=='')?rec.hours:'';return '<div id="m5gc-printarea" class="m5gc-card">'+
  '<div class="m5gc-stitle">THE GOAL CARD</div><div class="m5gc-stars">★ ★ ★ ★ ★</div>'+
- '<div class="m5gc-ssub">Plan your blocks, then enter your activity. Points and totals calculate automatically.</div>'+
- '<div class="m5gc-row2"><label class="m5gc-fld">Daily Point Goal<input id="m5gc-goal" type="number" min="0" value="'+goal+'"></label><label class="m5gc-fld">Date<input id="m5gc-date" type="date"></label></div>'+
- '<div class="m5gc-track">'+
-   '<div class="m5gc-stat"><div class="l">Contacts</div><div class="v" id="m5gc-t-c">0</div></div>'+
-   '<div class="m5gc-stat"><div class="l">Presentations</div><div class="v" id="m5gc-t-p">0</div></div>'+
-   '<div class="m5gc-stat"><div class="l">Appointments</div><div class="v" id="m5gc-t-a">0</div></div>'+
-   '<div class="m5gc-stat"><div class="l">Sales</div><div class="v" id="m5gc-t-s">0</div></div>'+
-   '<div class="m5gc-stat"><div class="l">Total Points</div><div class="v" id="m5gc-t-pts">0</div></div>'+
-   '<div class="m5gc-stat hl"><div class="l">Goal %</div><div class="v" id="m5gc-t-pct">0%</div></div></div>'+
- '<div class="m5gc-planbar"><div class="pintro">☑ <b>Start of day:</b> check the blocks you’re committing to work. <b>End of day:</b> see how you did against your plan.</div>'+
-   '<div class="plangrid"><div class="plan"><div class="l">Blocks Planned</div><div class="v" id="m5gc-p-plan">0</div></div>'+
-   '<div class="plan"><div class="l">Blocks Worked</div><div class="v" id="m5gc-p-work">0</div></div>'+
-   '<div class="plan acc"><div class="l">On-Plan</div><div class="v" id="m5gc-p-adh">—</div></div>'+
-   '<div class="plan"><div class="l">Pts / Planned Block</div><div class="v" id="m5gc-p-eff">—</div></div></div></div>'+
+ '<div class="m5gc-ssub">Plan your blocks, then log your activity. Points and totals calculate automatically.</div>'+
+ '<div class="m5gc-row2"><label class="m5gc-fld">Daily Point Goal<input id="m5gc-goal" type="number" min="0" value="'+goal+'"></label><label class="m5gc-fld">Date<input id="m5gc-date" type="date" value="'+m5gcDate+'"></label></div>'+
  '<div class="m5gc-prog"><div style="display:flex;justify-content:space-between;align-items:center"><span class="pt">Daily Goal Progress</span><span class="pt" id="m5gc-prog-txt">0 of '+goal+' points</span></div><div class="m5gc-barp"><i id="m5gc-prog-bar" style="width:0%"></i></div></div>'+
- '<table class="m5gc-act"><thead><tr><th>TIME</th><th>PLAN<small>working?</small></th><th>CONTACTS<small>1 pt</small></th><th>PRESENTATIONS<small>3 pts</small></th><th>APPOINTMENTS<small>2 pts</small></th><th>SALES<small>5 pts</small></th><th>ROW POINTS<small>auto</small></th></tr></thead><tbody id="m5gc-body"></tbody><tfoot><tr class="tot"><td>Daily Totals</td><td id="m5gc-f-plan">0</td><td id="m5gc-f-c">0</td><td id="m5gc-f-p">0</td><td id="m5gc-f-a">0</td><td id="m5gc-f-s">0</td><td id="m5gc-f-pts">0</td></tr></tfoot></table>'+
+ '<div class="m5gcx-scroll"><table class="m5gc-act"><thead><tr><th>TIME</th><th>PLAN<small>working?</small></th><th>DIALS<small>activity</small></th><th>CONTACTS<small>1 pt</small></th><th>PRESENTATIONS<small>3 pts</small></th><th>APPOINTMENTS<small>2 pts</small></th><th>SALES<small>5 pts</small></th><th>ROW POINTS<small>auto</small></th></tr></thead><tbody id="m5gc-body"></tbody><tfoot><tr class="tot"><td>Daily Totals</td><td id="m5gc-f-plan">0</td><td id="m5gc-f-d">0</td><td id="m5gc-f-c">0</td><td id="m5gc-f-p">0</td><td id="m5gc-f-a">0</td><td id="m5gc-f-s">0</td><td id="m5gc-f-pts">0</td></tr></tfoot></table></div>'+
+ '<div class="m5gcx-sub2">'+
+   '<label class="m5gc-fld">Premium / IP written<span class="m5gcx-money"><span>$</span><input id="m5gc-ip" inputmode="numeric" value="'+(ip?m5gcNum(ip):'')+'" placeholder="0"></span></label>'+
+   '<div class="m5gc-fld">Hours worked<span class="m5gcx-money"><input id="m5gc-hours" inputmode="decimal" value="'+hrs+'" placeholder="0"></span><span class="m5gcx-sub" id="m5gc-hours-sub"></span></div>'+
+ '</div>'+
  '<div class="m5gc-btns m5gc-noprint"><button class="m5gc-btn s" onclick="m5gcSave()">Save Today’s Card</button><button class="m5gc-btn p" onclick="window.print()">Print Goal Card</button><button class="m5gc-btn g" onclick="m5gcReset()">Reset</button></div>'+
  '</div>'+
- '<div class="m5gc-card m5gc-noprint"><div class="m5gc-dashh">📊 My Activity Dashboard</div><div class="m5gc-ssub" style="text-align:left;margin:2px 0 4px">How you’re trending — updates every time you save a card.</div><div id="m5gc-empty"></div><div class="m5gc-cmp3" id="m5gc-cmp3"></div><div class="m5gc-avgstrip" id="m5gc-avg"></div><div class="m5gc-hlgrid" id="m5gc-hl"></div><div class="m5gc-chart"><h4>Last 7 days — points per day</h4><div class="m5gc-bars" id="m5gc-bars"></div><div class="m5gc-legend">Green bars = you hit your daily goal that day.</div></div></div>';}
-function m5gcBuildBody(){var body=document.getElementById('m5gc-body');if(!body)return;var rec=m5gcStore()[m5gcDate];var blocks=rec&&rec.blocks?rec.blocks:m5gcBlank();var planned=rec&&rec.planned?rec.planned:m5gcBlankPlan();var h='';M5GC_BLOCKS.forEach(function(tl,i){h+='<tr><td class="time">'+tl+'</td><td><input type="checkbox" data-plan="'+i+'"'+(planned[i]?' checked':'')+'></td>'+['c','p','a','s'].map(function(k,ci){var v=(blocks[i]&&blocks[i][ci])||0;return '<td><input type="number" min="0" inputmode="numeric" data-b="'+i+'" data-c="'+ci+'" placeholder="0" value="'+(v?v:'')+'" onfocus="this.select()"></td>';}).join('')+'<td class="rp" id="m5gc-rp-'+i+'">0</td></tr>';});body.innerHTML=h;body.querySelectorAll('input[type=number]').forEach(function(inp){inp.addEventListener('input',m5gcRender);});body.querySelectorAll('input[type=checkbox]').forEach(function(inp){inp.addEventListener('change',m5gcRender);});}
+ '<div class="m5gc-card" id="m5gc-ana"></div>';}
+
+function m5gcBuildBody(){var body=document.getElementById('m5gc-body');if(!body)return;var rec=m5gcStore()[m5gcDate];var blocks=rec&&rec.blocks?rec.blocks:m5gcBlank();var planned=rec&&rec.planned?rec.planned:m5gcBlankPlan();
+ function cell(i,ci){var v=(blocks[i]&&blocks[i][ci])||0;return '<td><span class="m5gcx-stp"><button type="button" class="m5gcx-mn" data-b="'+i+'" data-c="'+ci+'" data-d="-1">−</button><input type="number" min="0" inputmode="numeric" data-b="'+i+'" data-c="'+ci+'" placeholder="0" value="'+(v?v:'')+'" onfocus="this.select()"><button type="button" class="m5gcx-mn" data-b="'+i+'" data-c="'+ci+'" data-d="1">+</button></span></td>';}
+ var h='';M5GC_BLOCKS.forEach(function(tl,i){h+='<tr><td class="time">'+tl+'</td><td><input type="checkbox" data-plan="'+i+'"'+(planned[i]?' checked':'')+'></td>'+cell(i,4)+cell(i,0)+cell(i,1)+cell(i,2)+cell(i,3)+'<td class="rp" id="m5gc-rp-'+i+'">0</td></tr>';});
+ body.innerHTML=h;}
+
+function m5gcWireDaily(){var body=document.getElementById('m5gc-body');
+ if(body){body.addEventListener('input',function(e){if(e.target.tagName==='INPUT'&&e.target.type==='number')m5gcRenderDaily();});
+  body.addEventListener('change',function(e){if(e.target.type==='checkbox')m5gcRenderDaily();});
+  body.addEventListener('click',function(e){var b=e.target.closest('.m5gcx-mn');if(!b)return;var inp=body.querySelector('input[type=number][data-b="'+b.dataset.b+'"][data-c="'+b.dataset.c+'"]');if(!inp)return;var nv=Math.max(0,(parseInt(inp.value||'0',10)||0)+(+b.dataset.d));inp.value=nv?nv:'';m5gcRenderDaily();});}
+ var ge=document.getElementById('m5gc-goal');if(ge)ge.addEventListener('input',m5gcRenderDaily);
+ var ipEl=document.getElementById('m5gc-ip');if(ipEl){ipEl.addEventListener('input',m5gcRenderDaily);ipEl.addEventListener('focus',function(){this.value=(''+this.value).replace(/[^0-9.]/g,'');});ipEl.addEventListener('blur',function(){var n=parseFloat((''+this.value).replace(/[^0-9.]/g,''))||0;this.value=n?m5gcNum(n):'';});}
+ var hr=document.getElementById('m5gc-hours');if(hr)hr.addEventListener('input',m5gcRenderDaily);
+ var de=document.getElementById('m5gc-date');if(de)de.addEventListener('change',function(){m5gcDate=this.value;m5gcRenderView();});}
+
 function m5gcReadGrid(){var blocks=m5gcBlank(),planned=m5gcBlankPlan();document.querySelectorAll('#m5gc-body input[type=number]').forEach(function(inp){blocks[+inp.dataset.b][+inp.dataset.c]=Math.max(0,parseInt(inp.value||'0',10)||0);});document.querySelectorAll('#m5gc-body input[type=checkbox]').forEach(function(inp){planned[+inp.dataset.plan]=inp.checked;});return {blocks:blocks,planned:planned};}
-function m5gcRender(){var g=m5gcReadGrid();var ge=document.getElementById('m5gc-goal');var goal=Math.max(1,parseInt((ge&&ge.value)||M5GC_DEFGOAL,10));g.blocks.forEach(function(b,i){var rp=b[0]*M5GC_W.c+b[1]*M5GC_W.p+b[2]*M5GC_W.a+b[3]*M5GC_W.s;var cell=document.getElementById('m5gc-rp-'+i);if(cell){cell.textContent=rp;var tr=cell.parentNode;if(tr)tr.classList.toggle('planned',!!g.planned[i]);}});m5gcStore()[m5gcDate]={goal:goal,blocks:g.blocks,planned:g.planned};var st=m5gcStats(m5gcStore()[m5gcDate]);var set=function(id,v){var e=document.getElementById(id);if(e)e.textContent=v;};set('m5gc-t-c',st.c);set('m5gc-t-p',st.p);set('m5gc-t-a',st.a);set('m5gc-t-s',st.s);set('m5gc-t-pts',st.pts);set('m5gc-t-pct',Math.round(st.pts/goal*100)+'%');set('m5gc-f-plan',st.planned);set('m5gc-f-c',st.c);set('m5gc-f-p',st.p);set('m5gc-f-a',st.a);set('m5gc-f-s',st.s);set('m5gc-f-pts',st.pts);set('m5gc-prog-txt',st.pts+' of '+goal+' points');var pb=document.getElementById('m5gc-prog-bar');if(pb)pb.style.width=Math.min(100,Math.round(st.pts/goal*100))+'%';set('m5gc-p-plan',st.planned);set('m5gc-p-work',st.worked);set('m5gc-p-adh',st.planned?(Math.round(st.pw/st.planned*100)+'%'):'—');set('m5gc-p-eff',st.planned?Math.round(st.pts/st.planned):'—');m5gcDash();}
-function m5gcSave(){m5gcRender();if(typeof store.save==='function')store.save();if(typeof toast==='function')toast('Goal Card saved ✓');}
-function m5gcReset(){var ge=document.getElementById('m5gc-goal');var goal=Math.max(1,parseInt((ge&&ge.value)||M5GC_DEFGOAL,10));m5gcStore()[m5gcDate]={goal:goal,blocks:m5gcBlank(),planned:m5gcBlankPlan()};m5gcBuildBody();m5gcRender();}
-function m5gcRange(from,to){var t={c:0,p:0,a:0,s:0,pts:0,days:0,hits:0,planned:0,pw:0,best:{pts:-1,date:null}};var st=m5gcStore();for(var d=new Date(from);d<=to;d=m5gcAdd(d,1)){var rec=st[m5gcIso(d)];if(!rec)continue;var s=m5gcStats(rec);t.c+=s.c;t.p+=s.p;t.a+=s.a;t.s+=s.s;t.pts+=s.pts;t.days++;t.planned+=s.planned;t.pw+=s.pw;if(s.pts>=rec.goal&&s.pts>0)t.hits++;if(s.pts>t.best.pts)t.best={pts:s.pts,date:new Date(d)};}return t;}
-function m5gcDelta(cur,prev){var d=cur-prev,pct='';if(prev>0)pct=' '+(d>=0?'+':'')+Math.round(d/prev*100)+'%';if(d>0)return '<span class="m5gc-delta up">▲ +'+d+pct+'</span>';if(d<0)return '<span class="m5gc-delta down">▼ '+d+pct+'</span>';return '<span class="m5gc-delta flat">— even</span>';}
-function m5gcStreak(){var st=m5gcStore();var today=new Date();today.setHours(0,0,0,0);var s=0;for(var i=0;i<120;i++){var d=m5gcAdd(today,-i);var rec=st[m5gcIso(d)];if(i===0){if(rec){var p0=m5gcStats(rec).pts;if(p0>=rec.goal&&p0>0)s++;}continue;}if(!rec)break;var p=m5gcStats(rec).pts;if(p>=rec.goal&&p>0)s++;else break;}return s;}
-function m5gcDash(){var today=new Date();today.setHours(0,0,0,0);var yst=m5gcAdd(today,-1);var tT=m5gcRange(today,today),tY=m5gcRange(yst,yst);var sw=m5gcSOW(today),off=today.getDay(),lw=m5gcAdd(sw,-7);var tW=m5gcRange(sw,today),tLW=m5gcRange(lw,m5gcAdd(lw,off));var som=new Date(today.getFullYear(),today.getMonth(),1);var lomEnd=m5gcAdd(som,-1),lom=new Date(lomEnd.getFullYear(),lomEnd.getMonth(),1);var lomThru=new Date(lom.getFullYear(),lom.getMonth(),Math.min(today.getDate(),lomEnd.getDate()));var tM=m5gcRange(som,today),tLM=m5gcRange(lom,lomThru);var H=function(id,html){var e=document.getElementById(id);if(e)e.innerHTML=html;};var cmp=function(t,cur,prev,pv){return '<div class="m5gc-cmp"><div class="ct">'+t+'</div><div class="cbig">'+cur+'</div><div class="cunit">points</div>'+m5gcDelta(cur,prev)+'<div class="cprev">'+pv+'</div></div>';};H('m5gc-cmp3',cmp('Today vs Yesterday',tT.pts,tY.pts,'Yesterday: '+tY.pts+' pts')+cmp('This Week vs Last Week',tW.pts,tLW.pts,'Last week, same days: '+tLW.pts+' pts')+cmp('This Month vs Last Month',tM.pts,tLM.pts,'Last month, thru the '+m5gcOrd(today.getDate())+': '+tLM.pts+' pts'));var avg=function(l,v){return '<div class="m5gc-avg"><div class="l">'+l+'</div><div class="v">'+v+'</div></div>';};var ad=tW.days;H('m5gc-avg',avg('Avg pts / day',ad?Math.round(tW.pts/ad):0)+avg('Avg contacts',ad?(tW.c/ad).toFixed(1):0)+avg('Avg present.',ad?(tW.p/ad).toFixed(1):0)+avg('Avg appts',ad?(tW.a/ad).toFixed(1):0)+avg('Avg sales',ad?(tW.s/ad).toFixed(1):0));var arr=[{k:'Contacts',v:tW.c*M5GC_W.c,n:tW.c},{k:'Presentations',v:tW.p*M5GC_W.p,n:tW.p},{k:'Appointments',v:tW.a*M5GC_W.a,n:tW.a},{k:'Sales',v:tW.s*M5GC_W.s,n:tW.s}];arr.sort(function(a,b){return b.v-a.v;});var top=arr[0];var streak=m5gcStreak(),hit=tM.days?Math.round(tM.hits/tM.days*100):0;var best=tW.best.date?(M5GC_DOW[tW.best.date.getDay()]+' — '+tW.best.pts+' pts'):'—';var eff=tW.planned?Math.round(tW.pts/tW.planned):0,adh=tW.planned?Math.round(tW.pw/tW.planned*100):0;var hl=function(ic,t,v,d){return '<div class="m5gc-hlc"><div class="ic">'+ic+'</div><div><div class="ht">'+t+'</div><div class="hv">'+v+'</div><div class="hd">'+d+'</div></div></div>';};H('m5gc-hl',hl('💪','Strength this week',top.v?top.k:'—',top.v?(top.n+' this week ('+top.v+' pts — biggest driver)'):'Log activity to see this')+hl('🏆','Best day this week',best,'Your highest single-day points')+hl('🔥','Goal-hit streak',streak+(streak===1?' day':' days'),'Consecutive days hitting your goal')+hl('⚡','Efficiency',eff+' pts / block','Points per block you planned this week')+hl('🎯','Plan adherence',adh+'%','You worked '+tW.pw+' of '+tW.planned+' planned blocks this week')+hl('✅','Goal-hit rate (month)',hit+'%',tM.hits+' of '+tM.days+' active days at goal'));var totalCards=0,st2=m5gcStore();for(var k in st2){if(m5gcStats(st2[k]).pts>0)totalCards++;}var emp=document.getElementById('m5gc-empty');if(emp)emp.innerHTML=(totalCards<=1)?'<div class="m5gc-hint">Save a card each day and your trends, averages, streaks, and highlights fill in here automatically.</div>':'';m5gcBars(today);}
-function m5gcBars(today){var wrap=document.getElementById('m5gc-bars');if(!wrap)return;var st=m5gcStore();var vals=[],max=1;for(var i=6;i>=0;i--){var d=m5gcAdd(today,-i);var rec=st[m5gcIso(d)];var P=rec?m5gcStats(rec).pts:0;var g=rec?rec.goal:M5GC_DEFGOAL;vals.push({d:d,P:P,g:g});if(P>max)max=P;}var h='';vals.forEach(function(o){var ht=Math.round(o.P/Math.max(max,o.g)*100),hit=o.P>=o.g&&o.P>0;h+='<div class="m5gc-b" title="'+m5gcIso(o.d)+' — '+o.P+' pts (goal '+o.g+')"><div class="col'+(hit?' goal':'')+'" style="height:'+Math.max(o.P>0?6:0,ht)+'%"><span class="n">'+(o.P||'')+'</span></div><div class="lab">'+(o.d.getMonth()+1)+'/'+o.d.getDate()+'</div><div class="dow">'+M5GC_DOW[o.d.getDay()]+'</div></div>';});wrap.innerHTML=h;}
+
+function m5gcRenderDaily(){var g=m5gcReadGrid();var ge=document.getElementById('m5gc-goal');var goal=Math.max(1,parseInt((ge&&ge.value)||M5GC_DEFGOAL,10));
+ var ipEl=document.getElementById('m5gc-ip');var ip=ipEl?(parseFloat((''+ipEl.value).replace(/[^0-9.]/g,''))||0):0;
+ var hrEl=document.getElementById('m5gc-hours');var hoursOv=(hrEl&&(''+hrEl.value).trim()!=='')?(parseFloat((''+hrEl.value).replace(/[^0-9.]/g,''))||0):null;
+ g.blocks.forEach(function(b,i){var rp=b[0]*M5GC_W.c+b[1]*M5GC_W.p+b[2]*M5GC_W.a+b[3]*M5GC_W.s;var cell=document.getElementById('m5gc-rp-'+i);if(cell){cell.textContent=rp;var tr=cell.parentNode;if(tr)tr.classList.toggle('planned',!!g.planned[i]);}});
+ var rec={goal:goal,blocks:g.blocks,planned:g.planned,ip:ip,hours:hoursOv};m5gcStore()[m5gcDate]=rec;
+ var st=m5gcStats(rec);var autoH=st.worked*2;var hours=hoursOv!=null?hoursOv:autoH;
+ var set=function(id,v){var e=document.getElementById(id);if(e)e.textContent=v;};
+ set('m5gc-f-plan',st.planned);set('m5gc-f-d',st.dials);set('m5gc-f-c',st.c);set('m5gc-f-p',st.p);set('m5gc-f-a',st.a);set('m5gc-f-s',st.s);set('m5gc-f-pts',st.pts);
+ set('m5gc-prog-txt',st.pts+' of '+goal+' points');var pb=document.getElementById('m5gc-prog-bar');if(pb)pb.style.width=Math.min(100,Math.round(st.pts/goal*100))+'%';
+ var hs=document.getElementById('m5gc-hours-sub');if(hs){hs.innerHTML=hoursOv!=null?('manual · blocks = '+autoH+'h · <a href="#" id="m5gc-hours-reset">use blocks</a>'):('from '+st.worked+' block'+(st.worked===1?'':'s')+' × 2 hrs (type to override)');var rr=document.getElementById('m5gc-hours-reset');if(rr)rr.onclick=function(e){e.preventDefault();var h2=document.getElementById('m5gc-hours');if(h2)h2.value='';m5gcRenderDaily();};}
+ st.ip=ip;var close=m5gcRatio(st.s,st.p);var el=document.getElementById('m5gc-ana');if(!el)return;
+ el.innerHTML='<div class="m5gc-dashh">What today’s numbers say</div><div class="m5gc-ssub" style="text-align:left;margin:2px 0 6px">Derived automatically from the card above.</div>'+
+   m5gcxRates(st,hours)+m5gcxTakes(st)+m5gcxWorth(st)+
+   '<div class="m5gcx-grid" style="margin-top:11px">'+
+     m5gcxStat('Points',st.pts,'goal '+goal+' · '+Math.round(m5gcRatio(st.pts,goal)*100)+'%','hl')+
+     m5gcxStat('Premium written',m5gcMoney(ip),'today','hl')+
+     m5gcxStat('$ / hour worked',m5gcMoney(m5gcRatio(ip,hours)),'premium ÷ hours','')+
+   '</div>'+
+   '<div class="m5gcx-note">💡 Every dial today was worth <b>'+m5gcMoney(m5gcRatio(ip,st.dials))+'</b> in premium. It took about <b>'+(st.s?Math.round(m5gcRatio(st.dials,st.s)):'—')+' dials</b> and <b>'+(close?Math.round(1/close):'—')+' presentations</b> to land a sale — and you hit <b>'+st.pts+' of '+goal+'</b> points.</div>';}
+
+function m5gcxStat(k,v,sub,cls){return '<div class="m5gcx-stat '+(cls||'')+'"><div class="k">'+k+'</div><div class="v">'+v+'</div><div class="sub">'+(sub||'')+'</div></div>';}
+function m5gcxRates(t,hours){var close=m5gcRatio(t.s,t.p);var dph=hours?t.dials/hours:0;var dphS=Math.round(dph*10)/10;return '<div class="m5gcx-sec">Pace &amp; rates</div><div class="m5gcx-grid">'+
+ m5gcxStat('Dials / hour',dphS,t.dials+' dials ÷ '+hours+' hrs')+
+ m5gcxStat('Contact rate',Math.round(m5gcRatio(t.c,t.dials)*100)+'%','of dials reach someone')+
+ m5gcxStat('Present. rate',Math.round(m5gcRatio(t.p,t.c)*100)+'%','of contacts get a pitch')+
+ m5gcxStat('Close ratio',Math.round(close*100)+'%',t.s+' sale'+(t.s===1?'':'s')+' / '+t.p+' pres.')+'</div>';}
+function m5gcxTakes(t){var per=[['1 contact',m5gcRatio(t.dials,t.c),100],['1 appointment',m5gcRatio(t.dials,t.a),78],['1 presentation',m5gcRatio(t.dials,t.p),62],['1 sale',m5gcRatio(t.dials,t.s),40]];var f='<div class="m5gcx-sec">What it takes to get one</div>';per.forEach(function(p){f+='<div class="m5gcx-frow"><div class="fl">'+p[0]+'</div><div class="fbar"><div class="ff" style="width:'+p[2]+'%">'+(p[1]?Math.round(p[1]):'—')+'</div></div><div class="fn"><b>'+(p[1]?Math.round(p[1]):'—')+'</b> dials</div></div>';});return f;}
+function m5gcxWorth(t){return '<div class="m5gcx-sec">What your activity is worth</div><div class="m5gcx-grid worth">'+
+ m5gcxStat('Per dial',m5gcMoney(m5gcRatio(t.ip,t.dials)),'every dial you make')+
+ m5gcxStat('Per contact',m5gcMoney(m5gcRatio(t.ip,t.c)),'every person you reach')+
+ m5gcxStat('Per presentation',m5gcMoney(m5gcRatio(t.ip,t.p)),'every pitch you give')+
+ m5gcxStat('Avg per sale',m5gcMoney(m5gcRatio(t.ip,t.s)),'average premium written')+'</div>';}
+
+function m5gcSave(){m5gcRenderDaily();if(typeof store.save==='function')store.save();if(typeof toast==='function')toast('Goal Card saved ✓');}
+function m5gcReset(){var ge=document.getElementById('m5gc-goal');var goal=Math.max(1,parseInt((ge&&ge.value)||M5GC_DEFGOAL,10));m5gcStore()[m5gcDate]={goal:goal,blocks:m5gcBlank(),planned:m5gcBlankPlan(),ip:0,hours:null};var ip=document.getElementById('m5gc-ip');if(ip)ip.value='';var hr=document.getElementById('m5gc-hours');if(hr)hr.value='';m5gcBuildBody();m5gcRenderDaily();}
+
+function m5gcListFor(){var d=m5gcParseD(m5gcDate),out=[];if(m5gcView==='week'){var mon=(d.getDay()+6)%7;var m=m5gcAdd(d,-mon);for(var i=0;i<7;i++)out.push(m5gcIso(m5gcAdd(m,i)));}else{var end=new Date(d.getFullYear(),d.getMonth()+1,0).getDate();var last=Math.min(d.getDate(),end);for(var day=1;day<=last;day++)out.push(m5gcIso(new Date(d.getFullYear(),d.getMonth(),day)));}return out;}
+function m5gcAgg(list){var t={c:0,p:0,a:0,s:0,dials:0,pts:0,ip:0,hours:0,worked:0};list.forEach(function(k){var rec=m5gcStore()[k];if(!rec)return;var st=m5gcStats(rec);if(st.worked>0)t.worked++;t.c+=st.c;t.p+=st.p;t.a+=st.a;t.s+=st.s;t.dials+=st.dials;t.pts+=st.pts;t.ip+=(rec.ip||0);t.hours+=m5gcHoursFor(rec,st);});return t;}
+
+function m5gcRangeLabel(){var el=document.getElementById('m5gc-rangelab');if(!el)return;var d=m5gcParseD(m5gcDate);if(m5gcView==='day'){el.innerHTML='Showing <b>'+M5GC_DOW[d.getDay()]+', '+(d.getMonth()+1)+'/'+d.getDate()+'</b>. Use the date box on the card to log a different day.';}else if(m5gcView==='week'){var mon=(d.getDay()+6)%7;var m=m5gcAdd(d,-mon),su=m5gcAdd(m,6);var t=m5gcAgg(m5gcListFor());el.innerHTML='Showing <b>the week of '+(m.getMonth()+1)+'/'+m.getDate()+' – '+(su.getMonth()+1)+'/'+su.getDate()+'</b> (Mon–Sun) — <b>'+t.worked+'</b> day'+(t.worked===1?'':'s')+' worked.';}else{var t2=m5gcAgg(m5gcListFor());el.innerHTML='Showing <b>'+M5GC_MON[d.getMonth()]+'</b> (month to date) — <b>'+t2.worked+'</b> day'+(t2.worked===1?'':'s')+' worked.';}}
+
+function m5gcRenderRollup(){var host=document.getElementById('m5gc-view');if(!host)return;var list=m5gcListFor();var t=m5gcAgg(list);var worked=t.worked,hours=t.hours,pts=t.pts,goalTot=M5GC_DEFGOAL*worked;
+ var title=(m5gcView==='week'?'This week at a glance':'This month at a glance');
+ if(!worked){host.innerHTML='<div class="m5gc-card"><div class="m5gc-dashh">📊 '+title+'</div><div class="m5gc-hint">No saved days in this range yet. Log and save a Goal Card and your '+(m5gcView==='week'?'weekly':'monthly')+' totals, per-day breakdown, and averages fill in here automatically.</div></div>';return;}
+ var tc=function(k,v,cls){return '<div class="m5gcx-tc '+(cls||'')+'"><div class="tk">'+k+'</div><div class="tv">'+v+'</div></div>';};
+ var strip='<div class="m5gcx-sec">Totals — everything you did '+(m5gcView==='week'?'this week':'this month')+'</div><div class="m5gcx-tot">'+
+   tc('Days worked',worked,'acc')+tc('Hours',m5gcNum(hours),'acc')+tc('Dials',m5gcNum(t.dials))+tc('Contacts',m5gcNum(t.c))+tc('Present.',m5gcNum(t.p))+tc('Appts',m5gcNum(t.a))+tc('Sales',m5gcNum(t.s))+tc('Premium',m5gcMoney(t.ip),'gold')+tc('Points',m5gcNum(pts),'gold')+'</div>';
+ var maxD=1;list.forEach(function(k){var r=m5gcStore()[k];if(r){var dd=m5gcStats(r).dials;if(dd>maxD)maxD=dd;}});
+ var bars='',labs='';list.forEach(function(k){var r=m5gcStore()[k];var st=r?m5gcStats(r):null;var dt=m5gcParseD(k);var workedDay=st&&st.worked>0;var dials=st?st.dials:0;var hh=st?m5gcHoursFor(r,st):0;var hpct=workedDay?Math.max(6,Math.round(dials/maxD*100)):4;bars+='<div class="m5gcx-pdcol"><div class="m5gcx-pdbar'+(workedDay?'':' off')+'" style="height:'+hpct+'%">'+(workedDay?'<span class="m5gcx-pdval">'+dials+'</span>':'')+'</div></div>';labs+='<div class="m5gcx-pdlab'+(workedDay?'':' off')+'"><b>'+M5GC_DOW[dt.getDay()]+'</b>'+(dt.getMonth()+1)+'/'+dt.getDate()+'<span class="hh">'+(workedDay?m5gcNum(hh)+'h':'off')+'</span></div>';});
+ var perday='<div class="m5gcx-sec">Dials per day'+(m5gcView==='week'?' (Mon–Sun)':'')+'</div><div class="m5gcx-pdchart">'+bars+'</div><div class="m5gcx-pdlabs">'+labs+'</div>';
+ var avg='<div class="m5gcx-sec">Per working day (averages)</div><div class="m5gcx-grid">'+
+   m5gcxStat('Points / day',Math.round(m5gcRatio(pts,worked)),'avg on days worked','hl')+
+   m5gcxStat('Dials / day',Math.round(m5gcRatio(t.dials,worked)),'avg on days worked')+
+   m5gcxStat('Hours / day',(m5gcRatio(hours,worked)).toFixed(1),'avg on days worked')+'</div>'+
+   '<div class="m5gcx-sec">What you made</div><div class="m5gcx-grid">'+
+   m5gcxStat('Made / hour',m5gcMoney(m5gcRatio(t.ip,hours)),m5gcNum(hours)+' hrs on the phones','hl')+
+   m5gcxStat('Made / day',m5gcMoney(m5gcRatio(t.ip,worked)),'avg on days worked','hl')+
+   m5gcxStat('Total premium',m5gcMoney(t.ip),(m5gcView==='week'?'this week':'this month'))+'</div>';
+ var note='<div class="m5gcx-note">Over <b>'+worked+' day'+(worked===1?'':'s')+'</b> worked you put in <b>'+m5gcNum(hours)+' hours</b> ('+m5gcRatio(hours,worked).toFixed(1)+'/day), averaged <b>'+Math.round(m5gcRatio(pts,worked))+' points/day</b>, and wrote <b>'+m5gcMoney(t.ip)+'</b>. That works out to <b>'+m5gcMoney(m5gcRatio(t.ip,t.dials))+'</b> per dial and <b>'+m5gcMoney(m5gcRatio(t.ip,hours))+'</b> per hour on the phones.</div>';
+ host.innerHTML='<div class="m5gc-card">'+
+   '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px"><span class="m5gc-dashh">📊 '+title+'</span><span class="pt">'+pts+' of '+goalTot+' pts</span></div>'+
+   '<div class="m5gc-barp" style="margin-top:10px"><i style="width:'+Math.min(100,Math.round(m5gcRatio(pts,goalTot)*100))+'%"></i></div>'+
+   strip+perday+avg+m5gcxRates(t,hours)+m5gcxTakes(t)+m5gcxWorth(t)+note+
+   '</div>';}
 
 /* ===== Calls / Events — calendar (.ics) + countdown ===== */
 window.m5CAL=window.m5CAL||[];
