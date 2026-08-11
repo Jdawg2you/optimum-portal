@@ -4012,6 +4012,8 @@ window.m5AgencyDash=function(){
 // (intake) row and overlays the progress from the stale-email row.
 window.m5AgDedupe=function(agents){
   agents=agents||[];
+  var DROP_EMAILS={'ckocis0429@gmail.com':1};  // stray duplicate registration rows to hide
+  agents=agents.filter(function(a){ return !DROP_EMAILS[String(a.email||'').trim().toLowerCase()]; });
   var groups={};
   for(var i=0;i<agents.length;i++){
     var nk=String(agents[i].name||'').trim().toLowerCase().replace(/\s+/g,' ');
@@ -4129,7 +4131,7 @@ function m5AgSortVal(a,k){
 }
 function m5AgRecruiter(a){
   var nm=String(a.name||'').trim().toLowerCase().replace(/\s+/g,' ');
-  var EXC={'faith mcenaney':'Adam Ellis','joshua rick':'Adam Ellis'};
+  var EXC={'faith mcenaney':'Adam Ellis','joshua rick':'Adam Ellis','rebecca toledo':'Liliana Sánchez','cheryl kipler':'Tanya Jones'};
   if(EXC[nm])return EXC[nm];
   if((a.source||'')==='Form')return 'Jesse Stamm';
   return '';
