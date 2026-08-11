@@ -3989,7 +3989,7 @@ window.m5ProductPanel=function(){
     + sec('💰','Annuities', ann)
     + '</div>';
 };
-window.m5Ag={loaded:false,err:'',agents:[],popularity:{},filter:'all',sortKey:'name',sortDir:1};
+window.m5Ag={loaded:false,err:'',agents:[],popularity:{},filter:'all',sortKey:'joined',sortDir:-1,q:''};
 /* Lightweight engagement counter — bumps a per-section counter on nav. Guarded; never throws into nav. */
 window.m5TrackSection=function(view){
   try{
@@ -4055,7 +4055,24 @@ window.m5AgSort=function(k){ if(m5Ag.sortKey===k){ m5Ag.sortDir*=-1; } else { m5
 function m5AgDays(iso){ if(!iso)return null; var d=new Date(iso); if(isNaN(d.getTime()))return null; return Math.floor((Date.now()-d.getTime())/864e5); }
 function m5AgDiff(a,b){ if(!a||!b)return null; var d1=new Date(a),d2=new Date(b); if(isNaN(d1.getTime())||isNaN(d2.getTime()))return null; return Math.round((d2.getTime()-d1.getTime())/864e5); }
 function m5AgNum(v){ if(v===''||v==null)return null; var n=Number(v); return isNaN(n)?null:n; }
-function m5AgFilt(){ return (m5Ag.agents||[]).filter(function(a){ if(m5Ag.filter==='lic')return a.licensed; if(m5Ag.filter==='unl')return !a.licensed; if(m5Ag.filter==='active'){var d=m5AgDays(a.lastLogin);return d!=null&&d<=7;} return true; }); }
+function m5AgFilt(){ var q=(m5Ag.q||'').trim().toLowerCase(); return (m5Ag.agents||[]).filter(function(a){ if(q && String(a.name||'').toLowerCase().indexOf(q)<0) return false; if(m5Ag.filter==='lic')return a.licensed; if(m5Ag.filter==='unl')return !a.licensed; if(m5Ag.filter==='active'){var d=m5AgDays(a.lastLogin);return d!=null&&d<=7;} return true; }); }
+window.m5AgSearch=function(v){ m5Ag.q=v; var tb=document.getElementById('m5ag-tbody'); if(tb) tb.innerHTML=m5AgRows(); var c=document.getElementById('m5ag-count'); if(c) c.textContent=m5AgFilt().length; };
+function m5AgRows(){
+  var A=m5AgFilt().slice();
+  var k=m5Ag.sortKey, dir=m5Ag.sortDir;
+  A.sort(function(a,b){ var va=m5AgSortVal(a,k), vb=m5AgSortVal(b,k); if(va<vb)return -1*dir; if(va>vb)return 1*dir; return 0; });
+  if(!A.length) return '<tr><td colspan="10" style="text-align:center;padding:22px;color:#8a93a9">No agents match that search.</td></tr>';
+  return A.map(function(a){
+    var lic=a.licensed;
+    var licCell= lic? '<span style="color:#1f7a44;font-weight:800">✓</span>' : m5AgMiniBar(m5AgNum(a.gylPct),'#2f6df0');
+    var fsCell= lic? m5AgMiniBar(m5AgNum(a.fsPct),'#1f9d55') : '—';
+    var acCell= lic? m5AgMiniBar(m5AgNum(a.acadPct),'#c9a227') : '—';
+    var last= a.lastLogin? m5AgAgo(a.lastLogin) : '<span style="color:#b5561f">Never logged in</span>';
+    var rec= m5AgRecruiter(a);
+    var recCell= rec? m5AgEsc(rec) : '<span style="color:#b7bfce">—</span>';
+    return '<tr><td><b>'+m5AgEsc(a.name)+'</b></td><td>'+recCell+'</td><td><span class="ag-pill '+(lic?'lic':'unl')+'">'+(lic?'Licensed':'Unlicensed')+'</span></td><td>'+m5AgDate(a.joined)+'</td><td>'+(a.source==='Manual'?'Manual':'Form')+'</td><td>'+licCell+'</td><td>'+fsCell+'</td><td>'+acCell+'</td><td>'+last+'</td><td>'+(a.gcCards||0)+'</td></tr>';
+  }).join('');
+}
 function m5AgEsc(s){ return String(s==null?'':s).replace(/[&<>]/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;'})[c];}); }
 function m5AgDate(iso){ if(!iso)return '—'; var d=new Date(iso); if(isNaN(d.getTime()))return '—'; return d.toLocaleDateString('en-US',{month:'short',day:'numeric'}); }
 function m5AgAgo(iso){ var d=m5AgDays(iso); if(d==null)return '—'; if(d<=0)return 'Today'; if(d===1)return 'Yesterday'; if(d<30)return d+' days ago'; return m5AgDate(iso); }
@@ -4118,22 +4135,12 @@ function m5AgRecruiter(a){
   return '';
 }
 function m5AgTable(){
-  var A=m5AgFilt().slice();
   var k=m5Ag.sortKey, dir=m5Ag.sortDir;
-  A.sort(function(a,b){ var va=m5AgSortVal(a,k), vb=m5AgSortVal(b,k); if(va<vb)return -1*dir; if(va>vb)return 1*dir; return 0; });
   var cols=[['name','Agent'],['recruiter','Recruiter'],['statusS','Status'],['joined','Joined'],['source','Source'],['licV','① License'],['fsV','② Fast Start'],['acV','③ Academy'],['lastV','Last active'],['gcCards','Goal cards']];
   var head=cols.map(function(c){ var arrow=(k===c[0])?(dir>0?' ▲':' ▼'):''; return '<th onclick="m5AgSort(\''+c[0]+'\')">'+c[1]+arrow+'</th>'; }).join('');
-  var rows=A.map(function(a){
-    var lic=a.licensed;
-    var licCell= lic? '<span style="color:#1f7a44;font-weight:800">✓</span>' : m5AgMiniBar(m5AgNum(a.gylPct),'#2f6df0');
-    var fsCell= lic? m5AgMiniBar(m5AgNum(a.fsPct),'#1f9d55') : '—';
-    var acCell= lic? m5AgMiniBar(m5AgNum(a.acadPct),'#c9a227') : '—';
-    var last= a.lastLogin? m5AgAgo(a.lastLogin) : '<span style="color:#b5561f">Never logged in</span>';
-    var rec= m5AgRecruiter(a);
-    var recCell= rec? m5AgEsc(rec) : '<span style="color:#b7bfce">—</span>';
-    return '<tr><td><b>'+m5AgEsc(a.name)+'</b></td><td>'+recCell+'</td><td><span class="ag-pill '+(lic?'lic':'unl')+'">'+(lic?'Licensed':'Unlicensed')+'</span></td><td>'+m5AgDate(a.joined)+'</td><td>'+(a.source==='Manual'?'Manual':'Form')+'</td><td>'+licCell+'</td><td>'+fsCell+'</td><td>'+acCell+'</td><td>'+last+'</td><td>'+(a.gcCards||0)+'</td></tr>';
-  }).join('');
-  return '<div class="ag-card" style="padding:0;overflow:hidden"><div style="padding:16px 20px 6px"><h3>Agent roster</h3><p class="sub">Every agent, all three tracks side by side. Click any column to sort. Showing '+A.length+'.</p></div><div class="ag-tablewrap"><table class="ag-table"><thead><tr>'+head+'</tr></thead><tbody>'+rows+'</tbody></table></div></div>';
+  var n=m5AgFilt().length;
+  var search='<input id="m5ag-search" type="search" placeholder="🔎 Search name…" value="'+m5AgEsc(m5Ag.q||'')+'" oninput="m5AgSearch(this.value)" style="padding:9px 13px;border:1px solid #dbe2ee;border-radius:10px;font-size:13.5px;min-width:210px;font-family:inherit;outline:none;background:#fff">';
+  return '<div class="ag-card" style="padding:0;overflow:hidden"><div style="padding:16px 20px 10px"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h3 style="margin:0">Agent roster</h3>'+search+'</div><p class="sub" style="margin:6px 0 0">Every agent, all three tracks side by side. Click any column to sort. Showing <span id="m5ag-count">'+n+'</span>.</p></div><div class="ag-tablewrap"><table class="ag-table"><thead><tr>'+head+'</tr></thead><tbody id="m5ag-tbody">'+m5AgRows()+'</tbody></table></div></div>';
 }
 function m5AgRender(){
   var A=m5Ag.agents||[];
