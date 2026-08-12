@@ -2719,6 +2719,14 @@ function acadLessonView(a,b){var m=acadFindMod(a);if(!m)return acadHomeView();va
 
 /* ===== Agency Dashboard ===== */
 .ag-wrap{max-width:1180px}
+.ag-head{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin:0 0 14px}
+.ag-headr{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.ag-refresh{display:inline-flex;align-items:center;gap:7px;border:1px solid #16233f;background:#16233f;color:#fff;border-radius:999px;padding:9px 17px;font-weight:800;font-size:13.5px;cursor:pointer;font-family:inherit;transition:opacity .15s}
+.ag-refresh:hover{opacity:.9}
+.ag-refresh:disabled{opacity:.65;cursor:default}
+.ag-synced{color:#8a93a9;font-size:12.5px;font-weight:600}
+.ag-spin{display:inline-block;width:13px;height:13px;border:2px solid rgba(255,255,255,.45);border-top-color:#fff;border-radius:50%;animation:agspin .6s linear infinite}
+@keyframes agspin{to{transform:rotate(360deg)}}
 .ag-load{background:#fff;border:1px solid #e5e9f2;border-radius:14px;padding:40px;text-align:center;color:#55617d;font-size:15px}
 .ag-filters{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}
 .ag-fbtn{border:1px solid #d9e0ee;background:#fff;color:#16233f;border-radius:999px;padding:7px 15px;font-weight:700;font-size:13px;cursor:pointer}
@@ -3989,7 +3997,7 @@ window.m5ProductPanel=function(){
     + sec('💰','Annuities', ann)
     + '</div>';
 };
-window.m5Ag={loaded:false,err:'',agents:[],popularity:{},filter:'all',sortKey:'joined',sortDir:-1,q:''};
+window.m5Ag={loaded:false,err:'',agents:[],popularity:{},filter:'all',sortKey:'joined',sortDir:-1,q:'',refreshing:false,lastSync:0};
 /* Lightweight engagement counter — bumps a per-section counter on nav. Guarded; never throws into nav. */
 window.m5TrackSection=function(view){
   try{
@@ -4048,10 +4056,35 @@ window.m5AgFetch=function(){
     var phone=(store.data&&store.data.phone)||'';
     fetch(BACKEND_URL,{method:'POST',body:JSON.stringify({action:'roster',email:email,phone:phone})})
       .then(function(r){return r.json();})
-      .then(function(j){ m5Ag.loaded=true; if(j&&j.ok){ m5Ag.agents=m5AgDedupe(j.agents||[]); m5Ag.popularity=j.popularity||{}; m5Ag.err=''; } else { m5Ag.err=(j&&j.error)||'error'; } if(typeof currentView==='function'&&currentView()==='agency'&&typeof render==='function') render('agency'); })
+      .then(function(j){ m5Ag.loaded=true; if(j&&j.ok){ m5Ag.agents=m5AgDedupe(j.agents||[]); m5Ag.popularity=j.popularity||{}; m5Ag.err=''; m5Ag.lastSync=Date.now(); } else { m5Ag.err=(j&&j.error)||'error'; } if(typeof currentView==='function'&&currentView()==='agency'&&typeof render==='function') render('agency'); })
       .catch(function(){ m5Ag.loaded=true; m5Ag.err='network'; if(typeof currentView==='function'&&currentView()==='agency'&&typeof render==='function') render('agency'); });
   }catch(e){ m5Ag.loaded=true; m5Ag.err='network'; }
 };
+// Re-pull the roster on demand (button), without touching login or navigation.
+window.m5AgRefresh=function(){
+  if(m5Ag.refreshing) return;
+  m5Ag.refreshing=true;
+  var btn=document.getElementById('m5ag-refresh');
+  if(btn){ btn.disabled=true; btn.setAttribute('data-busy','1'); btn.innerHTML='<span class="ag-spin"></span> Refreshing…'; }
+  var done=function(){ m5Ag.refreshing=false; if(typeof currentView==='function'&&currentView()==='agency'&&typeof render==='function') render('agency'); };
+  try{
+    if(typeof BACKEND_URL==='undefined'||!BACKEND_URL){ done(); return; }
+    var email=((store.data&&store.data.email)||'').trim().toLowerCase();
+    var phone=(store.data&&store.data.phone)||'';
+    fetch(BACKEND_URL,{method:'POST',body:JSON.stringify({action:'roster',email:email,phone:phone})})
+      .then(function(r){return r.json();})
+      .then(function(j){ if(j&&j.ok){ m5Ag.agents=m5AgDedupe(j.agents||[]); m5Ag.popularity=j.popularity||{}; m5Ag.err=''; m5Ag.lastSync=Date.now(); } else { m5Ag.err=(j&&j.error)||'error'; } done(); })
+      .catch(function(){ done(); });
+  }catch(e){ done(); }
+};
+function m5AgSyncLabel(){
+  if(!m5Ag.lastSync) return '';
+  var s=Math.round((Date.now()-m5Ag.lastSync)/1000);
+  if(s<10) return 'Updated just now';
+  if(s<60) return 'Updated '+s+'s ago';
+  var m=Math.floor(s/60); if(m<60) return 'Updated '+m+(m===1?' min ago':' mins ago');
+  var h=Math.floor(m/60); return 'Updated '+h+(h===1?' hr ago':' hrs ago');
+}
 window.m5AgSet=function(f){ m5Ag.filter=f; if(typeof render==='function') render('agency'); };
 window.m5AgSort=function(k){ if(m5Ag.sortKey===k){ m5Ag.sortDir*=-1; } else { m5Ag.sortKey=k; m5Ag.sortDir=1; } if(typeof render==='function') render('agency'); };
 function m5AgDays(iso){ if(!iso)return null; var d=new Date(iso); if(isNaN(d.getTime()))return null; return Math.floor((Date.now()-d.getTime())/864e5); }
@@ -4131,7 +4164,7 @@ function m5AgSortVal(a,k){
 }
 function m5AgRecruiter(a){
   var nm=String(a.name||'').trim().toLowerCase().replace(/\s+/g,' ');
-  var EXC={'faith mcenaney':'Adam Ellis','joshua rick':'Adam Ellis','rebecca toledo':'Liliana Sánchez','cheryl kipler':'Tanya Jones'};
+  var EXC={'faith mcenaney':'Adam Ellis','joshua rick':'Adam Ellis','rebecca toledo':'Liliana Sánchez','cheryl kipler':'Tanya Jones','nick oelke':'Jesse Stamm','tanya jones':'Jesse Stamm','adam ellis':'Jesse Stamm','jesse stamm':'Jesse Stamm'};
   if(EXC[nm])return EXC[nm];
   if((a.source||'')==='Form')return 'Jesse Stamm';
   return '';
@@ -4163,7 +4196,7 @@ function m5AgRender(){
   var gcUsing=A.filter(function(a){return a.gcUsing;}).length;
   var gcCards30=A.reduce(function(s,a){return s+(a.gcCards30||0);},0);
   var h='<div class="ag-wrap">';
-  h+='<h1 class="page"><span data-ico="dash" style="vertical-align:-3px"></span> Agency Dashboard</h1><p class="sub">Your whole team\'s progress, live from your sheet · '+total+' agents on the roster.</p>';
+  h+='<div class="ag-head"><div><h1 class="page" style="margin:0"><span data-ico="dash" style="vertical-align:-3px"></span> Agency Dashboard</h1><p class="sub" style="margin:4px 0 0">Your whole team\'s progress, live from your sheet · '+total+' agents on the roster.</p></div><div class="ag-headr"><button id="m5ag-refresh" class="ag-refresh" onclick="m5AgRefresh()"'+(m5Ag.refreshing?' disabled':'')+'>'+(m5Ag.refreshing?'<span class="ag-spin"></span> Refreshing…':'↻ Refresh')+'</button>'+(m5AgSyncLabel()?'<span class="ag-synced">'+m5AgSyncLabel()+'</span>':'')+'</div></div>';
   h+='<div class="ag-filters">'+m5AgFB('all','All agents')+m5AgFB('lic','Licensed')+m5AgFB('unl','Unlicensed')+m5AgFB('active','Active (7d)')+'</div>';
   h+='<div class="ag-stats">'
     +m5AgStat('Total agents',total,'on the roster')
