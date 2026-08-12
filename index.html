@@ -4180,8 +4180,13 @@ function m5AgSortVal(a,k){
 }
 function m5AgRecruiter(a){
   var nm=String(a.name||'').trim().toLowerCase().replace(/\s+/g,' ');
+  // 1) Manual overrides always win (Jesse's hand corrections).
   var EXC={'faith mcenaney':'Adam Ellis','joshua rick':'Adam Ellis','rebecca toledo':'Liliana Sánchez','cheryl kipler':'Tanya Jones','nick oelke':'Jesse Stamm','tanya jones':'Jesse Stamm','adam ellis':'Jesse Stamm','jesse stamm':'Jesse Stamm'};
   if(EXC[nm])return EXC[nm];
+  // 2) Real recruiter from the Portal Registrations sheet (via backend payload).
+  var rf=String(a.recruiterFirst||'').trim(), rl=String(a.recruiterLast||'').trim();
+  if(rf||rl) return (rf+' '+rl).trim();
+  // 3) Fallbacks: self-registered via the form defaults to Jesse; otherwise blank.
   if((a.source||'')==='Form')return 'Jesse Stamm';
   return '';
 }
