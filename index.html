@@ -876,7 +876,7 @@ function openCarrier(n){carrierOpen=carrierOpen===n?null:n;render('sales');}
 function vSales(){
   const tiles=[['scripts','📝','Sales Scripts','All call scripts'],['retention','🔁','Client Retention/Service','Copy-paste client touchpoints'],['legacy','🛡️','Legacy Safeguard','Free end-of-life planning you offer clients'],['eapp','💻','Electronic Applications','Carrier e-app platforms'],['carriers','🏢','Carrier Portals','Portals, training, guides'],['ce','🎓','Continuing Education','CE & compliance'],['pres','📊','Presentation Materials','Illustrations, needs analysis'],['deck','🖥️','Sales Presentations','Decks for every product']];
   const grid=tiles.map(t=>`<div class="tool ${salesOpen===t[0]?'sel':''}" onclick="openSales('${t[0]}')"><div class="tic">${t[1]}</div><div class="tt">${t[2]}</div><div class="td">${t[3]}</div></div>`).join('');
-  return `<h1 class="page">Sales Tools</h1><p class="sub">Tap a tool to open it — its links appear below.</p><div class="tool-grid">${grid}</div>${salesOpen?salesPanel(salesOpen):''}`;
+  return `<h1 class="page">Sales Tools</h1><p class="sub">Tap a tool to open it — its links appear below.</p>`+(typeof m5SearchBox==='function'?m5SearchBox('sales'):'')+`<div id="m5s-sales-results"></div><div id="m5s-sales-browse"><div class="tool-grid">${grid}</div>${salesOpen?salesPanel(salesOpen):''}</div>`;
 }
 function linkRow(r){const nav=r[2]&&r[2].indexOf('go:')===0;const act=r[2]?(nav?`go('${r[2].slice(3)}')`:`window.open('${r[2]}','_blank')`):`toast('Link coming soon')`;return `<div class="li"><div><div class="lt">${r[0]}</div>${r[1]?`<div class="ld">${r[1]}</div>`:''}</div><button class="openbtn" onclick="${act}">Open</button></div>`;}
 function listPanel(title,sub,rows){return `<div class="listcard" style="margin-top:16px"><h3>${title}</h3>${sub?`<div class="lc-sub">${sub}</div>`:''}${rows.length?rows.map(linkRow).join(''):'<p class="muted" style="font-size:13px">Links coming soon.</p>'}</div>`;}
@@ -917,7 +917,7 @@ function vResources(){
   const grid=RES_TILES.map(t=>{const onclick=t.link?`window.open('${t.link}','_blank')`:`openRes('${t.k}')`;return `<div class="tool ${resOpen===t.k?'sel':''}" onclick="${onclick}"><div class="tic">${t.i}</div><div class="tt">${t.t}</div><div class="td">${t.s}</div></div>`;}).join('');
   let panel='';
   if(resOpen){const t=RES_TILES.find(x=>x.k===resOpen);if(t){ if(t.k==='payments'&&typeof m5PaymentsPanel==='function'){panel=m5PaymentsPanel();} else if(t.k==='products'&&typeof m5ProductPanel==='function'){panel=m5ProductPanel();} else {const rows=t.reuse==='scripts'?SCRIPTS_L:(t.items||[]);panel=listPanel(`${t.i} ${t.t}`,t.blurb||'',rows);} }}
-  return `<h1 class="page">Resources</h1><p class="sub">Tap a resource — multi-item ones open below; single links open directly.</p><div class="tool-grid">${grid}</div>${panel}`;
+  return `<h1 class="page">Resources</h1><p class="sub">Tap a resource — multi-item ones open below; single links open directly.</p>`+(typeof m5SearchBox==='function'?m5SearchBox('res'):'')+`<div id="m5s-res-results"></div><div id="m5s-res-browse"><div class="tool-grid">${grid}</div>${panel}</div>`;
 }
 function vSupport(){return `<h1 class="page">Support</h1><p class="sub">Quick how-tos and help — the miscellaneous stuff lives here.</p>${listCard('How-Tos & Help','',MISC)}`;}
 function vProfile(){return `<h1 class="page">Profile</h1><p class="sub">Your account.</p>
@@ -3168,6 +3168,22 @@ body.m5-previewing #m5-prelic .m5-signout{visibility:hidden}
 .m5-tcard-t{font-weight:800;font-size:14.5px;color:#16233f}
 .m5-tcard-d{font-size:12.5px;color:#6b7688;flex:1}
 .m5-tcard .btn,.m5-tcard .openbtn{width:100%;justify-content:center;text-align:center}
+/* ===== Resources / Sales Tools search ===== */
+.m5s-wrap{position:relative;margin:2px 0 16px}
+.m5s-wrap .m5s-mag{position:absolute;left:15px;top:50%;transform:translateY(-50%);font-size:16px;opacity:.5;pointer-events:none}
+.m5s-wrap input{width:100%;padding:13px 44px 13px 42px;border:1.5px solid var(--line);border-radius:12px;font-size:15px;font-family:inherit;outline:none;background:#fff;color:var(--ink);transition:border-color .15s,box-shadow .15s}
+.m5s-wrap input:focus{border-color:var(--gold);box-shadow:0 0 0 4px rgba(224,168,61,.15)}
+.m5s-wrap input::placeholder{color:#9aa3b4}
+.m5s-clr{position:absolute;right:11px;top:50%;transform:translateY(-50%);border:0;background:#eef1f7;color:#66708a;width:25px;height:25px;border-radius:50%;cursor:pointer;font-size:13px;line-height:1;display:none}
+.m5s-clr.show{display:block}
+.m5s-results .listcard{margin-top:6px}
+.m5s-rescount{font-size:12.5px;color:var(--ink-soft);font-weight:700;margin:2px 0 4px}
+.m5s-hit{cursor:pointer;border-radius:9px;transition:background .12s;padding-left:8px;padding-right:8px;margin:0 -8px}
+.m5s-hit:hover{background:#f7f9fd}
+.m5s-grp{display:inline-block;font-size:10.5px;font-weight:800;color:var(--gold-deep);background:rgba(224,168,61,.14);border-radius:999px;padding:2px 8px;margin-left:8px;letter-spacing:.2px;vertical-align:middle}
+.m5s-hit mark{background:rgba(224,168,61,.42);color:inherit;border-radius:3px;padding:0 1px}
+.m5s-empty{background:#fff;border:1px dashed var(--line);border-radius:13px;padding:30px 20px;text-align:center;color:var(--ink-soft);font-size:14px}
+.m5s-empty .big{font-size:26px;margin-bottom:6px}
 </style>
 
 <script>
@@ -4227,6 +4243,92 @@ function m5AgRender(){
   h+='</div>';
   return h;
 }
+
+/* ===== Resources / Sales Tools search ===== */
+function m5sEsc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c];});}
+function m5sHi(s,q){ s=m5sEsc(s); if(!q) return s; var i=s.toLowerCase().indexOf(q.toLowerCase()); if(i<0) return s; return s.slice(0,i)+'<mark>'+s.slice(i,i+q.length)+'</mark>'+s.slice(i+q.length); }
+function m5sAct(url){
+  if(!url||url==='#') return "";
+  if(url.indexOf('go:')===0) return "go('"+url.slice(3)+"')";
+  return "window.open('"+url.replace(/'/g,"\\'")+"','_blank')";
+}
+// direct-set section openers (avoid the toggle in openRes/openSales)
+window.m5sOpenRes=function(k){ try{ resOpen=k; render('resources'); }catch(e){} };
+window.m5sOpenSales=function(k){ try{ salesOpen=k; render('sales'); }catch(e){} };
+window.m5sOpenCarrier=function(n){ try{ salesOpen='carriers'; carrierOpen=n; render('sales'); }catch(e){} };
+
+// Build the searchable index for a scope. Each entry: {icon,title,desc,group,act}
+// act is a JS string run on click.
+function m5sIndex(scope){
+  var out=[];
+  function push(icon,title,desc,group,act){ out.push({icon:icon,title:title||'',desc:desc||'',group:group||'',act:act||''}); }
+  if(scope==='res'){
+    if(typeof RES_TILES==='undefined') return out;
+    RES_TILES.forEach(function(t){
+      if(t.link){ push(t.i,t.t,t.s,t.t,m5sAct(t.link)); return; }
+      var rows = (t.reuse==='scripts' && typeof SCRIPTS_L!=='undefined') ? SCRIPTS_L : (t.items||[]);
+      if(rows.length){
+        rows.forEach(function(r){ push(t.i,r[0],r[1],t.t, r[2]?m5sAct(r[2]):"window.m5sOpenRes('"+t.k+"')"); });
+        push(t.i,t.t,t.s,t.t,"window.m5sOpenRes('"+t.k+"')"); // section itself
+      } else {
+        push(t.i,t.t,t.s,t.t,"window.m5sOpenRes('"+t.k+"')"); // panel-only sections (videos, payments, products)
+      }
+    });
+  } else {
+    // sales
+    var S=(typeof SCRIPTS_L!=='undefined')?SCRIPTS_L:[];
+    var E=(typeof EAPP_L!=='undefined')?EAPP_L:[];
+    var C=(typeof CE_L!=='undefined')?CE_L:[];
+    var P=(typeof PRES_L!=='undefined')?PRES_L:[];
+    var G=(typeof GUIDES!=='undefined')?GUIDES:[];
+    var CA=(typeof CARRIERS!=='undefined')?CARRIERS:[];
+    S.forEach(function(r){ push('📝',r[0],r[1],'Sales Scripts', r[2]?m5sAct(r[2]):"window.m5sOpenSales('scripts')"); });
+    E.forEach(function(r){ push('💻',r[0],r[1],'Electronic Applications', r[2]?m5sAct(r[2]):"window.m5sOpenSales('eapp')"); });
+    C.forEach(function(r){ push('🎓',r[0],r[1],'Continuing Education', r[2]?m5sAct(r[2]):"window.m5sOpenSales('ce')"); });
+    P.forEach(function(r){ push('📊',r[0],r[1],'Presentation Materials', r[2]?m5sAct(r[2]):"window.m5sOpenSales('pres')"); });
+    G.forEach(function(r){ push('🏢',r[0],'','Carrier Portals', m5sAct(r[1])); });
+    CA.forEach(function(c){ push('🏢',c.name,(c.tags&&c.tags.length?c.tags.join(' · '):'')+(c.links&&c.links.length?' — '+c.links.length+' link'+(c.links.length===1?'':'s'):''),'Carrier Portals',"window.m5sOpenCarrier('"+String(c.name).replace(/'/g,"\\'")+"')"); });
+    // section tiles themselves (so typing the tool name surfaces it)
+    [['📝','Sales Scripts','All call scripts','scripts'],['🔁','Client Retention/Service','Copy-paste client touchpoints','retention'],['🛡️','Legacy Safeguard','Free end-of-life planning you offer clients','legacy'],['💻','Electronic Applications','Carrier e-app platforms','eapp'],['🏢','Carrier Portals','Portals, training, guides','carriers'],['🎓','Continuing Education','CE & compliance','ce'],['📊','Presentation Materials','Illustrations, needs analysis','pres'],['🖥️','Sales Presentations','Decks for every product','deck']].forEach(function(t){ push(t[0],t[1],t[2],t[1],"window.m5sOpenSales('"+t[3]+"')"); });
+  }
+  return out;
+}
+window.m5SearchBox=function(scope){
+  return '<div class="m5s-wrap"><span class="m5s-mag">🔎</span>'+
+    '<input id="m5s-'+scope+'-input" type="search" autocomplete="off" placeholder="Search '+(scope==='res'?'resources':'sales tools')+' — by name or description…" oninput="m5Search(\''+scope+'\',this.value)">'+
+    '<button class="m5s-clr" id="m5s-'+scope+'-clr" aria-label="Clear" onclick="m5SearchClear(\''+scope+'\')">✕</button></div>';
+};
+window.m5SearchClear=function(scope){ var i=document.getElementById('m5s-'+scope+'-input'); if(i){ i.value=''; i.focus(); } m5Search(scope,''); };
+window.m5Search=function(scope,val){
+  val=(val||'').trim();
+  var results=document.getElementById('m5s-'+scope+'-results');
+  var browse=document.getElementById('m5s-'+scope+'-browse');
+  var clr=document.getElementById('m5s-'+scope+'-clr');
+  if(clr) clr.className='m5s-clr'+(val?' show':'');
+  if(!results) return;
+  if(!val){ results.innerHTML=''; if(browse) browse.style.display=''; return; }
+  if(browse) browse.style.display='none';
+  var q=val.toLowerCase();
+  var idx=m5sIndex(scope);
+  var seen={}, hits=[];
+  idx.forEach(function(e){
+    if(e.title.toLowerCase().indexOf(q)>=0 || (e.desc||'').toLowerCase().indexOf(q)>=0 || e.group.toLowerCase().indexOf(q)>=0){
+      var key=e.title+'|'+e.group; if(seen[key]) return; seen[key]=1; hits.push(e);
+    }
+  });
+  if(!hits.length){
+    results.innerHTML='<div class="m5s-empty"><div class="big">🔎</div>No matches for &ldquo;'+m5sEsc(val)+'&rdquo;.<br>Try a shorter word.</div>';
+    return;
+  }
+  var rows=hits.map(function(e){
+    var d=e.desc?'<div class="ld">'+m5sHi(e.desc,val)+'</div>':'';
+    var grp=e.group?'<span class="m5s-grp">'+m5sEsc(e.group)+'</span>':'';
+    var act=m5sEsc(e.act);
+    return '<div class="li m5s-hit" onclick="'+act+'"><div><div class="lt">'+m5sHi(e.title,val)+grp+'</div>'+d+'</div>'+
+      '<button class="openbtn" onclick="event.stopPropagation();'+act+'">Open</button></div>';
+  }).join('');
+  results.innerHTML='<div class="listcard"><div class="m5s-rescount">'+hits.length+' result'+(hits.length===1?'':'s')+' for &ldquo;'+m5sEsc(val)+'&rdquo;</div>'+rows+'</div>';
+};
 </script>
 </body>
 </html>
