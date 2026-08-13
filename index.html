@@ -1331,19 +1331,19 @@ function m5SysTools(){
   var items=[
     {i:"🎯",l:"Goal Card + Activity Tracker",d:"Plan your day in blocks, log your dials, and track your trends day over day.",onclick:"go('goalcard')"},
     {i:"🗂️",l:"CRM login",d:"GOAT is your CRM — sign in to manage your leads and business.",url:"https://goatleads.com/registration/new?affiliate_id=66c4aa379e0123651ad2f0e6"},
+    {i:"📇",l:"CRM Center (Legacy CRM software)",d:"agentcrmcenter.com",url:"https://agentcrmcenter.com"},
     {i:"📣",l:"Share FFL Opportunity Invite App",d:"Invite others to learn about the FFL opportunity.",url:"https://jdawg2you.github.io/Share-FFL/shareffl.html"},
     {i:"📦",l:"Package of Protection Pro",d:"Build and present your Package of Protection for clients.",url:"https://mypoppro.com/"}
   ];
   var fflSites=[
     {i:"🚪",l:"Gateway",d:"Main FFL portal (HCMS).",url:"https://ww3.familyfirstlife.com/login"},
-    {i:"🧭",l:"The Hub",d:"FFL National agent hub · Password: WINWITHFFL",url:"https://fflnational.com/ffl-agent-hub/"},
-    {i:"📇",l:"CRM Center",d:"agentcrmcenter.com",url:"https://agentcrmcenter.com"}
+    {i:"🧭",l:"The Hub",d:"FFL National agent hub · Password: WINWITHFFL",url:"https://fflnational.com/ffl-agent-hub/"}
   ];
   var integItems=[
     {l:"Open the Gateway",d:"Find Integrity Connect in the left nav.",url:"https://ww3.familyfirstlife.com/login"},
     {l:"How to use Integrity Connect",d:"Demo video.",url:"https://www.loom.com/share/f2f9a9dbd61b4b06a1cda5f7768885e2?sid=375f48eb-f062-49d9-b745-5561347cc070"}
   ];
-  var integ='<div class="m5-expand"><div class="m5-exhead" onclick="m5ToggleExpand(this)"><span class="m5-exchip" data-ico="shieldc"></span><span class="m5-extext"><span class="m5-exname">Integrity Connect</span><span class="m5-exsub">Underwriting &amp; quoting tool — lives in the Gateway.</span></span><span class="m5-exchev">›</span></div><div class="m5-exbody">'+m5RowList(integItems)+'</div></div>';
+  var integ='<div class="m5-expand" style="max-width:520px"><div class="m5-exhead" onclick="m5ToggleExpand(this)"><span class="m5-exchip" data-ico="shieldc"></span><span class="m5-extext"><span class="m5-exname">Integrity Connect</span><span class="m5-exsub">Underwriting &amp; quoting tool — lives in the Gateway.</span></span><span class="m5-exchev">›</span></div><div class="m5-exbody">'+m5RowList(integItems)+'</div></div>';
   return '<h1 class="page">Systems/Tools</h1><p class="sub">Your CRM and invite tools — one click away.</p>'+m5RowList(items)+
     '<div class="m5-seclabel" style="margin-top:26px">Family First Life Sites</div>'+m5RowList(fflSites)+integ;
 }
