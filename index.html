@@ -1320,6 +1320,7 @@ function m5Dash(){
 }
 function m5RowList(items){return '<div class="m5-list">'+items.map(function(it){
   var inner='<span class="ri"></span><span class="m5-rtext"><span class="rl">'+it.l+'</span>'+(it.d?'<span class="rd">'+it.d+'</span>':'')+'</span>';
+  if(it.soon){return '<div class="m5-row m5-row-soon" onclick="toast(\'Coming soon — the recruiting playbook is on the way.\')">'+inner+'<span class="m5-soonpill">Coming soon</span></div>';}
   if(it.url){return '<a class="m5-row" href="'+it.url+'" target="_blank" rel="noopener">'+inner+'<span class="ra">↗</span></a>';}
   if(it.onclick){return '<div class="m5-row" onclick="'+it.onclick+'">'+inner+'<span class="ra">›</span></div>';}
   if(it.toast){return '<div class="m5-row" onclick="toast(\''+it.toast+'\')">'+inner+'<span class="ra">›</span></div>';}
@@ -3184,6 +3185,8 @@ body.m5-previewing #m5-prelic .m5-signout{visibility:hidden}
 .m5s-hit mark{background:rgba(224,168,61,.42);color:inherit;border-radius:3px;padding:0 1px}
 .m5s-empty{background:#fff;border:1px dashed var(--line);border-radius:13px;padding:30px 20px;text-align:center;color:var(--ink-soft);font-size:14px}
 .m5s-empty .big{font-size:26px;margin-bottom:6px}
+.m5-row-soon{opacity:.72;cursor:default}
+.m5-soonpill{margin-left:auto;flex:0 0 auto;font-size:10.5px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;color:#a9861d;background:rgba(224,168,61,.15);border:1px solid rgba(224,168,61,.4);border-radius:999px;padding:3px 9px;white-space:nowrap}
 </style>
 
 <script>
@@ -3376,9 +3379,8 @@ try{
       var topItems=[
         {l:'Share FFL — Invite App',d:'Send the opportunity to a prospect in seconds.',url:'https://jdawg2you.github.io/Share-FFL/shareffl.html'},
         {l:'Why recruit from day one',d:'The mindset and philosophy — straight from the Academy.',onclick:"acadGoLes('build-your-future','5-2')"},
-        {l:'Best recruiting resource (PDF)',d:'Your go-to recruiting playbook.',url:'https://www.fflsolidity.com'},
-        {l:'Your VBO recruiting webinar',d:'The automated business-overview webinar system.',url:'https://www.fflvbo.com/join.html'},
-        {l:'Recruiter Playbook talk tracks',d:'Vetting and the chargeback talk track.'}
+        {l:'Recruiting Playbook',d:'Your go-to recruiting resource.',soon:true},
+        {l:'Your VBO recruiting webinar',d:'The automated business-overview webinar system.',url:'https://www.fflvbo.com/join.html'}
       ];
       var COMP=[
         ['General Compensation','https://drive.google.com/file/d/1w4ZNu10uKH44yC1GrD1FdjguYJLCA7Mx/view'],
@@ -3442,11 +3444,11 @@ try{
       '</div>';
       return '<h1 class="page">Recruiting</h1><p class="sub">Build your team — resources, webinar system, and comp.</p>'+
         m5RowList([topItems[0]])+qrCard+m5RowList(topItems.slice(1))+
-        '<div class="m5-seclabel" style="margin-top:26px">Compensation</div>'+comp+
         '<div class="m5-seclabel" style="margin-top:26px">Bringing on a new agent</div>'+m5RecruitLinkCard()+ex+
         '<div class="m5-previewcard"><div class="m5-pvtitle"><span class="m5-pvi" data-ico="user"></span>See it from their side</div>'+
           '<p class="m5-pvsub">Preview exactly what your new agent sees before they\'re licensed — the full pre-licensing experience. Nothing you do here is saved or tracked.</p>'+
-          '<button class="m5-pvbtn" onclick="m5EnterPreview()">Preview the unlicensed agent experience &rarr;</button></div>';
+          '<button class="m5-pvbtn" onclick="m5EnterPreview()">Preview the unlicensed agent experience &rarr;</button></div>'+
+        '<div class="m5-seclabel" style="margin-top:26px">Compensation</div>'+comp;
     };
   }
   if(typeof m5RowList==='function'){
