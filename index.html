@@ -550,7 +550,9 @@ const GYL=[
 const FAST=[
   {id:'plug',mn:'g',icon:'1',t:'Get Plugged In',items:[
     {id:'f_comm',l:'Get plugged into our groups',d:'Please get plugged into each of these — Facebook, Discord, and our WhatsApp group.<div class="m5-btnrow"><a class="m5-lnk fb" href="https://www.facebook.com/groups/fflnational/" target="_blank" rel="noopener">📘 Facebook</a><a class="m5-lnk wa" href="https://chat.whatsapp.com/JAX77XU8xCCG9iW0AyUYng" target="_blank" rel="noopener">💬 WhatsApp</a><a class="m5-lnk dc" href="https://discord.com/invite/2NkzFxjF9j" target="_blank" rel="noopener">🎮 Discord</a></div><p class="m5-fine">Select <b>FFL National</b> as your main team.</p>'},
-    {id:'f_goat',l:'Join our agency on GoatLeads',d:'GoatLeads will be your initial tool for managing your leads and your business. <b>Do both of the steps below:</b><div class="m5-btnrow"><a class="m5-lnk go" href="https://goatleads.com/join/optimum" target="_blank" rel="noopener">🐐 Join Optimum Team for GOAT, our agency</a></div><p class="m5-fine">Then, after you have joined the agency, click the link below to sign in for discounts and promotions in the future.</p><div class="m5-btnrow"><a class="m5-lnk go" href="https://goatleads.com/registration/new?affiliate_id=66c4aa379e0123651ad2f0e6" target="_blank" rel="noopener">💸 GOAT Leads Promotions/Discounts</a></div>'},
+    {info:'<b>Join our agency on GoatLeads.</b> GoatLeads will be your initial tool for managing your leads and your business. <b>Do both of the steps below, and check each one off once you have clicked it.</b>'},
+    {id:'f_goat_promo',l:'Sign in for GOAT promotions &amp; discounts',d:'This is where you go to buy your leads — sign in for discounts and promotions.<div class="m5-btnrow"><a class="m5-lnk go" href="https://goatleads.com/registration/new?affiliate_id=66c4aa379e0123651ad2f0e6" target="_blank" rel="noopener">💸 GOAT Leads Promotions/Discounts</a></div>'},
+    {id:'f_goat',l:'Join the Optimum agency on GOAT',d:'Click the button, then come back and check this off.<div class="m5-btnrow"><a class="m5-lnk go" href="https://goatleads.com/join/optimum" target="_blank" rel="noopener">🐐 Join Optimum Team for GOAT, our agency</a></div>'},
     {id:'f_orient',l:'Attended New Agent Orientation',d:'Saturdays 10 AM EST · <a href="http://newagent.fflall.com/" target="_blank">newagent.fflall.com</a><p class="m5-fine">Live is <b>best</b> — but if you need a refresher from one of our best trainers, <a href="https://youtu.be/v7xzfAyA3sE" target="_blank">watch the replay here 🔗</a>.</p>'},
     {id:'f_invite',l:'Invited my first 5 business partners',d:'Share the opportunity with our invite app.<div class="m5-btnrow"><a class="m5-lnk go" href="https://jdawg2you.github.io/Share-FFL/shareffl.html" target="_blank" rel="noopener"><span class="m5-bico" data-ico="mega"></span> Share FFL invite app</a></div>'},
     {id:'f_calls',l:'Start attending our weekly training calls',d:'Find every call under <b><span class="m5-inico" data-ico="calendar" style="color:#c9a227"></span> Virtual Calls</b> in the left menu — and your calls for the day are always on your <b><span class="m5-inico" data-ico="dash" style="color:#16233f"></span> Dashboard</b>, so you stay informed and keep sharpening your craft.'},
@@ -762,14 +764,19 @@ function startApp(){
   var sn=document.getElementById('m5-suname'); if(sn)sn.textContent=store.data.first||'Agent';
   syncChip(); buildNav(); go('dashboard');
   if(typeof m5EnsureMyCode==='function') m5EnsureMyCode();
-  if(typeof m5BackendLoad==='function') m5BackendLoad(function(){ try{ store.data.t_lastLogin=(new Date()).toISOString(); if(store.data.admin!==true){ store.data.logins=(store.data.logins||0)+1; } store.save(); syncChip();buildNav();render(currentView()); }catch(e){} });
+  if(typeof m5BackendLoad==='function') m5BackendLoad(function(){ try{ store.data.t_lastLogin=(new Date()).toISOString(); if(store.data.admin!==true){ store.data.logins=(store.data.logins||0)+1; } m5MigrateChecks(); store.save(); syncChip();buildNav();render(currentView()); }catch(e){} });
 }
 function syncChip(){const c=document.getElementById('statuschip');if(store.data.status==='licensed'){c.textContent='Licensed Agent';c.className='statuschip';}else{c.textContent='Unlicensed Agent';c.className='statuschip unl';}}
 
 /* ---------- CHECKS ---------- */
 function isDone(id){return !!store.data.checks[id];}
+/* Idempotent: the old single 'f_goat' step became two. Anyone who had it checked
+   keeps credit for both, so nobody gets knocked back off 100%. */
+function m5MigrateChecks(){try{var c=store.data.checks||{};
+  if(c['f_goat']&&typeof c['f_goat_promo']==='undefined'){c['f_goat_promo']=c['f_goat'];store.data.checks=c;}
+}catch(e){}}
 function toggle(id,unlock){
-  store.data.checks[id]=!store.data.checks[id]; store.save();
+  store.data.checks[id]=store.data.checks[id]?false:(new Date()).toISOString(); store.save();
   if(unlock&&store.data.checks[id]&&store.data.status==='unlicensed'){
     store.data.status='licensed'; store.data.hasNPN=false; store.save();
     if(typeof m5PostPromote==='function') m5PostPromote();
@@ -785,7 +792,7 @@ let _cv='dashboard'; function currentView(){return _cv;}
 /* track progress */
 function trackItems(){
   if(store.data.status==='unlicensed') return GYL.filter(s=>s.check).map(s=>s.id);
-  return FAST.flatMap(m=>m.items.map(i=>i.id));
+  return FAST.flatMap(m=>m.items.filter(i=>!i.info).map(i=>i.id));
 }
 function progress(){const ids=trackItems();const done=ids.filter(isDone).length;return{done,total:ids.length,pct:ids.length?Math.round(done/ids.length*100):0};}
 
@@ -816,7 +823,8 @@ function render(view){_cv=view;const el=document.getElementById('content');
 }
 function ckRow(i){return `<div class="ck ${isDone(i.id)?'done':''}" onclick="toggle('${i.id}',${i.unlock?'true':'false'})"><div class="box">${isDone(i.id)?'✓':''}</div><div class="ct"><div class="cl">${i.l}</div>${i.d?`<div class="cd">${i.d}</div>`:''}</div></div>`;}
 function moduleCard(m){
-  var _d=m.items.filter(function(i){return isDone(i.id);}).length,_t=m.items.length,_p=_t?Math.round(_d/_t*100):0;
+  var _ci=m.items.filter(function(i){return !i.info;});
+  var _d=_ci.filter(function(i){return isDone(i.id);}).length,_t=_ci.length,_p=_t?Math.round(_d/_t*100):0;
   var _all=_t>0&&_d===_t;
   var _open=!_all||(window.m5ExpandedModules&&m5ExpandedModules.has(m.id));
   var _badge=_all?'<span class="m5-cbadge">✓ Complete</span>':'';
@@ -824,7 +832,7 @@ function moduleCard(m){
   var _head=`<div class="mh"><div class="mn ${m.mn}">${m.icon}</div><div class="mt">${m.t}</div>${m.meta?`<div class="mmeta">${m.meta}</div>`:''}${_badge}${_tog}</div>`;
   if(!_open)return `<div class="mod mod-collapsed">${_head}</div>`;
   var _mk=`<div class="m5-modprog"><div class="m5-modbar"><span style="width:${_p}%"></span></div><span class="m5-modpct">${_d}/${_t} done</span></div>`;
-  return `<div class="mod${_all?' mod-done':''}">${_head}${_mk}<div class="mb">${m.note||''}${m.widget==='strategy'?m5StrategyIntro():''}${m.items.map(ckRow).join('')}${m.noteBottom||''}${m.widget==='managers'?m5ManagerPicker():''}</div></div>`;
+  return `<div class="mod${_all?' mod-done':''}">${_head}${_mk}<div class="mb">${m.note||''}${m.widget==='strategy'?m5StrategyIntro():''}${m.items.map(function(i){return i.info?('<div class="infonote">'+i.info+'</div>'):ckRow(i);}).join('')}${m.noteBottom||''}${m.widget==='managers'?m5ManagerPicker():''}</div></div>`;
 }
 
 function greeting(){const h=new Date().getHours();return h<12?'Good morning':h<18?'Good afternoon':'Good evening';}
@@ -1067,7 +1075,7 @@ function m5FindSection(id){
   var pools=[];
   try{ if(typeof FAST!=="undefined"&&FAST) pools=pools.concat(FAST); }catch(e){}
   try{ if(typeof ACADEMY!=="undefined"&&ACADEMY) pools=pools.concat(ACADEMY); }catch(e){}
-  for(var i=0;i<pools.length;i++){var m=pools[i]; if(m&&m.items&&m.items.some(function(it){return it.id===id;})) return m.items.map(function(it){return it.id;});}
+  for(var i=0;i<pools.length;i++){var m=pools[i]; if(m&&m.items&&m.items.some(function(it){return it.id===id;})) return m.items.filter(function(it){return !it.info;}).map(function(it){return it.id;});}
   return null;
 }
 (function(){
@@ -1083,16 +1091,8 @@ function m5FindSection(id){
     if(typeof progress==="function"){var trkNow=progress().pct===100; if(!trkWas&&trkNow)m5Confetti();}
   };
 })();
-const M5_FORM=[
-  {first:"Christopher",last:"Hughes",email:"christophernealhughes@gmail.com",phone:"2259939311",npn:"18629075"},
-  {first:"William",last:"Brower",email:"wmbrower12@gmail.com",phone:"6077274376",npn:"21705204"},
-  {first:"Megan",last:"West",email:"westmegan64@gmail.com",phone:"7135350306",npn:"21652295"},
-  {first:"Kane",last:"Washington",email:"kanejdgreen@gmail.com",phone:"7856577070",npn:""},
-  {first:"Sarah",last:"White",email:"sarahmyounger88@gmail.com",phone:"9107577277",npn:""},
-  {first:"Brittany",last:"Hazelwood",email:"brittanyhazelwood11@gmail.com",phone:"7172010225",npn:"Not licensed"},
-  {first:"Taylor",last:"Robinson",email:"trobinsoninc95@gmail.com",phone:"8162160383",npn:"19935388"}
-];
-const M5_MANUAL=[{first:"Jesse",last:"Stamm",email:"wealthbuildersgroupllc@gmail.com",phone:"4438951832",licensed:"yes"}];
+const M5_FORM=[] /* emptied 2026-08-18: agent PII must not ship in a public file */;
+const M5_MANUAL=[] /* emptied 2026-08-18: agent PII must not ship in a public file */;
 function m5digits(s){return (s||"").replace(/\D/g,"").slice(-10);}
 function m5RealNPN(v){v=(v||"").trim().toLowerCase();if(!v)return false;if(["na","n/a","no","none","not licensed","yes","not"].indexOf(v)>=0)return false;return v.replace(/\D/g,"").length>=5;}
 function lookupAgent(first,last,email,phone){
@@ -1123,7 +1123,7 @@ const PRE_STEPS=[
 ];
 function togglePre(id){
   var wasAll=PRE_STEPS.every(function(s){return !!store.data.checks[s.id];});
-  store.data.checks[id]=!store.data.checks[id]; store.save();
+  store.data.checks[id]=store.data.checks[id]?false:(new Date()).toISOString(); store.save();
   var nowAll=PRE_STEPS.every(function(s){return !!store.data.checks[s.id];});
   if(!wasAll&&nowAll){ m5Confetti(); }
   renderPrePath();
@@ -2702,8 +2702,8 @@ function acadLen(l){if(acadIsCS(l)||!l.videoTargetSeconds)return 'Coming soon';v
 function acadGoHome(){m5acad={view:'home',mod:null,les:null};m5acadQuery='';render('academy');window.scrollTo(0,0);}
 function acadGoMod(id){m5acad={view:'module',mod:id,les:null};render('academy');window.scrollTo(0,0);}
 function acadGoLes(a,b){m5acad={view:'lesson',mod:a,les:b};store.data.acadLast={mod:a,les:b};store.save();render('academy');window.scrollTo(0,0);}
-function acadToggleDo(les,i){var k='acaddo_'+les+'_'+i;store.data.checks[k]=!store.data.checks[k];store.save();render('academy');}
-function acadMarkComplete(a,b){var _m=acadFindMod(a);var _l=_m&&_m.lessons.find(function(x){return x.id===b;});if(acadIsCS(_l))return;var k=acadKey(b);var was=!!store.data.checks[k];store.data.checks[k]=!was;store.save();if(!was){var m=acadFindMod(a);if(m&&acadModProgress(m).pct===100)m5Confetti();var n=acadNext(a,b);if(n){acadGoLes(n.mod.id,n.les.id);return;}}render('academy');}
+function acadToggleDo(les,i){var k='acaddo_'+les+'_'+i;store.data.checks[k]=store.data.checks[k]?false:(new Date()).toISOString();store.save();render('academy');}
+function acadMarkComplete(a,b){var _m=acadFindMod(a);var _l=_m&&_m.lessons.find(function(x){return x.id===b;});if(acadIsCS(_l))return;var k=acadKey(b);var was=!!store.data.checks[k];store.data.checks[k]=was?false:(new Date()).toISOString();store.save();if(!was){var m=acadFindMod(a);if(m&&acadModProgress(m).pct===100)m5Confetti();var n=acadNext(a,b);if(n){acadGoLes(n.mod.id,n.les.id);return;}}render('academy');}
 function acadDoSearch(q){m5acadQuery=q;var grid=document.getElementById('acad-modgrid'),res=document.getElementById('acad-results');if(!grid||!res)return;if(!q||!q.trim()){grid.style.display='';res.innerHTML='';return;}grid.style.display='none';var ql=q.toLowerCase();var hits=acadAllLessons().filter(function(x){return x.les.title.toLowerCase().indexOf(ql)>=0||(x.les.keyTakeaways||[]).join(' ').toLowerCase().indexOf(ql)>=0;});res.innerHTML=hits.length?hits.map(function(x){return '<div class="acad-result" onclick="acadGoLes(\''+x.mod.id+'\',\''+x.les.id+'\')"><div class="acad-result-t">'+x.les.title+(acadDone(x.les.id)?' <span class="acad-modcomplete">✓</span>':'')+'</div><div class="acad-result-m">'+x.mod.title+'</div></div>';}).join(''):'<div class="acad-empty">No lessons match that search.</div>';}
 function acadYtId(u){var m=(u||'').match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|shorts\/|embed\/))([\w-]+)/);return m?m[1]:'';}
 function acadVideoBlock(u,poster){var id=acadYtId(u);var watch=id?('https://www.youtube.com/watch?v='+id):u;var pos=poster||(id?('https://i.ytimg.com/vi/'+id+'/hqdefault.jpg'):'');var st=pos?(' style="background-image:url(&#39;'+pos+'&#39;)"'):'';return '<button class="acad-vidfacade" id="acad-vidfacade" data-embed="'+encodeURIComponent(u)+'" onclick="acadPlayVid()"'+st+'><span class="acad-playbtn">&#9654;</span></button><a class="acad-ytlink" href="'+watch+'" target="_blank" rel="noopener">&#9654; Watch on YouTube &#8599;</a>';}
