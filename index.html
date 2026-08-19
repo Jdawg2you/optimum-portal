@@ -3367,6 +3367,12 @@ body.m5-previewing #m5-prelic .m5-signout{visibility:hidden}
   .nr-rmeta{font-size:12px}
   .nr-fnote{width:100%}
 }
+
+.nr-chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 9px}
+.nr-chips .nr-chip{margin:0}
+.nr-chip.lic{background:var(--nrgb);color:var(--nrg);border-color:#c9e9d8}
+.nr-chip.unl{background:var(--nrub);color:var(--nru);border-color:#f7d6c2}
+.nr-chip.lic.new{background:var(--nrg);color:#fff;border-color:var(--nrg)}
 </style>
 
 <script>
@@ -4640,16 +4646,17 @@ function m5RcDays(iso){ var t=iso?Date.parse(iso):NaN; if(isNaN(t)) return null;
 function m5RcAgo(d){ if(d===null) return ''; if(d<=0) return 'today'; if(d===1) return 'yesterday'; if(d<30) return d+' days ago'; var m=Math.round(d/30); return m<=1?'a month ago':m+' months ago'; }
 
 /* ---- messages (names swap in) ---- */
-function m5RcMsg(kind,n){
+function m5RcMsg(kind,n,d){
+  d=(typeof d==='number'&&d>0)?d:0;
   var M={
   u1:"Hey "+n+" — really glad you're on board.\n\nQuick recap so nothing slips: first job is getting licensed, and we aim for your exam within two weeks.\n\nTwo things this week:\n1. Register for your pre-licensing course\n2. Put your exam date on the calendar and text me the date\n\nIt's all laid out in the portal — check each step off as you go so I can see where you're at and jump in if you get stuck.\n\nWhat questions do you have?",
   u3:"Hey "+n+" — I noticed the course registration and exam date aren't checked off in the portal yet.\n\nNot chasing you — I just want to make sure nothing's in the way.\n\nAre you still on track for the exam? If something's come up, tell me and we may be able to work around it.\n\nWhere are you at?",
-  u4:"Hey "+n+" — it's been two weeks since you came on, which is the window we talked about for your exam.\n\nWhere are you with it?\n\nIf you're close, let's get the date locked in. If it's stalled out, let's figure out what's in the way — that part's fixable. I'd rather know than guess.",
+  u4:"Hey "+n+" — it's been "+(d?d+" days":"a couple of weeks")+" since you came on, and two weeks was the window we talked about for your exam.\n\nWhere are you with it?\n\nIf you're close, let's get the date locked in. If it's stalled out, let's figure out what's in the way — that part's fixable. I'd rather know than guess.",
   l1:"Hey "+n+" — welcome aboard, glad to have you.\n\nSince you're already licensed we can move fast. First priority is getting your contracting submitted — that's what unlocks your carriers and everything after it. It's right at the top of Fast Start in the portal.\n\nGet that in today if you can.\n\nAnd make sure to reach out if you have any questions and keep me updated on your progress.",
   n1:"Congratulations "+n+" — you're licensed. That's the hard part done.\n\nNow everything shifts to Fast Start. First priority is getting your contracting submitted — that unlocks your carriers and gets you cleared to dial.\n\nJump in the portal today and start working through it.\n\nLet me know if you have any questions and keep me updated on your progress.",
   l3:"Hey "+n+" — checking in on where contracting landed.\n\nGetting you cleared to dial is the whole game right now — until that's done you can't work. If something's sitting in a queue or you're waiting on a carrier, let me know.\n\nWhat's outstanding?",
   l4:"Hey "+n+" — the portal still shows you haven't marked yourself cleared to dial.\n\nThat step is you telling me you're ready, so I don't want to assume. Is something still in the way, or is it just not ticked?\n\nWhat's outstanding?",
-  quiet:"Hey "+n+" — haven't seen you in the portal for a couple of weeks, so I wanted to check in.\n\nNo pressure and no lecture. I just don't want you stuck on something I could sort out in five minutes.\n\nAre you still good to move forward? And if the timing's changed on your end, that's OK too — just tell me where your head's at."
+  quiet:"Hey "+n+" — haven't seen you in the Optimum Agent Portal for a while, so I wanted to check in.\n\nNo pressure and no lecture. I just don't want you stuck on something I could sort out in five minutes.\n\nAre you still good to move forward? And if the timing's changed on your end, that's OK too — just tell me where your head's at."
   };
   return M[kind]||'';
 }
@@ -4798,8 +4805,8 @@ window.m5RcCopy=function(btn,id){
 window.m5RcShowAll=function(){ window.m5RcAll=true; m5RcRepaint(); };
 
 /* ---- render ---- */
-function m5RcMsgBlock(id,kind,n,label){
-  var txt=m5RcMsg(kind,n); if(!txt) return '';
+function m5RcMsgBlock(id,kind,n,label,days){
+  var txt=m5RcMsg(kind,n,days); if(!txt) return '';
   return '<button class="nr-msgbtn" onclick="m5RcMsgOpen(this,\''+id+'\')"><span>▸</span> '+(label||'View &amp; copy message')+'</button>'
     + '<div class="nr-msg" id="'+id+'" style="display:none"><p id="'+id+'-t">'+m5RcEsc(txt)+'</p>'
     + '<div class="nr-msgfoot"><button class="nr-copy" onclick="m5RcCopy(this,\''+id+'\')">Copy</button>'
@@ -4809,13 +4816,20 @@ function m5RcCard(m,idx){
   var a=m.a, n=m5RcFirst(a), warn=(m.pace.s==='stall');
   var cls='nr'+(warn?' t-warn':(m.justLic?' t-promo':''));
   var pct=Math.round(m.done/m.steps.length*100);
-  var chip=warn?(m.pace.k==='quiet'?'Gone quiet':'Never started'):(m.justLic?'Just got licensed':(m.direct?'New recruit':'In your downline'));
+  /* Two chips, always. The first says where they stand on licensing and never changes
+     duty; the second says what is happening with them. The old single chip meant a card
+     that went orange silently dropped the licence status, which is the one fact a
+     recruiter needs to know what to even say to them. */
+  var chip=warn?(m.pace.k==='quiet'?'Gone quiet':'Never started'):(m.direct?'New recruit':'In your downline');
+  var licChip = m.justLic ? '<span class="nr-chip lic new">🎉 Newly licensed</span>'
+              : (a.licensed ? '<span class="nr-chip lic">Licensed</span>'
+                            : '<span class="nr-chip unl">Unlicensed</span>');
   var head;
   if(m.justLic) head='🎉 <b>'+m5RcEsc(a.name||n)+'</b> just got licensed — here is what is next';
   else if(warn) head=m5RcEsc(a.name||n)+(m.pace.k==='quiet'?' has gone quiet':' has not gotten started');
   /* Never tell someone they recruited a person they did not recruit. */
-  else if(!m.direct) head='<b>'+m5RcEsc(a.name||n)+'</b> joined your agency <span class="nr-state '+(a.licensed?'lic':'unl')+'">· currently '+(a.licensed?'licensed':'unlicensed')+'</span>';
-  else head='🎉 Congratulations — you recruited <b>'+m5RcEsc(a.name||n)+'</b> <span class="nr-state '+(a.licensed?'lic':'unl')+'">· currently '+(a.licensed?'licensed':'unlicensed')+'</span>';
+  else if(!m.direct) head='<b>'+m5RcEsc(a.name||n)+'</b> joined your agency';
+  else head='🎉 Congratulations — you recruited <b>'+m5RcEsc(a.name||n)+'</b>';
   var meta=m.justLic?'Licensed today · your job just changed':('Joined '+m5RcAgo(m.days));
   if(!m.direct && m.under) meta+=' · <span class="nr-under">Under '+m5RcEsc(m.under)+'</span>';
   var h='<div class="'+cls+'">';
@@ -4824,7 +4838,7 @@ function m5RcCard(m,idx){
       +'<div class="nr-row"><button class="nr-btn warn" onclick="m5RcKill(\''+m.em+'\')">Remove</button>'
       +'<button class="nr-btn" onclick="m5RcKeep(\''+m.em+'\')">Keep it</button></div></div>';
   }
-  h+='<div class="nr-top"><div><span class="nr-chip">'+chip+'</span><div class="nr-h">'+head+'</div>'
+  h+='<div class="nr-top"><div><div class="nr-chips">'+licChip+'<span class="nr-chip">'+chip+'</span></div><div class="nr-h">'+head+'</div>'
    + '<div class="nr-meta">'+meta+'</div></div>'
    + '<div class="nr-ctl">'
    + '<button class="nr-collapse" onclick="m5RcCollapse(\''+m.em+'\',\''+m.sig+'\')"><span class="car">▲</span> Collapse</button>'
@@ -4832,7 +4846,7 @@ function m5RcCard(m,idx){
   if(m.reopened){ h+='<div class="nr-reopen">↩︎ Reopened — something changed for '+m5RcEsc(n)+' since you collapsed this.</div>'; }
   if(warn&&m.pace.why){
     h+='<div class="nr-alert">⚠️ '+m5RcEsc(m.pace.why)+' A call now is worth more than one next week.'
-      +m5RcMsgBlock('nrq'+idx,'quiet',n)+'</div>';
+      +m5RcMsgBlock('nrq'+idx,'quiet',n,'View &amp; copy message',m.days)+'</div>';
   } else if(m.pace.s==='slip'&&m.pace.why){
     h+='<div class="nr-alert" style="background:var(--nrab);border-color:#f0e0bd;color:#7a5a10">⏳ '+m5RcEsc(m.pace.why)+'</div>';
   }
@@ -4846,7 +4860,7 @@ function m5RcCard(m,idx){
     var tag=s.you?'':(s.done?'<span class="nr-tag ok">auto ✓</span>':'<span class="nr-tag wait">waiting on '+m5RcEsc(n)+'</span>');
     h+='<li class="nr-step'+(s.done?' done':'')+'">'+box+'<div class="nr-body"><div class="nr-t">'+m5RcEsc(s.t)+tag+'</div>'
       +'<div class="nr-d">'+m5RcEsc(s.d)+'</div>'
-      +(s.msg?m5RcMsgBlock('nrm'+idx+'-'+i,s.msg,n):'')+'</div></li>';
+      +(s.msg?m5RcMsgBlock('nrm'+idx+'-'+i,s.msg,n,'View &amp; copy message',m.days):'')+'</div></li>';
   }
   h+='</ul>';
   h+='<div class="nr-foot">'
