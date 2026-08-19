@@ -791,7 +791,12 @@ let _cv='dashboard'; function currentView(){return _cv;}
 
 /* track progress */
 function trackItems(){
-  if(store.data.status==='unlicensed') return GYL.filter(s=>s.check).map(s=>s.id);
+  if(store.data.status==='unlicensed'){
+    /* The pre-licensing page renders PRE_STEPS (pre_1..pre_6). GYL is the older list and
+       shares no ids with it, so counting GYL pinned Get-Licensed % at 0 for everyone. */
+    if(typeof PRE_STEPS!=='undefined' && PRE_STEPS && PRE_STEPS.length) return PRE_STEPS.map(s=>s.id);
+    return GYL.filter(s=>s.check).map(s=>s.id);
+  }
   return FAST.flatMap(m=>m.items.filter(i=>!i.info).map(i=>i.id));
 }
 function progress(){const ids=trackItems();const done=ids.filter(isDone).length;return{done,total:ids.length,pct:ids.length?Math.round(done/ids.length*100):0};}
