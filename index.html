@@ -699,8 +699,8 @@ const NAV=[
   {v:'support',ic:'💬',t:'General Support'},
   {v:'gethelp',ic:'❓',t:'Get Help'},
   {v:'profile',ic:'👤',t:'Profile'},
-  {g:'Agency',admin:true},
-  {v:'agency',ic:'📊',t:'Agency Dashboard',admin:true},
+  {g:'Agency'},
+  {v:'agency',ic:'📊',t:'Agency Dashboard'},
 ];
 function buildNav(){
   const unl=store.data.status==='unlicensed';
@@ -2779,6 +2779,41 @@ function acadLessonView(a,b){var m=acadFindMod(a);if(!m)return acadHomeView();va
 .ag-card{background:#fff;border:1px solid #e5e9f2;border-radius:16px;padding:18px 20px;box-shadow:0 6px 18px rgba(20,35,63,.05)}
 .ag-card h3{margin:0 0 3px;font-size:15px;color:#16233f}
 .ag-card .sub{margin:0 0 14px;font-size:12.5px;color:#8a93a9}
+/* --- Agency Dashboard empty state: shown to anyone who hasn't recruited yet --- */
+.agz{background:linear-gradient(150deg,var(--navy),var(--navy-2));color:#eaf0fb;border-radius:18px;padding:30px 24px 28px;text-align:center;box-shadow:0 10px 30px rgba(14,34,68,.22)}
+.agz-kick{display:inline-block;font-size:11px;font-weight:800;letter-spacing:1.1px;text-transform:uppercase;color:var(--gold);background:rgba(224,168,61,.15);border:1px solid rgba(224,168,61,.35);border-radius:999px;padding:5px 13px;margin-bottom:16px}
+.agz h2{margin:0 0 12px;font-size:26px;line-height:1.22;font-weight:800;letter-spacing:-.3px;color:#fff}
+.agz p{margin:0 auto;font-size:15px;line-height:1.6;color:#c4d2ec;max-width:440px}
+.agz-ctas{max-width:440px;margin:22px auto 0;text-align:left}
+.agz-cta{display:block;text-decoration:none;border-radius:13px;padding:15px 18px;margin-top:14px;transition:.14s;border:1px solid transparent;cursor:pointer}
+.agz-cta .t{display:block;font-weight:800;font-size:15.5px;line-height:1.25}
+.agz-cta .d{display:block;font-size:13px;margin-top:3px;line-height:1.45;opacity:.9}
+.agz-cta .a{float:right;font-size:19px;line-height:1;margin-top:2px;opacity:.85}
+.agz-cta.gold{background:var(--gold);color:#2b1d02}
+.agz-cta.gold .d{color:#5c4409}
+.agz-cta.gold:hover{background:#eeb84a;transform:translateY(-1px)}
+.agz-cta.ghost{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.22);color:#eaf0fb}
+.agz-cta.ghost .d{color:#a9bcdd}
+.agz-cta.ghost:hover{background:rgba(255,255,255,.13);transform:translateY(-1px)}
+.agz-prev{margin-top:26px}
+.agz-prevh{font-size:12px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#98a2b6;margin:0 0 10px;text-align:center}
+.agz-ghost{position:relative;overflow:hidden;filter:grayscale(.35);opacity:.62}
+.agz-ghost::after{content:"";position:absolute;left:0;right:0;top:0;bottom:0;background:linear-gradient(180deg,rgba(244,247,252,0) 30%,rgba(244,247,252,.92) 100%);pointer-events:none}
+.agz-stats{display:flex;gap:10px;margin-bottom:14px}
+.agz-stat{flex:1;background:#f7fafe;border:1px solid var(--line);border-radius:11px;padding:10px 8px;text-align:center}
+.agz-stat b{display:block;font-size:19px;color:var(--navy);line-height:1.1}
+.agz-stat span{font-size:10.5px;color:#8a93a9;font-weight:700;text-transform:uppercase;letter-spacing:.3px}
+.agz-tbl{width:100%;border-collapse:collapse;font-size:12.5px}
+.agz-tbl th{text-align:left;font-size:10.5px;text-transform:uppercase;letter-spacing:.4px;color:#8a93a9;padding:7px 6px;border-bottom:1px solid var(--line)}
+.agz-tbl td{padding:9px 6px;border-bottom:1px solid #f1f4f9;color:#48536a}
+.agz-tbl td.nm{font-weight:700;color:var(--ink)}
+.agz-bar{height:6px;background:#eaeff7;border-radius:99px;overflow:hidden;min-width:54px}
+.agz-bar i{display:block;height:100%;background:var(--brand);border-radius:99px}
+.agz-bar i.g{background:#1faa5f}
+.agz-pill{display:inline-block;font-size:10px;font-weight:800;border-radius:999px;padding:2px 8px}
+.agz-pill.lic{background:rgba(31,170,95,.13);color:#12793f}
+.agz-pill.pre{background:rgba(224,168,61,.16);color:var(--gold-deep)}
+@media(max-width:640px){ .agz{padding:26px 18px 24px} .agz h2{font-size:23px} .agz p{font-size:14.5px} }
 .ag-funnel-row{display:flex;align-items:center;gap:10px;margin:7px 0}
 .ag-funnel-lab{width:118px;font-size:12.5px;color:#55617d;text-align:right;font-weight:600}
 .ag-funnel-bar{flex:1;background:#eef2f8;border-radius:7px;height:26px;position:relative;overflow:hidden}
@@ -4030,7 +4065,7 @@ window.m5cdRender=function(el,target){var ms=target-new Date();if(ms<=0){el.inne
 window.m5EvTick=function(){var a=document.getElementById('m5-cd-ignyte');if(a)window.m5cdRender(a,window.m5IgnyteTarget);var b=document.getElementById('m5-cd-conv');if(b)window.m5cdRender(b,window.m5ConvTarget);};
 if(!window.m5EvInt){window.m5EvInt=setInterval(function(){window.m5EvTick();},1000);}
 
-/* ===================== AGENCY DASHBOARD (admin only) ===================== */
+/* ================= AGENCY DASHBOARD (scoped to your downline) ================= */
 /* Resources: which carriers take which alternative payment methods */
 window.m5PaymentsPanel=function(){
   function grp(title,carriers){ return '<div style="margin-top:15px"><div style="font-size:12px;font-weight:800;color:#a9861d;text-transform:uppercase;letter-spacing:.05em;margin-bottom:9px">'+title+'</div><div style="display:flex;flex-wrap:wrap;gap:8px">'+carriers.map(function(c){ return '<span style="background:#f2f5fb;border:1px solid #e3e8f2;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:600;color:#16233f">'+c+'</span>'; }).join('')+'</div></div>'; }
@@ -4095,10 +4130,50 @@ window.m5TrackSection=function(view){
     if(typeof store.save==='function') store.save();
   }catch(e){}
 };
+window.m5AgIsAdmin=function(){ return (typeof store!=='undefined'&&store.data&&store.data.admin===true); };
+/* Team size = everyone the backend returned for you, minus yourself. The backend now
+   scopes the roster to your downline, so this is your team and nobody else's. */
+window.m5AgTeamSize=function(){
+  var me=((typeof store!=='undefined'&&store.data&&store.data.email)||'').trim().toLowerCase();
+  var a=m5Ag.agents||[], n=0;
+  for(var i=0;i<a.length;i++){ if(String(a[i].email||'').trim().toLowerCase()!==me) n++; }
+  return n;
+};
+window.m5AgHead=function(){
+  return '<h1 class="page"><span data-ico="dash" style="vertical-align:-3px"></span> Agency Dashboard</h1>'
+       + '<p class="sub">'+(m5AgIsAdmin()?'Your team\'s live progress, straight from your sheet.'
+                                         :'Where you track everyone you bring into the business.')+'</p>';
+};
+/* Shown to anyone whose downline is empty. Never a bare table with no rows — that reads
+   as broken. This reads as an invitation. */
+window.m5AgEmpty=function(){
+  return '<div class="agz">'
+    + '<span class="agz-kick">Nothing here yet</span>'
+    + '<h2>You haven\'t recruited anyone — yet.</h2>'
+    + '<p>The day you do, this page fills up: whether they\'ve logged in, how far along their license is, whether they\'ve started Fast Start, and if they\'re actually dialing.</p>'
+    + '<div class="agz-ctas">'
+      + '<a class="agz-cta gold" onclick="go(\'agencybuild\')"><span class="a">→</span><span class="t">Check out the Agency Builder</span><span class="d">See exactly what a team does to your income — the override cascade, run on your own numbers.</span></a>'
+      + '<a class="agz-cta ghost" onclick="go(\'recruiting\')"><span class="a">→</span><span class="t">Not sure how to recruit?</span><span class="d">Scripts, talk tracks, who to approach and what to say — it\'s all on the Recruiting tab.</span></a>'
+    + '</div></div>'
+    + '<div class="agz-prev"><p class="agz-prevh">What shows up here once you do</p>'
+    + '<div class="ag-card agz-ghost">'
+      + '<div class="agz-stats"><div class="agz-stat"><b>3</b><span>Team</span></div><div class="agz-stat"><b>2</b><span>Licensed</span></div><div class="agz-stat"><b>1</b><span>Dialing</span></div></div>'
+      + '<table class="agz-tbl"><thead><tr><th>Agent</th><th>Status</th><th>License</th></tr></thead><tbody>'
+      + '<tr><td class="nm">Dana W.</td><td><span class="agz-pill lic">Licensed</span></td><td><div class="agz-bar"><i class="g" style="width:100%"></i></div></td></tr>'
+      + '<tr><td class="nm">Marcus T.</td><td><span class="agz-pill pre">Pre-lic</span></td><td><div class="agz-bar"><i style="width:50%"></i></div></td></tr>'
+      + '<tr><td class="nm">Priya N.</td><td><span class="agz-pill lic">Licensed</span></td><td><div class="agz-bar"><i class="g" style="width:100%"></i></div></td></tr>'
+      + '</tbody></table></div></div>';
+};
 window.m5AgencyDash=function(){
-  if(typeof store==='undefined'||store.data.admin!==true) return '<h1 class="page">Agency Dashboard</h1><p class="sub">This area is for admins only.</p>';
-  if(!m5Ag.loaded){ m5AgFetch(); return '<h1 class="page"><span data-ico="dash" style="vertical-align:-3px"></span> Agency Dashboard</h1><p class="sub">Your team\'s live progress, straight from your sheet.</p><div class="ag-load">Loading team data…</div>'; }
-  if(m5Ag.err) return '<h1 class="page">Agency Dashboard</h1><p class="sub">Could not load the roster.</p><div class="ag-load">'+(m5Ag.err==='forbidden'?'This account is not flagged as an admin (column F on Manual Adds).':'Network issue — reopen this page in a moment.')+'</div>';
+  var adm=m5AgIsAdmin();
+  var cached=(typeof store!=='undefined'&&store.data&&typeof store.data.teamCount==='number')?store.data.teamCount:null;
+  /* Someone we already know has no team gets the splash instantly — no roster call and no
+     six-second wait to be told they have nobody. We still refresh quietly underneath in
+     case they have recruited since last time. */
+  if(!adm && !m5Ag.loaded && cached===0){ m5AgFetch(true); return m5AgHead()+m5AgEmpty(); }
+  if(!m5Ag.loaded){ m5AgFetch(); return m5AgHead()+'<div class="ag-load">Loading your team…</div>'; }
+  if(m5Ag.err) return m5AgHead()+'<div class="ag-load">'+(m5Ag.err==='forbidden'?'We could not match your login to the roster. Let Jesse know and he will get it sorted.':'Network issue — reopen this page in a moment.')+'</div>';
+  if(!adm && m5AgTeamSize()===0) return m5AgHead()+m5AgEmpty();
   return m5AgRender();
 };
 // Collapse a person split across two rows by an email/phone change: same full name,
@@ -4135,15 +4210,30 @@ window.m5AgDedupe=function(agents){
   var out=[]; for(var i=0;i<agents.length;i++){ if(!drop[i]) out.push(agents[i]); }
   return out;
 };
-window.m5AgFetch=function(){
+/* silent=true means the splash is already on screen and we are only checking whether
+   they have recruited since last time. In that mode we never repaint over the splash
+   unless there is now somebody to show, and a failed check leaves the splash alone
+   rather than replacing it with an error. */
+window.m5AgFetch=function(silent){
+  var repaint=function(){ if(typeof currentView==='function'&&currentView()==='agency'&&typeof render==='function') render('agency'); };
   try{
     if(typeof BACKEND_URL==='undefined'||!BACKEND_URL){ m5Ag.loaded=true; m5Ag.err='network'; return; }
     var email=((store.data&&store.data.email)||'').trim().toLowerCase();
     var phone=(store.data&&store.data.phone)||'';
     fetch(BACKEND_URL,{method:'POST',body:JSON.stringify({action:'roster',email:email,phone:phone})})
       .then(function(r){return r.json();})
-      .then(function(j){ m5Ag.loaded=true; if(j&&j.ok){ m5Ag.agents=m5AgDedupe(j.agents||[]); m5Ag.popularity=j.popularity||{}; m5Ag.err=''; m5Ag.lastSync=Date.now(); } else { m5Ag.err=(j&&j.error)||'error'; } if(typeof currentView==='function'&&currentView()==='agency'&&typeof render==='function') render('agency'); })
-      .catch(function(){ m5Ag.loaded=true; m5Ag.err='network'; if(typeof currentView==='function'&&currentView()==='agency'&&typeof render==='function') render('agency'); });
+      .then(function(j){
+        m5Ag.loaded=true;
+        if(j&&j.ok){
+          m5Ag.agents=m5AgDedupe(j.agents||[]); m5Ag.popularity=j.popularity||{}; m5Ag.err=''; m5Ag.lastSync=Date.now();
+          /* Cache the team size so the next visit knows instantly whether to show the
+             splash, instead of making everyone wait on a roster call to find out. */
+          try{ store.data.teamCount=m5AgTeamSize(); if(typeof store.save==='function') store.save(); }catch(e){}
+        } else { m5Ag.err=(j&&j.error)||'error'; }
+        if(silent && (m5Ag.err || m5AgTeamSize()===0)) return;   /* splash stays put */
+        repaint();
+      })
+      .catch(function(){ m5Ag.loaded=true; m5Ag.err='network'; if(!silent) repaint(); });
   }catch(e){ m5Ag.loaded=true; m5Ag.err='network'; }
 };
 // Re-pull the roster on demand (button), without touching login or navigation.
@@ -4159,7 +4249,7 @@ window.m5AgRefresh=function(){
     var phone=(store.data&&store.data.phone)||'';
     fetch(BACKEND_URL,{method:'POST',body:JSON.stringify({action:'roster',email:email,phone:phone})})
       .then(function(r){return r.json();})
-      .then(function(j){ if(j&&j.ok){ m5Ag.agents=m5AgDedupe(j.agents||[]); m5Ag.popularity=j.popularity||{}; m5Ag.err=''; m5Ag.lastSync=Date.now(); } else { m5Ag.err=(j&&j.error)||'error'; } done(); })
+      .then(function(j){ if(j&&j.ok){ m5Ag.agents=m5AgDedupe(j.agents||[]); m5Ag.popularity=j.popularity||{}; m5Ag.err=''; m5Ag.lastSync=Date.now(); try{ store.data.teamCount=m5AgTeamSize(); if(typeof store.save==='function') store.save(); }catch(e){} } else { m5Ag.err=(j&&j.error)||'error'; } done(); })
       .catch(function(){ done(); });
   }catch(e){ done(); }
 };
@@ -4249,11 +4339,11 @@ function m5AgSortVal(a,k){
   return (a.name||'').toLowerCase();
 }
 function m5AgRecruiter(a){
-  var nm=String(a.name||'').trim().toLowerCase().replace(/\s+/g,' ');
-  // 1) Manual overrides always win (Jesse's hand corrections).
-  var EXC={'faith mcenaney':'Adam Ellis','joshua rick':'Adam Ellis','rebecca toledo':'Liliana Sánchez','cheryl kipler':'Tanya Jones','nick oelke':'Jesse Stamm','tanya jones':'Jesse Stamm','adam ellis':'Jesse Stamm','jesse stamm':'Jesse Stamm'};
-  if(EXC[nm])return EXC[nm];
-  // 2) Real recruiter from the Portal Registrations sheet (via backend payload).
+  /* The hand-typed override table that used to sit here is gone (19 Aug 2026). Every one
+     of those eight people now carries a correct Recruiter Email in Portal Registrations,
+     verified by auditDownline, so the sheet is the only source of truth. Fix a recruiter
+     in the sheet and a refresh picks it up — no rebuild. */
+  // Real recruiter from the Portal Registrations sheet (via backend payload).
   var rf=String(a.recruiterFirst||'').trim(), rl=String(a.recruiterLast||'').trim();
   if(rf||rl) return (rf+' '+rl).trim();
   // 3) Fallbacks: self-registered via the form defaults to Jesse; otherwise blank.
@@ -4266,7 +4356,7 @@ function m5AgTable(){
   var head=cols.map(function(c){ var arrow=(k===c[0])?(dir>0?' ▲':' ▼'):''; return '<th onclick="m5AgSort(\''+c[0]+'\')">'+c[1]+arrow+'</th>'; }).join('');
   var n=m5AgFilt().length;
   var search='<input id="m5ag-search" type="search" placeholder="🔎 Search name…" value="'+m5AgEsc(m5Ag.q||'')+'" oninput="m5AgSearch(this.value)" style="padding:9px 13px;border:1px solid #dbe2ee;border-radius:10px;font-size:13.5px;min-width:210px;font-family:inherit;outline:none;background:#fff">';
-  return '<div class="ag-card" style="padding:0;overflow:hidden"><div style="padding:16px 20px 10px"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h3 style="margin:0">Agent roster</h3>'+search+'</div><p class="sub" style="margin:6px 0 0">Every agent, all three tracks side by side. Click any column to sort. Showing <span id="m5ag-count">'+n+'</span>.</p></div><div class="ag-tablewrap"><table class="ag-table"><thead><tr>'+head+'</tr></thead><tbody id="m5ag-tbody">'+m5AgRows()+'</tbody></table></div></div>';
+  return '<div class="ag-card" style="padding:0;overflow:hidden"><div style="padding:16px 20px 10px"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h3 style="margin:0">'+(m5AgIsAdmin()?'Agent roster':'Your team')+'</h3>'+search+'</div><p class="sub" style="margin:6px 0 0">'+(m5AgIsAdmin()?'Every agent':'Everyone you have recruited')+', all three tracks side by side. Click any column to sort. Showing <span id="m5ag-count">'+n+'</span>.</p></div><div class="ag-tablewrap"><table class="ag-table"><thead><tr>'+head+'</tr></thead><tbody id="m5ag-tbody">'+m5AgRows()+'</tbody></table></div></div>';
 }
 function m5AgRender(){
   var A=m5Ag.agents||[];
