@@ -4291,7 +4291,16 @@ window.m5AgDedupe=function(agents){
    unless there is now somebody to show, and a failed check leaves the splash alone
    rather than replacing it with an error. */
 window.m5AgFetch=function(silent){
-  var repaint=function(){ if(typeof currentView==='function'&&currentView()==='agency'&&typeof render==='function') render('agency'); };
+  /* Both the Agency page AND the dashboard recruit cards wait on this fetch, so repaint
+     whichever of the two is actually on screen. Hardcoding 'agency' here meant the roster
+     landed for a recruiter sitting on their dashboard and nothing ever redrew. */
+  var repaint=function(){
+    try{
+      if(typeof currentView!=='function'||typeof render!=='function') return;
+      var v=currentView();
+      if(v==='agency'||v==='dashboard') render(v);
+    }catch(e){}
+  };
   try{
     if(typeof BACKEND_URL==='undefined'||!BACKEND_URL){ m5Ag.loaded=true; m5Ag.err='network'; return; }
     var email=((store.data&&store.data.email)||'').trim().toLowerCase();
@@ -4638,7 +4647,13 @@ function m5RcSteps(a,days,c){
   var st=(a.steps&&typeof a.steps==='object')?a.steps:{};
   var n=m5RcFirst(a), S=[];
   if(!a.licensed){
-    var started=!!a.loggedIn&&!!(st.pre_1||st.pre_2||st.pre_3||st.pre_4||st.pre_5||st.pre_6);
+    /* "Started working the steps" also falls out of the Get-Licensed percentage: anything
+       above zero means they have ticked at least one pre-licensing step. Using that as a
+       fallback means this box is right even when the backend has not sent step-level
+       detail — which is the whole point of the box. */
+    var _gp=Number(String(a.gylPct==null?'':a.gylPct).replace('%','').trim());
+    if(isNaN(_gp)) _gp=0;
+    var started=!!a.loggedIn&&(!!(st.pre_1||st.pre_2||st.pre_3||st.pre_4||st.pre_5||st.pre_6)||_gp>0);
     S.push({k:'s1',you:true,done:!!c.s1,t:'Confirm first steps with '+n+' within 24 hours',
       d:'Re-welcome them, reset the expectation, and point at their next two steps. Some of this likely happened already — this is making sure it landed.',msg:'u1'});
     S.push({k:'s2',you:false,done:started,t:n+' has logged in and started working the steps',
