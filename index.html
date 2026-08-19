@@ -3337,6 +3337,36 @@ body.m5-previewing #m5-prelic .m5-signout{visibility:hidden}
 .nr-btn.warn{background:var(--nrr);border-color:var(--nrr);color:#fff}
 @media(max-width:640px){ .nr{padding:16px 15px 14px} .nr-h{font-size:17px} .nr-dash{margin-left:0;width:100%;text-align:center} }
 
+
+.nr-ctl{flex:none;display:flex;align-items:center;gap:7px}
+.nr-collapse{border:1px solid var(--line);background:#fff;color:var(--ink-soft);font-size:12.5px;font-weight:800;
+  padding:7px 12px;border-radius:8px;cursor:pointer;font-family:inherit;white-space:nowrap;transition:.15s}
+.nr-collapse:hover{background:#f6f8fc;color:var(--ink);border-color:#d6deea}
+.nr-collapse .car{font-size:10px;vertical-align:1px;margin-right:2px}
+.nr .nr-x{opacity:.45;font-weight:700}
+.nr .nr-x:hover{opacity:1}
+.nr-under{color:var(--gold-deep);font-weight:700}
+.nr-fnote{font-size:12.5px;color:var(--ink-soft)}
+.nr-reopen{margin:12px 0 0;background:#eef4ff;border:1px solid #d5e2fb;color:#123a99;
+  border-radius:10px;padding:9px 12px;font-size:12.8px;font-weight:700}
+.nr-shut{margin-top:14px}
+.nr-shuth{font-size:11px;font-weight:900;letter-spacing:.7px;text-transform:uppercase;color:#98a2b6;margin:0 0 8px 2px}
+.nr-row{display:flex;align-items:center;gap:11px;background:#fff;border:1px solid var(--line);
+  border-left:4px solid #cbd5e4;border-radius:11px;padding:9px 12px;margin-bottom:8px}
+.nr-row.warn{border-left-color:#c2560f}
+.nr-expand{border:1px solid var(--line);background:#f7fafe;color:var(--ink-soft);font-size:12px;font-weight:800;
+  padding:5px 10px;border-radius:7px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.nr-expand:hover{background:#eef3fa;color:var(--ink)}
+.nr-expand .car{font-size:9px;vertical-align:1px;margin-right:2px}
+.nr-rname{font-weight:800;font-size:14px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nr-rmeta{font-size:12.5px;color:var(--ink-soft);white-space:nowrap}
+.nr-row .nr-x{width:26px;height:26px;font-size:13px;opacity:.4}
+@media(max-width:640px){
+  .nr-collapse{padding:7px 10px;font-size:12px}
+  .nr-runder{display:none}
+  .nr-rmeta{font-size:12px}
+  .nr-fnote{width:100%}
+}
 </style>
 
 <script>
@@ -4604,6 +4634,7 @@ window.m5RcFor=function(em){ var s=m5RcState(); if(!s[em]||typeof s[em]!=='objec
 function m5RcSave(){ try{ if(typeof store.save==='function') store.save(); }catch(e){} }
 function m5RcRepaint(){ try{ if(typeof currentView==='function'&&currentView()==='dashboard'&&typeof render==='function') render('dashboard'); }catch(e){} }
 function m5RcEsc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function m5RcNorm(s){ return String(s==null?'':s).trim().toLowerCase().replace(/\s+/g,' '); }
 function m5RcFirst(a){ var n=String(a.name||'').trim().split(/\s+/)[0]; return n||'They'; }
 function m5RcDays(iso){ var t=iso?Date.parse(iso):NaN; if(isNaN(t)) return null; return Math.floor((Date.now()-t)/864e5); }
 function m5RcAgo(d){ if(d===null) return ''; if(d<=0) return 'today'; if(d===1) return 'yesterday'; if(d<30) return d+' days ago'; var m=Math.round(d/30); return m<=1?'a month ago':m+' months ago'; }
@@ -4634,10 +4665,13 @@ function m5RcPace(a,days){
   var n=m5RcFirst(a);
   if(!a.loggedIn){
     var need=a.licensed?3:2;
-    if(days>=need) return {s:'stall',why:n+" has never logged into the portal, "+days+" days after signing up."};
+    if(days>=need) return {s:'stall',k:'never',why:n+" has never logged into the portal, "+days+" days after signing up."};
     return {s:'ok'};
   }
-  if(ll!==null&&ll>=7) return {s:'stall',why:n+" hasn't logged in for "+ll+" days."};
+  /* Logged in and then stopped is NOT the same as never started, and the heading has to
+     say which. Telling a recruiter their agent "hasn't gotten started" when he has is the
+     fastest way to make them stop trusting the card. */
+  if(ll!==null&&ll>=7) return {s:'stall',k:'quiet',why:n+" hasn't logged in for "+ll+" days."};
   if(ll!==null&&ll>=4) return {s:'slip',why:n+" hasn't logged in for "+ll+" days."};
   return {s:'ok'};
 }
@@ -4704,14 +4738,43 @@ window.m5RcCards=function(){
        it retires whether or not the recruiter ever ticked their own box. The unlicensed
        card does not do this — it hands over to the licensed card when they pass. */
     if(a.licensed && auton>0 && autodone===auton) continue;
-    list.push({a:a,em:em,c:c,days:days,steps:steps,done:done,pace:m5RcPace(a,days),
-               justLic:(c.lic0===0&&a.licensed)});
+    /* Direct vs indirect. Prefer recruiter EMAIL — the one key that cannot drift. Falls
+       back to name only while the backend has not been redeployed with recruiterEmail. */
+    var myEm=me, myNm=m5RcNorm((store.data.name||'')||((store.data.first||'')+' '+(store.data.last||'')));
+    var rEm=String(a.recruiterEmail||'').trim().toLowerCase();
+    var rNm=m5RcNorm((a.recruiterFirst||'')+' '+(a.recruiterLast||''));
+    var direct = rEm ? (rEm===myEm) : (rNm? (rNm===myNm) : true);
+    var under=((a.recruiterFirst||'')+' '+(a.recruiterLast||'')).trim();
+    var m={a:a,em:em,c:c,days:days,steps:steps,done:done,pace:m5RcPace(a,days),
+           justLic:(c.lic0===0&&a.licensed),direct:direct,under:under};
+    m.sig=m5RcSig(m);
+    /* Collapsed, but something changed since — reopen it and say so. */
+    if(c.collapsed && c.sig && c.sig!==m.sig){ delete c.collapsed; delete c.sig; c.reopened=1; m5RcSave(); }
+    m.collapsed=!!c.collapsed;
+    m.reopened=!!c.reopened;
+    list.push(m);
   }
   list.sort(function(x,y){ return x.days-y.days; });
   return list;
 };
 
+/* A fingerprint of everything about this recruit that would be NEWS to their recruiter.
+   Saved when a card is collapsed; if it no longer matches, the card springs back open.
+   Deliberately excludes the day counter and the recruiter's own checkboxes — neither is
+   news, and reopening on those would train people to ignore the reopening. */
+function m5RcSig(m){
+  var auto=0;
+  for(var i=0;i<m.steps.length;i++){ if(!m.steps[i].you&&m.steps[i].done) auto++; }
+  return [m.steps.length,auto,m.pace.s,(m.a.licensed?1:0)].join('|');
+}
+
 /* ---- actions ---- */
+window.m5RcCollapse=function(em,sig){
+  var c=m5RcFor(em); c.collapsed=(new Date()).toISOString(); c.sig=sig; m5RcSave(); m5RcRepaint();
+};
+window.m5RcExpand=function(em){
+  var c=m5RcFor(em); delete c.collapsed; delete c.sig; delete c.reopened; m5RcSave(); m5RcRepaint();
+};
 window.m5RcToggle=function(em,k){
   var c=m5RcFor(em); c[k]=c[k]?false:(new Date()).toISOString(); m5RcSave(); m5RcRepaint();
 };
@@ -4746,12 +4809,15 @@ function m5RcCard(m,idx){
   var a=m.a, n=m5RcFirst(a), warn=(m.pace.s==='stall');
   var cls='nr'+(warn?' t-warn':(m.justLic?' t-promo':''));
   var pct=Math.round(m.done/m.steps.length*100);
-  var chip=warn?'Needs attention':(m.justLic?'Just got licensed':'New recruit');
+  var chip=warn?(m.pace.k==='quiet'?'Gone quiet':'Never started'):(m.justLic?'Just got licensed':(m.direct?'New recruit':'In your downline'));
   var head;
   if(m.justLic) head='🎉 <b>'+m5RcEsc(a.name||n)+'</b> just got licensed — here is what is next';
-  else if(warn) head=m5RcEsc(a.name||n)+' has not gotten started';
+  else if(warn) head=m5RcEsc(a.name||n)+(m.pace.k==='quiet'?' has gone quiet':' has not gotten started');
+  /* Never tell someone they recruited a person they did not recruit. */
+  else if(!m.direct) head='<b>'+m5RcEsc(a.name||n)+'</b> joined your agency <span class="nr-state '+(a.licensed?'lic':'unl')+'">· currently '+(a.licensed?'licensed':'unlicensed')+'</span>';
   else head='🎉 Congratulations — you recruited <b>'+m5RcEsc(a.name||n)+'</b> <span class="nr-state '+(a.licensed?'lic':'unl')+'">· currently '+(a.licensed?'licensed':'unlicensed')+'</span>';
   var meta=m.justLic?'Licensed today · your job just changed':('Joined '+m5RcAgo(m.days));
+  if(!m.direct && m.under) meta+=' · <span class="nr-under">Under '+m5RcEsc(m.under)+'</span>';
   var h='<div class="'+cls+'">';
   if(m.c._ask){
     h+='<div class="nr-confirm"><p>Remove the card for '+m5RcEsc(a.name||n)+'? You will not get it back.</p>'
@@ -4760,7 +4826,10 @@ function m5RcCard(m,idx){
   }
   h+='<div class="nr-top"><div><span class="nr-chip">'+chip+'</span><div class="nr-h">'+head+'</div>'
    + '<div class="nr-meta">'+meta+'</div></div>'
-   + '<button class="nr-x" title="Remove this card" onclick="m5RcAsk(\''+m.em+'\')">✕</button></div>';
+   + '<div class="nr-ctl">'
+   + '<button class="nr-collapse" onclick="m5RcCollapse(\''+m.em+'\',\''+m.sig+'\')"><span class="car">▲</span> Collapse</button>'
+   + '<button class="nr-x" title="Remove this card for good" onclick="m5RcAsk(\''+m.em+'\')">✕</button></div></div>';
+  if(m.reopened){ h+='<div class="nr-reopen">↩︎ Reopened — something changed for '+m5RcEsc(n)+' since you collapsed this.</div>'; }
   if(warn&&m.pace.why){
     h+='<div class="nr-alert">⚠️ '+m5RcEsc(m.pace.why)+' A call now is worth more than one next week.'
       +m5RcMsgBlock('nrq'+idx,'quiet',n)+'</div>';
@@ -4780,9 +4849,20 @@ function m5RcCard(m,idx){
       +(s.msg?m5RcMsgBlock('nrm'+idx+'-'+i,s.msg,n):'')+'</div></li>';
   }
   h+='</ul>';
-  h+='<div class="nr-foot"><button class="nr-dash" onclick="go(\'agency\')">Open Agency Dashboard →</button></div>';
+  h+='<div class="nr-foot">'
+   + (!m.direct&&m.under?'<span class="nr-fnote">'+m5RcEsc(m.under)+' owns this one — if something needs chasing, start there.</span>':'')
+   + '<button class="nr-dash" onclick="go(\'agency\')">Open Agency Dashboard →</button></div>';
   h+='</div>';
   return h;
+}
+function m5RcRow(m){
+  var n=m5RcFirst(m.a), warn=(m.pace.s==='stall');
+  return '<div class="nr-row'+(warn?' warn':'')+'">'
+    + '<button class="nr-expand" onclick="m5RcExpand(\''+m.em+'\')"><span class="car">▼</span> Expand</button>'
+    + '<span class="nr-rname">'+m5RcEsc(m.a.name||n)+'</span>'
+    + '<span class="nr-rmeta">'+m.done+' of '+m.steps.length
+    + (m.direct?'':'<span class="nr-runder"> · under '+m5RcEsc(m.under||'someone else')+'</span>')+'</span>'
+    + '<button class="nr-x" title="Remove this card for good" onclick="m5RcAsk(\''+m.em+'\')">✕</button></div>';
 }
 window.m5RcRender=function(){
   try{
@@ -4804,10 +4884,20 @@ window.m5RcRender=function(){
         try{ if(typeof m5Confetti==='function') setTimeout(m5Confetti,320); }catch(e){}
       }
     }
-    var cap=(window.m5RcAll===true)?list.length:3;
+    /* Collapsed rows are one line each, so they never count against the cap — otherwise
+       collapsing three just promotes three more and the pile never shrinks. Handled people
+       sink to the bottom; live ones stay up top. */
+    var open=[], shut=[];
+    for(var k=0;k<list.length;k++){ (list[k].collapsed?shut:open).push(list[k]); }
+    var cap=(window.m5RcAll===true)?open.length:3;
     var out='<div class="nr-wrap">';
-    for(var i=0;i<list.length&&i<cap;i++) out+=m5RcCard(list[i],i);
-    if(list.length>cap) out+='<button class="nr-more" onclick="m5RcShowAll()">Show '+(list.length-cap)+' more new recruit'+((list.length-cap)===1?'':'s')+'</button>';
+    for(var i=0;i<open.length&&i<cap;i++) out+=m5RcCard(open[i],i);
+    if(open.length>cap) out+='<button class="nr-more" onclick="m5RcShowAll()">Show '+(open.length-cap)+' more new recruit'+((open.length-cap)===1?'':'s')+'</button>';
+    if(shut.length){
+      out+='<div class="nr-shut"><div class="nr-shuth">Handled for now · '+shut.length+'</div>';
+      for(var j=0;j<shut.length;j++) out+=m5RcRow(shut[j]);
+      out+='</div>';
+    }
     return out+'</div>';
   }catch(e){ return ''; }
 };
