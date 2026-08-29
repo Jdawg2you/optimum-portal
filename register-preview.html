@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FFL Optimum — New Agent Registration</title>
+<meta name="description" content="Join the FFL Optimum team — register in a few minutes.">
+<!-- Open Graph / share preview -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="FFL Optimum">
+<meta property="og:title" content="FFL Optimum — New Agent Registration">
+<meta property="og:description" content="Welcome to Family First Life & the FFL Optimum team. Register here to get started.">
+<meta property="og:image" content="https://portal.ffloptimum.com/og-image.png">
+<meta property="og:image:secure_url" content="https://portal.ffloptimum.com/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="FFL Optimum">
+<meta property="og:url" content="https://portal.ffloptimum.com/register.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FFL Optimum — New Agent Registration">
+<meta name="twitter:description" content="Register here to join the FFL Optimum team.">
+<meta name="twitter:image" content="https://portal.ffloptimum.com/og-image.png">
+<meta name="theme-color" content="#16233f">
+<style>
+  :root{
+    --navy:#16233f; --navy2:#1f2c4e; --gold:#c9a227; --gold-d:#a9861d;
+    --page:#eef2f8; --card:#fff; --line:#dbe3f0; --ink:#16233f; --ink2:#55617d; --muted:#8a93a9;
+    --blue:#2a56d6; --good:#0ca30c; --bad:#d03b3b; --field:#f7f9fc;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:var(--page);color:var(--ink);
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:640px;margin:0 auto;padding:0 16px 70px}
+
+  header{background:linear-gradient(180deg,#16233f,#1c2f52);border-bottom:3px solid var(--gold);text-align:center;padding:22px 16px 20px}
+  header img{width:150px;height:auto;margin-bottom:6px}
+  header h1{color:#fff;font-size:20px;margin:6px 0 0;font-weight:800;letter-spacing:.01em}
+  header .sub{color:#b6c2db;font-size:12.5px;margin-top:5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase}
+  .lockup{display:inline-block;text-align:center;margin-bottom:2px}
+  .bh-name{color:#fff;font-weight:700;font-size:30px;letter-spacing:.30em;padding-left:.30em;line-height:1}
+  .bh-sub{display:flex;align-items:center;justify-content:center;gap:9px;margin-top:10px}
+  .bh-sub span{color:#e4eaf6;font-size:11px;letter-spacing:.16em;font-weight:600}
+  .bh-sub i{width:1px;height:11px;background:var(--gold);display:inline-block}
+  .bh-div{margin:13px auto 2px;width:210px;height:3px;background:radial-gradient(ellipse at center,var(--gold) 0%,rgba(201,162,39,0) 72%)}
+
+  .intro{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-top:18px;box-shadow:0 6px 18px rgba(20,35,63,.05)}
+  .intro p{margin:0;font-size:14px;color:var(--ink2);line-height:1.55}
+  .intro b{color:var(--navy)}
+  .refchip{display:none;align-items:center;gap:8px;margin-top:12px;background:#fbf7e9;border:1px solid #efe3b8;color:#7a5f12;font-size:12.5px;font-weight:700;padding:8px 12px;border-radius:9px}
+
+  .sec{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-top:14px;box-shadow:0 6px 18px rgba(20,35,63,.05)}
+  .seclabel{font-size:11px;font-weight:800;color:var(--gold-d);text-transform:uppercase;letter-spacing:.06em;margin:0 0 12px}
+
+  label{display:block;font-size:13px;font-weight:700;color:var(--navy);margin:14px 0 6px}
+  label:first-of-type{margin-top:0}
+  label .req{color:var(--bad)}
+  label .opt{color:var(--muted);font-weight:600;font-size:11.5px}
+  input[type=text],input[type=email],input[type=tel],input[type=date],input[type=number],select{
+    width:100%;font-size:15px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;
+    font-family:inherit;color:var(--ink);background:var(--field)}
+  input:focus,select:focus{outline:none;border-color:var(--gold);background:#fff}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .row3{display:grid;grid-template-columns:2fr 1fr 1fr;gap:12px}
+  @media(max-width:520px){.row3{grid-template-columns:1fr 1fr}.row3 .full{grid-column:1/-1}}
+  .hint{font-size:11.5px;color:var(--muted);margin-top:5px}
+
+  /* License upload */
+  .upload{border:2px dashed #c7d3e8;border-radius:12px;padding:18px;text-align:center;background:var(--field);cursor:pointer}
+  .upload:hover{border-color:var(--gold);background:#fff}
+  .upload .ic{font-size:26px}
+  .upload .t{font-size:14px;font-weight:700;color:var(--navy);margin-top:4px}
+  .upload .s{font-size:12px;color:var(--muted);margin-top:3px}
+  #licPrev{display:none;margin-top:12px;text-align:center}
+  #licPrev img{max-width:100%;max-height:200px;border-radius:10px;border:1px solid var(--line)}
+  #licPrev .ok{color:var(--good);font-size:12.5px;font-weight:700;margin-top:6px}
+
+  /* Acknowledgment */
+  .ackhead{display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;
+    background:var(--navy);color:#fff;border-radius:10px;padding:13px 15px}
+  .ackhead .t{font-size:14px;font-weight:800}
+  .ackhead .chev{color:var(--gold);font-size:18px;transition:transform .2s}
+  .ackhead.open .chev{transform:rotate(90deg)}
+  .ackbody{display:none;border:1px solid var(--line);border-top:0;border-radius:0 0 10px 10px;
+    padding:14px 16px;max-height:300px;overflow-y:auto;font-size:13px;color:var(--ink2);line-height:1.6;background:#fcfdff}
+  .ackbody h4{color:var(--navy);font-size:13.5px;margin:14px 0 4px}
+  .ackbody h4:first-child{margin-top:0}
+  .ackbody ul{margin:4px 0 0;padding-left:18px}
+  .ackbody li{margin:3px 0}
+  .ackbody .close{color:var(--ink);font-weight:700}
+  .checkrow{display:flex;align-items:flex-start;gap:11px;margin-top:14px;background:var(--field);border:1px solid var(--line);border-radius:10px;padding:13px}
+  .checkrow input{width:20px;height:20px;accent-color:var(--gold);margin-top:1px;flex:0 0 auto;cursor:pointer}
+  .checkrow label{margin:0;font-size:13px;font-weight:600;color:var(--ink);line-height:1.45}
+
+  /* Signature */
+  .sigwrap{margin-top:6px}
+  .sigpad{width:100%;height:180px;background:#fff;border:2px solid var(--line);border-radius:12px;touch-action:none;display:block}
+  .sigpad.filled{border-color:var(--good)}
+  .sigbar{display:flex;align-items:center;justify-content:space-between;margin-top:8px}
+  .sigbar .lbl{font-size:12px;color:var(--muted)}
+  .sigclear{background:#eef1f6;border:0;color:var(--navy);font-weight:700;font-size:12.5px;padding:7px 14px;border-radius:8px;cursor:pointer}
+  .sigdate{font-size:12.5px;color:var(--ink2);margin-top:10px}
+  .sigdate b{color:var(--navy)}
+
+  .submit{width:100%;margin-top:22px;background:var(--gold);color:var(--navy);border:0;border-radius:12px;
+    padding:15px;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 8px 20px rgba(201,162,39,.3)}
+  .submit:active{transform:translateY(1px)}
+  .err{display:none;background:#fbe6e6;border:1px solid #f0b8b8;color:#a11;font-size:13px;font-weight:600;padding:11px 13px;border-radius:10px;margin-top:14px}
+  .foot{text-align:center;color:var(--muted);font-size:11px;margin-top:22px;line-height:1.6}
+
+  /* success */
+  .done{display:none;text-align:center;padding:34px 20px 40px}
+  .done .big{font-size:46px}
+  .done h2{color:var(--navy);font-size:22px;margin:10px 0 6px}
+  .done p{color:var(--ink2);font-size:14px;margin:0 auto;max-width:400px;line-height:1.55}
+  .done .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px;margin-top:18px;text-align:left;font-size:12.5px;color:var(--ink2)}
+  .done .okcheck{width:100px;height:100px;margin:0 auto 2px;display:block}
+  .done .headline{font-size:32px;line-height:1.08;font-weight:800;color:var(--navy);margin:10px 0 8px;letter-spacing:-.01em}
+  .done .welcome{font-size:19px;font-weight:800;color:var(--navy);margin:0 0 10px}
+  .done .lede{font-size:15px;color:var(--ink2);line-height:1.6;margin:0 auto;max-width:340px}
+  .done .lede b{color:var(--navy)}
+  .done .focus{margin:22px auto 0;max-width:360px;text-align:left;background:#fbfaf4;border:1px solid #ece2bf;border-left:5px solid var(--gold);border-radius:14px;padding:16px 18px}
+  .done .focus .eyebrow{font-size:11px;font-weight:800;color:var(--gold-d);text-transform:uppercase;letter-spacing:.07em;margin:0 0 7px}
+  .done .focus p{margin:0;font-size:13.5px;color:var(--ink);line-height:1.6;max-width:none}
+  .done .focus p b{color:var(--navy)}
+  .done .cta{display:block;width:100%;max-width:360px;margin:20px auto 0;background:var(--gold);color:var(--navy);text-decoration:none;text-align:center;border-radius:12px;padding:15px 18px;font-weight:800;font-size:15.5px;box-shadow:0 8px 20px rgba(201,162,39,.28)}
+  .done .tip{font-size:12px;color:var(--muted);margin:15px auto 0;max-width:330px;line-height:1.55}
+  .done .tip b{color:var(--ink2)}
+  .done .card b{color:var(--navy)}
+
+  /* ---- Pre-submit next-step warning: the thing people were missing ---- */
+  .nextstep{border:2px solid var(--gold);background:linear-gradient(180deg,#fffdf6,#fff8e8);
+    border-radius:16px;padding:20px 20px 18px;margin:26px 0 18px;
+    box-shadow:0 6px 22px rgba(201,162,39,.18)}
+  .nextstep .nshead{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .nextstep .nsicon{flex:none;width:34px;height:34px;border-radius:50%;background:var(--gold);
+    color:#fff;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:800}
+  .nextstep h3{margin:0;font-size:19px;line-height:1.25;color:var(--navy);font-weight:800}
+  .nextstep .nssub{font-size:14.5px;color:var(--ink2);line-height:1.55;margin:8px 0 14px}
+  .nextstep .nssub b{color:var(--navy)}
+  .nsteps{list-style:none;margin:0 0 15px;padding:0;counter-reset:ns}
+  .nsteps li{position:relative;padding:9px 0 9px 40px;font-size:14.5px;line-height:1.5;
+    color:var(--ink);border-top:1px solid #f0e4c4;counter-increment:ns}
+  .nsteps li:first-child{border-top:0}
+  .nsteps li:before{content:counter(ns);position:absolute;left:0;top:9px;width:26px;height:26px;
+    border-radius:50%;background:var(--navy);color:#fff;font-size:13px;font-weight:800;
+    display:flex;align-items:center;justify-content:center}
+  .nsteps li b{color:var(--navy)}
+  .nsteps .nsurl{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:7px;
+    padding:2px 8px;font-size:13.5px;font-weight:700;color:var(--blue);margin-top:4px}
+  .nsack{display:flex;align-items:flex-start;gap:12px;background:#fff;border:2px solid var(--gold);
+    border-radius:12px;padding:14px 15px;cursor:pointer;transition:.15s}
+  .nsack:hover{background:#fffdf6}
+  .nsack.on{border-color:var(--good);background:#f3fbf3}
+  .nsack input{flex:none;width:24px;height:24px;margin:0;accent-color:var(--good);cursor:pointer}
+  .nsack label{font-size:14.5px;line-height:1.45;font-weight:700;color:var(--navy);cursor:pointer;margin:0}
+  @media(max-width:560px){
+    .nextstep{padding:17px 15px 15px}
+    .nextstep h3{font-size:17.5px}
+    .nextstep .nssub,.nsteps li,.nsack label{font-size:14px}
+  }
+</style>
+</head>
+<body>
+<div style="position:fixed;top:0;left:0;right:0;z-index:9999;background:#c0392b;color:#fff;font:700 12px system-ui;text-align:center;padding:6px">PREVIEW ONLY — do not submit this form</div><div style="height:26px"></div>
+
+<header>
+  <div class="lockup">
+    <div class="bh-name">OPTIMUM</div>
+    <div class="bh-sub"><span>HEALTH</span><i></i><span>LIFE</span><i></i><span>RETIREMENT</span></div>
+    <div class="bh-div"></div>
+  </div>
+  <h1>New Agent Registration</h1>
+  <div class="sub">Family First Life · FFL Optimum</div>
+</header>
+
+<div class="wrap">
+  <div id="form">
+    <div class="intro">
+      <p>Welcome to <b>Family First Life</b> and the <b>FFL Optimum Team</b>. Please fill out the information below — read everything carefully, and agree with your digital signature at the bottom. This registers you and gets you into the team portal.</p>
+      <div class="refchip" id="refchip"><span>✓</span><span id="reftext"></span></div>
+    </div>
+
+    <!-- Your info -->
+    <div class="sec">
+      <div class="seclabel">Your Information</div>
+      <div class="row2">
+        <div><label>First Name <span class="req">*</span></label><input type="text" id="first" autocomplete="given-name"></div>
+        <div><label>Last Name <span class="req">*</span></label><input type="text" id="last" autocomplete="family-name"></div>
+      </div>
+      <label>Email <span class="req">*</span></label><input type="email" id="email" autocomplete="email" placeholder="you@email.com">
+      <div class="row2">
+        <div><label>Phone <span class="req">*</span></label><input type="tel" id="phone" autocomplete="tel" placeholder="(555) 123-4567"></div>
+        <div><label>Date of Birth <span class="req">*</span></label><input type="date" id="dob"></div>
+      </div>
+    </div>
+
+    <!-- Address -->
+    <div class="sec">
+      <div class="seclabel">Home Address</div>
+      <label>Street &amp; Apt (if applicable) <span class="req">*</span></label><input type="text" id="addr" autocomplete="address-line1">
+      <div class="row3">
+        <div class="full"><label>City <span class="req">*</span></label><input type="text" id="city" autocomplete="address-level2"></div>
+        <div><label>State <span class="req">*</span></label>
+          <select id="state"><option value="">—</option><option>AL</option><option>AK</option><option>AZ</option><option>AR</option><option>CA</option><option>CO</option><option>CT</option><option>DE</option><option>FL</option><option>GA</option><option>HI</option><option>ID</option><option>IL</option><option>IN</option><option>IA</option><option>KS</option><option>KY</option><option>LA</option><option>ME</option><option>MD</option><option>MA</option><option>MI</option><option>MN</option><option>MS</option><option>MO</option><option>MT</option><option>NE</option><option>NV</option><option>NH</option><option>NJ</option><option>NM</option><option>NY</option><option>NC</option><option>ND</option><option>OH</option><option>OK</option><option>OR</option><option>PA</option><option>RI</option><option>SC</option><option>SD</option><option>TN</option><option>TX</option><option>UT</option><option>VT</option><option>VA</option><option>WA</option><option>WV</option><option>WI</option><option>WY</option><option>DC</option></select>
+        </div>
+        <div><label>Zip <span class="req">*</span></label><input type="text" id="zip" inputmode="numeric" autocomplete="postal-code"></div>
+      </div>
+    </div>
+
+    <!-- License / NPN -->
+    <div class="sec">
+      <div class="seclabel">Licensing</div>
+      <label>Are you a licensed agent? <span class="req">*</span></label>
+      <select id="licensed"><option value="">—</option><option value="yes">Yes — I have my license</option><option value="no">No — not yet licensed</option></select>
+      <div id="npnWrap" style="display:none">
+        <label>NPN (National Producer Number) <span class="opt">— if licensed</span></label>
+        <input type="text" id="npn" inputmode="numeric" placeholder="Your NPN">
+      </div>
+    </div>
+
+    <!-- Emergency contact -->
+    <div class="sec">
+      <div class="seclabel">Emergency Contact</div>
+      <div class="row2">
+        <div><label>Contact Name <span class="req">*</span></label><input type="text" id="ecname"></div>
+        <div><label>Contact Number <span class="req">*</span></label><input type="tel" id="ecphone"></div>
+      </div>
+    </div>
+
+    <!-- Driver's license upload -->
+    <div class="sec">
+      <div class="seclabel">Driver's License</div>
+      <label>Upload a clear photo of your driver's license <span class="req">*</span></label>
+      <div class="upload" id="licDrop" onclick="document.getElementById('licFile').click()">
+        <div class="ic">📇</div>
+        <div class="t">Tap to upload or take a photo</div>
+        <div class="s">On your phone this opens your camera. JPG or PNG.</div>
+      </div>
+      <input type="file" id="licFile" accept="image/*" capture="environment" style="display:none">
+      <div id="licPrev"><img id="licImg" alt="License preview"><div class="ok">✓ License photo attached</div></div>
+      <div class="hint">Stored securely and visible only to your agency admin.</div>
+    </div>
+
+    <!-- Acknowledgment -->
+    <div class="sec">
+      <div class="seclabel">Agent Accuracy &amp; Debt Acknowledgment</div>
+      <div class="ackhead" id="ackHead" onclick="toggleAck()">
+        <span class="t">📄 Read the agreement</span><span class="chev">›</span>
+      </div>
+      <div class="ackbody" id="ackBody">
+        <p>By signing this digital document, I acknowledge, agree, and affirm the following:</p>
+        <h4>1. Accuracy of Information</h4>
+        <ul>
+          <li>All information I have provided on this form is complete, truthful, and 100% accurate to the best of my knowledge.</li>
+          <li>I understand that providing false, misleading, or incomplete information may result in the termination of my contract and/or legal action.</li>
+        </ul>
+        <h4>2. Personal Responsibility for Debt</h4>
+        <ul>
+          <li>I am fully, solely, and unconditionally responsible for any and all financial obligations I incur as an agent of Family First Life, FFL Optimum, WBG LLC and all affiliated or related companies.</li>
+          <li>This includes, but is not limited to, debts arising from roll-ups, advances, chargebacks, bonuses, or overrides.</li>
+        </ul>
+        <h4>3. Responsibility for Downline Debt</h4>
+        <ul>
+          <li>I understand that I am equally responsible for debts incurred by any agent(s) in my downline.</li>
+          <li>I accept that any such debt may legally "roll up" to me, and I will remain liable for repayment in full.</li>
+        </ul>
+        <h4>4. Chargeback Obligation</h4>
+        <ul>
+          <li>I agree to repay all chargebacks on business I personally write that does not remain in force, as well as any chargebacks generated by business written by my downline.</li>
+          <li>I acknowledge that repayment of such debt is mandatory and enforceable, and I waive any claim or defense of non-responsibility.</li>
+        </ul>
+        <h4>5. Binding and Enforceable Agreement</h4>
+        <ul>
+          <li>I understand and agree that this acknowledgment is a binding and enforceable agreement between myself and Family First Life, FFL Optimum, and all related companies.</li>
+          <li>I expressly waive any defense or objection to the enforceability of this agreement.</li>
+          <li>I further agree that any disputes regarding repayment obligations may be pursued through legal collection processes.</li>
+        </ul>
+        <p style="margin-top:14px"><span class="close">By signing below, I confirm that I have read, understood, and voluntarily agree to the above terms, and that I am entering into this acknowledgment freely and without reservation.</span></p>
+      </div>
+      <div class="checkrow">
+        <input type="checkbox" id="agree">
+        <label for="agree">I have read, understood, and voluntarily agree to the Agent Accuracy &amp; Debt Acknowledgment above. <span class="req">*</span></label>
+      </div>
+    </div>
+
+    <!-- Signature -->
+    <div class="sec">
+      <div class="seclabel">Digital Signature</div>
+      <label>Sign below with your finger or mouse <span class="req">*</span></label>
+      <div class="sigwrap">
+        <canvas class="sigpad" id="sigpad"></canvas>
+        <div class="sigbar"><span class="lbl">Draw your signature above</span><button type="button" class="sigclear" onclick="clearSig()">Clear</button></div>
+      </div>
+      <label style="margin-top:16px">Type your full legal name <span class="req">*</span></label>
+      <input type="text" id="fullname" placeholder="Full legal name" autocomplete="name">
+      <div class="sigdate">Signed on: <b id="sigdate">—</b> <span style="color:var(--muted)">(captured automatically when you submit)</span></div>
+    </div>
+
+    <!-- Registering is not the last step. This is where people were dropping out. -->
+    <div class="nextstep">
+      <div class="nshead">
+        <div class="nsicon">!</div>
+        <h3>Submitting this form is not the last step</h3>
+      </div>
+      <p class="nssub">Registering tells us who you are. It does <b>not</b> start your training.
+        You have to log in to the portal before anything begins &mdash; this is the step people miss,
+        and it is why they end up stuck wondering what to do next.</p>
+      <ol class="nsteps">
+        <li><b>Submit this form</b> &mdash; the button right below.</li>
+        <li><b>Log in to the portal</b> on the very next screen. Your name, email and phone. No password.
+          <br><span class="nsurl">portal.ffloptimum.com</span></li>
+        <li><b>Bookmark it</b> or add it to your home screen. You will be in it every day.</li>
+      </ol>
+      <div class="nsack" id="nsack" onclick="toggleNextAck(event)">
+        <input type="checkbox" id="ackNext" onclick="event.stopPropagation();toggleNextAck(event)">
+        <label for="ackNext">Got it &mdash; I understand I still have to log in after I submit this, and I will do it right now. <span class="req">*</span></label>
+      </div>
+    </div>
+
+    <div class="err" id="err"></div>
+    <button class="submit" onclick="submitForm()">Submit Registration</button>
+    <div class="foot">FFL Optimum · Family First Life &nbsp;·&nbsp; Your information is stored securely and used only for agency onboarding.</div>
+  </div>
+
+  <!-- Success -->
+  <div class="done" id="done">
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+      <linearGradient id="og" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4cf72"/><stop offset="1" stop-color="#bf951c"/></linearGradient>
+      <radialGradient id="ogring" cx="50%" cy="50%" r="50%"><stop offset="62%" stop-color="rgba(201,162,39,0)"/><stop offset="80%" stop-color="rgba(201,162,39,.22)"/><stop offset="100%" stop-color="rgba(201,162,39,0)"/></radialGradient>
+      <symbol id="okcheck" viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="58" fill="url(#ogring)"/>
+        <circle cx="60" cy="60" r="41" fill="url(#og)"/>
+        <circle cx="60" cy="60" r="41" fill="none" stroke="#16233f" stroke-opacity=".14" stroke-width="1.5"/>
+        <path d="M43 61 L55 73 L79 47" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="97" cy="34" r="2.6" fill="#c9a227" opacity=".7"/><circle cx="26" cy="40" r="1.9" fill="#c9a227" opacity=".55"/><circle cx="30" cy="86" r="2.1" fill="#c9a227" opacity=".5"/>
+      </symbol></defs></svg>
+    <svg class="okcheck"><use href="#okcheck"/></svg>
+    <div class="headline">You're registered!</div>
+    <div class="welcome">Welcome to the FFL Optimum team.</div>
+    <p class="lede"><b>This portal is your home base from now on.</b> Bookmark it — next time you just log in with your name, email, and phone. No password to remember.</p>
+    <div class="focus" id="doneFocus"></div>
+    <a class="cta" id="doneCta" href="https://portal.ffloptimum.com/">Log in to the portal →</a>
+    <p class="tip"><b>Bookmark tip:</b> tap your browser's menu and choose "Add to Bookmarks" or "Add to Home Screen" so it's one tap next time.</p>
+  </div>
+</div>
+
+<script>
+  var BACKEND='https://script.google.com/macros/s/AKfycbzf1JRBpWwXO0IfRPbvFCsI8T7rptmc9dllbUlt6nVbpu0t9tnQ7dm3P-gQnpgZtdSk/exec';
+  // ---- referral capture (?ref=CODE) — show the sponsor's real name when we can resolve it ----
+  var ref=new URLSearchParams(location.search).get('ref');
+  if(ref){
+    document.getElementById('refchip').style.display='flex';
+    document.getElementById('reftext').textContent='Referred by sponsor code: '+ref;
+    // JSONP lookup (cross-origin read isn't allowed on the normal endpoint, so we use a script tag)
+    window.__sponsorCb=function(res){
+      try{
+        if(res && res.found){
+          var nm=((res.first||'')+' '+(res.last||'')).trim();
+          if(nm) document.getElementById('reftext').textContent='Referred by '+nm;
+        }
+      }catch(e){}
+    };
+    var s=document.createElement('script');
+    s.src=BACKEND+'?action=sponsor&code='+encodeURIComponent(ref)+'&callback=__sponsorCb';
+    s.onerror=function(){}; // leave the code showing if the lookup fails
+    document.head.appendChild(s);
+  }
+
+  // ---- licensed toggle ----
+  document.getElementById('licensed').addEventListener('change',function(){
+    document.getElementById('npnWrap').style.display=this.value==='yes'?'block':'none';
+  });
+
+  // ---- license preview ----
+  var licData=null;
+  document.getElementById('licFile').addEventListener('change',function(e){
+    var f=e.target.files[0]; if(!f)return;
+    var r=new FileReader();
+    r.onload=function(ev){ licData=ev.target.result;
+      document.getElementById('licImg').src=licData;
+      document.getElementById('licPrev').style.display='block';
+      document.getElementById('licDrop').querySelector('.t').textContent='Photo attached — tap to replace';
+    };
+    r.readAsDataURL(f);
+  });
+
+  // ---- next-step acknowledgment ----
+  function toggleNextAck(e){
+    var box=document.getElementById('ackNext'), row=document.getElementById('nsack');
+    if(e && e.target && e.target.id!=='ackNext') box.checked=!box.checked;
+    row.classList.toggle('on', box.checked);
+  }
+
+  // ---- acknowledgment expand ----
+  function toggleAck(){
+    var h=document.getElementById('ackHead'), b=document.getElementById('ackBody');
+    var open=h.classList.toggle('open');
+    b.style.display=open?'block':'none';
+    h.querySelector('.t').textContent=open?'📄 Agreement (tap to collapse)':'📄 Read the agreement';
+  }
+
+  // ---- signature pad ----
+  var cv=document.getElementById('sigpad'), ctx, drawing=false, hasSig=false;
+  function sizeCanvas(){
+    var rect=cv.getBoundingClientRect();
+    var dpr=window.devicePixelRatio||1;
+    var data=hasSig?cv.toDataURL():null;
+    cv.width=rect.width*dpr; cv.height=rect.height*dpr;
+    ctx=cv.getContext('2d'); ctx.scale(dpr,dpr);
+    ctx.lineWidth=2.4; ctx.lineCap='round'; ctx.lineJoin='round'; ctx.strokeStyle='#16233f';
+    if(data){ var img=new Image(); img.onload=function(){ctx.drawImage(img,0,0,rect.width,rect.height);}; img.src=data; }
+  }
+  function pos(e){
+    var r=cv.getBoundingClientRect();
+    var t=e.touches?e.touches[0]:e;
+    return {x:t.clientX-r.left, y:t.clientY-r.top};
+  }
+  function start(e){ e.preventDefault(); drawing=true; var p=pos(e); ctx.beginPath(); ctx.moveTo(p.x,p.y); }
+  function move(e){ if(!drawing)return; e.preventDefault(); var p=pos(e); ctx.lineTo(p.x,p.y); ctx.stroke();
+    if(!hasSig){ hasSig=true; cv.classList.add('filled'); } }
+  function end(){ drawing=false; }
+  cv.addEventListener('mousedown',start); cv.addEventListener('mousemove',move);
+  window.addEventListener('mouseup',end);
+  cv.addEventListener('touchstart',start,{passive:false}); cv.addEventListener('touchmove',move,{passive:false});
+  cv.addEventListener('touchend',end);
+  function clearSig(){ var r=cv.getBoundingClientRect(); ctx.clearRect(0,0,r.width,r.height); hasSig=false; cv.classList.remove('filled'); }
+  window.addEventListener('load',sizeCanvas);
+  window.addEventListener('resize',sizeCanvas);
+
+  // ---- submit ----
+  function submitForm(){
+    var err=document.getElementById('err');
+    function fail(m){ err.textContent=m; err.style.display='block'; window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'}); return false; }
+    var req=[['first','First name'],['last','Last name'],['email','Email'],['phone','Phone'],['dob','Date of birth'],
+             ['addr','Home address'],['city','City'],['state','State'],['zip','Zip'],['licensed','Licensed status'],
+             ['ecname','Emergency contact name'],['ecphone','Emergency contact number'],['fullname','Full legal name']];
+    for(var i=0;i<req.length;i++){ var v=document.getElementById(req[i][0]).value.trim(); if(!v) return fail('Please fill in: '+req[i][1]+'.'); }
+    var em=document.getElementById('email').value.trim();
+    if(em.indexOf('@')<1||em.lastIndexOf('.')<em.indexOf('@')+2||em.lastIndexOf('.')===em.length-1) return fail('Please enter a valid email address.');
+    if(!licData) return fail('Please upload a photo of your driver’s license.');
+    if(!document.getElementById('agree').checked) return fail('Please check the box to agree to the Agent Accuracy & Debt Acknowledgment.');
+    if(!hasSig) return fail('Please sign in the signature box.');
+    if(!document.getElementById('ackNext').checked) return fail('Please confirm you understand you still need to log in to the portal after submitting.');
+    err.style.display='none';
+
+    var now=new Date();
+    var stamp=now.toLocaleString('en-US',{year:'numeric',month:'long',day:'numeric',hour:'numeric',minute:'2-digit'});
+    document.getElementById('sigdate').textContent=stamp;
+
+    var btn=document.querySelector('.submit');
+    btn.disabled=true; btn.textContent='Submitting…'; btn.style.opacity='0.7';
+
+    var g=function(id){return document.getElementById(id).value.trim();};
+    var sig=cv.toDataURL('image/png');
+
+    // compress the license photo, then send everything to the backend
+    compressImage(licData, function(licSmall){
+      var payload={ action:'register', data:{
+        first:g('first'), last:g('last'), email:g('email').toLowerCase(), phone:g('phone'),
+        dob:g('dob'), addr:g('addr'), city:g('city'), state:g('state'), zip:g('zip'),
+        licensed:g('licensed'), npn:g('npn'), ecname:g('ecname'), ecphone:g('ecphone'),
+        agreed:true, signedAt:stamp, fullname:g('fullname'),
+        license:licSmall, signature:sig, ref:ref||''
+      }};
+      try{
+        fetch(BACKEND, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(payload)});
+      }catch(e){}
+      // give the request a moment to leave the browser, then show success
+      setTimeout(function(){
+        var isLic = g('licensed')==='yes';
+        var focus=document.getElementById('doneFocus');
+        var cta=document.getElementById('doneCta');
+        if(isLic){
+          focus.innerHTML='<div class="eyebrow">Your first move</div><p>Jump straight into your <b>New Agent Fast Start</b> — your step-by-step launch plan. Log in below to begin, and be sure to <b>bookmark the FFL Optimum Agent Portal</b>. This is your home base for everything: onboarding now, and running your whole business going forward.</p>';
+          cta.textContent='Log in & start Fast Start →';
+        } else {
+          focus.innerHTML='<div class="eyebrow">Your next 2 weeks</div><p>Focus on <b>getting your license</b>. Log in below to start the process — and be sure to <b>bookmark the FFL Optimum Agent Portal</b>. This is your home base for everything: your onboarding now, and running your whole business going forward.</p>';
+          cta.textContent='Log in to the portal →';
+        }
+        document.getElementById('form').style.display='none';
+        document.getElementById('done').style.display='block';
+        window.scrollTo({top:0,behavior:'smooth'});
+      }, 900);
+    });
+  }
+
+  // Shrink the license photo before upload (fast, small) — signature is already tiny.
+  function compressImage(dataUri, cb){
+    if(!dataUri){ cb(''); return; }
+    var img=new Image();
+    img.onload=function(){
+      var max=1400, w=img.width, h=img.height;
+      if(w>max||h>max){ var s=Math.min(max/w, max/h); w=Math.round(w*s); h=Math.round(h*s); }
+      var c=document.createElement('canvas'); c.width=w; c.height=h;
+      c.getContext('2d').drawImage(img,0,0,w,h);
+      try{ cb(c.toDataURL('image/jpeg', 0.72)); }catch(e){ cb(dataUri); }
+    };
+    img.onerror=function(){ cb(dataUri); };
+    img.src=dataUri;
+  }
+</script>
+</body>
+</html>
