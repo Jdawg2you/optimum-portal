@@ -127,6 +127,38 @@
   .done .tip{font-size:12px;color:var(--muted);margin:15px auto 0;max-width:330px;line-height:1.55}
   .done .tip b{color:var(--ink2)}
   .done .card b{color:var(--navy)}
+
+  /* ---- Pre-submit next-step warning: the thing people were missing ---- */
+  .nextstep{border:2px solid var(--gold);background:linear-gradient(180deg,#fffdf6,#fff8e8);
+    border-radius:16px;padding:20px 20px 18px;margin:26px 0 18px;
+    box-shadow:0 6px 22px rgba(201,162,39,.18)}
+  .nextstep .nshead{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .nextstep .nsicon{flex:none;width:34px;height:34px;border-radius:50%;background:var(--gold);
+    color:#fff;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:800}
+  .nextstep h3{margin:0;font-size:19px;line-height:1.25;color:var(--navy);font-weight:800}
+  .nextstep .nssub{font-size:14.5px;color:var(--ink2);line-height:1.55;margin:8px 0 14px}
+  .nextstep .nssub b{color:var(--navy)}
+  .nsteps{list-style:none;margin:0 0 15px;padding:0;counter-reset:ns}
+  .nsteps li{position:relative;padding:9px 0 9px 40px;font-size:14.5px;line-height:1.5;
+    color:var(--ink);border-top:1px solid #f0e4c4;counter-increment:ns}
+  .nsteps li:first-child{border-top:0}
+  .nsteps li:before{content:counter(ns);position:absolute;left:0;top:9px;width:26px;height:26px;
+    border-radius:50%;background:var(--navy);color:#fff;font-size:13px;font-weight:800;
+    display:flex;align-items:center;justify-content:center}
+  .nsteps li b{color:var(--navy)}
+  .nsteps .nsurl{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:7px;
+    padding:2px 8px;font-size:13.5px;font-weight:700;color:var(--navy);margin-top:4px}
+  .nsack{display:flex;align-items:flex-start;gap:12px;background:#fff;border:2px solid var(--gold);
+    border-radius:12px;padding:14px 15px;cursor:pointer;transition:.15s}
+  .nsack:hover{background:#fffdf6}
+  .nsack.on{border-color:var(--good);background:#f3fbf3}
+  .nsack input{flex:none;width:24px;height:24px;margin:0;accent-color:var(--good);cursor:pointer}
+  .nsack label{font-size:14.5px;line-height:1.45;font-weight:700;color:var(--navy);cursor:pointer;margin:0}
+  @media(max-width:560px){
+    .nextstep{padding:17px 15px 15px}
+    .nextstep h3{font-size:17.5px}
+    .nextstep .nssub,.nsteps li,.nsack label{font-size:14px}
+  }
 </style>
 </head>
 <body>
@@ -264,6 +296,27 @@
       <div class="sigdate">Signed on: <b id="sigdate">—</b> <span style="color:var(--muted)">(captured automatically when you submit)</span></div>
     </div>
 
+    <!-- Registering is not the last step. This is where people were dropping out. -->
+    <div class="nextstep">
+      <div class="nshead">
+        <div class="nsicon">!</div>
+        <h3>Submitting this form is not the last step</h3>
+      </div>
+      <p class="nssub">Registering tells us who you are, it does not start your training.
+        Make sure you log in to the agent portal immediately after you submit your registration.</p>
+      <ol class="nsteps">
+        <li><b>Submit this form</b> with the button right below.</li>
+        <li><b>Log in to the portal</b> on the next screen. Your name, email and phone number.
+          <br><span class="nsurl">portal.ffloptimum<span>.com</span></span></li>
+        <li><b>Bookmark the portal</b> on that same screen &mdash; on a computer, bookmark the page;
+          on your phone, add it to your home screen. You will use this portal every day.</li>
+      </ol>
+      <div class="nsack" id="nsack" onclick="toggleNextAck(event)">
+        <input type="checkbox" id="ackNext" onclick="event.stopPropagation();toggleNextAck(event)">
+        <label for="ackNext">Got it &mdash; I understand I still have to log in after I submit this, and I will do it right now. <span class="req">*</span></label>
+      </div>
+    </div>
+
     <div class="err" id="err"></div>
     <button class="submit" onclick="submitForm()">Submit Registration</button>
     <div class="foot">FFL Optimum · Family First Life &nbsp;·&nbsp; Your information is stored securely and used only for agency onboarding.</div>
@@ -331,6 +384,16 @@
     r.readAsDataURL(f);
   });
 
+  // ---- next-step acknowledgment ----
+  function toggleNextAck(e){
+    var box=document.getElementById('ackNext'), row=document.getElementById('nsack');
+    var t=e&&e.target;
+    // The label toggles the box itself. Only flip it by hand when the click landed
+    // on the row's padding, or we cancel the label's own toggle and nothing happens.
+    if(t && t.id!=='ackNext' && !(t.closest && t.closest('label'))) box.checked=!box.checked;
+    setTimeout(function(){ row.classList.toggle('on', box.checked); },0);
+  }
+
   // ---- acknowledgment expand ----
   function toggleAck(){
     var h=document.getElementById('ackHead'), b=document.getElementById('ackBody');
@@ -380,6 +443,7 @@
     if(!licData) return fail('Please upload a photo of your driver’s license.');
     if(!document.getElementById('agree').checked) return fail('Please check the box to agree to the Agent Accuracy & Debt Acknowledgment.');
     if(!hasSig) return fail('Please sign in the signature box.');
+    if(!document.getElementById('ackNext').checked) return fail('Please confirm you understand you still need to log in to the portal after submitting.');
     err.style.display='none';
 
     var now=new Date();
