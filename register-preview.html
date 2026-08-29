@@ -388,8 +388,11 @@
   // ---- next-step acknowledgment ----
   function toggleNextAck(e){
     var box=document.getElementById('ackNext'), row=document.getElementById('nsack');
-    if(e && e.target && e.target.id!=='ackNext') box.checked=!box.checked;
-    row.classList.toggle('on', box.checked);
+    var t=e&&e.target;
+    // The label toggles the box itself. Only flip it by hand when the click landed
+    // on the row's padding, or we cancel the label's own toggle and nothing happens.
+    if(t && t.id!=='ackNext' && !(t.closest && t.closest('label'))) box.checked=!box.checked;
+    setTimeout(function(){ row.classList.toggle('on', box.checked); },0);
   }
 
   // ---- acknowledgment expand ----
