@@ -147,7 +147,7 @@
     display:flex;align-items:center;justify-content:center}
   .nsteps li b{color:var(--navy)}
   .nsteps .nsurl{display:inline-block;background:#fff;border:1px solid var(--line);border-radius:7px;
-    padding:2px 8px;font-size:13.5px;font-weight:700;color:var(--blue);margin-top:4px}
+    padding:2px 8px;font-size:13.5px;font-weight:700;color:var(--navy);margin-top:4px}
   .nsack{display:flex;align-items:flex-start;gap:12px;background:#fff;border:2px solid var(--gold);
     border-radius:12px;padding:14px 15px;cursor:pointer;transition:.15s}
   .nsack:hover{background:#fffdf6}
@@ -303,14 +303,14 @@
         <div class="nsicon">!</div>
         <h3>Submitting this form is not the last step</h3>
       </div>
-      <p class="nssub">Registering tells us who you are. It does <b>not</b> start your training.
-        You have to log in to the portal before anything begins &mdash; this is the step people miss,
-        and it is why they end up stuck wondering what to do next.</p>
+      <p class="nssub">Registering tells us who you are, it does not start your training.
+        Make sure you log in to the agent portal immediately after you submit your registration.</p>
       <ol class="nsteps">
-        <li><b>Submit this form</b> &mdash; the button right below.</li>
-        <li><b>Log in to the portal</b> on the very next screen. Your name, email and phone. No password.
-          <br><span class="nsurl">portal.ffloptimum.com</span></li>
-        <li><b>Bookmark it</b> or add it to your home screen. You will be in it every day.</li>
+        <li><b>Submit this form</b> with the button right below.</li>
+        <li><b>Log in to the portal</b> on the next screen. Your name, email and phone number.
+          <br><span class="nsurl">portal.ffloptimum<span>.com</span></span></li>
+        <li><b>Bookmark the portal</b> on that same screen &mdash; on a computer, bookmark the page;
+          on your phone, add it to your home screen. You will use this portal every day.</li>
       </ol>
       <div class="nsack" id="nsack" onclick="toggleNextAck(event)">
         <input type="checkbox" id="ackNext" onclick="event.stopPropagation();toggleNextAck(event)">
