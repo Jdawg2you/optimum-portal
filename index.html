@@ -4737,6 +4737,12 @@ function m5RcSteps(a,days,c){
     S.push({k:'s3',you:false,done:!!(st.pre_2&&st.pre_3),t:n+' is enrolled in pre-licensing with an exam date set',
       d:'The two that actually matter. Ticks itself when they check them off in the portal — the course link is already in there, you do not need to send it.',
       msg:(days>=5&&!(st.pre_2&&st.pre_3))?'u3':''});
+    /* The outcome this card exists for. Without it the unlicensed card could go all-done
+       — logged in, enrolled, exam booked — and retire itself while the person was still
+       only 83% of the way to a licence and had not sat the exam. The card would vanish at
+       the exact moment they most needed following up. It cannot finish before they do. */
+    S.push({k:'s5',you:false,done:!!(a.licensed||st.pre_6),t:n+' has passed the exam and applied for their licence',
+      d:'This is the whole point of this card. Until it ticks they are still in the pipeline, however much else is done.'});
     if(days>=14) S.push({k:'s4',you:true,done:!!c.s4,t:'Two-week check-in with '+n,
       d:'Two weeks is the window you set with them, so this is the moment to ask directly.',msg:'u4'});
   } else {
