@@ -4410,7 +4410,7 @@ function m5AgRows(){
   var A=m5AgFilt().slice();
   var k=m5Ag.sortKey, dir=m5Ag.sortDir;
   A.sort(function(a,b){ var va=m5AgSortVal(a,k), vb=m5AgSortVal(b,k); if(va<vb)return -1*dir; if(va>vb)return 1*dir; return 0; });
-  if(!A.length) return '<tr><td colspan="10" style="text-align:center;padding:22px;color:#8a93a9">No agents match that search.</td></tr>';
+  if(!A.length) return '<tr><td colspan="11" style="text-align:center;padding:22px;color:#8a93a9">No agents match that search.</td></tr>';
   return A.map(function(a){
     var lic=a.licensed;
     var licCell= lic? '<span style="color:#1f7a44;font-weight:800">✓</span>' : m5AgMiniBar(m5AgNum(a.gylPct),'#2f6df0');
@@ -4419,11 +4419,24 @@ function m5AgRows(){
     var last= a.lastLogin? m5AgAgo(a.lastLogin) : '<span style="color:#b5561f">Never logged in</span>';
     var rec= m5AgRecruiter(a);
     var recCell= rec? m5AgEsc(rec) : '<span style="color:#b7bfce">—</span>';
-    return '<tr><td><b>'+m5AgEsc(a.name)+'</b></td><td>'+recCell+'</td><td><span class="ag-pill '+(lic?'lic':'unl')+'">'+(lic?'Licensed':'Unlicensed')+'</span></td><td>'+m5AgDate(a.joined)+'</td><td>'+(a.source==='Manual'?'Manual':'Form')+'</td><td>'+licCell+'</td><td>'+fsCell+'</td><td>'+acCell+'</td><td>'+last+'</td><td>'+(a.gcCards||0)+'</td></tr>';
+    /* Joined = when they first signed up. In portal = when they registered here. For
+       everyone off the pre-portal list those are different dates, and the gap between
+       them is the whole story: long-standing agent, brand new to this. */
+    var portCell= a.registeredOn? m5AgDate(a.registeredOn) : '<span style="color:#b7bfce">—</span>';
+    /* The old Source column said "Form" for every single row, because nothing was ever
+       tagged Manual. Now it distinguishes where each identity actually came from — and
+       "Both" doubles as the migration progress bar. */
+    var srcCell= a.source==='Manual' ? 'Manual' : (a.registeredOn? (a.joined?'Both':'Portal') : 'Form');
+    return '<tr><td><b>'+m5AgEsc(a.name)+'</b></td><td>'+recCell+'</td><td><span class="ag-pill '+(lic?'lic':'unl')+'">'+(lic?'Licensed':'Unlicensed')+'</span></td><td>'+m5AgDate(a.joined)+'</td><td>'+portCell+'</td><td>'+srcCell+'</td><td>'+licCell+'</td><td>'+fsCell+'</td><td>'+acCell+'</td><td>'+last+'</td><td>'+(a.gcCards||0)+'</td></tr>';
   }).join('');
 }
 function m5AgEsc(s){ return String(s==null?'':s).replace(/[&<>]/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;'})[c];}); }
-function m5AgDate(iso){ if(!iso)return '—'; var d=new Date(iso); if(isNaN(d.getTime()))return '—'; return d.toLocaleDateString('en-US',{month:'short',day:'numeric'}); }
+/* Show the year only when it is not this one. Two date columns sitting side by side made
+   the omission dangerous: "Sep 1" against "Aug 14" reads as two weeks apart when it is
+   really eleven months, which is the exact confusion these columns exist to prevent. */
+function m5AgDate(iso){ if(!iso)return '—'; var d=new Date(iso); if(isNaN(d.getTime()))return '—';
+  var o={month:'short',day:'numeric'}; if(d.getFullYear()!==(new Date()).getFullYear()) o.year='numeric';
+  return d.toLocaleDateString('en-US',o); }
 function m5AgAgo(iso){ var d=m5AgDays(iso); if(d==null)return '—'; if(d<=0)return 'Today'; if(d===1)return 'Yesterday'; if(d<30)return d+' days ago'; return m5AgDate(iso); }
 function m5AgFB(f,lab){ return '<button class="ag-fbtn'+(m5Ag.filter===f?' on':'')+'" onclick="m5AgSet(\''+f+'\')">'+lab+'</button>'; }
 function m5AgStat(k,v,s){ return '<div class="ag-stat"><div class="k">'+k+'</div><div class="v">'+v+'</div>'+(s?'<div class="s">'+s+'</div>':'')+'</div>'; }
@@ -4471,6 +4484,7 @@ function m5AgSortVal(a,k){
   if(k==='acV')return m5AgNum(a.acadPct)||0;
   if(k==='lastV')return a.lastLogin?(new Date(a.lastLogin)).getTime():0;
   if(k==='joined')return a.joined?(new Date(a.joined)).getTime():0;
+  if(k==='portal')return a.registeredOn?(new Date(a.registeredOn)).getTime():0;
   if(k==='gcCards')return a.gcCards||0;
   if(k==='source')return a.source||'';
   if(k==='recruiter')return m5AgRecruiter(a).toLowerCase();
@@ -4490,7 +4504,7 @@ function m5AgRecruiter(a){
 }
 function m5AgTable(){
   var k=m5Ag.sortKey, dir=m5Ag.sortDir;
-  var cols=[['name','Agent'],['recruiter','Recruiter'],['statusS','Status'],['joined','Joined'],['source','Source'],['licV','① License'],['fsV','② Fast Start'],['acV','③ Academy'],['lastV','Last active'],['gcCards','Goal cards']];
+  var cols=[['name','Agent'],['recruiter','Recruiter'],['statusS','Status'],['joined','Joined'],['portal','In portal'],['source','Source'],['licV','① License'],['fsV','② Fast Start'],['acV','③ Academy'],['lastV','Last active'],['gcCards','Goal cards']];
   var head=cols.map(function(c){ var arrow=(k===c[0])?(dir>0?' ▲':' ▼'):''; return '<th onclick="m5AgSort(\''+c[0]+'\')">'+c[1]+arrow+'</th>'; }).join('');
   var n=m5AgFilt().length;
   var search='<input id="m5ag-search" type="search" placeholder="🔎 Search name…" value="'+m5AgEsc(m5Ag.q||'')+'" oninput="m5AgSearch(this.value)" style="padding:9px 13px;border:1px solid #dbe2ee;border-radius:10px;font-size:13.5px;min-width:210px;font-family:inherit;outline:none;background:#fff">';
@@ -4661,6 +4675,10 @@ function m5RcNorm(s){ return String(s==null?'':s).trim().toLowerCase().replace(/
 function m5RcFirst(a){ var n=String(a.name||'').trim().split(/\s+/)[0]; return n||'They'; }
 function m5RcDays(iso){ var t=iso?Date.parse(iso):NaN; if(isNaN(t)) return null; return Math.floor((Date.now()-t)/864e5); }
 function m5RcAgo(d){ if(d===null) return ''; if(d<=0) return 'today'; if(d===1) return 'yesterday'; if(d<30) return d+' days ago'; var m=Math.round(d/30); return m<=1?'a month ago':m+' months ago'; }
+/* Spelled out in full — "July 24, 2026", not "Jul 24". This date exists to stop a
+   recruiter greeting a nine-month agent as a new one, so it should read like a fact
+   someone stated, not like a table cell. */
+function m5RcLong(iso){ var d=new Date(iso); if(isNaN(d.getTime())) return ''; return d.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}); }
 
 /* ---- messages (names swap in) ---- */
 function m5RcMsg(kind,n,d){
@@ -4744,8 +4762,16 @@ window.m5RcCards=function(){
   for(var i=0;i<A.length;i++){
     var a=A[i], em=String(a.email||'').trim().toLowerCase();
     if(!em||em===me) continue;
-    var jt=a.joined?Date.parse(a.joined):NaN;
-    if(isNaN(jt)) continue;                                  /* no join date -> never card them */
+    /* Two dates, two jobs. `joined` is when they first raised their hand — that is their
+       tenure, and it belongs on the dashboard. `registeredOn` is when they actually walked
+       into the portal. This card is about momentum, so it runs on the portal date. Running
+       it on the signup date meant anyone off the pre-portal list arrived already 30+ days
+       old and got silently suppressed by the backfill window on the very day they finally
+       showed up — and if they had surfaced, the pacing would have called them stalled. */
+    var rt=a.registeredOn?Date.parse(a.registeredOn):NaN;
+    var sgt=a.joined?Date.parse(a.joined):NaN;
+    var jt=!isNaN(rt)?rt:sgt;
+    if(isNaN(jt)) continue;                                  /* no start date -> never card them */
     var days=Math.floor((Date.now()-jt)/864e5);
     if(days<0) days=0;
     /* backfill window only applies to people who were already here on ship day */
@@ -4769,8 +4795,12 @@ window.m5RcCards=function(){
     var rNm=m5RcNorm((a.recruiterFirst||'')+' '+(a.recruiterLast||''));
     var direct = rEm ? (rEm===myEm) : (rNm? (rNm===myNm) : true);
     var under=((a.recruiterFirst||'')+' '+(a.recruiterLast||'')).trim();
+    /* Someone whose signup long predates their portal start is NOT a new face, and the
+       recruiter needs to know that before they open with "welcome aboard". Three weeks of
+       gap is the threshold — below that it is just paperwork lag, not a different person. */
+    var since=(!isNaN(sgt)&&!isNaN(rt)&&(rt-sgt)>21*864e5)?a.joined:'';
     var m={a:a,em:em,c:c,days:days,steps:steps,done:done,pace:m5RcPace(a,days),
-           justLic:(c.lic0===0&&a.licensed),direct:direct,under:under};
+           justLic:(c.lic0===0&&a.licensed),direct:direct,under:under,since:since};
     m.sig=m5RcSig(m);
     /* Collapsed, but something changed since — reopen it and say so. */
     if(c.collapsed && c.sig && c.sig!==m.sig){ delete c.collapsed; delete c.sig; c.reopened=1; m5RcSave(); }
@@ -4870,13 +4900,19 @@ function m5RcCard(m,idx){
   var licChip = m.justLic ? '<span class="nr-chip lic new">🎉 Newly licensed</span>'
               : (a.licensed ? '<span class="nr-chip lic">Licensed</span>'
                             : '<span class="nr-chip unl">Unlicensed</span>');
-  var head;
+  var head, headHasSince=false;
   if(m.justLic) head='🎉 <b>'+m5RcEsc(a.name||n)+'</b> just got licensed — here is what is next';
   else if(warn) head=m5RcEsc(a.name||n)+(m.pace.k==='quiet'?' has gone quiet':' has not gotten started');
   /* Never tell someone they recruited a person they did not recruit. */
   else if(!m.direct) head='<b>'+m5RcEsc(a.name||n)+'</b> joined your agency';
+  /* And never welcome someone aboard who signed up months ago and was only waiting on the
+     portal to exist. "Congratulations, you recruited her" is the wrong thing to say to a
+     person who is about to tell you she started in July. */
+  else if(m.since) head='<b>'+m5RcEsc(a.name||n)+'</b> has been with you since '+m5RcLong(m.since), headHasSince=true;
   else head='🎉 Congratulations — you recruited <b>'+m5RcEsc(a.name||n)+'</b>';
-  var meta=m.justLic?'Licensed today · your job just changed':('Joined '+m5RcAgo(m.days));
+  var meta=m.justLic?'Licensed today · your job just changed'
+                    :((m.since?'Started in the portal ':'Joined ')+m5RcAgo(m.days));
+  if(m.since && !headHasSince) meta='With you since '+m5RcLong(m.since)+' · '+meta;
   if(!m.direct && m.under) meta+=' · <span class="nr-under">Under '+m5RcEsc(m.under)+'</span>';
   var h='<div class="'+cls+'">';
   if(m.c._ask){
