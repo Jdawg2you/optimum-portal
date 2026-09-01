@@ -542,8 +542,14 @@
   .m5-glshare[data-open="true"] .m5-glsh .chev{transform:rotate(180deg)}
   .m5-glshb{display:none;padding:15px 17px 17px}
   .m5-glshare[data-open="true"] .m5-glshb{display:block}
-  .m5-glshrow{display:flex;gap:16px;align-items:flex-start}
-  .m5-glshvid{flex:0 0 190px;position:relative;border-radius:11px;overflow:hidden;background:#0e2244;display:block;cursor:pointer;text-decoration:none;box-shadow:0 6px 18px rgba(20,35,63,.18)}
+  .m5-glshrow{display:flex;gap:16px;align-items:stretch}
+  /* Bottom-aligned column: the label lands in the slack that was already sitting
+     above the thumbnail, so the card does not get any taller. */
+  .m5-glshcol{flex:0 0 190px;display:flex;flex-direction:column;justify-content:flex-end;gap:9px}
+  .m5-glshlab{text-align:center;color:#7a5b12;font-weight:800;line-height:1.15;letter-spacing:-.01em}
+  .m5-glshlab .w{display:block;font-size:19px}
+  .m5-glshlab .a{display:block;font-size:22px;line-height:1;margin-top:1px}
+  .m5-glshvid{position:relative;border-radius:11px;overflow:hidden;background:#0e2244;display:block;cursor:pointer;text-decoration:none;box-shadow:0 6px 18px rgba(20,35,63,.18)}
   .m5-glshvid img{display:block;width:100%;height:auto}
   .m5-glshvid .play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
   .m5-glshvid .play i{width:52px;height:52px;border-radius:50%;background:rgba(201,162,39,.94);color:#2a2205;display:flex;align-items:center;justify-content:center;font-size:22px;font-style:normal;box-shadow:0 4px 14px rgba(0,0,0,.35)}
@@ -555,7 +561,7 @@
   .m5-glshbtn{display:inline-flex;align-items:center;gap:8px;background:#c9a227;color:#2a2205;border:0;border-radius:10px;padding:12px 18px;font-size:14.5px;font-weight:800;cursor:pointer;text-decoration:none;font-family:inherit}
   .m5-glshnext{background:#fff;border-left:3px solid #c9a227;border-radius:0 9px 9px 0;padding:11px 13px;margin-top:14px;font-size:12.5px;color:#42506a;line-height:1.55}
   .m5-glshnext b{display:block;color:#16233f;margin-bottom:3px;font-size:13px}
-  @media(max-width:640px){.m5-glshrow{flex-direction:column}.m5-glshvid{flex:none;width:100%;max-width:260px;margin:0 auto}}
+  @media(max-width:640px){.m5-glshrow{flex-direction:column}.m5-glshcol{flex:none;width:100%;max-width:260px;margin:0 auto}}
 </style>
 </head>
 <body>
@@ -5588,11 +5594,14 @@ function m5GlShareCard(){
       '<span class="tag">Optional</span><span class="chev">&#9662;</span>'+
     '</button>'+
     '<div class="m5-glshb"><div class="m5-glshrow">'+
-      '<a class="m5-glshvid" href="'+M5_GL_SHORT+'" target="_blank" rel="noopener" onclick="m5GlShareVideo()">'+
-        /* No loading="lazy": the card is inserted while collapsed, and a lazy image in a
-           hidden subtree never gets its viewport check, so it stayed blank forever. */
-        '<img src="/share-card-thumbnail.jpg" alt="Who do you know who could benefit from this opportunity?">'+
-        '<span class="play"><i>&#9654;</i></span></a>'+
+      '<div class="m5-glshcol">'+
+        '<div class="m5-glshlab"><span class="w">Watch this</span><span class="a">&#8595;</span></div>'+
+        '<a class="m5-glshvid" href="'+M5_GL_SHORT+'" target="_blank" rel="noopener" onclick="m5GlShareVideo()">'+
+          /* No loading="lazy": the card is inserted while collapsed, and a lazy image in a
+             hidden subtree never gets its viewport check, so it stayed blank forever. */
+          '<img src="/share-card-thumbnail.jpg" alt="Who do you know who could benefit from this opportunity?">'+
+          '<span class="play"><i>&#9654;</i></span></a>'+
+      '</div>'+
       '<div class="m5-glshside">'+
         '<p class="m5-glshp">Somebody in your phone is stuck where you were last week. You do not have to explain anything or sell anything '+
         '&mdash; just send them the same video that got you here.</p>'+
