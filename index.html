@@ -3340,6 +3340,9 @@ body.m5-previewing #m5-prelic .m5-signout{visibility:hidden}
 .nr-btn{border:1px solid var(--line);background:#fff;color:var(--ink);font-size:13.5px;font-weight:800;
   padding:9px 16px;border-radius:9px;cursor:pointer;font-family:inherit}
 .nr-btn.warn{background:var(--nrr);border-color:var(--nrr);color:#fff}
+.nr-close{border:1px solid var(--nrg);background:var(--nrg);color:#fff;font-size:12.5px;font-weight:800;
+  padding:7px 13px;border-radius:9px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.nr-close:hover{filter:brightness(1.06)}
 @media(max-width:640px){ .nr{padding:16px 15px 14px} .nr-h{font-size:17px} .nr-dash{margin-left:0;width:100%;text-align:center} }
 
 
@@ -4662,9 +4665,6 @@ window.m5Search=function(scope,val){
    kills it — the recruiter is always allowed to kill it. */
 var M5_RC_EPOCH = Date.parse('2026-08-19T00:00:00Z');
 var M5_RC_BACKFILL_DAYS = 30;
-/* How long a finished card stays up as a win before it retires on its own. Long enough
-   that a recruiter who only looks twice a week still gets to say congratulations. */
-var M5_RC_DONE_DAYS = 14;
 
 window.m5RcState=function(){
   if(!store.data.recruitCards||typeof store.data.recruitCards!=='object') store.data.recruitCards={};
@@ -4794,7 +4794,7 @@ window.m5RcCards=function(){
     /* A card that vanishes because someone FAILED is a bug. A card that vanishes because
        someone SUCCEEDED costs the recruiter the win — and with a fast starter the card can
        appear and retire the same day, so they never see it at all. Finished cards now stay
-       as a celebration until they are dismissed, or for M5_RC_DONE_DAYS, whichever is first. */
+       as a celebration until the recruiter closes them. */
     /* Two different things, and conflating them was the bug. OUTCOME means the recruit got
        where they were going. ALL DONE means that AND the recruiter did their part. The card
        used to retire on outcome alone, which quietly absolved the recruiter of the one step
@@ -4804,10 +4804,12 @@ window.m5RcCards=function(){
     var outcome=(a.licensed&&auton>0&&autodone===auton);
     var allDone=(done===steps.length);
     var finished=allDone||outcome;
-    if(finished){
-      if(!c.fin){ c.fin=(new Date()).toISOString(); m5RcSave(); }
-      if(allDone&&Math.floor((Date.now()-Date.parse(c.fin))/864e5)>M5_RC_DONE_DAYS) continue;
-    } else if(c.fin){ delete c.fin; m5RcSave(); }             /* went backwards — live again */
+    /* Nothing retires on a timer. Every card on this dashboard now leaves because the
+       recruiter decided it should — the green is the system reporting on the RECRUIT, and
+       closing it is the recruiter's call. Silent expiry is how Andy vanished in the first
+       place, and a win that disappears before it is seen is the same bug wearing a bow. */
+    if(finished){ if(!c.fin){ c.fin=(new Date()).toISOString(); m5RcSave(); } }
+    else if(c.fin){ delete c.fin; m5RcSave(); }               /* went backwards — live again */
     /* "Finished" for a licensed recruit means contracted + strategy call + cleared to dial.
        That is the outcome the card existed for, and it counts whether or not the recruiter
        ever ticked their own box. The unlicensed card cannot reach it without the licence. */
@@ -4971,8 +4973,8 @@ function m5RcCard(m,idx){
      person who is about to tell you she started in July. */
   else if(m.since) head='<b>'+m5RcEsc(a.name||n)+'</b> has been with you since '+m5RcLong(m.since), headHasSince=true;
   else head='🎉 Congratulations — you recruited <b>'+m5RcEsc(a.name||n)+'</b>';
-  var meta=m.finished?(m.allDone?'Nothing left to chase — worth a message'
-                                :'Nothing left to chase — one box still open on your side')
+  var meta=m.finished?(m.allDone?'Everything done — close it out when you are ready'
+                                :'They are done — your confirm-first-steps box is still open')
           :m.justLic?'Licensed today · your job just changed'
                     :((m.since?'Started in the portal ':'Joined ')+m5RcAgo(m.days));
   if(m.since && !headHasSince) meta='With you since '+m5RcLong(m.since)+' · '+meta;
@@ -4991,7 +4993,11 @@ function m5RcCard(m,idx){
       business — taking Collapse away there would force a choice between doing it this
       second and deleting it, which is how a real intention gets thrown away. */
    + (m.allDone?'':'<button class="nr-collapse" onclick="m5RcCollapse(\''+m.em+'\',\''+m.sig+'\')"><span class="car">▲</span> Collapse</button>')
-   + '<button class="nr-x" title="Remove this card for good" onclick="m5RcAsk(\''+m.em+'\')">✕</button></div></div>';
+   /* Everything ticked, theirs and yours. Nothing here needs a confirmation step or a
+      timer — the recruiter closes it because they decided it is closed. */
+   + (m.allDone?'<button class="nr-close" onclick="m5RcKill(\''+m.em+'\')">✓ Close this out</button>'
+               :'<button class="nr-x" title="Remove this card for good" onclick="m5RcAsk(\''+m.em+'\')">✕</button>')
+   +'</div></div>';
   if(m.reopened){ h+='<div class="nr-reopen">↩︎ Reopened — '+(m.why?m.why:'something changed for '+m5RcEsc(n))+' since you collapsed this.</div>'; }
   if(warn&&m.pace.why){
     h+='<div class="nr-alert">⚠️ '+m5RcEsc(m.pace.why)+' A call now is worth more than one next week.'
