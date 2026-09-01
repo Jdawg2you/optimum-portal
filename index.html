@@ -4998,7 +4998,11 @@ function m5RcCard(m,idx){
    + (m.allDone?'<button class="nr-close" onclick="m5RcKill(\''+m.em+'\')">✓ Close this out</button>'
                :'<button class="nr-x" title="Remove this card for good" onclick="m5RcAsk(\''+m.em+'\')">✕</button>')
    +'</div></div>';
-  if(m.reopened){ h+='<div class="nr-reopen">↩︎ Reopened — '+(m.why?m.why:'something changed for '+m5RcEsc(n))+' since you collapsed this.</div>'; }
+  /* Only ever announce a reopen we can explain. "Something changed" sends the recruiter
+     hunting through a card for a difference we already know we cannot name — and it is
+     what every card reopened before this existed would otherwise say forever. The card
+     coming back to the top is signal enough on its own. */
+  if(m.reopened&&m.why){ h+='<div class="nr-reopen">↩︎ Reopened — '+m.why+' since you collapsed this.</div>'; }
   if(warn&&m.pace.why){
     h+='<div class="nr-alert">⚠️ '+m5RcEsc(m.pace.why)+' A call now is worth more than one next week.'
       +m5RcMsgBlock('nrq'+idx,'quiet',n,'View &amp; copy message',m.days)+'</div>';
