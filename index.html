@@ -5193,8 +5193,17 @@ var M5_TOGGLEPRE_LEGACY = (typeof togglePre === 'function') ? togglePre : null;
 var M5_GL_OPEN = {};   /* per-session expand/collapse overrides */
 
 function m5GlOn(){
-  try{ return M5_GL_EVERYONE || store.data.admin===true || store.data.glOptIn===true; }
-  catch(e){ return false; }
+  try{
+    if(M5_GL_EVERYONE) return true;
+    var d=store.data||{};
+    if(d.admin===true || d.glOptIn===true) return true;
+    /* Preview swaps store.data for a sandbox that deliberately carries no admin flag,
+       so an admin previewing their own portal would otherwise drop to the legacy list.
+       The real record is parked on store.__realData for the duration. */
+    var real=store.__realData;
+    if(d._preview && real && (real.admin===true || real.glOptIn===true)) return true;
+    return false;
+  }catch(e){ return false; }
 }
 function m5GlEsc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){
   return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
