@@ -521,7 +521,8 @@
   .m5-glbody b{color:#16233f}
   .m5-glbody p{margin:8px 0 0}
   .m5-glbody code{background:#eef1f6;padding:2px 7px;border-radius:6px;font-size:12.5px;color:#16233f;font-weight:700}
-  .m5-gldone{display:inline-block;margin-top:14px;background:#16233f;color:#fff;border:0;border-radius:9px;padding:9px 15px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit}
+  .m5-glfoot{margin-top:14px}
+  .m5-gldone{display:inline-block;background:#16233f;color:#fff;border:0;border-radius:9px;padding:9px 15px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit}
   .m5-gldone.undo{background:transparent;color:#5b6b85;border:1px solid #e6e8ee;font-weight:500}
   .m5-glprev{background:#0e2244;color:#fff;border-radius:14px;padding:15px 17px;margin:0 0 14px;box-shadow:0 10px 30px rgba(20,35,63,.14)}
   .m5-glprev .l{font-size:11px;text-transform:uppercase;letter-spacing:.07em;font-weight:800;color:#c9a227}
@@ -5427,9 +5428,12 @@ function m5GlSteps(){
     '<p class="fine">We are on the <b>FFL Optimum</b> team &mdash; but the <b>course</b> is booked under <b>FFL National</b>. '+
     'That one catches nearly everybody. Keep this open in another tab while you register.</p></div>'};
 
-  d.gl_half={id:'gl_half',t:'You hit 50%',m:'One tap tells your manager',d:'Halfway is worth saying out loud. Tick this and your manager knows &mdash; no screenshot, nothing to type.'};
+  d.gl_half={id:'gl_half',t:'You hit 50%',m:'Halfway through the course',d:
+    'Mark this complete and your manager will know your progress &mdash; it updates them automatically, so there is nothing for you to send.'};
 
-  d.gl_coursedone={id:'gl_coursedone',t:'Course complete',m:'Certificate in hand',d:'Course finished. Tick it, and download your certificate while you are in there.'+
+  d.gl_coursedone={id:'gl_coursedone',t:'Course complete',m:'Certificate in hand',d:
+    'Download your certificate and keep it somewhere you can find it, so you are all set when it is time to apply for your licence. '+
+    'Marking this complete updates your manager on your progress automatically.'+
     (s.gate==='book_course'?'<div class="m5-callout">This is what unlocks exam booking in '+m5GlEsc(s.st)+'. The booking step opens the second you tick this.</div>':'')+
     (s.gate==='sit_cert'?'<div class="m5-glwarn">Save the certificate somewhere you can find it &mdash; '+m5GlEsc(s.st)+' wants it in your hand on exam day.</div>':'')};
 
@@ -5572,8 +5576,8 @@ function m5GlRender(el){
     var isOpen=(M5_GL_OPEN[x.id]!==undefined)?M5_GL_OPEN[x.id]:(!isDone&&!x.locked);
     var foot='';
     if(!x.locked && !x.noTick){
-      foot='<button class="m5-gldone'+(isDone?' undo':'')+'" onclick="m5GlToggle(\''+x.id+'\')">'+
-        (isDone?'Undo this step':'Mark this done')+'</button>';
+      foot='<div class="m5-glfoot"><button class="m5-gldone'+(isDone?' undo':'')+'" onclick="m5GlToggle(\''+x.id+'\')">'+
+        (isDone?'Undo this step':'Mark this done')+'</button></div>';
     }
     h.push('<div class="m5-glstep'+(isDone?' done':'')+(next===x.id?' cur':'')+(x.locked?' locked':'')+(isOpen?' open':'')+
       '" id="m5gl_'+x.id+'">'+
