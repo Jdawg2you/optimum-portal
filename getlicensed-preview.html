@@ -35,12 +35,13 @@ a{color:var(--navy)}
   background:var(--bg);color:var(--ink);font-size:14px;font-family:inherit}
 
 /* ---- overview: video + hero ---- */
-.video{display:block;background:var(--navy);border-radius:14px;height:112px;position:relative;
+.video{display:block;background:#00040f url('/welcome-thumbnail.jpg') center/contain no-repeat;border-radius:14px;aspect-ratio:4/3;max-height:340px;height:auto;position:relative;
   margin-bottom:12px;text-decoration:none;box-shadow:var(--shadow);overflow:hidden}
-.video .play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+.video .play{position:absolute;inset:11% 0 0;display:flex;align-items:center;justify-content:center;
   color:#fff;font-size:34px;opacity:.92}
-.video .lab{position:absolute;left:0;right:0;bottom:0;padding:8px 12px;color:#fff;font-size:12.5px;
-  background:linear-gradient(transparent,rgba(0,0,0,.45))}
+.video .play::before{content:'';position:absolute;width:56px;height:56px;border-radius:50%;background:#e11d1d;box-shadow:0 6px 20px rgba(0,0,0,.45)}
+.video .play>*{position:relative}
+.video .lab{position:absolute;left:0;right:0;top:50%;margin-top:34px;text-align:center;color:#fff;font-weight:700;font-size:12.5px;text-shadow:0 1px 6px rgba(0,0,0,.75)}
 .hero2{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;
   box-shadow:var(--shadow);margin-bottom:14px}
 .hero2 .kicker{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--gold);font-weight:800}
@@ -500,7 +501,7 @@ function stepDefs(s,c){
       : '<div class="npnbox"><label>Your NPN</label>'+
         '<p class="hint">Type it here once you have it. Your manager gets it automatically &mdash; nothing for '+
         'you to send, and it is what lets them start your contracting.</p>'+
-        '<input type="text" id="npnIn" inputmode="numeric" placeholder="e.g. 20841537">'+
+        '<input type="text" id="npnIn" inputmode="numeric" placeholder="8 digits — e.g. 12345678">'+
         '<div class="btnrow" style="margin:12px 0 0"><button class="btn" onclick="saveNpn()">Lock in my NPN</button></div></div>')};
 
   var order;
@@ -524,8 +525,8 @@ function render(){
   // 1. video + overview hero
   h.push('<div class="above">&#9650; Everything above this line is the pre-licensing page you already have '+
     '&mdash; the snapshot graphic and its content stay exactly as they are. What follows stacks underneath it.</div>');
-  h.push('<a class="video" href="https://www.youtube.com/watch?v=dBXsizbpEeo" target="_blank" rel="noopener"><div class="play">&#9654;</div>'+
-    '<div class="lab">Watch this first &mdash; how getting licensed works &#8599;</div></a>');
+  h.push('<a class="video" href="https://youtube.com/shorts/DqX2pJJ9Bw4?feature=share" target="_blank" rel="noopener"><div class="play"><span>&#9654;</span></div>'+
+    '<div class="lab">Watch this first &#8599;</div></a>');
   h.push('<div class="hero2"><div class="kicker">Start here &middot; your #1 goal</div><h1>Get Licensed</h1>'+
     '<p>Everything below leads to one thing: passing your '+esc(s.st)+' exam. Eight steps, and the first one takes a minute.</p>');
   h.push('<span class="statepill">&#128205; <b>'+esc(s.st)+'</b> &middot; '+(s.combo?esc(s.combo):'Life first')+
