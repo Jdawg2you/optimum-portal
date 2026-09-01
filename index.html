@@ -529,6 +529,33 @@
   .m5-glprev .t{font-size:17px;font-weight:700;margin-top:4px}
   .m5-glprev p{font-size:12.5px;opacity:.85;margin:6px 0 11px;line-height:1.5}
   .m5-glprev .m5-glsel{background:#12305e;color:#fff;border-color:#2c4a80}
+  /* ---- optional "share this" card: not a step, never counts toward completion ---- */
+  .m5-glshare{background:#fff8e6;border:1px solid #c9a227;border-radius:14px;margin:0 0 11px;overflow:hidden}
+  .m5-glsh{width:100%;display:flex;align-items:center;gap:12px;padding:14px 17px;background:transparent;border:0;cursor:pointer;text-align:left;font:inherit}
+  .m5-glshare[data-open="true"] .m5-glsh{border-bottom:1px solid #e6d3a0}
+  .m5-glsh .ico{flex:0 0 30px;height:30px;border-radius:50%;background:#c9a227;color:#2a2205;display:flex;align-items:center;justify-content:center;font-size:15px}
+  .m5-glsh .txt{flex:1;min-width:0}
+  .m5-glsh .h{font-size:15.5px;font-weight:700;color:#16233f}
+  .m5-glsh .s{font-size:12.5px;color:#7a5b12;margin-top:2px}
+  .m5-glsh .tag{font-size:10.5px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;background:#fff;color:#7a5b12;border:1px solid #c9a227;border-radius:999px;padding:3px 9px;white-space:nowrap}
+  .m5-glsh .chev{color:#b7a06a;font-size:17px;transition:transform .2s}
+  .m5-glshare[data-open="true"] .m5-glsh .chev{transform:rotate(180deg)}
+  .m5-glshb{display:none;padding:15px 17px 17px}
+  .m5-glshare[data-open="true"] .m5-glshb{display:block}
+  .m5-glshrow{display:flex;gap:16px;align-items:flex-start}
+  .m5-glshvid{flex:0 0 190px;position:relative;border-radius:11px;overflow:hidden;background:#0e2244;display:block;cursor:pointer;text-decoration:none;box-shadow:0 6px 18px rgba(20,35,63,.18)}
+  .m5-glshvid img{display:block;width:100%;height:auto}
+  .m5-glshvid .play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+  .m5-glshvid .play i{width:52px;height:52px;border-radius:50%;background:rgba(201,162,39,.94);color:#2a2205;display:flex;align-items:center;justify-content:center;font-size:22px;font-style:normal;box-shadow:0 4px 14px rgba(0,0,0,.35)}
+  .m5-glshside{flex:1;min-width:0}
+  .m5-glshp{font-size:13.5px;color:#42506a;margin:0 0 12px;line-height:1.55}
+  .m5-glshprev{background:#fff;border:1px solid #e6d3a0;border-radius:10px;padding:11px 13px;margin-bottom:12px}
+  .m5-glshprev .l{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:#7a5b12;font-weight:800;margin-bottom:5px}
+  .m5-glshprev p{margin:0;font-size:13px;color:#16233f;line-height:1.5}
+  .m5-glshbtn{display:inline-flex;align-items:center;gap:8px;background:#c9a227;color:#2a2205;border:0;border-radius:10px;padding:12px 18px;font-size:14.5px;font-weight:800;cursor:pointer;text-decoration:none;font-family:inherit}
+  .m5-glshnext{background:#fff;border-left:3px solid #c9a227;border-radius:0 9px 9px 0;padding:11px 13px;margin-top:14px;font-size:12.5px;color:#42506a;line-height:1.55}
+  .m5-glshnext b{display:block;color:#16233f;margin-bottom:3px;font-size:13px}
+  @media(max-width:640px){.m5-glshrow{flex-direction:column}.m5-glshvid{flex:none;width:100%;max-width:260px;margin:0 auto}}
 </style>
 </head>
 <body>
@@ -5532,6 +5559,73 @@ function m5GlToggle(id){
   renderPrePath();
 }
 
+
+/* ---------- the optional share card ----------
+   Not a step. No number, no tick, never counts toward completion. It appears once
+   they have enrolled in the course -- the video opens with "you just signed up for
+   your prelicensing class", so showing it earlier would be off-message. Expanded the
+   first time they see it, collapsed afterwards. */
+var M5_GL_SHARE_TEXT = "Hey, hope all is well with your family. Just a heads up, I just started with a new company and they are looking to bring on new reps. If you know anyone, they pay really well. Part time and full time! Here is an overview video, pass this info along for me please! JoinUS.FFLALL.com";
+var M5_GL_SHORT = 'https://youtube.com/shorts/EhMWwvKb6Is?feature=share';
+
+function m5GlShareCard(){
+  var open = !store.data.t_shareSeen;
+  return '<div class="m5-glshare" id="m5glShare" data-open="'+(open?'true':'false')+'">'+
+    '<button class="m5-glsh" type="button" onclick="m5GlShareToggle()">'+
+      '<span class="ico">&#128101;</span>'+
+      '<span class="txt"><span class="h">Know someone who could benefit from this?</span>'+
+      '<span class="s">Optional &middot; takes 60 seconds &middot; no licence needed</span></span>'+
+      '<span class="tag">Optional</span><span class="chev">&#9662;</span>'+
+    '</button>'+
+    '<div class="m5-glshb"><div class="m5-glshrow">'+
+      '<a class="m5-glshvid" href="'+M5_GL_SHORT+'" target="_blank" rel="noopener" onclick="m5GlShareVideo()">'+
+        '<img src="share-card-thumbnail.jpg" alt="Who do you know who could benefit from this opportunity?" loading="lazy">'+
+        '<span class="play"><i>&#9654;</i></span></a>'+
+      '<div class="m5-glshside">'+
+        '<p class="m5-glshp">Somebody in your phone is stuck where you were last week. You do not have to explain anything or sell anything '+
+        '&mdash; just send them the same video that got you here.</p>'+
+        '<div class="m5-glshprev"><div class="l">The text that gets sent</div><p>'+m5GlEsc(M5_GL_SHARE_TEXT)+'</p></div>'+
+        '<a class="m5-glshbtn" id="m5glShareBtn" href="#" onclick="return m5GlShareTap(event)">'+
+          '<span>&#128172;</span><span id="m5glShareLbl">Share this &mdash; opens your messages</span></a>'+
+        '<div class="m5-glshnext"><b>If someone reaches back out to you</b>'+
+        'The video tells them to contact the person who sent it &mdash; that is you. When someone does, just let your manager know '+
+        'and we will take it from there. You do not have to explain anything, answer questions, or sign anybody up. Go back to your course.</div>'+
+      '</div>'+
+    '</div></div></div>';
+}
+function m5GlShareToggle(){
+  var el=document.getElementById('m5glShare'); if(!el) return;
+  var now=el.getAttribute('data-open')!=='true';
+  el.setAttribute('data-open', now?'true':'false');
+  if(!store.data.t_shareSeen){ store.data.t_shareSeen=(new Date()).toISOString(); store.save(); }
+}
+function m5GlShareVideo(){
+  try{ if(!store.data.t_shareVideo){ store.data.t_shareVideo=(new Date()).toISOString(); store.save(); } }catch(e){}
+  return true;
+}
+function m5GlShareTap(e){
+  var txt=M5_GL_SHARE_TEXT;
+  try{ if(navigator.clipboard) navigator.clipboard.writeText(txt); }catch(err){}
+  /* Saved through the sheet, not localStorage -- the whole point is that it reaches
+     the recruiter, next to "did they book the exam". */
+  try{
+    store.data.shareTaps=(store.data.shareTaps||0)+1;
+    store.data.t_shareTap=(new Date()).toISOString();
+    if(!store.data.t_shareSeen) store.data.t_shareSeen=store.data.t_shareTap;
+    store.save();
+  }catch(err){}
+  var lbl=document.getElementById('m5glShareLbl');
+  var isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  if(isMobile){
+    if(lbl){ lbl.innerHTML='Copied &#10003;'; setTimeout(function(){ if(lbl) lbl.innerHTML='Share this &mdash; opens your messages'; },2500); }
+    try{ window.location.href='sms:?&body='+encodeURIComponent(txt); }catch(err){}
+  } else {
+    if(lbl){ lbl.innerHTML='Copied &#10003; &mdash; paste it into a text'; setTimeout(function(){ if(lbl) lbl.innerHTML='Share this &mdash; opens your messages'; },3000); }
+  }
+  if(e&&e.preventDefault) e.preventDefault();
+  return false;
+}
+
 /* ---------- render ---------- */
 function m5GlPreviewStrip(){
   /* In preview there is no registration to read a state from, so the picker leads -- and
@@ -5591,6 +5685,9 @@ function m5GlRender(el){
         '<span class="m5-glchev">&#8250;</span>'+
       '</div>'+
       '<div class="m5-glbody">'+x.d+foot+'</div></div>');
+    /* Anchored to the enroll step rather than a fixed position -- the order changes
+       by state, and it belongs after they have signed up for the course. */
+    if(x.id==='gl_enroll' && ck.gl_enroll) h.push(m5GlShareCard());
   });
 
   if(!isPrev)h.push('<div class="m5-glpick" style="margin-top:14px"><p class="m5-fine" style="margin-bottom:5px">Not in '+m5GlEsc(s.st)+'? Change it and the steps rewrite themselves.</p>'+m5GlPicker()+'</div>');
