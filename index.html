@@ -4795,10 +4795,18 @@ window.m5RcCards=function(){
        someone SUCCEEDED costs the recruiter the win — and with a fast starter the card can
        appear and retire the same day, so they never see it at all. Finished cards now stay
        as a celebration until they are dismissed, or for M5_RC_DONE_DAYS, whichever is first. */
-    var finished=(done===steps.length)||(a.licensed&&auton>0&&autodone===auton);
+    /* Two different things, and conflating them was the bug. OUTCOME means the recruit got
+       where they were going. ALL DONE means that AND the recruiter did their part. The card
+       used to retire on outcome alone, which quietly absolved the recruiter of the one step
+       that was actually theirs — and a card that vanishes when you ignore your own box
+       teaches you to ignore it. Outcome turns the card green and stops the chasing; only
+       all-done lets it leave on its own. */
+    var outcome=(a.licensed&&auton>0&&autodone===auton);
+    var allDone=(done===steps.length);
+    var finished=allDone||outcome;
     if(finished){
       if(!c.fin){ c.fin=(new Date()).toISOString(); m5RcSave(); }
-      if(Math.floor((Date.now()-Date.parse(c.fin))/864e5)>M5_RC_DONE_DAYS) continue;
+      if(allDone&&Math.floor((Date.now()-Date.parse(c.fin))/864e5)>M5_RC_DONE_DAYS) continue;
     } else if(c.fin){ delete c.fin; m5RcSave(); }             /* went backwards — live again */
     /* "Finished" for a licensed recruit means contracted + strategy call + cleared to dial.
        That is the outcome the card existed for, and it counts whether or not the recruiter
@@ -4816,10 +4824,19 @@ window.m5RcCards=function(){
     var since=(!isNaN(sgt)&&!isNaN(rt)&&(rt-sgt)>21*864e5)?a.joined:'';
     var m={a:a,em:em,c:c,days:days,steps:steps,done:done,pace:m5RcPace(a,days),
            justLic:(c.lic0===0&&a.licensed),direct:direct,under:under,since:since,
-           finished:finished,finAt:(c.fin||'')};
+           finished:finished,allDone:allDone,finAt:(c.fin||'')};
     m.sig=m5RcSig(m);
     /* Collapsed, but something changed since — reopen it and say so. */
-    if(c.collapsed && c.sig && c.sig!==m.sig){ delete c.collapsed; delete c.sig; c.reopened=1; m5RcSave(); }
+    /* Cards collapsed before the fingerprint carried per-step detail hold a legacy sig.
+       Compare those the old way and quietly upgrade them — springing every collapsed card
+       open with "something changed" would be exactly the unexplained reopen we are fixing. */
+    var legacy=!!(c.sig&&!/[a-z]/.test(String(c.sig).split('|')[1]||''));
+    if(c.collapsed && c.sig && legacy && c.sig===m5RcSigLegacy(m)){ c.sig=m.sig; m5RcSave(); }
+    else if(c.collapsed && c.sig && c.sig!==m.sig){
+      c.why=m5RcWhy(m,legacy?'':c.sig);                       /* say what actually happened */
+      delete c.collapsed; delete c.sig; c.reopened=1; m5RcSave();
+    }
+    m.why=c.why||'';
     m.collapsed=!!c.collapsed;
     m.reopened=!!c.reopened;
     list.push(m);
@@ -4833,9 +4850,36 @@ window.m5RcCards=function(){
    Deliberately excludes the day counter and the recruiter's own checkboxes — neither is
    news, and reopening on those would train people to ignore the reopening. */
 function m5RcSig(m){
+  /* Per-step flags rather than a count, so that when the card springs back open we can say
+     WHICH thing happened instead of "something changed" — which is the least useful
+     sentence on the dashboard and makes the recruiter go hunting. */
+  var parts=[];
+  for(var i=0;i<m.steps.length;i++){ var s=m.steps[i]; if(!s.you) parts.push(s.k+(s.done?'1':'0')); }
+  return [m.steps.length,parts.join(','),m.pace.s,(m.a.licensed?1:0)].join('|');
+}
+/* The pre-detail fingerprint, kept only so cards collapsed under the old scheme can be
+   recognised and upgraded instead of falsely reopening. */
+function m5RcSigLegacy(m){
   var auto=0;
   for(var i=0;i<m.steps.length;i++){ if(!m.steps[i].you&&m.steps[i].done) auto++; }
   return [m.steps.length,auto,m.pace.s,(m.a.licensed?1:0)].join('|');
+}
+/* Diff the saved fingerprint against where they are now, and say it in the words the step
+   itself uses — "Cody has logged in and started working the steps" beats "step 2 changed". */
+function m5RcWhy(m,old){
+  try{
+    var o=String(old||'').split('|'); if(o.length<4) return '';
+    var was={}; String(o[1]||'').split(',').forEach(function(p){ if(p) was[p.slice(0,-1)]=p.slice(-1)==='1'; });
+    var n=m5RcFirst(m.a), out=[];
+    if(o[3]==='0'&&m.a.licensed) out.push(m5RcEsc(n)+' got licensed');
+    for(var i=0;i<m.steps.length;i++){
+      var s=m.steps[i];
+      if(s.you||!s.done) continue;
+      if(was[s.k]===false) out.push(m5RcEsc(s.t));
+    }
+    if(!out.length&&o[2]!==m.pace.s&&m.pace.why) out.push(m5RcEsc(m.pace.why));
+    return out.join(' · ');
+  }catch(e){ return ''; }
 }
 
 /* ---- actions ---- */
@@ -4843,7 +4887,7 @@ window.m5RcCollapse=function(em,sig){
   var c=m5RcFor(em); c.collapsed=(new Date()).toISOString(); c.sig=sig; m5RcSave(); m5RcRepaint();
 };
 window.m5RcExpand=function(em){
-  var c=m5RcFor(em); delete c.collapsed; delete c.sig; delete c.reopened; m5RcSave(); m5RcRepaint();
+  var c=m5RcFor(em); delete c.collapsed; delete c.sig; delete c.reopened; delete c.why; m5RcSave(); m5RcRepaint();
 };
 window.m5RcToggle=function(em,k){
   var c=m5RcFor(em); c[k]=c[k]?false:(new Date()).toISOString(); m5RcSave(); m5RcRepaint();
@@ -4927,7 +4971,8 @@ function m5RcCard(m,idx){
      person who is about to tell you she started in July. */
   else if(m.since) head='<b>'+m5RcEsc(a.name||n)+'</b> has been with you since '+m5RcLong(m.since), headHasSince=true;
   else head='🎉 Congratulations — you recruited <b>'+m5RcEsc(a.name||n)+'</b>';
-  var meta=m.finished?('Nothing left to chase — worth a message'+(m.finAt?' · finished '+m5RcAgo(Math.floor((Date.now()-Date.parse(m.finAt))/864e5)):''))
+  var meta=m.finished?(m.allDone?'Nothing left to chase — worth a message'
+                                :'Nothing left to chase — one box still open on your side')
           :m.justLic?'Licensed today · your job just changed'
                     :((m.since?'Started in the portal ':'Joined ')+m5RcAgo(m.days));
   if(m.since && !headHasSince) meta='With you since '+m5RcLong(m.since)+' · '+meta;
@@ -4943,7 +4988,7 @@ function m5RcCard(m,idx){
    + '<div class="nr-ctl">'
    + (m.finished?'':'<button class="nr-collapse" onclick="m5RcCollapse(\''+m.em+'\',\''+m.sig+'\')"><span class="car">▲</span> Collapse</button>')
    + '<button class="nr-x" title="Remove this card for good" onclick="m5RcAsk(\''+m.em+'\')">✕</button></div></div>';
-  if(m.reopened){ h+='<div class="nr-reopen">↩︎ Reopened — something changed for '+m5RcEsc(n)+' since you collapsed this.</div>'; }
+  if(m.reopened){ h+='<div class="nr-reopen">↩︎ Reopened — '+(m.why?m.why:'something changed for '+m5RcEsc(n))+' since you collapsed this.</div>'; }
   if(warn&&m.pace.why){
     h+='<div class="nr-alert">⚠️ '+m5RcEsc(m.pace.why)+' A call now is worth more than one next week.'
       +m5RcMsgBlock('nrq'+idx,'quiet',n,'View &amp; copy message',m.days)+'</div>';
