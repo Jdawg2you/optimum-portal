@@ -705,9 +705,7 @@ const BOOKS=[
   {t:'Do More Now',by:'',blurb:'Insurance business guidance — learn from the best.'},
   {t:'Goals!',by:'Brian Tracy',blurb:'Get everything you want, faster than you thought.',pdf:'https://oceanofpdf.com/authors/brian-tracy/pdf-epub-goals-how-to-get-everything-you-want-3rd-ed-download/'}];
 const RES_TILES=[
-  {k:'videos',i:'🎬',t:'Training Videos',s:'Awesome training videos',items:[]},
   {k:'tools',i:'🛠️',t:'Tools of the Trade',s:'Gear we recommend',blurb:'Optional gear that makes the work a little easier — heads up, these are affiliate links.',items:[['🎧 The headset we recommend','Comfortable for all-day calls, with clear sound.','https://www.amazon.com/dp/B0GFDWXFJW?tag=mobile0329694-20&language=en_US&linkCode=ll1&ref_=as_li_ss_tl'],['📝 For digital note-taking — reMarkable Paper Pro','A paper-feel tablet for taking your notes digitally.','https://www.amazon.com/dp/B0DG9ZXWMK?lv=shuf&linkCode=sl1&crid=1C570375D9X8Q&keywords=remarkable%2Bpaper%2Bpro&sprefix=remark%2Caps%2C190&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&language=en_US&qid=1761140595&linkId=7b46ba1410178bb2a5d2ea40c09ae1d5&th=1&dib_tag=se&tag=mobile0329694-20&dib=eyJ2IjoiMSJ9.gwSm-x5XVBwX2dG3_mZJ_lNktTj3Fig_HY9qrK6Rt3ip51AO5-qWBq5FMT1L5cvCs8keialxJL-HKZnxKmPcgJWl8u7daWueVIxv_W0fm2rYZb0ztpSmqCjoBBpbZ1NUteWHl30LhgzY4R1oyHug1Jk2CmPvA7H8y7rqt09pjapbzjzi9ov51OHSnvZ38RQMklrUJYxTrYjkQY5N2fZRvCNPeOwtm7jwjptL-kJU4E8.aYddnm15EfStAg8zARN16vxortHjkZ-HnnG_g1QZdc8&sr=8-1-spons&channelId=500&ref_=as_li_ss_tl&plpRedirect=mhFallback']]},
-  {k:'tracker',i:'📊',t:'Activity Tracker & Goal Card',s:'Your goal card (digital + printable) and dial tracker',items:[['Digital Goal Card + Activity Dashboard','Your live daily tracker — plan blocks, log dials, and see your trends.','go:goalcard'],['OG Goal Card — printable worksheet','The original pen-to-paper goal card, if you track by hand.','https://drive.google.com/file/d/1LHViRydK2hyXy9GGNwudIee0IRfNoI4v/view'],['Daily Dial Tracker — printable worksheet','Fill a box for every dial and mark the result of each call.','https://portal.ffloptimum.com/optimum-dial-tracker.pdf']]},
   {k:'payments',i:'💳',t:'Who takes Direct Express / Chime / Cash App?',s:'Carriers by payment method',items:[]},
   {k:'products',i:'📚',t:'Product Playbooks',s:'IUL · Mortgage Protection · Annuities',items:[]},
   {k:'scripts',i:'📝',t:'Scripts',s:'All call scripts',reuse:'scripts'},
@@ -716,6 +714,11 @@ const RES_TILES=[
   {k:'va',i:'🎖️',t:'VA Benefits',s:'Burial · VALife · VGLI',items:[['VA Burial Benefits','','https://www.benefits.va.gov/compensation/claims-special-burial.asp'],['VALife Overview','','https://www.va.gov/life-insurance/options-eligibility/valife/'],['VGLI Overview','','https://www.va.gov/life-insurance/options-eligibility/vgli/']]},
   {k:'comp',i:'💵',t:'Agent Compensation',s:'Comp plans & bonuses',items:[['General Compensation','','https://drive.google.com/file/d/1w4ZNu10uKH44yC1GrD1FdjguYJLCA7Mx/view'],['Compensation by Product','','https://drive.google.com/file/d/1rOQUezUVaQjtXhfHZTxtYbyJPvaytOhK/view'],['Annuity & IUL Compensation','','https://drive.google.com/file/d/1xVpb9OhZfa5RskUW1ib6iNiH5LGFHwPF/view'],['Producer Bonus','','https://drive.google.com/file/d/1QMbjz2HpePURBVBD432q9m49zG0coSGW/view'],['VP Bonus','','https://docs.google.com/document/d/1A7sNIR98B9WGF6sUNwAStIbYBAvj2yFckOmq0ZToPcw/edit']]},
   {k:'news',i:'📰',t:'FFL Newsletter',s:'Sign up for FFL News',link:'https://lp.constantcontactpages.com/sl/VdEIHGR'},
+  {k:'retention',i:'🔁',t:'Client Retention/Service',s:'Copy-paste client touchpoints'},
+  {k:'legacy',i:'🛡️',t:'Legacy Safeguard',s:'Free end-of-life planning you offer clients'},
+  {k:'carriers',i:'🏢',t:'Carrier Portals',s:'Portals, training, guides & e-apps'},
+  {k:'ce',i:'🎓',t:'Continuing Education',s:'CE & compliance'},
+  {k:'pres',i:'📊',t:'Presentation Materials',s:'Illustrations, needs analysis'},
   {k:'bizcard',i:'🪪',t:'Static Digital Business Card',s:'Your branded card — make a copy & customize',link:'https://docs.google.com/document/d/1hTh9hUB7vrHNSYmWTYxlNP5K6dz4hqghrRXc3AFM7dU/edit?usp=sharing'}
 ];
 const MISC=[['Register your numbers (reduce spam)','How-to guide'],['Get more pickups','How-to guide'],['Adding other state licenses','Loom walkthrough'],['Posting to the leaderboard','How-to guide'],['Contact for help','wealthbuildersgroupllc@gmail.com']];
@@ -777,7 +780,6 @@ const NAV=[
   {v:'income',ic:'💵',t:'Income Calculator'},
   {v:'activity',ic:'📞',t:'Activity Planner'},
   {v:'agencybuild',ic:'👥',t:'Agency Builder'},
-  {v:'sales',ic:'🧰',t:'Sales Tools'},
   {v:'systools',ic:'⚙️',t:'Systems/Tools'},
   {v:'goalcard',ic:'🎯',t:'Goal Card'},
   {v:'leads',ic:'💰',t:'Leads'},
@@ -910,7 +912,7 @@ function render(view){_cv=view;const el=document.getElementById('content');
   if(view==='dashboard')el.innerHTML=m5Dash();
   else if(view==='faststart')el.innerHTML=vFast();
   else if(view==='academy')el.innerHTML=m5Academy();
-  else if(view==='sales')el.innerHTML=vSales();
+  else if(view==='sales')el.innerHTML=vResources();   /* folded in -- old links still land somewhere sane */
   else if(view==='recruiting')el.innerHTML=vRecruiting();
   else if(view==='selfdev')el.innerHTML=vSelfDev();
   else if(view==='resources')el.innerHTML=vResources();
@@ -990,9 +992,11 @@ function vAcademy(){
   if(acadOpen){const m=ACADEMY.find(x=>x.id===acadOpen);if(m)det=`<div class="mod" style="margin-top:16px"><div class="mh"><div class="mn ${m.mn}">${m.icon}</div><div class="mt">${m.t}</div></div><div class="mb">${m.items.map(ckRow).join('')}</div></div>`;}
   return `<h1 class="page">Academy</h1><p class="sub">Course library — open a course to go through its lessons.</p><div class="course-grid">${cards}</div>${det}`;
 }
-function openSales(k){salesOpen=salesOpen===k?null:k;render('sales');}
-  function m5GoLegacy(){go('sales');salesOpen='legacy';render('sales');}
-  function m5GoRetention(){go('sales');salesOpen='retention';render('sales');}
+/* Sales Tools folded into Resources -- these keys still resolve, they just render there now. */
+const M5_SALES_KEYS={retention:1,legacy:1,carriers:1,ce:1,pres:1};
+function openSales(k){ resOpen=(resOpen===k?null:k); if(typeof go==='function')go('resources'); render('resources'); }
+  function m5GoLegacy(){go('resources');resOpen='legacy';render('resources');}
+  function m5GoRetention(){go('resources');resOpen='retention';render('resources');}
 function openCarrier(n){carrierOpen=carrierOpen===n?null:n;render('sales');}
 function vSales(){
   const tiles=[['scripts','📝','Sales Scripts','All call scripts'],['retention','🔁','Client Retention/Service','Copy-paste client touchpoints'],['legacy','🛡️','Legacy Safeguard','Free end-of-life planning you offer clients'],['eapp','💻','Electronic Applications','Carrier e-app platforms'],['carriers','🏢','Carrier Portals','Portals, training, guides'],['ce','🎓','Continuing Education','CE & compliance'],['pres','📊','Presentation Materials','Illustrations, needs analysis'],['deck','🖥️','Sales Presentations','Decks for every product'],['tools','🛠️','Tools We Use','Gear we recommend']];
@@ -1038,7 +1042,7 @@ function openRes(k){resOpen=resOpen===k?null:k;render('resources');}
 function vResources(){
   const grid=RES_TILES.map(t=>{const onclick=t.link?`window.open('${t.link}','_blank')`:`openRes('${t.k}')`;return `<div class="tool ${resOpen===t.k?'sel':''}" onclick="${onclick}"><div class="tic">${t.i}</div><div class="tt">${t.t}</div><div class="td">${t.s}</div></div>`;}).join('');
   let panel='';
-  if(resOpen){const t=RES_TILES.find(x=>x.k===resOpen);if(t){ if(t.k==='payments'&&typeof m5PaymentsPanel==='function'){panel=m5PaymentsPanel();} else if(t.k==='products'&&typeof m5ProductPanel==='function'){panel=m5ProductPanel();} else {const rows=t.reuse==='scripts'?SCRIPTS_L:(t.items||[]);panel=listPanel(`${t.i} ${t.t}`,t.blurb||'',rows);} }}
+  if(resOpen){const t=RES_TILES.find(x=>x.k===resOpen);if(t){ if(t.k==='payments'&&typeof m5PaymentsPanel==='function'){panel=m5PaymentsPanel();} else if(t.k==='products'&&typeof m5ProductPanel==='function'){panel=m5ProductPanel();} else if(M5_SALES_KEYS[t.k]&&typeof salesPanel==='function'){panel=salesPanel(t.k);} else {const rows=t.reuse==='scripts'?SCRIPTS_L:(t.items||[]);panel=listPanel(`${t.i} ${t.t}`,t.blurb||'',rows);} }}
   return `<h1 class="page">Resources</h1><p class="sub">Tap a resource — multi-item ones open below; single links open directly.</p>`+(typeof m5SearchBox==='function'?m5SearchBox('res'):'')+`<div id="m5s-res-results"></div><div id="m5s-res-browse"><div class="tool-grid">${grid}</div>${panel}</div>`;
 }
 function vSupport(){return `<h1 class="page">Support</h1><p class="sub">Quick how-tos and help — the miscellaneous stuff lives here.</p>${listCard('How-Tos & Help','',MISC)}`;}
@@ -1526,7 +1530,7 @@ function m5Health(){
 /* ---- Fast Start: clicking a link/button inside a checkbox row must NOT toggle the box ---- */
 document.addEventListener('click', function(e){
   var g=e.target.closest && e.target.closest('[data-go]');
-  if(g){ e.stopPropagation(); e.preventDefault(); var v=g.getAttribute('data-go'); if(v==='sales:carriers'){ if(typeof go==='function')go('sales'); setTimeout(function(){try{openSales('carriers');}catch(_){}} ,30); } else if(typeof go==='function'){ go(v); } return; }
+  if(g){ e.stopPropagation(); e.preventDefault(); var v=g.getAttribute('data-go'); if(v==='sales:carriers'){ if(typeof go==='function')go('resources'); setTimeout(function(){try{openSales('carriers');}catch(_){}} ,30); } else if(typeof go==='function'){ go(v); } return; }
   if(e.target.closest && e.target.closest('.ck') && e.target.closest('a,button,select,option,label,summary,details')){ e.stopPropagation(); }
 }, true);
 
