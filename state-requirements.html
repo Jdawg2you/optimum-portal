@@ -1,0 +1,804 @@
+<title>State Licensing Requirements</title>
+<style>
+:root{
+  --bg:#f5f7fa; --card:#ffffff; --ink:#12203a; --mute:#5b6b85; --line:#e2e8f0;
+  --navy:#12305e; --gold:#b8860b;
+  --ok:#0f7a4a; --okbg:#e7f6ee; --stop:#a52a2a; --stopbg:#fdeaea; --wait:#8a6100; --waitbg:#fdf3dd;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e131b; --card:#161d28; --ink:#e8edf6; --mute:#98a6bd; --line:#26303f;
+    --navy:#9dc0ff; --gold:#d9ad4a;
+    --ok:#5fd39b; --okbg:#102d21; --stop:#ff9d9d; --stopbg:#33191a; --wait:#ffd07a; --waitbg:#33280f;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e131b; --card:#161d28; --ink:#e8edf6; --mute:#98a6bd; --line:#26303f;
+  --navy:#9dc0ff; --gold:#d9ad4a;
+  --ok:#5fd39b; --okbg:#102d21; --stop:#ff9d9d; --stopbg:#33191a; --wait:#ffd07a; --waitbg:#33280f;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);margin:0;padding:24px 16px 64px;
+  font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:1100px;margin:0 auto}
+h1{font-size:27px;margin:0 0 6px;letter-spacing:-.01em}
+.sub{color:var(--mute);margin:0 0 18px;max-width:72ch}
+.tools{position:sticky;top:0;background:var(--bg);padding:12px 0;z-index:5;border-bottom:1px solid var(--line);margin-bottom:16px}
+input[type=search]{width:100%;max-width:320px;padding:10px 13px;border:1px solid var(--line);border-radius:10px;
+  background:var(--card);color:var(--ink);font-size:15px}
+.chips{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;
+  padding:6px 13px;font-size:13px;cursor:pointer;font-family:inherit}
+.chip[aria-pressed="true"]{background:var(--navy);color:var(--bg);border-color:var(--navy)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(335px,1fr));gap:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:17px}
+.card header{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px;flex-wrap:wrap}
+h2{font-size:17.5px;margin:0}
+.pill{font-size:11.5px;font-weight:700;padding:4px 10px;border-radius:999px;white-space:nowrap}
+.g-ok{background:var(--okbg);color:var(--ok)}
+.g-stop{background:var(--stopbg);color:var(--stop)}
+.g-wait{background:var(--waitbg);color:var(--wait)}
+.gate{margin:0 0 13px;font-size:13.5px;color:var(--mute)}
+.gate em{display:block;margin-top:6px;font-style:normal;color:var(--ink);
+  border-left:3px solid var(--gold);padding-left:10px}
+dl{margin:0;display:grid;gap:10px}
+dt{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute);font-weight:700}
+dd{margin:3px 0 0;font-size:13.5px;overflow-wrap:anywhere}
+dd.loa{font-weight:700;color:var(--navy);font-size:14.5px}
+.na{color:var(--mute);font-style:italic}
+.quirk{margin:12px 0 0;font-size:12.5px;color:var(--mute);border-top:1px dashed var(--line);padding-top:10px}
+a{color:var(--navy)}
+.count{color:var(--mute);font-size:13px;margin:0 0 14px}
+.note{font-size:12.5px;color:var(--mute);margin-top:28px;border-top:1px solid var(--line);padding-top:13px;max-width:78ch}
+</style>
+<div class="wrap">
+<h1>State Licensing Requirements</h1>
+<p class="sub">What a new agent has to do in their own state, in order: which licence to take, whether they can book the exam today, how many course hours the state owes them, and every fee along the way. Built from the Xcel state requirement pages, with the exam-booking rule on each card confirmed against the testing vendor's own state handbook.</p>
+
+<div class="tools">
+  <input type="search" id="q" placeholder="Type a state…" autocomplete="off">
+  <div class="chips">
+    <button class="chip" data-f="all" aria-pressed="true">All 51</button>
+    <button class="chip" data-f="none" aria-pressed="false">Book now (39)</button>
+    <button class="chip" data-f="sit_cert" aria-pressed="false">Certificate on exam day (9)</button>
+    <button class="chip" data-f="book_course" aria-pressed="false">Course first (1)</button>
+    <button class="chip" data-f="book_apply" aria-pressed="false">Apply first (2)</button>
+    <button class="chip" data-f="ple" aria-pressed="false">Course required (18)</button>
+  </div>
+</div>
+
+<p class="count" id="count"></p>
+<div class="grid" id="grid">
+<article class="card" data-s="alabama al" data-gate="none" data-ple="n">
+<header><h2>Alabama</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> Alabama does not require candidates complete pre-licensing education; course recommended (effective 01/01/2024)</dd>
+<dt>Exam</dt><dd><a href="https://training.ua.edu/insurance-testing/#registration" target="_blank" rel="noopener">University of Alabama</a> · $50 single line (Life, Health, Property) / $75 combined (Life &amp; Health or Property &amp; Casualty) · in-person testing site or online proctored · After the second failure, cannot retest within 90 days; after failing four times, must wait 180 days; waiting period starts over 24 months from last failure</dd>
+<dt>Fingerprints</dt><dd>Required — $49.20 via Fieldprint</dd>
+<dt>Licence application</dt><dd>$80.00 via NIPR</dd>
+<dt>Regulator</dt><dd><a href="https://www.aldoi.gov/" target="_blank" rel="noopener">Alabama Dept of Insurance</a> · 334-269-3550</dd>
+</dl>
+<p class="quirk">Fingerprints taken after passing the exam and at least one day before applying. Proof of citizenship required per the Beason-Hammon Taxpayer and Citizen Protection Act. Separate LTC, Flood (NFIP) and Annuity product training.</p>
+<p class="quirk">Passing score 70%</p>
+</article>
+<article class="card" data-s="alaska ak" data-gate="none" data-ple="n">
+<header><h2>Alaska</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa"><span class="na">This state licenses Life and Accident &amp; Health separately — two exams, two lines.</span></dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> Alaska does not require candidates complete pre-licensing education</dd>
+<dt>Exam</dt><dd><a href="https://www.pearsonvue.com/ak/insurance" target="_blank" rel="noopener">Pearson Professional Assessments</a> · $89 (one fee covers up to two exams in one session; retakes $89) · online proctored via OnVUE (computer compatibility required) or in person at a Pearson test center · Four OnVUE attempts per exam; must wait seven days to retest after the first attempt and 14 days after the second</dd>
+<dt>Fingerprints</dt><dd>Required — $48.25 via State-approved vendor list at dps.alaska.gov (FBI form FD-258)</dd>
+<dt>Licence application</dt><dd>$75 via NIPR</dd>
+<dt>Regulator</dt><dd><a href="https://www.commerce.alaska.gov/web/ins/" target="_blank" rel="noopener">Alaska Division of Insurance, Department of Commerce, Community and Economic Development</a> · 907-465-2515</dd>
+</dl>
+<p class="quirk">All resident candidates taking an insurance examination for the first time must be fingerprinted.</p>
+<p class="quirk">Passing score 70%. Life/Health/Property/Casualty 110 questions, 2 hrs 15 min; Personal Lines 140 questions, 2 hrs 30 min</p>
+</article>
+<article class="card" data-s="arizona az" data-gate="none" data-ple="n">
+<header><h2>Arizona</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident, and Health</dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> Arizona has no formal pre-licensing education requirement; course recommended to prepare for the state exam</dd>
+<dt>Exam</dt><dd><a href="https://test-takers.psiexams.com/anzins" target="_blank" rel="noopener">PSI</a> · $50 single line / $59 combined · online proctored (computer compatibility check required) or in person at a PSI test center · Four attempts to pass an exam for a line of authority within a one-year period; after the fourth unsuccessful attempt, a one-year wait before retesting</dd>
+<dt>Fingerprints</dt><dd>Required — ADPS $22.44; Fieldprint $8.25 via AZDPS Public Services Portal and Fieldprint (code INS-055.A)</dd>
+<dt>Licence application</dt><dd>$120 via NIPR</dd>
+<dt>Regulator</dt><dd><a href="https://difi.az.gov/producers" target="_blank" rel="noopener">Arizona Department of Insurance and Financial Institutions</a> · 602-364-3100</dd>
+</dl>
+<p class="quirk">All resident candidates taking an exam for the first time must be fingerprinted. Licenses renew every 4 years by the last day of the birth month; 48 hours CE (6 ethics) for major lines.</p>
+<p class="quirk">Passing score 70%</p>
+</article>
+<article class="card" data-s="arkansas ar" data-gate="sit_cert" data-ple="y">
+<header><h2>Arkansas</h2><span class="pill g-ok">Book now, bring your certificate</span></header>
+<p class="gate">You can reserve a date today, but you must have your course certificate in hand on exam day. <em>Certificate of Completion must be presented when you take your exam.</em></p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life &amp; Health</dd>
+<dt>Prelicensing course</dt><dd><b>Required — Life + A&amp;H 40 hrs · Life only 20 hrs · A&amp;H only 20 hrs.</b> 20 hours per line of authority; Life &amp; Health is 40 hours (20 per line)</dd>
+<dt>Exam</dt><dd><a href="https://www.psiexams.com/arin" target="_blank" rel="noopener">PSI</a> · $50 single line exam (no separate combined fee listed) · online proctored (computer compatibility must be checked) or in person at a PSI test center · Maximum three attempts within a 90-day period; if not passed within 90 days or after three attempts, must wait four weeks and reapply</dd>
+<dt>Fingerprints</dt><dd>Required — $36.25 plus processing via Arkansas background check portal (ark.org)</dd>
+<dt>Licence application</dt><dd>$15 plus processing fee via NIPR</dd>
+<dt>Regulator</dt><dd><a href="https://insurance.arkansas.gov" target="_blank" rel="noopener">Arkansas Insurance Department</a> · 800-282-9134</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state: student must review each lesson and pass each chapter quiz with a minimum score of 70% before moving to the next chapter. Mandatory final exam plus an electronic affidavit of active participation. Certificate of Completion valid for two years.</p>
+</article>
+<article class="card" data-s="california ca" data-gate="none" data-ple="y">
+<header><h2>California</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident &amp; Health</dd>
+<dt>Prelicensing course</dt><dd><b>Required — Life + A&amp;H 12 hrs · Life only 12 hrs · A&amp;H only 12 hrs.</b> 12 hours of California Insurance Code and Ethics (incl. 1 hour anti-fraud) is the only prelicensing requirement. The 20-hour line-specific course was repealed by AB 943 effective January 1, 2026 — still strongly recommended to pass.</dd>
+<dt>Exam</dt><dd><a href="https://test-takers.psiexams.com/cadi" target="_blank" rel="noopener">PSI</a> · PSI exam $98 + CDI exam $55 · online proctored (computer compatibility check required) or in person at a PSI/CDI test center · An examinee who failed an examination 10 times is barred from taking the license examination for a 12-month period from the date of the last failed attempt</dd>
+<dt>Fingerprints</dt><dd>Required — $74 via California Live Scan Services (CLS) - https://www.applicantservices.com/cdi/</dd>
+<dt>Licence application</dt><dd>$188.00 via SIRCON Online Services or NIPR</dd>
+<dt>Regulator</dt><dd><a href="http://www.insurance.ca.gov" target="_blank" rel="noopener">California Department of Insurance</a> · 800-967-9331</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state requiring the student to review each lesson before moving to the next section/chapter. Periodic identity authentication throughout the course. Certificate valid 3 years. Fingerprints submitted after the license application is received by the Department.</p>
+<p class="quirk">Passing score 60%. Name must match government photo ID exactly at exam registration and license application</p>
+</article>
+<article class="card" data-s="colorado co" data-gate="book_course" data-ple="y">
+<header><h2>Colorado</h2><span class="pill g-stop">Finish the course first</span></header>
+<p class="gate">You cannot reserve an exam seat until your prelicensing course is complete. <em>Prior to making an exam reservation, the applicant must complete any required pre-licensing training. (Pearson VUE CO handbook)</em></p>
+<dl>
+<dt>Take this licence</dt><dd class="loa"><span class="na">This state licenses Life and Accident &amp; Health separately — two exams, two lines.</span></dd>
+<dt>Prelicensing course</dt><dd><b>Required — Life only 50 hrs · A&amp;H only 50 hrs.</b> 50 hours per line of authority (Life, Accident &amp; Health, Casualty, Property, Personal Lines), including 3 hours ethics, 3 hours Colorado general insurance laws and 4 hours line-specific Colorado laws</dd>
+<dt>Exam</dt><dd><a href="https://www.pearsonvue.com/co/insurance" target="_blank" rel="noopener">Pearson Professional Assessments</a> · $41 (covers up to two examinations in one session) · in person only - OnVUE remote exams are no longer an option</dd>
+<dt>Fingerprints</dt><dd><span class="na">Not stated on the source page</span></dd>
+<dt>Licence application</dt><dd>$44 per line of authority via SIRCON Online Services</dd>
+<dt>Regulator</dt><dd><a href="https://dora.colorado.gov/" target="_blank" rel="noopener">Colorado Division of Insurance</a> · 800-275-8247</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state requiring the student to review each lesson and pass each chapter quiz before moving on. The course final examination must be monitored by a proctor, with an affidavit. Self-study exams are closed book and require a monitor/proctor. Applicant must provide proof of legal residency.</p>
+<p class="quirk">There are no limitations on retaking the exam at a test center. Passing score 70%. 120 minutes for Life/Health/Casualty/Property, 215 minutes for Personal Lines. Spanish exams available. School code required at registration</p>
+</article>
+<article class="card" data-s="connecticut ct" data-gate="sit_cert" data-ple="y">
+<header><h2>Connecticut</h2><span class="pill g-ok">Book now, bring your certificate</span></header>
+<p class="gate">You can reserve a date today, but you must have your course certificate in hand on exam day. <em>Candidates must present a pre-licence education certificate or a waiver letter to sit the exam. (Pearson VUE CT handbook)</em></p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
+<dt>Prelicensing course</dt><dd><b>Required — Life + A&amp;H 40 hrs · Life only 20 hrs · A&amp;H only 20 hrs.</b> Life Only 20 hours; Accident &amp; Health Only 20 hours; Life, Accident and Health 40 hours; Property and Casualty 40 hours; Personal Lines 20 hours</dd>
+<dt>Exam</dt><dd><a href="https://www.pearsonvue.com/ct/insurance" target="_blank" rel="noopener">Pearson Professional Assessments</a> · $65 single line / $105 combined · <span class="na">in-person / online not stated</span></dd>
+<dt>Fingerprints</dt><dd><span class="na">Not stated on the source page</span></dd>
+<dt>Licence application</dt><dd>$140 plus processing fee via NIPR</dd>
+<dt>Regulator</dt><dd><a href="https://portal.ct.gov/cid" target="_blank" rel="noopener">State of Connecticut Insurance Department</a> · 860-297-3845</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state requiring the student to review each lesson and pass each chapter quiz before moving on; assessments must be passed with a minimum score of 70%. The course final examination must be monitored by a proctor. Certificates are valid for 1 year.</p>
+<p class="quirk">There are no limitations on retaking the exam. School code required at registration. On the day of testing you must present two forms of identification bearing your signature, one a valid government issued photo ID, and the certificate of completion</p>
+</article>
+<article class="card" data-s="delaware de" data-gate="none" data-ple="n">
+<header><h2>Delaware</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa"><span class="na">This state licenses Life and Accident &amp; Health separately — two exams, two lines.</span></dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> Delaware does not require candidates complete pre-licensing education; course recommended</dd>
+<dt>Exam</dt><dd><a href="https://home.pearsonvue.com/de/insurance" target="_blank" rel="noopener">Pearson Professional Assessments</a> · $90 (one $90 fee covers single or multiple major line exams taken the same day; Personal Lines is separate) · <span class="na">in-person / online not stated</span></dd>
+<dt>Fingerprints</dt><dd>Required — $85 via IdentoGO - https://uenroll.identogo.com/ (Service Code 27S46Z)</dd>
+<dt>Licence application</dt><dd>$125 plus processing fee via NIPR</dd>
+<dt>Regulator</dt><dd><a href="https://insurance.delaware.gov/" target="_blank" rel="noopener">State of Delaware Department of Insurance</a> · 302-674-7390</dd>
+</dl>
+<p class="quirk">State and FBI criminal history background report required. Biennial renewal by the last day of February in even-numbered years; 24 hours CE (3 ethics) per renewal period.</p>
+<p class="quirk">Spanish exams available. NIPR does not verify exams prior to allowing submission of an application</p>
+</article>
+<article class="card" data-s="district of columbia dc" data-gate="none" data-ple="n">
+<header><h2>District of Columbia</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa"><span class="na">This state licenses Life and Accident &amp; Health separately — two exams, two lines.</span></dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> The Washington District of Columbia has no formal pre-licensing education requirement; course recommended</dd>
+<dt>Exam</dt><dd><a href="https://home.pearsonvue.com/dc/insurance" target="_blank" rel="noopener">Pearson Professional Assessments</a> · $75 (no separate combined-exam fee listed) · <span class="na">in-person / online not stated</span></dd>
+<dt>Fingerprints</dt><dd>Required — $31.50 via Fieldprint - https://schedule.fieldprint.com/User/SignIn</dd>
+<dt>Licence application</dt><dd>$100 plus processing fee via NIPR</dd>
+<dt>Regulator</dt><dd><a href="https://disb.dc.gov/" target="_blank" rel="noopener">Government of the District of Columbia Department of Insurance</a> · 202-727-8000</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state requiring a minimum score of 70% on chapter quizzes before advancing.</p>
+<p class="quirk">There are no limits on exam retakes</p>
+</article>
+<article class="card" data-s="florida fl" data-gate="none" data-ple="y">
+<header><h2>Florida</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
+<dt>Prelicensing course</dt><dd><b>Required — Life + A&amp;H 60 hrs · Life only 30 hrs · A&amp;H only 40 hrs.</b> Life Only 30 hours; Accident &amp; Health Only 40 hours; Life, Accident and Health 60 hours; Property and Casualty 200 hours (40 hours for candidates meeting specific prior experience criteria); Personal Lines 60 hours</dd>
+<dt>Exam</dt><dd><a href="https://www.pearsonvue.com/fl/insurance" target="_blank" rel="noopener">Pearson Professional Assessments</a> · $44 · in person only - OnVUE online remote proctored exams are not available · There is a limit of five (5) examination attempts for the same examination type during a twelve (12) month period</dd>
+<dt>Fingerprints</dt><dd>Required — $50.75 plus tax</dd>
+<dt>Licence application</dt><dd>$50.00 application fee plus $5.00 state I.D. fee via Florida DFS online at https://dice.fldfs.com/public/pb_index.aspx</dd>
+<dt>Regulator</dt><dd><a href="https://www.myfloridacfo.com/Division/Agents/" target="_blank" rel="noopener">Florida Department of Financial Services Bureau of Licensing</a> · 850-413-3137</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state requiring the student to review each lesson and pass each chapter quiz before moving on. Fingerprint results from other vendors or states are not accepted. Course certificates valid 4 years. Florida licenses are perpetual and do not need formal renewal, but CE is required every 2 years.</p>
+</article>
+<article class="card" data-s="georgia ga" data-gate="none" data-ple="y">
+<header><h2>Georgia</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
+<dt>Prelicensing course</dt><dd><b>Required — Life + A&amp;H 16 hrs · Life only 8 hrs · A&amp;H only 8 hrs.</b> Life Only 8, Accident &amp; Health Only 8, Life, Accident and Health 16, Property 8, Casualty 8, Property and Casualty 16, Personal Lines 8. Certificates valid 12 months; course completion rosters reported to SIRCON daily.</dd>
+<dt>Exam</dt><dd><a href="https://www.pearsonvue.com/ga/insurance" target="_blank" rel="noopener">Pearson Professional Assessments</a> · $67 · in person only · 14-day wait to retest after the first two failed attempts; 60 days on the third and any subsequent attempts</dd>
+<dt>Fingerprints</dt><dd>Required — $51.50 via Identogo (ga.state.identogo.com/ue, service code 2TGJ6B)</dd>
+<dt>Licence application</dt><dd>$100 application fee plus $20 processing fee via Sircon (https://www.sircon.com/landingPages/states/georgia/content.jsp), effective April 1, 2026</dd>
+<dt>Regulator</dt><dd><a href="https://oci.georgia.gov/" target="_blank" rel="noopener">Georgia Department of Insurance</a> · 800-656-2298</dd>
+</dl>
+<p class="quirk">Forced progression (locked) course: each lesson must be reviewed and each chapter quiz passed at 70% before moving on. Final exam requires 70%. Certificates valid 12 months. Citizen Affidavit Form (GID-276-EN) must be completed and notarized.</p>
+<p class="quirk">OnVUE online remote proctored exams are not available. The school code is the education provider&#x27;s code and is only requested &#x27;if applicable&#x27; — it does not block registration. Test-centre admission needs two forms of signature ID, not a certificate.</p>
+</article>
+<article class="card" data-s="hawaii hi" data-gate="none" data-ple="n">
+<header><h2>Hawaii</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa"><span class="na">This state licenses Life and Accident &amp; Health separately — two exams, two lines.</span></dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> The state of Hawaii has no formal pre-licensing education requirement.</dd>
+<dt>Exam</dt><dd><a href="https://www.pearsonvue.com/hi/insurance" target="_blank" rel="noopener">Pearson Professional Assessments</a> · $75 per line of authority (OnVUE $75; exams cannot be combined) · in-person or online proctored · There are no limitations on retaking the exam</dd>
+<dt>Fingerprints</dt><dd>Required — $63 via FieldPrint Hawaii (https://fieldprinthawaii.com/), code HI-DCCA-INS</dd>
+<dt>Licence application</dt><dd>$150 via NIPR (https://nipr.com/)</dd>
+<dt>Regulator</dt><dd><a href="http://cca.hawaii.gov/ins/" target="_blank" rel="noopener">Hawaii Department of Commerce and Consumer Affairs Insurance Division</a> · 808-586-2788</dd>
+</dl>
+<p class="quirk">Insurance Division address: 335 Merchant Street, Room 123, Honolulu, HI 96813.</p>
+<p class="quirk">Candidates may take up to two examinations during one exam session. Must wait at least 24 hours between retakes; OnVUE retests require a 2-week wait for the first retest and 4-week waits thereafter. If your computer is not compatible with the online software you must schedule at a Pearson test center.</p>
+</article>
+<article class="card" data-s="idaho id" data-gate="none" data-ple="n">
+<header><h2>Idaho</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa"><span class="na">This state licenses Life and Accident &amp; Health separately — two exams, two lines.</span></dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> The state of Idaho has no formal pre-licensing education requirement however it is recommended as the prelicensing course is designed to prepare candidates for the State Licensing Examination.</dd>
+<dt>Exam</dt><dd><a href="https://home.pearsonvue.com/id/insurance" target="_blank" rel="noopener">Pearson Professional Assessments</a> · $65 · in-person or online proctored</dd>
+<dt>Fingerprints</dt><dd>Required — $61.25 via Pearson Professional Assessments (electronic submission) or hard card FD-258</dd>
+<dt>Licence application</dt><dd>$80 via NIPR (www.nipr.com) or Sircon (www.sircon.com/idaho)</dd>
+<dt>Regulator</dt><dd><a href="https://doi.idaho.gov/" target="_blank" rel="noopener">Idaho Department of Insurance</a> · 208-334-4250</dd>
+</dl>
+<p class="quirk">Forced progression (locked) course: each lesson must be reviewed and each chapter quiz passed before moving to the next chapter. Fingerprints valid 6 months. At the test center you must present two forms of identification bearing your signature, one a valid government issued photo ID.</p>
+<p class="quirk">Two exams per line are required: a general knowledge exam and a state-designated exam. Both parts must be passed within 180 days (6 months) of passing one part. Check computer compatibility before registering for the online proctored option.</p>
+</article>
+<article class="card" data-s="illinois il" data-gate="sit_cert" data-ple="y">
+<header><h2>Illinois</h2><span class="pill g-ok">Book now, bring your certificate</span></header>
+<p class="gate">You can reserve a date today, but you must have your course certificate in hand on exam day. <em>Before taking an exam, you must complete all pre-licensing education. Test within 1 year of course completion, and obtain the licence within that year. (Pearson VUE IL handbook)</em></p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life and Health Producer</dd>
+<dt>Prelicensing course</dt><dd><b>Required — Life only 20 hrs · A&amp;H only 20 hrs.</b> 20 hours per line of authority, of which 7.5 hours per line of authority must be completed via classroom or webinar setting. Credit is only given for attending 100% of the classroom/webinar portion; partial credit is not issued. Certificates are valid for 1 year.</dd>
+<dt>Exam</dt><dd><a href="https://home.pearsonvue.com/il/insurance" target="_blank" rel="noopener">Pearson Professional Assessments</a> · $92 per exam; a $92 discount applies when scheduling the general knowledge and state-designated exams for the same line on the same order · in person only</dd>
+<dt>Fingerprints</dt><dd><span class="na">Not stated on the source page</span></dd>
+<dt>Licence application</dt><dd>$215 per application via NIPR (www.nipr.com)</dd>
+<dt>Regulator</dt><dd><a href="https://idoi.illinois.gov/" target="_blank" rel="noopener">Illinois Department of Insurance</a> · 217-782-6366</dd>
+</dl>
+<p class="quirk">Course completion requires passing the online self-study final exam with at least 70%, attending the entire 7.5-hour webinar, and completing the course completion affidavit. Certificates download from the Transcript tile on the user dashboard. Fingerprinting is not mentioned on the page.</p>
+<p class="quirk">Two state examinations are required for each line of authority: the general knowledge exam and the state-designated exam, and both must be passed within 90 days of each other. Exams may be taken at Pearson Professional Assessments locations. Spanish exams available.</p>
+</article>
+<article class="card" data-s="indiana in" data-gate="sit_cert" data-ple="y">
+<header><h2>Indiana</h2><span class="pill g-ok">Book now, bring your certificate</span></header>
+<p class="gate">You can reserve a date today, but you must have your course certificate in hand on exam day. <em>Testing must be completed within six (6) months of the Course Completion Date on the certificate. (Pearson VUE IN handbook)</em></p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
+<dt>Prelicensing course</dt><dd><b>Required — Life + A&amp;H 40 hrs · Life only 20 hrs · A&amp;H only 20 hrs.</b> Life Only 20, Accident &amp; Health Only 20, Life, Accident and Health 40, Casualty 20, Property 20, Property and Casualty 40, Personal Lines 20. Certificates are valid for 6 months.</dd>
+<dt>Exam</dt><dd><a href="https://home.pearsonvue.com/in/insurance" target="_blank" rel="noopener">Pearson Professional Assessments</a> · $69 · in-person or online proctored</dd>
+<dt>Fingerprints</dt><dd><span class="na">Not stated on the source page</span></dd>
+<dt>Licence application</dt><dd>$40 via Sircon (www.sircon.com/indiana) or NIPR (www.nipr.com)</dd>
+<dt>Regulator</dt><dd><a href="https://www.in.gov/idoi/licensing/" target="_blank" rel="noopener">Indiana Department of Insurance</a> · 317-232-2389</dd>
+</dl>
+<p class="quirk">Forced progression (locked) course: each lesson must be reviewed and each chapter quiz passed before moving to the next chapter. Mandatory course final exam with a minimum 70% score. Licenses renew every two years by the last day of the birth month. Fingerprinting is not mentioned on the page.</p>
+<p class="quirk">Check computer compatibility before registering for OnVUE. Spanish exams are available at test centers only and are not available through OnVUE.</p>
+</article>
+<article class="card" data-s="iowa ia" data-gate="none" data-ple="n">
+<header><h2>Iowa</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa"><span class="na">This state licenses Life and Accident &amp; Health separately — two exams, two lines.</span></dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> The state of Iowa has no formal pre-licensing education requirement.</dd>
+<dt>Exam</dt><dd><a href="https://www.pearsonvue.com/ia/insurance" target="_blank" rel="noopener">Pearson Professional Assessments</a> · $44 single line (OnVUE $44) · in-person or online proctored · There are no limitations on retaking the exam</dd>
+<dt>Fingerprints</dt><dd>Required — $34.35 via Fieldprint</dd>
+<dt>Licence application</dt><dd>$50 via NIPR (https://nipr.com/)</dd>
+<dt>Regulator</dt><dd><a href="https://iid.iowa.gov/" target="_blank" rel="noopener">Iowa Insurance Division</a> · 515-654-6600</dd>
+</dl>
+<p class="quirk">Fingerprinting required effective 06/02/2025; the department emails instructions to schedule through Fieldprint AFTER you apply for your license through NIPR. Name change documentation required if applicable.</p>
+<p class="quirk">If your computer is not compatible with the online software you will need to schedule your examination at a Pearson Professional Assessments test center.</p>
+</article>
+<article class="card" data-s="kansas ks" data-gate="none" data-ple="n">
+<header><h2>Kansas</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life/Accident and Health</dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> The state of Kansas has no formal pre-licensing education requirement however it is recommended as the prelicensing course is designed to prepare candidates for the State Licensing Examination.</dd>
+<dt>Exam</dt><dd><a href="https://www.pearsonvue.com/ks/insurance" target="_blank" rel="noopener">Pearson Professional Assessments</a> · $57 single line / $64 combination · in-person or online proctored · There are no limitations on retaking the exam however there is a seven (7) day waiting period</dd>
+<dt>Fingerprints</dt><dd>Required — $60</dd>
+<dt>Licence application</dt><dd>$10 plus $60 for fingerprints/background check via NIPR (http://www.nipr.com/)</dd>
+<dt>Regulator</dt><dd><a href="https://insurance.kansas.gov/" target="_blank" rel="noopener">Kansas Insurance Department</a> · 785-296-7862</dd>
+</dl>
+<p class="quirk">Forced progression (locked) course: the student must review each lesson and pass each chapter quiz.</p>
+<p class="quirk">Online proctored exams are offered through OnVUE; test at a Pearson center if your computer is not compatible. At the test center you must present two forms of identification bearing your signature, one a valid government issued photo ID.</p>
+</article>
+<article class="card" data-s="kentucky ky" data-gate="book_apply" data-ple="y">
+<header><h2>Kentucky</h2><span class="pill g-wait">File the application first</span></header>
+<p class="gate">You cannot reserve an exam seat until your licence application is filed and processed. <em>The exam is scheduled through the DOI eServices account only after the DOI processes the application, background report and prelicensing certification.</em></p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
+<dt>Prelicensing course</dt><dd><b>Required — Life + A&amp;H 40 hrs · Life only 20 hrs · A&amp;H only 20 hrs.</b> Life Only 20, Accident &amp; Health Only 20, Life, Accident and Health 40, Casualty 20, Property 20, Property and Casualty 40, Personal Lines 20. Certificates are valid for 12 months, must be uploaded, faxed or emailed to the KY DOI, and completion rosters are reported to the Kentucky Department of Insurance daily.</dd>
+<dt>Exam</dt><dd><a href="https://insurance.ky.gov/doieservices/userrole.aspx" target="_blank" rel="noopener">Kentucky Department of Insurance (state-administered, scheduled through the DOI eServices account)</a> · $50 single line · <span class="na">in-person / online not stated</span> · You can test an unlimited number of times within a 120-day timeline</dd>
+<dt>Fingerprints</dt><dd>Required — $25.00 via Kentucky Administrative Office of the Courts (AOC) criminal background report, http://kycourts.gov/</dd>
+<dt>Licence application</dt><dd>$40.00 plus an additional $40 per line of authority via NIPR (www.nipr.com)</dd>
+<dt>Regulator</dt><dd><a href="http://insurance.ky.gov" target="_blank" rel="noopener">Kentucky Department of Insurance</a> · 800-595-6053</dd>
+</dl>
+<p class="quirk">Application comes BEFORE the exam: submit the application via NIPR, allow up to 5 business days for the DOI to process the application, background check and prelicensing certification, then schedule the exam via an eServices account. Forced progression (locked) course. The page describes a criminal background report rather than fingerprinting.</p>
+<p class="quirk">The exam is scheduled only after notification that the license application has been processed. On the day of testing you must present a valid government issued photo ID and the certificate(s) of completion.</p>
+</article>
+<article class="card" data-s="louisiana la" data-gate="none" data-ple="n">
+<header><h2>Louisiana</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident &amp; Health</dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> The state of Louisiana has no formal pre-licensing education requirement however it is recommended as the prelicensing course is designed to prepare candidates for the State Licensing Examination.</dd>
+<dt>Exam</dt><dd><a href="https://candidate.psiexams.com/" target="_blank" rel="noopener">PSI</a> · $36 single line / $58 combined · in person only · There are no limitations on retaking the exam</dd>
+<dt>Fingerprints</dt><dd>Required — $60.75 via Identogo</dd>
+<dt>Licence application</dt><dd>$75 via NIPR (www.nipr.com)</dd>
+<dt>Regulator</dt><dd><a href="http://www.ldi.la.gov/" target="_blank" rel="noopener">Louisiana Department of Insurance</a> · 225-342-0860</dd>
+</dl>
+<p class="quirk">Forced progression (locked) course: each lesson must be reviewed and each chapter quiz passed before moving to the next chapter; chapter assessments require a minimum 70% score.</p>
+<p class="quirk">As of July 8, 2024, PSI no longer offers remote proctored exams. A valid government-issued photo ID is required on exam day.</p>
+</article>
+<article class="card" data-s="maine me" data-gate="none" data-ple="n">
+<header><h2>Maine</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa"><span class="na">This state licenses Life and Accident &amp; Health separately — two exams, two lines.</span></dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> The state of Maine has no formal pre-licensing education requirement however it is recommended as the prelicensing course is designed to prepare candidates for the State Licensing Examination.</dd>
+<dt>Exam</dt><dd><a href="https://home.pearsonvue.com/me/insurance" target="_blank" rel="noopener">Pearson Professional Assessments</a> · $55 single line / $80 combined · in person only · There are no limits on exam retakes</dd>
+<dt>Fingerprints</dt><dd><span class="na">Not stated on the source page</span></dd>
+<dt>Licence application</dt><dd>$25 via NIPR (www.nipr.com), or download the application and submit by email, fax or regular mail to the Bureau of Insurance</dd>
+<dt>Regulator</dt><dd><a href="https://www.maine.gov/pfr/insurance/" target="_blank" rel="noopener">Maine Bureau of Insurance Licensing Division</a> · 207-624-8475</dd>
+</dl>
+<p class="quirk">Forced progression (locked) course: each lesson must be reviewed and each chapter quiz passed before moving to the next chapter. Fingerprinting is not mentioned on the page.</p>
+<p class="quirk">OnVUE online remote proctored exams are not available.</p>
+</article>
+<article class="card" data-s="maryland md" data-gate="none" data-ple="n">
+<header><h2>Maryland</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident &amp; Health</dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> The state of Maryland has no formal pre-licensing education requirement however it is recommended</dd>
+<dt>Exam</dt><dd><a href="https://www.prometric.com/maryland/insurance" target="_blank" rel="noopener">Prometric</a> · $62 single line / $62 combined · in-person or online remote proctored</dd>
+<dt>Fingerprints</dt><dd><span class="na">Not stated on the source page</span></dd>
+<dt>Licence application</dt><dd>$54 via NIPR (www.nipr.com)</dd>
+<dt>Regulator</dt><dd><a href="https://insurance.maryland.gov/Producer/Pages/default.aspx" target="_blank" rel="noopener">Maryland Insurance Administration</a> · 410-468-2411 / Toll Free 1-800-492-6116</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state: student must review each lesson and pass each chapter quiz before moving to the next section. Valid government-issued photo ID required on test day.</p>
+<p class="quirk">4-day waiting period to schedule a retake exam; no limitations on retaking the exam. Spanish exams available. Online remote proctored requires computer compatibility check at https://rpcandidate.prometric.com/</p>
+</article>
+<article class="card" data-s="massachusetts ma" data-gate="none" data-ple="n">
+<header><h2>Massachusetts</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident &amp; Health</dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> The state of Massachusetts has no formal pre-licensing education requirement however it is recommended</dd>
+<dt>Exam</dt><dd><a href="https://www.prometric.com/exams/insurance-ma/ (before July 6, 2026); https://www.pearsonvue.com/us/en/ma/insurance.html (after July 6, 2026)" target="_blank" rel="noopener">Prometric (before July 6, 2026); Pearson Professional Assessments (after July 6, 2026)</a> · $39 single line / $49 combined · <span class="na">in-person / online not stated</span></dd>
+<dt>Fingerprints</dt><dd>Required via Prometric</dd>
+<dt>Licence application</dt><dd>$225 plus processing fee via NIPR (www.nipr.com), using the kiosks at the Prometric test center</dd>
+<dt>Regulator</dt><dd>Massachusetts Division of Insurance</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state; chapter assessments must be passed with a minimum score of 70%. Producer applicants applying for Casualty, Property, and/or Personal Lines are charged an additional $75 lead paint surcharge fee. Fingerprints are completed at Prometric after passing the exam.</p>
+<p class="quirk">No limits on exam retakes. Exam vendor changes from Prometric to Pearson Professional Assessments on July 6, 2026.</p>
+</article>
+<article class="card" data-s="michigan mi" data-gate="none" data-ple="y">
+<header><h2>Michigan</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
+<dt>Prelicensing course</dt><dd><b>Required — Life + A&amp;H 40 hrs · Life only 20 hrs · A&amp;H only 20 hrs.</b> Life Only 20 hours; Accident &amp; Health Only 20 hours; Life, Accident and Health 40 hours; Casualty 20; Property 20; Property and Casualty 40; Personal Lines 40</dd>
+<dt>Exam</dt><dd><a href="https://test-takers.psiexams.com/midifs" target="_blank" rel="noopener">PSI</a> · $41 · <span class="na">in-person / online not stated</span></dd>
+<dt>Fingerprints</dt><dd><span class="na">Not stated on the source page</span></dd>
+<dt>Licence application</dt><dd>$10 per line of authority via NIPR (www.nipr.com)</dd>
+<dt>Regulator</dt><dd><a href="https://www.michigan.gov/difs" target="_blank" rel="noopener">Department of Insurance and Financial Services</a> · 877-999-6442</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state: student must review each lesson and pass each chapter quiz before moving to the next section. Course completion certificates are valid for 12 months. Course completion rosters reported to the Department of Insurance within two business days.</p>
+<p class="quirk">There are no limitations on retaking the exam. Two forms of identification bearing your signature required, one a valid government-issued photo ID.</p>
+</article>
+<article class="card" data-s="minnesota mn" data-gate="sit_cert" data-ple="y">
+<header><h2>Minnesota</h2><span class="pill g-ok">Book now, bring your certificate</span></header>
+<p class="gate">You can reserve a date today, but you must have your course certificate in hand on exam day. <em>If you take the examination before you have completed pre-license education requirements, your exam results will be invalid.</em></p>
+<dl>
+<dt>Take this licence</dt><dd class="loa"><span class="na">This state licenses Life and Accident &amp; Health separately — two exams, two lines.</span></dd>
+<dt>Prelicensing course</dt><dd><b>Required — Life only 20 hrs · A&amp;H only 20 hrs.</b> 20 hours per line: Life Only, Accident &amp; Health Only, Casualty Insurance, Property Insurance, Personal Lines. No combined life + health line is offered.</dd>
+<dt>Exam</dt><dd><a href="https://test-takers.psiexams.com/mnins" target="_blank" rel="noopener">PSI</a> · $45 · in-person or online proctored</dd>
+<dt>Fingerprints</dt><dd><span class="na">Not stated on the source page</span></dd>
+<dt>Licence application</dt><dd>$50.00 via SIRCON Online Services</dd>
+<dt>Regulator</dt><dd><a href="https://mn.gov/commerce/" target="_blank" rel="noopener">Minnesota Department of Commerce Licensing Unit</a> · 651-539-1599</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state. The final examination must be monitored by a proctor. Chapter assessments must be passed with a minimum score of 70%. Course times out after ten minutes of inactivity, and identity must be authenticated periodically throughout the course. Fingerprints can be done at any MN PSI test site and are highly recommended on the day of examination.</p>
+<p class="quirk">There is no limit to the number of attempts a candidate can make on the same exam. Computer compatibility must be checked before registering for an online exam; if incompatible, schedule through PSI or by calling (866) 395-1006.</p>
+</article>
+<article class="card" data-s="mississippi ms" data-gate="none" data-ple="y">
+<header><h2>Mississippi</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
+<dt>Prelicensing course</dt><dd><b>Required — Life + A&amp;H 40 hrs · Life only 20 hrs · A&amp;H only 20 hrs.</b> Life Only 20 hours; Accident &amp; Health Only 20 hours; Life, Accident and Health 40 hours; Casualty 20; Property 20; Property and Casualty 40; Personal Lines 40</dd>
+<dt>Exam</dt><dd><a href="https://www.pearsonvue.com/ms/insurance" target="_blank" rel="noopener">Pearson Professional Assessments</a> · $52 · <span class="na">in-person / online not stated</span></dd>
+<dt>Fingerprints</dt><dd><span class="na">Not stated on the source page</span></dd>
+<dt>Licence application</dt><dd>$100 via SIRCON Online Services</dd>
+<dt>Regulator</dt><dd><a href="http://www.mid.ms.gov/" target="_blank" rel="noopener">Mississippi Insurance Department</a> · 601-359-3582</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state. Chapter assessments must be passed with a minimum score of 70%. Certificates are valid for 1 year and course completion rosters are reported to SIRCON within two business days. Roster fee $4.75 collected upon enrollment.</p>
+<p class="quirk">Passing scores: Life/Health 65; Casualty/Property 70; Personal Lines 70. School code from the certificate of completion must be entered during exam registration.</p>
+</article>
+<article class="card" data-s="missouri mo" data-gate="none" data-ple="n">
+<header><h2>Missouri</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> The state of Missouri has no formal pre-licensing education requirement however it is recommended</dd>
+<dt>Exam</dt><dd><a href="https://www.pearsonvue.com/mo/insurance" target="_blank" rel="noopener">Pearson Professional Assessments</a> · $32 single line / $40 combined · in person only</dd>
+<dt>Fingerprints</dt><dd><span class="na">Not stated on the source page</span></dd>
+<dt>Licence application</dt><dd>$100 application fee plus $20 processing fee via NIPR (www.nipr.com)</dd>
+<dt>Regulator</dt><dd><a href="https://insurance.mo.gov/" target="_blank" rel="noopener">Missouri Department of Commerce and Insurance</a> · 573-751-3518</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state: student must review each lesson and pass each chapter quiz before moving to the next section/chapter.</p>
+<p class="quirk">OnVUE online remote proctored exams are not available. There are no limitations on retaking the exam. Two forms of identification bearing your signature required, one a valid government-issued photo ID.</p>
+</article>
+<article class="card" data-s="montana mt" data-gate="none" data-ple="n">
+<header><h2>Montana</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa"><span class="na">This state licenses Life and Accident &amp; Health separately — two exams, two lines.</span></dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> The state of Montana has no formal pre-licensing education requirement however it is recommended</dd>
+<dt>Exam</dt><dd><a href="https://www.pearsonvue.com/mt/insurance" target="_blank" rel="noopener">Pearson Professional Assessments</a> · $59 single line · in-person or online proctored · 2 online attempts per exam; subsequent attempts must be at a Pearson Professional Assessments test center</dd>
+<dt>Fingerprints</dt><dd>Required — $30</dd>
+<dt>Licence application</dt><dd>No charge via NIPR</dd>
+<dt>Regulator</dt><dd><a href="https://csimt.gov/" target="_blank" rel="noopener">Montana Department of Insurance</a> · 406-444-2040</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state. Fingerprinting requires submitting a completed Applicant Rights and Consent to Fingerprints form to the department by email.</p>
+<p class="quirk">Passing score 70%; 120 minutes allowed per exam. Computer compatibility must be checked before registering for an online exam.</p>
+</article>
+<article class="card" data-s="nebraska ne" data-gate="none" data-ple="n">
+<header><h2>Nebraska</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident &amp; Health</dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> The state of Nebraska has no formal pre-licensing education requirement however it is recommended</dd>
+<dt>Exam</dt><dd><a href="https://test-takers.psiexams.com/neins" target="_blank" rel="noopener">PSI</a> · $43 single line / $47 combined · in person only · There are limits on the number of retakes (limit not specified on the page)</dd>
+<dt>Fingerprints</dt><dd><span class="na">Not stated on the source page</span></dd>
+<dt>Licence application</dt><dd>$50 plus processing fee via NIPR (www.nipr.com)</dd>
+<dt>Regulator</dt><dd><a href="https://doi.nebraska.gov/" target="_blank" rel="noopener">Nebraska Department of Insurance</a> · 402-471-4913</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state. Candidates must wait two business days after passing the state exam to apply.</p>
+<p class="quirk">Effective March 16, 2026: Remote proctored exams are no longer available. Candidates must wait two business days after passing the state exam to apply.</p>
+</article>
+<article class="card" data-s="nevada nv" data-gate="none" data-ple="n">
+<header><h2>Nevada</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> The state of Nevada has no formal pre-licensing education requirement. However, it is recommended</dd>
+<dt>Exam</dt><dd><a href="https://home.pearsonvue.com/nv/insurance" target="_blank" rel="noopener">Pearson Professional Assessments</a> · $37 single line / $47 combination · in-person or online proctored · 2 online attempts per exam; subsequent attempts must be at a Pearson Professional Assessments testing center</dd>
+<dt>Fingerprints</dt><dd>Required — Varies by vendor</dd>
+<dt>Licence application</dt><dd>$185 via NIPR (www.nipr.com)</dd>
+<dt>Regulator</dt><dd><a href="https://www.doi.nv.gov/licensing" target="_blank" rel="noopener">Nevada Division of Insurance Licensing Department</a> · 775-687-0700</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state. Chapter assessments must be passed with a minimum score of 70% before moving to the next chapter. You will not be able to review course content once the final examination has begun. Certificates are valid for 1 year. Fingerprint reservation must be scheduled through an approved vendor.</p>
+<p class="quirk">Candidates must wait twenty-four (24) hours before making a subsequent reservation. If your computer is not compatible with the online software you must schedule at a test center.</p>
+</article>
+<article class="card" data-s="new hampshire nh" data-gate="none" data-ple="n">
+<header><h2>New Hampshire</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident &amp; Health</dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> The state of New Hampshire has no formal pre-licensing education requirement however it is recommended</dd>
+<dt>Exam</dt><dd><a href="https://test-takers.psiexams.com/nhins" target="_blank" rel="noopener">PSI</a> · $59 single line / $72 combined · in-person or online proctored</dd>
+<dt>Fingerprints</dt><dd><span class="na">Not stated on the source page</span></dd>
+<dt>Licence application</dt><dd>$210 plus processing fee via NIPR (www.nipr.com)</dd>
+<dt>Regulator</dt><dd><a href="https://www.nh.gov/insurance/" target="_blank" rel="noopener">New Hampshire Insurance Department License Division</a> · 603-271-0203</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state. NIPR verifies exams prior to allowing submission of an application.</p>
+<p class="quirk">You must check the compatibility of your computer before registering for the exam; if incompatible you must schedule at the PSI test center.</p>
+</article>
+<article class="card" data-s="new jersey nj" data-gate="sit_cert" data-ple="y">
+<header><h2>New Jersey</h2><span class="pill g-ok">Book now, bring your certificate</span></header>
+<p class="gate">You can reserve a date today, but you must have your course certificate in hand on exam day. <em>Certificate of completion required on the day of testing.</em></p>
+<dl>
+<dt>Take this licence</dt><dd class="loa"><span class="na">This state licenses Life and Accident &amp; Health separately — two exams, two lines.</span></dd>
+<dt>Prelicensing course</dt><dd><b>Required — Life only 20 hrs · A&amp;H only 20 hrs.</b> Life Only 20 hours; Accident &amp; Health Only 20 hours; Casualty 20; Property 20; Personal Lines 20. No combined life+health course listed.</dd>
+<dt>Exam</dt><dd><a href="https://test-takers.psiexams.com/njins" target="_blank" rel="noopener">PSI</a> · $38 · online proctored or PSI test center</dd>
+<dt>Fingerprints</dt><dd>Required — $66.05 via IdentoGO</dd>
+<dt>Licence application</dt><dd>$170 via NIPR</dd>
+<dt>Regulator</dt><dd><a href="https://www.nj.gov/dobi/aboutdobi.htm" target="_blank" rel="noopener">New Jersey Department of Banking and Insurance Division of Insurance</a> · 609-292-7272</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state - must review each lesson and pass each chapter quiz before moving on; chapter assessments require 70% minimum; passing score 70%; certificates are valid for a lifetime; license application completed at the PSI test-site kiosk through NIPR.</p>
+<p class="quirk">Spanish exams available. &quot;There are no limitations on retaking the exam.&quot; If computer is not compatible with the online software, schedule at a PSI test center.</p>
+</article>
+<article class="card" data-s="new mexico nm" data-gate="none" data-ple="n">
+<header><h2>New Mexico</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life/Accident &amp; Health</dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> &quot;The state of New Mexico has no formal pre-licensing education requirement however it is recommended as the prelicensing course is designed to prepare candidates for the State Licensing Examination.&quot;</dd>
+<dt>Exam</dt><dd><a href="https://test-takers.psiexams.com/nmins/test" target="_blank" rel="noopener">PSI</a> · Single line exam fee $75 / Combined exams fee $75 · online proctored or PSI test center · Four attempts per line of authority within a one-year period, then a six-month waiting period</dd>
+<dt>Fingerprints</dt><dd>Required — $59 via IdentoGO</dd>
+<dt>Licence application</dt><dd>$30 plus processing fee via NIPR</dd>
+<dt>Regulator</dt><dd><a href="https://www.osi.state.nm.us/" target="_blank" rel="noopener">New Mexico Office of Superintendent of Insurance</a> · 855-427-5674</dd>
+</dl>
+<p class="quirk">Forced progression (locked) course - student must review each lesson and pass each chapter quiz. IdentoGo service code 2BH27J (https://nm.state.identogo.com/).</p>
+<p class="quirk">Computer compatibility must be checked before registering for the online-proctored exam. Spanish exams available; valid government-issued photo ID required on test day.</p>
+</article>
+<article class="card" data-s="new york ny" data-gate="none" data-ple="y">
+<header><h2>New York</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
+<dt>Prelicensing course</dt><dd><b>Required — Life + A&amp;H 40 hrs · Life only 20 hrs · A&amp;H only 20 hrs.</b> Life Only 20; Accident &amp; Health Only 20; Life, Accident and Health 40; Property and Casualty 90; Personal Lines 40.</dd>
+<dt>Exam</dt><dd><a href="https://test-takers.psiexams.com/nyins" target="_blank" rel="noopener">PSI</a> · $40 · online proctored or PSI test center</dd>
+<dt>Fingerprints</dt><dd><span class="na">Not stated on the source page</span></dd>
+<dt>Licence application</dt><dd>For New York residents the full fee is $80, half fee is $40 via New York State Department of Financial Services (https://www.dfs.ny.gov/apps_and_licensing/agents_and_brokers/home) or electronically through NIPR</dd>
+<dt>Regulator</dt><dd><a href="https://www.dfs.ny.gov/" target="_blank" rel="noopener">New York State Department of Financial Services</a> · 518-474-6630</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state - must review each lesson and pass each chapter quiz before moving onto the next section/chapter. Course completion rosters are reported to the state weekly; the certificate is submitted with the license application, not for exam registration. Page states no fingerprint requirement.</p>
+<p class="quirk">&quot;There are no limitations on retaking the exam.&quot; Computer compatibility must be checked before registering; if not compatible, schedule at a PSI test center. Day of testing requires identification bearing your signature, one of which must be a valid government issued photo id.</p>
+</article>
+<article class="card" data-s="north carolina nc" data-gate="book_apply" data-ple="n">
+<header><h2>North Carolina</h2><span class="pill g-wait">File the application first</span></header>
+<p class="gate">You cannot reserve an exam seat until your licence application is filed and processed. <em>Candidates cannot make the exam reservation until they receive an email from Pearson VUE with their reserved NPN. (Pearson VUE NC handbook)</em></p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident and Disability</dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> Prelicensing education repealed effective October 1, 2025 (HB 737 / SL 2025-45). No course required — but you cannot reserve a seat until Pearson VUE emails your reserved NPN from the licence application.</dd>
+<dt>Exam</dt><dd><a href="https://home.pearsonvue.com/nc/insurance" target="_blank" rel="noopener">Pearson Professional Assessments (Pearson VUE)</a> · Single Line exam fee $45 · <span class="na">in-person / online not stated</span></dd>
+<dt>Fingerprints</dt><dd>Required — $38 via Local law enforcement; forms emailed, faxed (888-959-3010) or mailed to NCDOI/Pearson VUE, PO Box 14209, Raleigh, NC 27620</dd>
+<dt>Licence application</dt><dd>processing $44, registration $50 per line of authority and fingerprint $38 via NIPR</dd>
+<dt>Regulator</dt><dd><a href="https://www.ncdoi.gov/licensees" target="_blank" rel="noopener">North Carolina Department of Insurance</a> · 855-408-1212</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state requiring review of each lesson and instructional review before moving on; course content cannot be reviewed once the final examination has begun; palm scan required at testing. Producer Licensing Checklist order is unusual: 1 complete prelicensing course, 2 apply for license, 3 submit fingerprints, 4 register for exam, 5 pass exam.</p>
+<p class="quirk">Page does not state whether an online-proctored option exists. Candidates will be required to have their palm scanned. Minimum passing score 70%.</p>
+</article>
+<article class="card" data-s="north dakota nd" data-gate="none" data-ple="n">
+<header><h2>North Dakota</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident &amp; Health</dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> &quot;The North Dakota insurance department does not require prelicensing education; however, completion of a prelicensing course is recommended.&quot;</dd>
+<dt>Exam</dt><dd><a href="https://test-takers.psiexams.com/ndins/test" target="_blank" rel="noopener">PSI</a> · Life, Health, Casualty, Property $64; Personal Lines $58 · in person only</dd>
+<dt>Fingerprints</dt><dd>Required — $41.25 (BCI) + $29 processing = $70.25 via Law Enforcement Center or PSI on the day of examination</dd>
+<dt>Licence application</dt><dd>$100 plus processing fee via NIPR</dd>
+<dt>Regulator</dt><dd><a href="https://www.insurance.nd.gov/producers" target="_blank" rel="noopener">North Dakota Insurance Department Producer Licensing Division</a> · 701-328-2440</dd>
+</dl>
+<p class="quirk">Forced progression course requiring the student to review each lesson and pass each chapter quiz with a minimum score of 70%. Department address: 600 E Boulevard Ave., Bismarck, ND 58505-0320.</p>
+<p class="quirk">&quot;Remote proctored exams are no longer an option.&quot; Passing score 70 of 110 questions; 150 minutes allowed.</p>
+</article>
+<article class="card" data-s="ohio oh" data-gate="sit_cert" data-ple="y">
+<header><h2>Ohio</h2><span class="pill g-ok">Book now, bring your certificate</span></header>
+<p class="gate">You can reserve a date today, but you must have your course certificate in hand on exam day. <em>Valid original certificate(s) of completion required on the day of testing.</em></p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
+<dt>Prelicensing course</dt><dd><b>Required — Life + A&amp;H 40 hrs · Life only 20 hrs · A&amp;H only 20 hrs.</b> Life Only 20; Accident &amp; Health Only 20; Life, Accident and Health 40; Casualty 20; Property 20; Property and Casualty 40; Personal Lines 20.</dd>
+<dt>Exam</dt><dd><a href="https://test-takers.psiexams.com/ohins" target="_blank" rel="noopener">PSI</a> · $49 · in person only</dd>
+<dt>Fingerprints</dt><dd>Required — $72.00 Fast Fingerprints / $72.75 PSI via Fast Fingerprints (Ohio BCI &amp; FBI) or PSI</dd>
+<dt>Licence application</dt><dd>$10 per line of authority via NIPR</dd>
+<dt>Regulator</dt><dd><a href="https://insurance.ohio.gov" target="_blank" rel="noopener">Ohio Department of Insurance Licensing Division</a> · 614-644-2665</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state. Mandatory final exam; certificate requires completion of the course, pre-final exam and the Ohio Certification Exam(s), plus a Pre-licensing Affidavit. &quot;Certificates are valid for 180 days&quot; and &quot;You must pass that state exam during the eligibility period of 180 days otherwise you must retake the prelicensing course.&quot; Course completion rosters reported to the state within seven business days.</p>
+<p class="quirk">&quot;Effective March 10, 2026: Remote examinations are no longer available.&quot; Day of testing requires two forms of identification, valid original hard-copy Certificate(s) of completion signed by provider and student, and a reservation confirmation number.</p>
+</article>
+<article class="card" data-s="oklahoma ok" data-gate="none" data-ple="n">
+<header><h2>Oklahoma</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident &amp; Health</dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> &quot;The state of Oklahoma has no formal pre-licensing education requirement however it is recommended as the prelicensing course is designed to prepare candidates for the State Licensing Examination.&quot;</dd>
+<dt>Exam</dt><dd><a href="https://test-takers.psiexams.com/okins" target="_blank" rel="noopener">PSI</a> · Single line exam fee $38 / Combined exams fee $38 · online proctored or test center</dd>
+<dt>Fingerprints</dt><dd><span class="na">Not stated on the source page</span></dd>
+<dt>Licence application</dt><dd>$60 plus processing fee via NIPR</dd>
+<dt>Regulator</dt><dd><a href="https://www.oid.ok.gov/licensing-and-education/" target="_blank" rel="noopener">Oklahoma Insurance Department</a> · 405-521-3916</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state - student must review each lesson and pass each chapter quiz before moving onto the next section/chapter. Page is silent on fingerprinting.</p>
+<p class="quirk">&quot;If your computer is not compatible with the online software, you will need to schedule your examination at the Prometric test center.&quot;</p>
+</article>
+<article class="card" data-s="oregon or" data-gate="sit_cert" data-ple="y">
+<header><h2>Oregon</h2><span class="pill g-ok">Book now, bring your certificate</span></header>
+<p class="gate">You can reserve a date today, but you must have your course certificate in hand on exam day. <em>Valid original certificate(s) of completion required on the day of testing.</em></p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
+<dt>Prelicensing course</dt><dd><b>Required — Life + A&amp;H 40 hrs · Life only 20 hrs · A&amp;H only 20 hrs.</b> Life Only 20; Accident &amp; Health Only 20; Life, Accident and Health 40; Casualty 20; Property 20; Property and Casualty 40; Personal Lines 20.</dd>
+<dt>Exam</dt><dd><a href="https://test-takers.psiexams.com/orins" target="_blank" rel="noopener">PSI</a> · Single line exam fee $45 / Combination exam fee $55 · online proctored or PSI test center</dd>
+<dt>Fingerprints</dt><dd>Required — $61.25 via PSI</dd>
+<dt>Licence application</dt><dd>$75 per line of authority via NIPR</dd>
+<dt>Regulator</dt><dd><a href="https://dfr.oregon.gov" target="_blank" rel="noopener">Oregon Division of Financial Regulation</a> · 503-947-7981</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state; mandatory final exam (70% minimum). &quot;You must pass that state exam within the eligibility period of 1 year otherwise you must retake the prelicensing course.&quot; Certificates are valid for 1 year. Fingerprints are submitted at a PSI location on the day of testing. NIPR verifies exams prior to allowing submission of an application, and applying for a second license before the original is issued causes the second application to fail.</p>
+<p class="quirk">&quot;There are no limitations on retaking the exam.&quot; Day of testing requires two forms of identification bearing your signature, one a valid government issued photo id, plus valid original hard-copy Certificate(s) of completion displaying the school code.</p>
+</article>
+<article class="card" data-s="pennsylvania pa" data-gate="none" data-ple="n">
+<header><h2>Pennsylvania</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> &quot;The state of Pennsylvania has eliminated the pre-licensing education requirement.&quot; Course still recommended to prepare for the State Licensing Examination.</dd>
+<dt>Exam</dt><dd><a href="https://test-takers.psiexams.com/pain" target="_blank" rel="noopener">PSI</a> · Single line exam fee $45 / Combination exam fee $55 · online proctored or test center</dd>
+<dt>Fingerprints</dt><dd>Required — $23.85 via IdentoGO</dd>
+<dt>Licence application</dt><dd>$55.00 via NIPR or Sircon (www.sircon.com/pennsylvania), via the kiosk at the PSI test site</dd>
+<dt>Regulator</dt><dd><a href="https://www.insurance.pa.gov" target="_blank" rel="noopener">Pennsylvania Insurance Department Bureau of Licensing and Enforcement</a> · 717-787-3840</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state; chapter assessments require 70% minimum. Certificate of completion on exam day is &quot;no longer required as of 04/29/2025&quot;. &quot;Individuals should not register for a fingerprinting appointment and submit their fingerprints until after they have passed any examination requirements and applied for licensure.&quot; IdentoGO service code 1KGBGJ, 844-321-2101.</p>
+<p class="quirk">&quot;There are no limitations on retaking the exam.&quot; Computer compatibility check required; if not compatible, schedule at the Prometric test center. 120 minutes for single lines, 150 minutes for combination exams; passing score 70%.</p>
+</article>
+<article class="card" data-s="rhode island ri" data-gate="none" data-ple="n">
+<header><h2>Rhode Island</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa"><span class="na">This state licenses Life and Accident &amp; Health separately — two exams, two lines.</span></dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> &quot;The state of Rhode Island has no formal pre-licensing education requirement however it is recommended as the prelicensing course is designed to prepare candidates for the State Licensing Examination.&quot;</dd>
+<dt>Exam</dt><dd><a href="https://home.pearsonvue.com/ri/insurance" target="_blank" rel="noopener">Pearson Professional Assessments</a> · Test Center exam fee $80 (candidates can register for two exams in one session only at a test center and pay a single fee of $80) · <span class="na">in-person / online not stated</span></dd>
+<dt>Fingerprints</dt><dd><span class="na">Not stated on the source page</span></dd>
+<dt>Licence application</dt><dd>$120 via NIPR</dd>
+<dt>Regulator</dt><dd><a href="https://dbr.ri.gov/" target="_blank" rel="noopener">Rhode Island Department of Business Regulation Insurance Division</a> · 207-624-8475</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state - must review each lesson and pass each chapter quiz before moving on. No fingerprint requirement stated; instead &quot;Candidates must provide a background report (BCI) from the Rhode Island Attorney General&#x27;s office. 401-274-4400 opt 2 Fee: State background check $5.00&quot;. Phone number shown for the agency on the page (207-624-8475) is as published.</p>
+<p class="quirk">&quot;There are no limits on exam retakes.&quot; No online-proctored option described on the page. First time candidates for P&amp;C must register for both the Property Producer and Casualty Producer exam.</p>
+</article>
+<article class="card" data-s="south carolina sc" data-gate="none" data-ple="n">
+<header><h2>South Carolina</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident and Health Insurance Producer</dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> South Carolina has no formal pre-licensing education requirement; course recommended to prepare for the state exam</dd>
+<dt>Exam</dt><dd><a href="https://home.pearsonvue.com/sc/insurance" target="_blank" rel="noopener">Pearson Professional Assessments (Pearson VUE)</a> · $59 · in-person or online proctored · Examinations may be taken only six (6) times in a one-year period</dd>
+<dt>Fingerprints</dt><dd>Required</dd>
+<dt>Licence application</dt><dd>$25 via NIPR (www.nipr.com)</dd>
+<dt>Regulator</dt><dd><a href="https://www.doi.sc.gov/" target="_blank" rel="noopener">South Carolina Department of Insurance</a> · 803-737-6095</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state: student must review each lesson and pass each chapter quiz. Fingerprint info (ORI number/service code) is sent by the department after it receives the application. Exam limited to six attempts per one-year period.</p>
+</article>
+<article class="card" data-s="south dakota sd" data-gate="none" data-ple="n">
+<header><h2>South Dakota</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life/Accident/Health</dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> South Dakota has no formal pre-licensing education requirement; course recommended</dd>
+<dt>Exam</dt><dd><a href="https://www.pearsonvue.com/sd/insurance" target="_blank" rel="noopener">Pearson Professional Assessments (Pearson VUE)</a> · $85 single line / $95 combined lines · in-person or online proctored (OnVUE)</dd>
+<dt>Fingerprints</dt><dd><span class="na">Not stated on the source page</span></dd>
+<dt>Licence application</dt><dd>$25.00 via NIPR (https://nipr.com/)</dd>
+<dt>Regulator</dt><dd><a href="https://dlr.sd.gov/insurance/default.aspx" target="_blank" rel="noopener">South Dakota Division of Insurance</a> · 605-773-3563</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state; chapters must be completed sequentially with a minimum 70% score before advancing. Page does not mention a fingerprint requirement.</p>
+<p class="quirk">Same fees apply to OnVUE online-proctored delivery</p>
+</article>
+<article class="card" data-s="tennessee tn" data-gate="none" data-ple="n">
+<header><h2>Tennessee</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life and Accident &amp; Health</dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> Tennessee has no formal pre-licensing education requirement; course recommended to prepare for the state exam</dd>
+<dt>Exam</dt><dd><a href="https://www.pearsonvue.com/tn/insurance" target="_blank" rel="noopener">Pearson Professional Assessments (Pearson VUE)</a> · $55 single line / $80 combination · in-person or online proctored</dd>
+<dt>Fingerprints</dt><dd>Required via IdentoGo (www.identogo.com), ORI # TN920680Z, Transaction Type IP</dd>
+<dt>Licence application</dt><dd>$50 via NIPR (www.nipr.com)</dd>
+<dt>Regulator</dt><dd><a href="https://www.tn.gov/commerce/insurance-division.html" target="_blank" rel="noopener">Tennessee Department of Commerce and Insurance, Producer Licensing Section</a> · 888-416-0868</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state. Must wait 48 hours after taking the examination before submitting the license application electronically. Combination exam fee exists although no combined course line is listed.</p>
+<p class="quirk">10-day minimum wait to reschedule; 30-day wait after subsequent attempts</p>
+</article>
+<article class="card" data-s="texas tx" data-gate="none" data-ple="n">
+<header><h2>Texas</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident &amp; Health</dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> Texas has no formal pre-licensing education requirement; course recommended to prepare for the state exam</dd>
+<dt>Exam</dt><dd><a href="https://home.pearsonvue.com/tx/insurance" target="_blank" rel="noopener">Pearson Professional Assessments (Pearson VUE)</a> · $39 single line / $49 general lines · in person only</dd>
+<dt>Fingerprints</dt><dd>Required — $50.25 via IdentoGo (https://uenroll.identogo.com/workflows/11G6QF), Fingerprint Code 11G6QF</dd>
+<dt>Licence application</dt><dd>$50 plus processing fee via SIRCON (https://www.sircon.com/texas) or NIPR (www.nipr.com)</dd>
+<dt>Regulator</dt><dd><a href="https://www.tdi.texas.gov/" target="_blank" rel="noopener">Texas Department of Insurance, Agent and Adjuster Licensing</a> · 512-676-6500</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state that requires the student to review each lesson and pass each chapter quiz before moving to the next chapter. No online-proctored exam option.</p>
+<p class="quirk">OnVUE online remote proctored exams are not available</p>
+</article>
+<article class="card" data-s="utah ut" data-gate="none" data-ple="n">
+<header><h2>Utah</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident &amp; Health</dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> Utah has no formal pre-licensing education requirement; course recommended to prepare for the state exam</dd>
+<dt>Exam</dt><dd><a href="https://www.prometric.com/exams/insurance" target="_blank" rel="noopener">Prometric</a> · $32 single line / $44 combined · in-person or online proctored · There are no limits on exam retakes</dd>
+<dt>Fingerprints</dt><dd>Required — $32 plus $6.00 for processing via Prometric test center</dd>
+<dt>Licence application</dt><dd>$75 plus processing fee via NIPR (www.nipr.com), using the kiosks at the Prometric test center</dd>
+<dt>Regulator</dt><dd><a href="https://www.insurance.utah.gov" target="_blank" rel="noopener">Utah Insurance Department</a> · 801-957-9240</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state; chapter assessments must be passed with a minimum 70% before progressing. License application must be submitted within 90 days of passing the exam.</p>
+</article>
+<article class="card" data-s="vermont vt" data-gate="none" data-ple="n">
+<header><h2>Vermont</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident &amp; Health</dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> Vermont has no formal pre-licensing education requirement; course recommended to prepare for the state exam</dd>
+<dt>Exam</dt><dd><a href="https://www.prometric.com/vermont/insurance" target="_blank" rel="noopener">Prometric</a> · $52 single line / $67.60 combined · in-person or online proctored</dd>
+<dt>Fingerprints</dt><dd>Required via Prometric</dd>
+<dt>Licence application</dt><dd>$60 plus processing fee via NIPR (www.nipr.com), using the kiosks at the Prometric test center</dd>
+<dt>Regulator</dt><dd><a href="https://dfr.vermont.gov/industry/insurance" target="_blank" rel="noopener">Vermont Department of Financial Regulation</a> · 802-828-3303</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state requiring each lesson to be reviewed and each chapter quiz passed before advancing. License and fingerprints are completed at Prometric AFTER passing the exam.</p>
+<p class="quirk">Computer compatibility check at https://rpcandidate.prometric.com/ required for online proctoring</p>
+</article>
+<article class="card" data-s="virginia va" data-gate="none" data-ple="n">
+<header><h2>Virginia</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident &amp; Health</dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> Virginia has no formal pre-licensing education requirement; course recommended to prepare for the state exam</dd>
+<dt>Exam</dt><dd><a href="https://www.prometric.com/virginia/insurance" target="_blank" rel="noopener">Prometric</a> · $35 · in-person or online proctored</dd>
+<dt>Fingerprints</dt><dd>Required — $34.95 via Fieldprint Virginia (https://fieldprintvirginia.com/), Fingerprint Code FPVABOIProducer</dd>
+<dt>Licence application</dt><dd>$15 plus processing fee via NIPR (www.nipr.com), using the kiosks at the Prometric test center</dd>
+<dt>Regulator</dt><dd><a href="https://scc.virginia.gov/pages/Bureau-of-Insurance" target="_blank" rel="noopener">Virginia State Corporation Commission Bureau of Insurance</a> · 804-371-9631</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state. Fingerprint results are valid for 90 days. 30-calendar-day waiting period after a third failed exam attempt.</p>
+<p class="quirk">24-hour waiting period between retakes; after a third failure Virginia law requires a 30-calendar-day wait</p>
+</article>
+<article class="card" data-s="washington wa" data-gate="none" data-ple="n">
+<header><h2>Washington</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life and Disability (Health)</dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> The State of Washington eliminated the prelicensing requirement</dd>
+<dt>Exam</dt><dd><a href="https://test-takers.psiexams.com/waoic" target="_blank" rel="noopener">PSI</a> · $38 single line / $55 combined · in-person or online proctored · There is no limit to the number of attempts a candidate can make on the same exam</dd>
+<dt>Fingerprints</dt><dd>Required — $49.25 via IDEMIA IdentoGo (www.identogo.com, 888-771-5097)</dd>
+<dt>Licence application</dt><dd>$60.00 via Online at www.insurance.wa.gov or electronically through NIPR (www.nipr.com)</dd>
+<dt>Regulator</dt><dd><a href="http://www.insurance.wa.gov" target="_blank" rel="noopener">Washington Office of the Insurance Commissioner</a> · 360-725-7144</dd>
+</dl>
+<p class="quirk">Prelicensing requirement eliminated and the education roster is explicitly not required to schedule the exam. Forced progression (locked) course. All application requirements must be submitted within 180 days of passing the exam or the exam must be retaken.</p>
+<p class="quirk">In-person scheduling also available by phone at (855) 205-5825</p>
+</article>
+<article class="card" data-s="west virginia wv" data-gate="none" data-ple="y">
+<header><h2>West Virginia</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
+<dt>Prelicensing course</dt><dd><b>Required — Life + A&amp;H 40 hrs · Life only 20 hrs · A&amp;H only 20 hrs.</b> Life Only 20 hours; Accident and Health 20 hours; Life, Accident and Health 40 hours; Casualty 20; Property 20; Property and Casualty 40; Personal Lines 20</dd>
+<dt>Exam</dt><dd><a href="https://www.pearsonvue.com/wv/insurance" target="_blank" rel="noopener">Pearson Professional Assessments (Pearson VUE)</a> · $84 single line / $84 combination · <span class="na">in-person / online not stated</span> · Candidates are limited to eight (8) attempts to pass each line</dd>
+<dt>Fingerprints</dt><dd>Required — $49.25 via IdentoGo (https://www.identogo.com/)</dd>
+<dt>Licence application</dt><dd>$50 via NIPR (www.nipr.com)</dd>
+<dt>Regulator</dt><dd><a href="https://www.wvinsurance.gov/" target="_blank" rel="noopener">State of West Virginia Office of the Insurance Commissioner, Licensing and Education</a> · 304-558-0610</dd>
+</dl>
+<p class="quirk">Prelicensing education is required. Forced progression (locked) state and the final examination must be monitored by a proctor (minimum score 70%). Course completion certificates are valid for 6 months. Fingerprint receipt with 12-digit TCN required for the license application. Exam limited to eight attempts per line.</p>
+<p class="quirk">24-hour waiting period between exam attempts</p>
+</article>
+<article class="card" data-s="wisconsin wi" data-gate="sit_cert" data-ple="y">
+<header><h2>Wisconsin</h2><span class="pill g-ok">Book now, bring your certificate</span></header>
+<p class="gate">You can reserve a date today, but you must have your course certificate in hand on exam day. <em>Certificate(s) of completion required on the day of testing.</em></p>
+<dl>
+<dt>Take this licence</dt><dd class="loa"><span class="na">This state licenses Life and Accident &amp; Health separately — two exams, two lines.</span></dd>
+<dt>Prelicensing course</dt><dd><b>Required — Life only 20 hrs · A&amp;H only 20 hrs.</b> Life Only 20 hours; Accident &amp; Health Only 20 hours; Casualty 20; Property 20; Personal Lines 20. No combined life/health course is listed</dd>
+<dt>Exam</dt><dd><a href="https://test-takers.psiexams.com/wiins" target="_blank" rel="noopener">PSI</a> · $75 · in-person or online proctored</dd>
+<dt>Fingerprints</dt><dd>Required — $34.75 via Fieldprint, Fieldprint Code FPWIOCIINSURANCE</dd>
+<dt>Licence application</dt><dd>$10 per line of authority via NIPR (www.nipr.com), within 180 days</dd>
+<dt>Regulator</dt><dd><a href="https://oci.wi.gov" target="_blank" rel="noopener">Office of the Commissioner of Insurance</a> · 608-266-8699</dd>
+</dl>
+<p class="quirk">Prelicensing education is required. Forced progression course with assessments passed at a minimum 70% before advancing, and a mandatory proctored final exam. Certificate of completion must be presented on the day of testing; certificates are valid for 1 year and fingerprint information for 180 days.</p>
+<p class="quirk">Computer compatibility must be checked before registering for an online-proctored exam</p>
+</article>
+<article class="card" data-s="wyoming wy" data-gate="none" data-ple="n">
+<header><h2>Wyoming</h2><span class="pill g-ok">Book the exam now</span></header>
+<p class="gate">No course or application has to be finished first.</p>
+<dl>
+<dt>Take this licence</dt><dd class="loa">Life, Accident &amp; Health</dd>
+<dt>Prelicensing course</dt><dd><b>Not required.</b> Wyoming has no formal pre-licensing education requirement; course recommended to prepare for the state exam</dd>
+<dt>Exam</dt><dd><a href="https://home.pearsonvue.com/wy/insurance" target="_blank" rel="noopener">Pearson Professional Assessments (Pearson VUE)</a> · $96 single line / $113 combined · in-person or online proctored (OnVUE) · No limits on exam retakes overall; candidates taking an online examination are allowed two attempts per exam</dd>
+<dt>Fingerprints</dt><dd>Required — $39</dd>
+<dt>Licence application</dt><dd>$100 plus processing fee via NIPR (www.nipr.com)</dd>
+<dt>Regulator</dt><dd><a href="https://doi.wyo.gov/licensing" target="_blank" rel="noopener">Wyoming Insurance Department</a> · 307-777-7319</dd>
+</dl>
+<p class="quirk">Forced progression (locked) state. Fingerprint fee is submitted to the Department of Insurance after the license application is received. OnVUE online exams limited to two attempts per exam.</p>
+</article>
+</div>
+
+<p class="note">Fees and rules change, and two of these states changed theirs within the last year. Treat this as the working answer rather than the last word — the regulator link on each card is the authority. Where a source page said nothing about a field, it says so plainly instead of filling the gap with a guess.</p>
+</div>
+<script>
+var grid=document.getElementById('grid'), q=document.getElementById('q'), cnt=document.getElementById('count');
+var chips=[].slice.call(document.querySelectorAll('.chip')), filter='all';
+function apply(){
+  var t=q.value.trim().toLowerCase(), n=0;
+  [].forEach.call(grid.children,function(c){
+    if(!c.dataset||!c.dataset.gate) return;
+    var okT=!t||c.dataset.s.indexOf(t)>-1;
+    var okF=(filter==='all')||(filter==='ple'?c.dataset.ple==='y':c.dataset.gate===filter);
+    var show=okT&&okF; c.hidden=!show; if(show)n++;
+  });
+  cnt.textContent=n+(n===1?' state':' states');
+}
+chips.forEach(function(b){b.addEventListener('click',function(){
+  chips.forEach(function(x){x.setAttribute('aria-pressed', x===b?'true':'false');});
+  filter=b.dataset.f; apply();
+});});
+q.addEventListener('input',apply);
+apply();
+</script>

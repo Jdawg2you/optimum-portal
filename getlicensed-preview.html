@@ -1,0 +1,641 @@
+<title>Get Licensed — Page Redesign</title>
+<style>
+:root{
+  --bg:#eef1f6; --card:#fff; --ink:#16233f; --mute:#5b6b85; --line:#e6e8ee;
+  --navy:#16233f; --gold:#c9a227; --goldbg:#fff8e6; --goldink:#7a5b12;
+  --blue:#2563c9; --ok:#1c7c54; --okbg:#e3f2ea; --stop:#a52a2a; --stopbg:#fdeaea;
+  --wait:#8a6100; --waitbg:#fdf3dd; --strike:#98a4b8; --shadow:0 2px 8px rgba(20,35,63,.06);
+  --shadowUp:0 10px 30px rgba(20,35,63,.10);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0e131b; --card:#161d28; --ink:#e8edf6; --mute:#98a6bd; --line:#26303f;
+  --navy:#9dc0ff; --gold:#d9ad4a; --goldbg:#2a2313; --goldink:#e3c477;
+  --blue:#78aaff; --ok:#5fd39b; --okbg:#102d21; --stop:#ff9d9d; --stopbg:#33191a;
+  --wait:#ffd07a; --waitbg:#33280f; --strike:#6c7a90; --shadow:0 2px 8px rgba(0,0,0,.35);
+  --shadowUp:0 10px 30px rgba(0,0,0,.45);
+}}
+:root[data-theme="dark"]{
+  --bg:#0e131b; --card:#161d28; --ink:#e8edf6; --mute:#98a6bd; --line:#26303f;
+  --navy:#9dc0ff; --gold:#d9ad4a; --goldbg:#2a2313; --goldink:#e3c477;
+  --blue:#78aaff; --ok:#5fd39b; --okbg:#102d21; --stop:#ff9d9d; --stopbg:#33191a;
+  --wait:#ffd07a; --waitbg:#33280f; --strike:#6c7a90; --shadow:0 2px 8px rgba(0,0,0,.35);
+  --shadowUp:0 10px 30px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);margin:0;padding:20px 14px 80px;
+  font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
+.wrap{max-width:660px;margin:0 auto}
+p{margin:0 0 11px}
+a{color:var(--navy)}
+
+.mockbar{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:12px 14px;margin-bottom:20px}
+.mockbar h1{font-size:14px;margin:0 0 3px}
+.mockbar p{margin:0;font-size:12.5px;color:var(--mute)}
+.mockbar select{margin-top:9px;width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:8px;
+  background:var(--bg);color:var(--ink);font-size:14px;font-family:inherit}
+
+/* ---- overview: video + hero ---- */
+.video{display:block;background:var(--navy);border-radius:14px;height:112px;position:relative;
+  margin-bottom:12px;text-decoration:none;box-shadow:var(--shadow);overflow:hidden}
+.video .play{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  color:#fff;font-size:34px;opacity:.92}
+.video .lab{position:absolute;left:0;right:0;bottom:0;padding:8px 12px;color:#fff;font-size:12.5px;
+  background:linear-gradient(transparent,rgba(0,0,0,.45))}
+.hero2{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 22px;
+  box-shadow:var(--shadow);margin-bottom:14px}
+.hero2 .kicker{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:var(--gold);font-weight:800}
+.hero2 h1{font-size:26px;margin:5px 0 8px;letter-spacing:-.015em}
+.hero2 p{font-size:14px;color:var(--mute);margin:0}
+.statepill{display:inline-flex;align-items:center;gap:8px;background:var(--bg);border:1px solid var(--line);
+  border-radius:999px;padding:6px 8px 6px 13px;font-size:13px;margin-top:13px}
+.statepill b{color:var(--navy)}
+.statepill button{background:none;border:0;color:var(--blue);font-size:12.5px;cursor:pointer;
+  text-decoration:underline;font-family:inherit;padding:2px 6px}
+.bar{height:8px;background:var(--line);border-radius:99px;margin:14px 0 6px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--gold);border-radius:99px;transition:width .3s}
+.barlab{font-size:12.5px;color:var(--mute)}
+.nextup{margin-top:14px;padding-top:13px;border-top:1px solid var(--line)}
+.nextup .nl{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--mute);font-weight:800}
+.nextup .nt{font-size:16px;font-weight:700;margin-top:3px}
+.nextup .nm{font-size:13px;color:var(--mute);margin-top:2px}
+
+/* ---- countdown ---- */
+.count{background:var(--navy);color:var(--card);border-radius:16px;padding:20px 22px;margin-bottom:14px;
+  box-shadow:var(--shadowUp)}
+.count .days{font-size:40px;font-weight:800;line-height:1;letter-spacing:-.02em}
+.count .when{font-size:14.5px;opacity:.9;margin-top:7px}
+.count .sub{font-size:12.5px;opacity:.75;margin-top:10px}
+
+/* ---- money accordion ---- */
+.money{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:16px;
+  box-shadow:var(--shadow);overflow:hidden}
+.money>summary{list-style:none;cursor:pointer;padding:15px 18px;display:flex;justify-content:space-between;
+  align-items:center;gap:12px}
+.money>summary::-webkit-details-marker{display:none}
+.money .mtitle{font-size:15px;font-weight:700}
+.money .msub{font-size:12.5px;color:var(--mute);margin-top:3px;line-height:1.45}
+.caret{color:#b3bccb;font-size:17px;transition:transform .2s;flex:0 0 auto}
+.money[open] .caret{transform:rotate(90deg)}
+.mbody{padding:0 18px 18px}
+.band{background:var(--navy);color:var(--card);border-radius:11px;padding:13px 16px;margin-bottom:15px}
+.band.free{background:var(--okbg);color:var(--ok);border:1px solid var(--ok)}
+.bandmain{font-size:19px;font-weight:700;letter-spacing:-.01em}
+.bandsub{font-size:12.5px;opacity:.88;margin-top:4px;line-height:1.45}
+.grp{margin-bottom:15px}
+.grphead{font-size:14px;font-weight:800;text-transform:uppercase;letter-spacing:.05em;color:var(--ink);margin-bottom:5px}
+.grphead span{text-transform:none;letter-spacing:0;font-weight:500;color:var(--mute);margin-left:8px;font-size:12.5px}
+table.cost{width:100%;border-collapse:collapse;font-size:13.5px}
+table.cost td{padding:8px 0;border-top:1px solid var(--line);vertical-align:top}
+table.cost td.amt{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.strike{color:var(--strike);text-decoration:line-through;margin-right:7px}
+.covered{color:var(--ok);font-weight:700}
+.det{display:block;font-size:11.5px;color:var(--mute);margin-top:3px;line-height:1.45}
+tr.sub td{border-top:1px solid var(--line);color:var(--mute);font-size:12.5px;padding-top:7px;font-weight:600}
+tr.tot td{border-top:2px solid var(--ink);font-weight:700;font-size:15px;padding-top:10px}
+.costnote{font-size:11.5px;color:var(--mute);margin:10px 0 0}
+
+/* ---- steps ---- */
+.step{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:11px;
+  box-shadow:var(--shadow);overflow:hidden}
+.step.cur{border-color:var(--gold)}
+.step.locked{opacity:.72}
+.srow{display:flex;align-items:center;gap:14px;padding:15px 17px;cursor:pointer}
+.num{flex:0 0 30px;height:30px;border-radius:50%;background:var(--navy);color:var(--card);
+  display:flex;align-items:center;justify-content:center;font-size:13.5px;font-weight:700}
+.step.done .num{background:var(--okbg);color:var(--ok)}
+.step.locked .num{background:var(--line);color:var(--mute)}
+.stitle{flex:1;min-width:0}
+.stitle .t{font-size:15.5px;font-weight:700}
+.step.done .stitle .t{color:var(--mute);text-decoration:line-through}
+.stitle .m{font-size:12.5px;color:var(--mute);margin-top:2px}
+.feetag{font-size:11.5px;font-weight:700;background:var(--goldbg);color:var(--goldink);
+  border:1px solid var(--gold);border-radius:999px;padding:3px 9px;white-space:nowrap}
+.feetag.free{background:var(--okbg);color:var(--ok);border-color:var(--ok)}
+.chev{color:#b3bccb;font-size:17px;transition:transform .2s}
+.step.open .chev{transform:rotate(90deg)}
+.sbody{display:none;padding:0 17px 17px;border-top:1px solid var(--line)}
+.step.open .sbody{display:block}
+.sbody>*:first-child{margin-top:14px}
+
+.btn{display:inline-block;background:var(--blue);color:#fff;border:0;border-radius:9px;
+  padding:11px 17px;font-size:14.5px;font-weight:600;cursor:pointer;text-decoration:none;font-family:inherit}
+.btn.gold{background:var(--gold);color:#2a2205}
+.btn.navy{background:var(--navy);color:var(--card)}
+.btn.wa{background:#25d366;color:#08351b}
+.btn.fb{background:#1877f2;color:#fff}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);font-weight:500}
+.btn.sm{padding:8px 13px;font-size:13px}
+.alt{display:inline-block;margin-top:10px;font-size:12.5px;color:var(--mute);text-decoration:underline;
+  cursor:pointer;background:none;border:0;padding:0;font-family:inherit;text-align:left}
+.btnrow{display:flex;flex-wrap:wrap;gap:9px;margin:12px 0}
+.stack{display:flex;flex-direction:column;gap:8px;margin:12px 0}
+.callout{background:var(--goldbg);border:1px solid var(--gold);border-radius:9px;padding:11px 13px;
+  font-size:13px;color:var(--goldink);margin:12px 0}
+.warn{background:var(--waitbg);border-left:3px solid var(--wait);padding:10px 13px;border-radius:0 8px 8px 0;
+  font-size:12.5px;margin:12px 0}
+.lockbox{background:var(--stopbg);border:1px solid var(--stop);border-radius:10px;padding:13px 15px;margin:12px 0}
+.lockbox b{color:var(--stop)}
+.lic{background:var(--goldbg);border:1px solid var(--gold);border-radius:10px;padding:13px 15px;margin:12px 0}
+.lic .lbl{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--goldink);font-weight:700;opacity:.85}
+.lic .nm{font-size:19px;font-weight:700;margin-top:3px;line-height:1.25;color:var(--ink)}
+.lic .sub{font-size:12.5px;color:var(--mute);margin-top:6px}
+.datebox{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:14px;margin:12px 0}
+.datebox label{display:block;font-size:12.5px;font-weight:700;margin-bottom:5px}
+.datebox .hint{font-size:12px;color:var(--mute);margin:0 0 9px}
+input[type=date]{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;
+  background:var(--card);color:var(--ink);font-size:15px;font-family:inherit}
+.done-note{background:var(--okbg);border:1px solid var(--ok);border-radius:10px;padding:12px 14px;
+  font-size:13px;margin:12px 0}
+.done-note b{color:var(--ok)}
+.pending{background:var(--waitbg);border:1px solid var(--wait);border-radius:10px;padding:12px 14px;
+  font-size:13px;margin:12px 0}
+.pending b{color:var(--wait)}
+.fine{font-size:12px;color:var(--mute)}
+/* Big enough that nobody sails past it, tight enough that it does not own the step.
+   Label above value was costing two lines per row; side by side halves the height. */
+.needs{background:var(--goldbg);border:2px solid var(--gold);border-radius:11px;padding:12px 14px;margin:12px 0}
+.needs h4{margin:0 0 8px;font-size:14px;color:var(--goldink);letter-spacing:-.01em}
+.needs dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:6px 12px;align-items:baseline}
+.needs dt{font-size:10.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--goldink);
+  font-weight:800;opacity:.8;white-space:nowrap}
+.needs dd{margin:0;font-size:14.5px;font-weight:700;color:var(--ink);overflow-wrap:anywhere;
+  user-select:all;line-height:1.3}
+.needs dd code{font-size:14px;font-weight:700;background:var(--card);border-color:var(--gold);padding:2px 6px}
+.needsnote{font-size:12px;color:var(--goldink);margin:10px 0 0;padding-top:9px;
+  border-top:1px solid var(--gold);line-height:1.45}
+@media (max-width:440px){
+  .needs dl{grid-template-columns:1fr;gap:9px}
+  .needs dt{margin-bottom:1px}
+}
+code{background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:12.5px}
+.viewing{background:var(--waitbg);border:1px solid var(--wait);border-radius:10px;padding:11px 14px;
+  margin-bottom:15px;font-size:13px}
+.viewing b{color:var(--wait)}
+.foot{font-size:12.5px;color:var(--mute);margin-top:20px;text-align:center}
+.above{border:1px dashed var(--line);border-radius:11px;padding:12px 15px;margin-bottom:16px;
+  font-size:12.5px;color:var(--mute);background:transparent;line-height:1.5}
+.npnbox{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:14px;margin:12px 0}
+.npnbox label{display:block;font-size:12.5px;font-weight:700;margin-bottom:5px}
+.npnbox .hint{font-size:12px;color:var(--mute);margin:0 0 9px}
+input[type=text]{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:8px;
+  background:var(--card);color:var(--ink);font-size:17px;font-family:inherit;letter-spacing:.04em}
+.npnhave{background:var(--okbg);border:1px solid var(--ok);border-radius:10px;padding:13px 15px;margin:12px 0}
+.npnhave .lbl{font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--ok);font-weight:800}
+.npnhave .val{font-size:24px;font-weight:800;letter-spacing:.04em;margin-top:3px;user-select:all}
+.confetti{position:fixed;inset:0;pointer-events:none;z-index:9999;overflow:hidden}
+.confetti i{position:absolute;top:-14px;width:9px;height:15px;opacity:.95;border-radius:2px;
+  animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:.9}}
+</style>
+
+<div class="wrap">
+  <div class="mockbar">
+    <h1>Mockup — the whole Get Licensed page, rebuilt</h1>
+    <p>This agent lives in Georgia. Switch states to see the page reorder itself. Steps open by default and collapse once done.</p>
+    <select id="pick"></select>
+  </div>
+  <div id="out"></div>
+</div>
+
+<script>
+var STATES = [{"st":"Alabama","ab":"AL","slug":"alabama","combo":"Life, Accident and Health","gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"Alabama does not require candidates complete pre-licensing education; course recommended (effective 01/01/2024)"},"exam":{"v":"University of Alabama","u":"https://training.ua.edu/insurance-testing/#registration","f":"$50 single line (Life, Health, Property) / $75 combined (Life & Health or Property & Casualty)","m":"in-person testing site or online proctored"},"fp":{"required":true,"vendor":"Fieldprint","fee":"$49.20"},"app":{"fee":"$80.00","where":"NIPR"}},{"st":"Alaska","ab":"AK","slug":"alaska","combo":null,"gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"Alaska does not require candidates complete pre-licensing education"},"exam":{"v":"Pearson Professional Assessments","u":"https://www.pearsonvue.com/ak/insurance","f":"$89 (one fee covers up to two exams in one session; retakes $89)","m":"online proctored via OnVUE (computer compatibility required) or in person at a Pearson test center"},"fp":{"required":true,"vendor":"State-approved vendor list at dps.alaska.gov (FBI form FD-258)","fee":"$48.25"},"app":{"fee":"$75","where":"NIPR"}},{"st":"Arizona","ab":"AZ","slug":"arizona","combo":"Life, Accident, and Health","gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"Arizona has no formal pre-licensing education requirement; course recommended to prepare for the state exam"},"exam":{"v":"PSI","u":"https://test-takers.psiexams.com/anzins","f":"$50 single line / $59 combined","m":"online proctored (computer compatibility check required) or in person at a PSI test center"},"fp":{"required":true,"vendor":"AZDPS Public Services Portal and Fieldprint (code INS-055.A)","fee":"ADPS $22.44; Fieldprint $8.25"},"app":{"fee":"$120","where":"NIPR"}},{"st":"Arkansas","ab":"AR","slug":"arkansas","combo":"Life & Health","gate":"sit_cert","gnote":"Certificate of Completion must be presented when you take your exam.","ple":{"required":true,"life_hours":20,"health_hours":20,"life_health_hours":40,"note":"20 hours per line of authority; Life & Health is 40 hours (20 per line)"},"exam":{"v":"PSI","u":"https://www.psiexams.com/arin","f":"$50 single line exam (no separate combined fee listed)","m":"online proctored (computer compatibility must be checked) or in person at a PSI test center"},"fp":{"required":true,"vendor":"Arkansas background check portal (ark.org)","fee":"$36.25 plus processing"},"app":{"fee":"$15 plus processing fee","where":"NIPR"}},{"st":"California","ab":"CA","slug":"california","combo":"Life, Accident & Health","gate":"none","gnote":"","ple":{"required":true,"life_hours":12,"health_hours":12,"life_health_hours":12,"note":"12 hours of California Insurance Code and Ethics (incl. 1 hour anti-fraud) is the only prelicensing requirement. The 20-hour line-specific course was repealed by AB 943 effective January 1, 2026 \u2014 still strongly recommended to pass."},"exam":{"v":"PSI","u":"https://test-takers.psiexams.com/cadi","f":"PSI exam $98 + CDI exam $55","m":"online proctored (computer compatibility check required) or in person at a PSI/CDI test center"},"fp":{"required":true,"vendor":"California Live Scan Services (CLS) - https://www.applicantservices.com/cdi/","fee":"$74"},"app":{"fee":"$188.00","where":"SIRCON Online Services or NIPR"}},{"st":"Colorado","ab":"CO","slug":"colorado","combo":null,"gate":"book_course","gnote":"Prior to making an exam reservation, the applicant must complete any required pre-licensing training. (Pearson VUE CO handbook)","ple":{"required":true,"life_hours":50,"health_hours":50,"life_health_hours":null,"note":"50 hours per line of authority (Life, Accident & Health, Casualty, Property, Personal Lines), including 3 hours ethics, 3 hours Colorado general insurance laws and 4 hours line-specific Colorado laws"},"exam":{"v":"Pearson Professional Assessments","u":"https://www.pearsonvue.com/co/insurance","f":"$41 (covers up to two examinations in one session)","m":"in person only - OnVUE remote exams are no longer an option"},"fp":{"required":null,"vendor":null,"fee":null},"app":{"fee":"$44 per line of authority","where":"SIRCON Online Services"}},{"st":"Connecticut","ab":"CT","slug":"connecticut","combo":"Life, Accident and Health","gate":"sit_cert","gnote":"Candidates must present a pre-licence education certificate or a waiver letter to sit the exam. (Pearson VUE CT handbook)","ple":{"required":true,"life_hours":20,"health_hours":20,"life_health_hours":40,"note":"Life Only 20 hours; Accident & Health Only 20 hours; Life, Accident and Health 40 hours; Property and Casualty 40 hours; Personal Lines 20 hours"},"exam":{"v":"Pearson Professional Assessments","u":"https://www.pearsonvue.com/ct/insurance","f":"$65 single line / $105 combined","m":null},"fp":{"required":null,"vendor":null,"fee":null},"app":{"fee":"$140 plus processing fee","where":"NIPR"}},{"st":"Delaware","ab":"DE","slug":"delaware","combo":null,"gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"Delaware does not require candidates complete pre-licensing education; course recommended"},"exam":{"v":"Pearson Professional Assessments","u":"https://home.pearsonvue.com/de/insurance","f":"$90 (one $90 fee covers single or multiple major line exams taken the same day; Personal Lines is separate)","m":null},"fp":{"required":true,"vendor":"IdentoGO - https://uenroll.identogo.com/ (Service Code 27S46Z)","fee":"$85"},"app":{"fee":"$125 plus processing fee","where":"NIPR"}},{"st":"District of Columbia","ab":"DC","slug":"district-of-columbia","combo":null,"gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"The Washington District of Columbia has no formal pre-licensing education requirement; course recommended"},"exam":{"v":"Pearson Professional Assessments","u":"https://home.pearsonvue.com/dc/insurance","f":"$75 (no separate combined-exam fee listed)","m":null},"fp":{"required":true,"vendor":"Fieldprint - https://schedule.fieldprint.com/User/SignIn","fee":"$31.50"},"app":{"fee":"$100 plus processing fee","where":"NIPR"}},{"st":"Florida","ab":"FL","slug":"florida","combo":"Life, Accident and Health","gate":"none","gnote":"","ple":{"required":true,"life_hours":30,"health_hours":40,"life_health_hours":60,"note":"Life Only 30 hours; Accident & Health Only 40 hours; Life, Accident and Health 60 hours; Property and Casualty 200 hours (40 hours for candidates meeting specific prior experience criteria); Personal Lines 60 hours"},"exam":{"v":"Pearson Professional Assessments","u":"https://www.pearsonvue.com/fl/insurance","f":"$44","m":"in person only - OnVUE online remote proctored exams are not available"},"fp":{"required":true,"vendor":null,"fee":"$50.75 plus tax"},"app":{"fee":"$50.00 application fee plus $5.00 state I.D. fee","where":"Florida DFS online at https://dice.fldfs.com/public/pb_index.aspx"}},{"st":"Georgia","ab":"GA","slug":"georgia","combo":"Life, Accident and Health","gate":"none","gnote":"","ple":{"required":true,"life_hours":8,"health_hours":8,"life_health_hours":16,"note":"Life Only 8, Accident & Health Only 8, Life, Accident and Health 16, Property 8, Casualty 8, Property and Casualty 16, Personal Lines 8. Certificates valid 12 months; course completion rosters reported to SIRCON daily."},"exam":{"v":"Pearson Professional Assessments","u":"https://www.pearsonvue.com/ga/insurance","f":"$67","m":"in person only"},"fp":{"required":true,"vendor":"Identogo (ga.state.identogo.com/ue, service code 2TGJ6B)","fee":"$51.50"},"app":{"fee":"$100 application fee plus $20 processing fee","where":"Sircon (https://www.sircon.com/landingPages/states/georgia/content.jsp), effective April 1, 2026"}},{"st":"Hawaii","ab":"HI","slug":"hawaii","combo":null,"gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"The state of Hawaii has no formal pre-licensing education requirement."},"exam":{"v":"Pearson Professional Assessments","u":"https://www.pearsonvue.com/hi/insurance","f":"$75 per line of authority (OnVUE $75; exams cannot be combined)","m":"in-person or online proctored"},"fp":{"required":true,"vendor":"FieldPrint Hawaii (https://fieldprinthawaii.com/), code HI-DCCA-INS","fee":"$63"},"app":{"fee":"$150","where":"NIPR (https://nipr.com/)"}},{"st":"Idaho","ab":"ID","slug":"idaho","combo":null,"gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"The state of Idaho has no formal pre-licensing education requirement however it is recommended as the prelicensing course is designed to prepare candidates for the State Licensing Examination."},"exam":{"v":"Pearson Professional Assessments","u":"https://home.pearsonvue.com/id/insurance","f":"$65","m":"in-person or online proctored"},"fp":{"required":true,"vendor":"Pearson Professional Assessments (electronic submission) or hard card FD-258","fee":"$61.25"},"app":{"fee":"$80","where":"NIPR (www.nipr.com) or Sircon (www.sircon.com/idaho)"}},{"st":"Illinois","ab":"IL","slug":"illinois","combo":"Life and Health Producer","gate":"sit_cert","gnote":"Before taking an exam, you must complete all pre-licensing education. Test within 1 year of course completion, and obtain the licence within that year. (Pearson VUE IL handbook)","ple":{"required":true,"life_hours":20,"health_hours":20,"life_health_hours":null,"note":"20 hours per line of authority, of which 7.5 hours per line of authority must be completed via classroom or webinar setting. Credit is only given for attending 100% of the classroom/webinar portion; partial credit is not issued. Certificates are valid for 1 year."},"exam":{"v":"Pearson Professional Assessments","u":"https://home.pearsonvue.com/il/insurance","f":"$92 per exam; a $92 discount applies when scheduling the general knowledge and state-designated exams for the same line on the same order","m":"in person only"},"fp":{"required":null,"vendor":null,"fee":null},"app":{"fee":"$215 per application","where":"NIPR (www.nipr.com)"}},{"st":"Indiana","ab":"IN","slug":"indiana","combo":"Life, Accident and Health","gate":"sit_cert","gnote":"Testing must be completed within six (6) months of the Course Completion Date on the certificate. (Pearson VUE IN handbook)","ple":{"required":true,"life_hours":20,"health_hours":20,"life_health_hours":40,"note":"Life Only 20, Accident & Health Only 20, Life, Accident and Health 40, Casualty 20, Property 20, Property and Casualty 40, Personal Lines 20. Certificates are valid for 6 months."},"exam":{"v":"Pearson Professional Assessments","u":"https://home.pearsonvue.com/in/insurance","f":"$69","m":"in-person or online proctored"},"fp":{"required":null,"vendor":null,"fee":null},"app":{"fee":"$40","where":"Sircon (www.sircon.com/indiana) or NIPR (www.nipr.com)"}},{"st":"Iowa","ab":"IA","slug":"iowa","combo":null,"gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"The state of Iowa has no formal pre-licensing education requirement."},"exam":{"v":"Pearson Professional Assessments","u":"https://www.pearsonvue.com/ia/insurance","f":"$44 single line (OnVUE $44)","m":"in-person or online proctored"},"fp":{"required":true,"vendor":"Fieldprint","fee":"$34.35"},"app":{"fee":"$50","where":"NIPR (https://nipr.com/)"}},{"st":"Kansas","ab":"KS","slug":"kansas","combo":"Life/Accident and Health","gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"The state of Kansas has no formal pre-licensing education requirement however it is recommended as the prelicensing course is designed to prepare candidates for the State Licensing Examination."},"exam":{"v":"Pearson Professional Assessments","u":"https://www.pearsonvue.com/ks/insurance","f":"$57 single line / $64 combination","m":"in-person or online proctored"},"fp":{"required":true,"vendor":null,"fee":"$60"},"app":{"fee":"$10 plus $60 for fingerprints/background check","where":"NIPR (http://www.nipr.com/)"}},{"st":"Kentucky","ab":"KY","slug":"kentucky","combo":"Life, Accident and Health","gate":"book_apply","gnote":"The exam is scheduled through the DOI eServices account only after the DOI processes the application, background report and prelicensing certification.","ple":{"required":true,"life_hours":20,"health_hours":20,"life_health_hours":40,"note":"Life Only 20, Accident & Health Only 20, Life, Accident and Health 40, Casualty 20, Property 20, Property and Casualty 40, Personal Lines 20. Certificates are valid for 12 months, must be uploaded, faxed or emailed to the KY DOI, and completion rosters are reported to the Kentucky Department of Insurance daily."},"exam":{"v":"Kentucky Department of Insurance (state-administered, scheduled through the DOI eServices account)","u":"https://insurance.ky.gov/doieservices/userrole.aspx","f":"$50 single line","m":null},"fp":{"required":true,"vendor":"Kentucky Administrative Office of the Courts (AOC) criminal background report, http://kycourts.gov/","fee":"$25.00"},"app":{"fee":"$40.00 plus an additional $40 per line of authority","where":"NIPR (www.nipr.com)"}},{"st":"Louisiana","ab":"LA","slug":"louisiana","combo":"Life, Accident & Health","gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"The state of Louisiana has no formal pre-licensing education requirement however it is recommended as the prelicensing course is designed to prepare candidates for the State Licensing Examination."},"exam":{"v":"PSI","u":"https://candidate.psiexams.com/","f":"$36 single line / $58 combined","m":"in person only"},"fp":{"required":true,"vendor":"Identogo","fee":"$60.75"},"app":{"fee":"$75","where":"NIPR (www.nipr.com)"}},{"st":"Maine","ab":"ME","slug":"maine","combo":null,"gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"The state of Maine has no formal pre-licensing education requirement however it is recommended as the prelicensing course is designed to prepare candidates for the State Licensing Examination."},"exam":{"v":"Pearson Professional Assessments","u":"https://home.pearsonvue.com/me/insurance","f":"$55 single line / $80 combined","m":"in person only"},"fp":{"required":null,"vendor":null,"fee":null},"app":{"fee":"$25","where":"NIPR (www.nipr.com), or download the application and submit by email, fax or regular mail to the Bureau of Insurance"}},{"st":"Maryland","ab":"MD","slug":"maryland","combo":"Life, Accident & Health","gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"The state of Maryland has no formal pre-licensing education requirement however it is recommended"},"exam":{"v":"Prometric","u":"https://www.prometric.com/maryland/insurance","f":"$62 single line / $62 combined","m":"in-person or online remote proctored"},"fp":{"required":null,"vendor":null,"fee":null},"app":{"fee":"$54","where":"NIPR (www.nipr.com)"}},{"st":"Massachusetts","ab":"MA","slug":"massachusetts","combo":"Life, Accident & Health","gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"The state of Massachusetts has no formal pre-licensing education requirement however it is recommended"},"exam":{"v":"Prometric (before July 6, 2026); Pearson Professional Assessments (after July 6, 2026)","u":"https://www.prometric.com/exams/insurance-ma/ (before July 6, 2026); https://www.pearsonvue.com/us/en/ma/insurance.html (after July 6, 2026)","f":"$39 single line / $49 combined","m":""},"fp":{"required":true,"vendor":"Prometric","fee":null},"app":{"fee":"$225 plus processing fee","where":"NIPR (www.nipr.com), using the kiosks at the Prometric test center"}},{"st":"Michigan","ab":"MI","slug":"michigan","combo":"Life, Accident and Health","gate":"none","gnote":"","ple":{"required":true,"life_hours":20,"health_hours":20,"life_health_hours":40,"note":"Life Only 20 hours; Accident & Health Only 20 hours; Life, Accident and Health 40 hours; Casualty 20; Property 20; Property and Casualty 40; Personal Lines 40"},"exam":{"v":"PSI","u":"https://test-takers.psiexams.com/midifs","f":"$41","m":""},"fp":{"required":null,"vendor":null,"fee":null},"app":{"fee":"$10 per line of authority","where":"NIPR (www.nipr.com)"}},{"st":"Minnesota","ab":"MN","slug":"minnesota","combo":null,"gate":"sit_cert","gnote":"If you take the examination before you have completed pre-license education requirements, your exam results will be invalid.","ple":{"required":true,"life_hours":20,"health_hours":20,"life_health_hours":null,"note":"20 hours per line: Life Only, Accident & Health Only, Casualty Insurance, Property Insurance, Personal Lines. No combined life + health line is offered."},"exam":{"v":"PSI","u":"https://test-takers.psiexams.com/mnins","f":"$45","m":"in-person or online proctored"},"fp":{"required":null,"vendor":"MN PSI test sites","fee":"$65.00"},"app":{"fee":"$50.00","where":"SIRCON Online Services"}},{"st":"Mississippi","ab":"MS","slug":"mississippi","combo":"Life, Accident and Health","gate":"none","gnote":"","ple":{"required":true,"life_hours":20,"health_hours":20,"life_health_hours":40,"note":"Life Only 20 hours; Accident & Health Only 20 hours; Life, Accident and Health 40 hours; Casualty 20; Property 20; Property and Casualty 40; Personal Lines 40"},"exam":{"v":"Pearson Professional Assessments","u":"https://www.pearsonvue.com/ms/insurance","f":"$52","m":""},"fp":{"required":null,"vendor":null,"fee":null},"app":{"fee":"$100","where":"SIRCON Online Services"}},{"st":"Missouri","ab":"MO","slug":"missouri","combo":"Life, Accident and Health","gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"The state of Missouri has no formal pre-licensing education requirement however it is recommended"},"exam":{"v":"Pearson Professional Assessments","u":"https://www.pearsonvue.com/mo/insurance","f":"$32 single line / $40 combined","m":"in person only"},"fp":{"required":null,"vendor":null,"fee":null},"app":{"fee":"$100 application fee plus $20 processing fee","where":"NIPR (www.nipr.com)"}},{"st":"Montana","ab":"MT","slug":"montana","combo":null,"gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"The state of Montana has no formal pre-licensing education requirement however it is recommended"},"exam":{"v":"Pearson Professional Assessments","u":"https://www.pearsonvue.com/mt/insurance","f":"$59 single line","m":"in-person or online proctored"},"fp":{"required":true,"vendor":null,"fee":"$30"},"app":{"fee":"No charge","where":"NIPR"}},{"st":"Nebraska","ab":"NE","slug":"nebraska","combo":"Life, Accident & Health","gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"The state of Nebraska has no formal pre-licensing education requirement however it is recommended"},"exam":{"v":"PSI","u":"https://test-takers.psiexams.com/neins","f":"$43 single line / $47 combined","m":"in person only"},"fp":{"required":null,"vendor":null,"fee":null},"app":{"fee":"$50 plus processing fee","where":"NIPR (www.nipr.com)"}},{"st":"Nevada","ab":"NV","slug":"nevada","combo":"Life, Accident and Health","gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"The state of Nevada has no formal pre-licensing education requirement. However, it is recommended"},"exam":{"v":"Pearson Professional Assessments","u":"https://home.pearsonvue.com/nv/insurance","f":"$37 single line / $47 combination","m":"in-person or online proctored"},"fp":{"required":true,"vendor":null,"fee":"Varies by vendor"},"app":{"fee":"$185","where":"NIPR (www.nipr.com)"}},{"st":"New Hampshire","ab":"NH","slug":"new-hampshire","combo":"Life, Accident & Health","gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"The state of New Hampshire has no formal pre-licensing education requirement however it is recommended"},"exam":{"v":"PSI","u":"https://test-takers.psiexams.com/nhins","f":"$59 single line / $72 combined","m":"in-person or online proctored"},"fp":{"required":null,"vendor":null,"fee":null},"app":{"fee":"$210 plus processing fee","where":"NIPR (www.nipr.com)"}},{"st":"New Jersey","ab":"NJ","slug":"new-jersey","combo":null,"gate":"sit_cert","gnote":"Certificate of completion required on the day of testing.","ple":{"required":true,"life_hours":20,"health_hours":20,"life_health_hours":null,"note":"Life Only 20 hours; Accident & Health Only 20 hours; Casualty 20; Property 20; Personal Lines 20. No combined life+health course listed."},"exam":{"v":"PSI","u":"https://test-takers.psiexams.com/njins","f":"$38","m":"online proctored or PSI test center"},"fp":{"required":true,"vendor":"IdentoGO","fee":"$66.05"},"app":{"fee":"$170","where":"NIPR"}},{"st":"New Mexico","ab":"NM","slug":"new-mexico","combo":"Life/Accident & Health","gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"\"The state of New Mexico has no formal pre-licensing education requirement however it is recommended as the prelicensing course is designed to prepare candidates for the State Licensing Examination.\""},"exam":{"v":"PSI","u":"https://test-takers.psiexams.com/nmins/test","f":"Single line exam fee $75 / Combined exams fee $75","m":"online proctored or PSI test center"},"fp":{"required":true,"vendor":"IdentoGO","fee":"$59"},"app":{"fee":"$30 plus processing fee","where":"NIPR"}},{"st":"New York","ab":"NY","slug":"new-york","combo":"Life, Accident and Health","gate":"none","gnote":"","ple":{"required":true,"life_hours":20,"health_hours":20,"life_health_hours":40,"note":"Life Only 20; Accident & Health Only 20; Life, Accident and Health 40; Property and Casualty 90; Personal Lines 40."},"exam":{"v":"PSI","u":"https://test-takers.psiexams.com/nyins","f":"$40","m":"online proctored or PSI test center"},"fp":{"required":null,"vendor":null,"fee":null},"app":{"fee":"For New York residents the full fee is $80, half fee is $40","where":"New York State Department of Financial Services (https://www.dfs.ny.gov/apps_and_licensing/agents_and_brokers/home) or electronically through NIPR"}},{"st":"North Carolina","ab":"NC","slug":"north-carolina","combo":"Life, Accident and Disability","gate":"book_apply","gnote":"Candidates cannot make the exam reservation until they receive an email from Pearson VUE with their reserved NPN. (Pearson VUE NC handbook)","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"Prelicensing education repealed effective October 1, 2025 (HB 737 / SL 2025-45). No course required \u2014 but you cannot reserve a seat until Pearson VUE emails your reserved NPN from the licence application."},"exam":{"v":"Pearson Professional Assessments (Pearson VUE)","u":"https://home.pearsonvue.com/nc/insurance","f":"Single Line exam fee $45","m":null},"fp":{"required":true,"vendor":"Local law enforcement; forms emailed, faxed (888-959-3010) or mailed to NCDOI/Pearson VUE, PO Box 14209, Raleigh, NC 27620","fee":"$38"},"app":{"fee":"processing $44, registration $50 per line of authority and fingerprint $38","where":"NIPR"}},{"st":"North Dakota","ab":"ND","slug":"north-dakota","combo":"Life, Accident & Health","gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"\"The North Dakota insurance department does not require prelicensing education; however, completion of a prelicensing course is recommended.\""},"exam":{"v":"PSI","u":"https://test-takers.psiexams.com/ndins/test","f":"Life, Health, Casualty, Property $64; Personal Lines $58","m":"in person only"},"fp":{"required":true,"vendor":"Law Enforcement Center or PSI on the day of examination","fee":"$41.25 (BCI) + $29 processing = $70.25"},"app":{"fee":"$100 plus processing fee","where":"NIPR"}},{"st":"Ohio","ab":"OH","slug":"ohio","combo":"Life, Accident and Health","gate":"sit_cert","gnote":"Valid original certificate(s) of completion required on the day of testing.","ple":{"required":true,"life_hours":20,"health_hours":20,"life_health_hours":40,"note":"Life Only 20; Accident & Health Only 20; Life, Accident and Health 40; Casualty 20; Property 20; Property and Casualty 40; Personal Lines 20."},"exam":{"v":"PSI","u":"https://test-takers.psiexams.com/ohins","f":"$49","m":"in person only"},"fp":{"required":true,"vendor":"Fast Fingerprints (Ohio BCI & FBI) or PSI","fee":"$72.00 Fast Fingerprints / $72.75 PSI"},"app":{"fee":"$10 per line of authority","where":"NIPR"}},{"st":"Oklahoma","ab":"OK","slug":"oklahoma","combo":"Life, Accident & Health","gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"\"The state of Oklahoma has no formal pre-licensing education requirement however it is recommended as the prelicensing course is designed to prepare candidates for the State Licensing Examination.\""},"exam":{"v":"PSI","u":"https://test-takers.psiexams.com/okins","f":"Single line exam fee $38 / Combined exams fee $38","m":"online proctored or test center"},"fp":{"required":null,"vendor":null,"fee":null},"app":{"fee":"$60 plus processing fee","where":"NIPR"}},{"st":"Oregon","ab":"OR","slug":"oregon","combo":"Life, Accident and Health","gate":"sit_cert","gnote":"Valid original certificate(s) of completion required on the day of testing.","ple":{"required":true,"life_hours":20,"health_hours":20,"life_health_hours":40,"note":"Life Only 20; Accident & Health Only 20; Life, Accident and Health 40; Casualty 20; Property 20; Property and Casualty 40; Personal Lines 20."},"exam":{"v":"PSI","u":"https://test-takers.psiexams.com/orins","f":"Single line exam fee $45 / Combination exam fee $55","m":"online proctored or PSI test center"},"fp":{"required":true,"vendor":"PSI","fee":"$61.25"},"app":{"fee":"$75 per line of authority","where":"NIPR"}},{"st":"Pennsylvania","ab":"PA","slug":"pennsylvania","combo":"Life, Accident and Health","gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"\"The state of Pennsylvania has eliminated the pre-licensing education requirement.\" Course still recommended to prepare for the State Licensing Examination."},"exam":{"v":"PSI","u":"https://test-takers.psiexams.com/pain","f":"Single line exam fee $45 / Combination exam fee $55","m":"online proctored or test center"},"fp":{"required":true,"vendor":"IdentoGO","fee":"$23.85"},"app":{"fee":"$55.00","where":"NIPR or Sircon (www.sircon.com/pennsylvania), via the kiosk at the PSI test site"}},{"st":"Rhode Island","ab":"RI","slug":"rhode-island","combo":null,"gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"\"The state of Rhode Island has no formal pre-licensing education requirement however it is recommended as the prelicensing course is designed to prepare candidates for the State Licensing Examination.\""},"exam":{"v":"Pearson Professional Assessments","u":"https://home.pearsonvue.com/ri/insurance","f":"Test Center exam fee $80 (candidates can register for two exams in one session only at a test center and pay a single fee of $80)","m":null},"fp":{"required":null,"vendor":null,"fee":null},"app":{"fee":"$120","where":"NIPR"}},{"st":"South Carolina","ab":"SC","slug":"south-carolina","combo":"Life, Accident and Health Insurance Producer","gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"South Carolina has no formal pre-licensing education requirement; course recommended to prepare for the state exam"},"exam":{"v":"Pearson Professional Assessments (Pearson VUE)","u":"https://home.pearsonvue.com/sc/insurance","f":"$59","m":"in-person or online proctored"},"fp":{"required":true,"vendor":null,"fee":null},"app":{"fee":"$25","where":"NIPR (www.nipr.com)"}},{"st":"South Dakota","ab":"SD","slug":"south-dakota","combo":"Life/Accident/Health","gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"South Dakota has no formal pre-licensing education requirement; course recommended"},"exam":{"v":"Pearson Professional Assessments (Pearson VUE)","u":"https://www.pearsonvue.com/sd/insurance","f":"$85 single line / $95 combined lines","m":"in-person or online proctored (OnVUE)"},"fp":{"required":null,"vendor":null,"fee":null},"app":{"fee":"$25.00","where":"NIPR (https://nipr.com/)"}},{"st":"Tennessee","ab":"TN","slug":"tennessee","combo":"Life and Accident & Health","gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"Tennessee has no formal pre-licensing education requirement; course recommended to prepare for the state exam"},"exam":{"v":"Pearson Professional Assessments (Pearson VUE)","u":"https://www.pearsonvue.com/tn/insurance","f":"$55 single line / $80 combination","m":"in-person or online proctored"},"fp":{"required":true,"vendor":"IdentoGo (www.identogo.com), ORI # TN920680Z, Transaction Type IP","fee":null},"app":{"fee":"$50","where":"NIPR (www.nipr.com)"}},{"st":"Texas","ab":"TX","slug":"texas","combo":"Life, Accident & Health","gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"Texas has no formal pre-licensing education requirement; course recommended to prepare for the state exam"},"exam":{"v":"Pearson Professional Assessments (Pearson VUE)","u":"https://home.pearsonvue.com/tx/insurance","f":"$39 single line / $49 general lines","m":"in person only"},"fp":{"required":true,"vendor":"IdentoGo (https://uenroll.identogo.com/workflows/11G6QF), Fingerprint Code 11G6QF","fee":"$50.25"},"app":{"fee":"$50 plus processing fee","where":"SIRCON (https://www.sircon.com/texas) or NIPR (www.nipr.com)"}},{"st":"Utah","ab":"UT","slug":"utah","combo":"Life, Accident & Health","gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"Utah has no formal pre-licensing education requirement; course recommended to prepare for the state exam"},"exam":{"v":"Prometric","u":"https://www.prometric.com/exams/insurance","f":"$32 single line / $44 combined","m":"in-person or online proctored"},"fp":{"required":true,"vendor":"Prometric test center","fee":"$32 plus $6.00 for processing"},"app":{"fee":"$75 plus processing fee","where":"NIPR (www.nipr.com), using the kiosks at the Prometric test center"}},{"st":"Vermont","ab":"VT","slug":"vermont","combo":"Life, Accident & Health","gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"Vermont has no formal pre-licensing education requirement; course recommended to prepare for the state exam"},"exam":{"v":"Prometric","u":"https://www.prometric.com/vermont/insurance","f":"$52 single line / $67.60 combined","m":"in-person or online proctored"},"fp":{"required":true,"vendor":"Prometric","fee":null},"app":{"fee":"$60 plus processing fee","where":"NIPR (www.nipr.com), using the kiosks at the Prometric test center"}},{"st":"Virginia","ab":"VA","slug":"virginia","combo":"Life, Accident & Health","gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"Virginia has no formal pre-licensing education requirement; course recommended to prepare for the state exam"},"exam":{"v":"Prometric","u":"https://www.prometric.com/virginia/insurance","f":"$35","m":"in-person or online proctored"},"fp":{"required":true,"vendor":"Fieldprint Virginia (https://fieldprintvirginia.com/), Fingerprint Code FPVABOIProducer","fee":"$34.95"},"app":{"fee":"$15 plus processing fee","where":"NIPR (www.nipr.com), using the kiosks at the Prometric test center"}},{"st":"Washington","ab":"WA","slug":"washington","combo":"Life and Disability (Health)","gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"The State of Washington eliminated the prelicensing requirement"},"exam":{"v":"PSI","u":"https://test-takers.psiexams.com/waoic","f":"$38 single line / $55 combined","m":"in-person or online proctored"},"fp":{"required":true,"vendor":"IDEMIA IdentoGo (www.identogo.com, 888-771-5097)","fee":"$49.25"},"app":{"fee":"$60.00","where":"Online at www.insurance.wa.gov or electronically through NIPR (www.nipr.com)"}},{"st":"West Virginia","ab":"WV","slug":"west-virginia","combo":"Life, Accident and Health","gate":"none","gnote":"","ple":{"required":true,"life_hours":20,"health_hours":20,"life_health_hours":40,"note":"Life Only 20 hours; Accident and Health 20 hours; Life, Accident and Health 40 hours; Casualty 20; Property 20; Property and Casualty 40; Personal Lines 20"},"exam":{"v":"Pearson Professional Assessments (Pearson VUE)","u":"https://www.pearsonvue.com/wv/insurance","f":"$84 single line / $84 combination","m":null},"fp":{"required":true,"vendor":"IdentoGo (https://www.identogo.com/)","fee":"$49.25"},"app":{"fee":"$50","where":"NIPR (www.nipr.com)"}},{"st":"Wisconsin","ab":"WI","slug":"wisconsin","combo":null,"gate":"sit_cert","gnote":"Certificate(s) of completion required on the day of testing.","ple":{"required":true,"life_hours":20,"health_hours":20,"life_health_hours":null,"note":"Life Only 20 hours; Accident & Health Only 20 hours; Casualty 20; Property 20; Personal Lines 20. No combined life/health course is listed"},"exam":{"v":"PSI","u":"https://test-takers.psiexams.com/wiins","f":"$75","m":"in-person or online proctored"},"fp":{"required":true,"vendor":"Fieldprint, Fieldprint Code FPWIOCIINSURANCE","fee":"$34.75"},"app":{"fee":"$10 per line of authority","where":"NIPR (www.nipr.com), within 180 days"}},{"st":"Wyoming","ab":"WY","slug":"wyoming","combo":"Life, Accident & Health","gate":"none","gnote":"","ple":{"required":false,"life_hours":null,"health_hours":null,"life_health_hours":null,"note":"Wyoming has no formal pre-licensing education requirement; course recommended to prepare for the state exam"},"exam":{"v":"Pearson Professional Assessments (Pearson VUE)","u":"https://home.pearsonvue.com/wy/insurance","f":"$96 single line / $113 combined","m":"in-person or online proctored (OnVUE)"},"fp":{"required":true,"vendor":null,"fee":"$39"},"app":{"fee":"$100 plus processing fee","where":"NIPR (www.nipr.com)"}}];
+var COURSE_LIST = 199;
+var MY_STATE='GA', VIEW='GA';
+var checks={};      // step id -> done
+var openMap={};     // step id -> explicit open/closed override
+var examDate='';
+var npn='';
+var notYet='';      // why they have not booked yet
+
+function esc(s){ return String(s==null?'':s).replace(/[&<>"]/g,function(c){
+  return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function allAmts(s){ var out=[],re=/\$\s?([\d,]+(?:\.\d{2})?)/g,m;
+  while((m=re.exec(String(s||'')))) out.push(parseFloat(m[1].replace(/,/g,''))); return out; }
+function firstAmt(s){ var a=allAmts(s); return a.length?a[0]:null; }
+function maxAmt(s){ var a=allAmts(s); return a.length?Math.max.apply(null,a):null; }
+function money(n){ return '$'+n.toFixed(2).replace(/\.00$/,''); }
+function st(){ for(var i=0;i<STATES.length;i++){ if(STATES[i].ab===VIEW) return STATES[i]; } }
+function mine(){ for(var i=0;i<STATES.length;i++){ if(STATES[i].ab===MY_STATE) return STATES[i]; } }
+function longDate(iso){ var p=String(iso).split('-'); if(p.length<3) return iso;
+  var M=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  return M[+p[1]-1]+' '+(+p[2])+', '+p[0]; }
+function daysTo(iso){ var t=Date.parse(iso+'T12:00:00'); if(isNaN(t)) return null;
+  return Math.round((t-Date.now())/864e5); }
+/* A fingerprint step exists only where the state page actually describes one. Jesse's rule:
+   if the page says nothing, it is not required. A quoted fee or a named vendor is not
+   nothing. */
+function needFp(s){ return !!(s.fp && (s.fp.required===true || s.fp.fee || s.fp.vendor)); }
+
+/* Where they actually apply. Eight states name a URL outright; the rest say NIPR or SIRCON,
+   which are the two national portals. Never a dead link and never a guess — if a state named
+   its own site, that wins. */
+function applyUrl(s){
+  var w=String(s.app.where||''), m=w.match(/https?:\/\/[^\s,)]+/), url='';
+  if(m) url=m[0].replace(/^http:/,'https:');
+  else if(/sircon/i.test(w)) url='https://www.sircon.com/index.jsp';
+  else if(/nipr/i.test(w))   url='https://nipr.com/licensing-center/apply';
+  else url='https://partners.xcelsolutions.com/'+s.slug+'/insurance-license/requirements?partner=fflnational-hkr597';
+  /* The label comes from the destination, never from the source sentence. Those run to
+     "New York State Department of Financial Services or electronically through NIPR",
+     which is true and useless on a button. */
+  var name = /sircon/i.test(url) ? 'SIRCON' : (/nipr/i.test(url) ? 'NIPR' : s.st);
+  return {url:url, name:name};
+}
+/* Source strings carry their URLs inline, which is fine in a table and terrible mid-sentence. */
+function prose(x){ return String(x||'').replace(/\s*\((?:https?:\/\/|www\.)[^)]*\)/gi,'')
+  .replace(/https?:\/\/\S+/g,'').replace(/\s*\(\s*\)/g,'').replace(/\s{2,}/g,' ').replace(/[\s,]+$/,'').trim(); }
+function sumAppFee(s,already){ var a=allAmts(s),t=0;
+  for(var i=0;i<a.length;i++){ if(already!=null&&a[i]===already) continue; t+=a[i]; } return a.length?t:null; }
+
+/* ---------- money ---------- */
+function costModel(s){
+  var items=[],approx=false;
+  items.push({when:'today',label:'Pre-licensing course (Xcel)',amt:0,
+    det:'Life &amp; Health package &mdash; covered by FFL Optimum with your voucher code',
+    show:'<span class="strike">'+money(COURSE_LIST)+'</span><span class="covered">$0</span>'});
+  var ef=/\+/.test(s.exam.f||'')?allAmts(s.exam.f).reduce(function(a,b){return a+b;},0):maxAmt(s.exam.f);
+  var perLine=/per line|cannot be combined/i.test(s.exam.f||'');
+  var addOn=(!s.combo&&ef!=null)?ef:null;
+  if(allAmts(s.exam.f).length>1&&!perLine) approx=true;
+  var examWhen=(s.gate==='none'||s.gate==='sit_cert')?'today':'later';
+  var examNote=examWhen==='today'
+    ? 'Paid to '+esc(s.exam.v||'the testing vendor')+' at the moment you book &mdash; not before'
+    : (s.gate==='book_course'
+        ? 'Not yet &mdash; you pay this when your course is done and '+esc(s.st)+' lets you book'
+        : 'Not yet &mdash; you pay this once your application clears and you can book');
+  if(ef!=null){
+    items.push({when:examWhen,label:'State exam fee'+(addOn!=null?' &mdash; Life':''),amt:ef,
+      det:examNote+'<br>'+esc(s.exam.f||'')+(addOn!=null?
+        '<br><b>Accident &amp; Health is a separate exam</b> &mdash; about '+money(addOn)+' more, whenever you decide to add it':''),
+      show:money(ef)});
+  }else{ approx=true; items.push({when:examWhen,label:'State exam fee',amt:0,det:examNote,show:'not stated'}); }
+  var fpCounted=null;
+  if(s.fp&&s.fp.required===true){
+    var ff=firstAmt(s.fp.fee); fpCounted=ff; if(ff==null) approx=true;
+    items.push({when:'later',label:'Fingerprints',amt:(ff||0),
+      det:'Paid at the appointment, whenever you go &mdash; do it early and it is off your list'+
+        (s.fp.vendor?'<br>'+esc(s.fp.vendor):''), show: ff!=null?money(ff):'fee not stated'});
+  } else if(needFp(s)){
+    /* Silence on the state page means not required, so no row at all. The exception is a
+       state like Minnesota that describes the fee and where to go without ever using the
+       word "required" — that is a description, not a silence. */
+    var mf=firstAmt(s.fp.fee); fpCounted=mf; if(mf==null) approx=true;
+    items.push({when:'later',label:'Fingerprints',amt:(mf||0),
+      det:'Paid at the appointment, whenever you go'+(s.fp.vendor?'<br>'+esc(s.fp.vendor):''),
+      show: mf!=null?money(mf):'fee not stated'}); }
+  var af=sumAppFee(s.app.fee,fpCounted);
+  var appWhen=(s.gate==='book_apply')?'today':'later';
+  var appNote=appWhen==='today'
+    ? 'Paid now &mdash; in '+esc(s.st)+' the application comes first, before you can book an exam'
+    : 'Paid at the very end, after you pass &mdash; weeks from now';
+  if(af!=null){ var extra=/plus|additional|per line|processing/i.test(s.app.fee||''); if(extra) approx=true;
+    items.push({when:appWhen,label:'Licence application',amt:af,
+      det:appNote+'<br>'+esc(s.app.fee||'')+(s.app.where?' &middot; '+esc(s.app.where):''),
+      show:money(af)+(extra?'+':'')});
+  }else{ approx=true; items.push({when:appWhen,label:'Licence application',amt:0,det:appNote,show:'not stated'}); }
+  function sumOf(w){ var t=0; items.forEach(function(i){ if(i.when===w) t+=i.amt; }); return t; }
+  return {items:items,approx:approx,today:sumOf('today'),later:sumOf('later'),
+          total:sumOf('today')+sumOf('later'),addOn:addOn,examFee:ef,fpFee:fpCounted,appFee:af};
+}
+
+/* The money lives behind a caret. It matters enormously on day one and then it is reference,
+   and nobody needs a bill in their face every time they open the page. The summary line
+   carries the reassurance, not the arithmetic. */
+function moneyPanel(s,c){
+  var tl=c.approx?'~':'';
+  var h=['<details class="money"><summary><div><div class="mtitle">What you will invest to get licensed'+
+    (c.addOn!=null?' in Life':'')+'</div><div class="msub">The course is on the agency. The rest goes to '+
+    esc(s.st)+' and the testing vendor &mdash; a piece at a time, never all at once.</div></div>'+
+    '<span class="caret">&#8250;</span></summary><div class="mbody">'];
+  h.push('<div class="band'+(c.today===0?' free':'')+'"><div class="bandmain">'+
+    (c.today===0?'Nothing to pay today':'Due when you book &mdash; '+tl+money(c.today))+'</div><div class="bandsub">'+
+    (c.today===0?'Your first payment comes later. Today costs you nothing but the time to read this.'
+               :'And not a minute before. The rest comes later, a piece at a time &mdash; you never write one cheque for the whole thing.')+
+    '</div></div>');
+  [['today','Today<span>as you book</span>'],['later','Later, as you go<span>over the next few weeks</span>']].forEach(function(g){
+    var rows=c.items.filter(function(i){return i.when===g[0];}); if(!rows.length) return;
+    h.push('<div class="grp"><div class="grphead">'+g[1]+'</div><table class="cost">');
+    rows.forEach(function(i){ h.push('<tr><td>'+i.label+'<span class="det">'+i.det+'</span></td><td class="amt">'+i.show+'</td></tr>'); });
+    h.push('<tr class="sub"><td>Subtotal</td><td class="amt">'+tl+money(g[0]==='today'?c.today:c.later)+'</td></tr></table></div>');
+  });
+  h.push('<table class="cost"><tr class="tot"><td>All in, to get licensed'+(c.addOn!=null?' in Life':'')+
+    (c.approx?' (about)':'')+'</td><td class="amt">'+tl+money(c.total)+'</td></tr>');
+  if(c.addOn!=null) h.push('<tr><td style="color:var(--mute)">Adding Accident &amp; Health later'+
+    '<span class="det">A second exam when you are ready &mdash; not now, and not required to start</span></td>'+
+    '<td class="amt" style="color:var(--mute)">+'+money(c.addOn)+'</td></tr>');
+  h.push('</table><p class="costnote">Every one of these goes to the state or the testing vendor &mdash; none of it comes to us.</p>');
+  h.push('</div></details>');
+  return h.join('');
+}
+
+/* ---------- steps ---------- */
+function licBlock(s){
+  if(s.combo) return '<div class="lic"><div class="lbl">In '+esc(s.st)+', take this licence</div>'+
+    '<div class="nm">'+esc(s.combo)+'</div><div class="sub">One exam, one licence &mdash; do not book "Life only." '+
+    'Life and health together is what you will actually sell.</div></div>';
+  return '<div class="lic"><div class="lbl">In '+esc(s.st)+', take this licence</div><div class="nm">Life</div>'+
+    '<div class="sub"><b>Start with Life.</b> '+esc(s.st)+' licenses Life and Accident &amp; Health separately '+
+    '&mdash; two exams, two fees &mdash; so get your Life licence first and start writing. We would like you to '+
+    'hold both eventually, and adding Accident &amp; Health later is a second exam whenever you are ready.</div></div>';
+}
+
+var REASONS={
+  money:'the fee is not in the budget this week',
+  schedule:'you still need to check your work schedule',
+  course:'you would rather see the course first'
+};
+var REASON_COPY={
+  money:'Completely fine, and more common than you think. The fee is not due until the moment you book &mdash; '+
+        'so start the course today, and come back the week you can cover it. Nothing here is waiting on that.',
+  schedule:'Sensible. Look at the next three weeks tonight, pick the day, and book it &mdash; then the course has '+
+        'somewhere to be going. In the meantime, start Step 3.',
+  course:'Fair. Have a look at the course, then come back and book &mdash; ideally this week. People who set the date '+
+        'early finish; people who wait until they feel ready mostly do not.'
+};
+
+function stepDefs(s,c){
+  var d={};
+  d.plug={id:'plug',t:'Get Plugged In',m:'WhatsApp and Facebook',body:
+    '<p>Join our community groups so you never miss an update, a call, or a win.</p>'+
+    '<div class="btnrow"><a class="btn wa" href="https://chat.whatsapp.com/JAX77XU8xCCG9iW0AyUYng" target="_blank" rel="noopener">Join WhatsApp</a>'+
+    '<a class="btn fb" href="https://www.facebook.com/groups/fflnational/" target="_blank" rel="noopener">Join Facebook Group</a></div>'};
+
+  var locked=(s.gate==='book_course'&&!checks.coursedone)||(s.gate==='book_apply'&&!checks.apply);
+  d.book={id:'book',t:'Schedule Your State Exam',
+    noPlainDone:true, locked:locked, fee:null,
+    m:(examDate?'Booked for '+longDate(examDate)
+       :(locked?'Opens once the step above is done'
+       :(notYet?'Not booked yet &mdash; '+REASONS[notYet]:'Your finish line'))),
+    body:(function(){
+      var h=[licBlock(s)];
+      if(locked){
+        h.push('<div class="lockbox"><b>'+esc(s.st)+' will not let you book yet.</b><p style="margin:6px 0 0">'+
+          esc(s.gnote||'')+'</p><p class="fine" style="margin:8px 0 0">This step opens by itself the moment '+
+          (s.gate==='book_course'?'you mark your course complete':'your licence application goes in')+
+          '. Nothing for you to chase &mdash; keep moving down the page.</p></div>');
+        return h.join('');
+      }
+      if(examDate){
+        h.push('<div class="done-note"><b>Booked &mdash; '+longDate(examDate)+'.</b> Your recruiter has been told, '+
+          'and it is counting down at the top of this page.'+
+          '<p class="fine" style="margin:8px 0 0">Moved it, or confirmed a date you had not actually booked yet? '+
+          'Clear it here and the step opens back up.</p>'+
+          '<div style="margin-top:6px"><button class="alt" onclick="clearDate()">Clear this date</button></div></div>');
+        if(s.gate==='sit_cert') h.push('<div class="warn"><b>Bring your certificate of completion on exam day.</b> '+
+          esc(s.st)+' will turn you away at the door without it, and the fee is not refunded.</div>');
+        return h.join('');
+      }
+      if(notYet){
+        h.push('<div class="pending"><b>Not booked yet</b> &mdash; '+REASONS[notYet]+'.<p style="margin:7px 0 0">'+
+          REASON_COPY[notYet]+'</p><p class="fine" style="margin:8px 0 0">We will put this back in front of you in a '+
+          'few days. It stays open until there is a real date in it &mdash; and the moment you book, the box below '+
+          'is all you need.</p></div>');
+      } else {
+        h.push('<p>Book it before you start the course. A date on the calendar is what turns this from something '+
+          'you are doing into something you are finishing.</p>');
+      }
+
+      /* Two visible things, in the order they happen: the button that books it, then the box
+         that records it. No hidden link — an agent who already booked should see the field
+         waiting for them, not have to find their way to it. */
+      h.push('<div class="btnrow" style="margin-bottom:6px"><a class="btn" href="'+esc(s.exam.u||'#')+
+        '" target="_blank" rel="noopener">Book with '+esc(s.exam.v||'the testing vendor')+' &#8599;</a></div>');
+      var bits=[];
+      if(s.exam.m) bits.push('The '+esc(s.st)+' exam is '+esc(s.exam.m)+'.');
+      if(s.exam.f) bits.push(esc(s.exam.v||'The testing vendor')+' charges '+esc(s.exam.f)+
+        ' for the exam, paid to them at the moment you book.');
+      if(bits.length) h.push('<p class="fine">'+bits.join(' ')+'</p>');
+
+      h.push('<div class="datebox"><label>The date you booked</label>'+
+        '<p class="hint">Use the link above to book, then put your date here. Straight off the booking screen '+
+        '&mdash; not the date you are hoping for. Confirming it is what crosses this step off.</p>'+
+        '<input type="date" id="dateIn" value="2026-09-22">'+
+        '<div class="btnrow" style="margin:12px 0 0"><button class="btn" onclick="saveDate()">Confirm my exam date</button></div>'+
+        '</div>');
+
+      if(!notYet) h.push('<button class="alt" onclick="notReady()">I cannot book it today</button>');
+      h.push('<p class="fine" style="margin-top:12px"><b>Nothing below is locked behind this.</b> If the fee or the '+
+        'timing is not right this week, keep going &mdash; start the course and come back. The only thing you lose '+
+        'by waiting is the deadline that keeps you moving.</p>');
+      return h.join('');
+    })()};
+
+  /* The registration details sit ABOVE the button, at full size. They were fine print below
+     it, which is why people kept sailing past them and asking Jesse afterwards. */
+  d.enroll={id:'enroll',t:'Enroll in Your Pre-Licensing Course',m:'Xcel Solutions',fee:'Covered',feeFree:true,body:
+    '<p><b>Register for your course</b>, then start it. Select <b>Life &amp; Health</b> and choose the '+
+    '<b>$199 package</b>, <b>not "Premier."</b></p>'+
+    '<div class="btnrow"><a class="btn gold" href="https://partners.xcelsolutions.com/fflnational-hkr597" target="_blank" rel="noopener">Register at Xcel &#8599;</a>'+
+    '<a class="btn navy" href="https://youtu.be/GNJ3khgJG2g" target="_blank" rel="noopener">Watch this FIRST &mdash; Course Hack</a></div>'+
+    '<div class="needs"><h4>&#9755; You will need this to register</h4>'+
+    '<dl>'+
+      '<dt>Partner / voucher code</dt><dd><code>fflnational-hkr597</code></dd>'+
+      '<dt>Hiring manager</dt><dd>Jesse Stamm</dd>'+
+      '<dt>Manager email</dt><dd>wealthbuildersgroupllc@gmail.com</dd>'+
+      '<dt>When it asks for your team</dt><dd>Select <b>FFL National</b> &mdash; not FFL Optimum</dd>'+
+    '</dl>'+
+    '<p class="needsnote">We are on the <b>FFL Optimum</b> team &mdash; but the <b>course</b> is booked under '+
+    '<b>FFL National</b>. That one catches nearly everybody. Keep this open in another tab while you register.</p>'+
+    '</div>'};
+
+  d.half={id:'half',t:'You hit 50%',m:'One tap tells your manager',body:
+    '<p>Halfway is worth saying out loud. One tap and your manager knows &mdash; no screenshot, nothing to type.</p>'+
+    '<div class="btnrow"><button class="btn" onclick="ping(\'half\')">Tell Jesse I am halfway</button></div>'};
+
+  d.coursedone={id:'coursedone',t:'Course complete',m:'Certificate in hand',body:
+    '<p>Course finished. Tell your manager, and download your certificate while you are in there.</p>'+
+    (s.gate==='book_course'?'<div class="callout">This is what unlocks exam booking in '+esc(s.st)+
+      '. The booking step opens the second you tap this.</div>':'')+
+    (s.gate==='sit_cert'?'<div class="warn">Save the certificate somewhere you can find it &mdash; '+
+      esc(s.st)+' wants it in your hand on exam day.</div>':'')+
+    '<div class="btnrow"><button class="btn" onclick="ping(\'coursedone\')">Tell Jesse I finished the course</button></div>'};
+
+  /* Fees live in the sentence that explains them, attributed to whoever is actually taking
+     the money. A bare number floating beside the title reads like another charge from us. */
+  d.fp={id:'fp',t:'Get Fingerprinted',m:'Required in '+s.st,body:
+    '<p>'+esc(s.st)+' requires fingerprints before your licence can be issued. Book the appointment early '+
+    '&mdash; people who leave it to the end lose a week here for no reason.</p>'+
+    (s.fp.vendor?'<p class="fine">Where to go: '+esc(s.fp.vendor)+'</p>':'')+
+    '<p class="fine">'+(s.fp.fee
+      ? esc(s.st)+' charges '+esc(s.fp.fee)+' for the background check, paid at the appointment.'
+      : esc(s.st)+' does not publish the fee &mdash; expect to pay it at the appointment.')+
+    ' That one goes to the state, not to us.</p>'};
+
+  d.pass={id:'pass',t:'Pass Your Exam',m:'The one that counts',body:
+    '<p>Take your exam &mdash; you have got this.</p>'+
+    (s.gate==='sit_cert'?'<div class="warn"><b>Certificate of completion, in hand.</b> Without it '+esc(s.st)+
+      ' will not let you sit, and the fee is gone.</div>':'')+
+    '<div class="btnrow"><button class="btn" onclick="ping(\'pass\')">I passed &#127881;</button></div>'};
+
+  d.apply={id:'apply',t:'Apply for Your Licence',
+    m:(s.gate==='book_apply'?'Comes first in '+s.st:'The last step'),
+    body:
+    '<p>'+(s.gate==='book_apply'
+      ? 'In '+esc(s.st)+' this comes <b>before</b> the exam &mdash; you cannot reserve a seat until the application is in.'
+      : 'Apply for your state licence. Tick this once you have applied.')+'</p>'+
+    (s.app.fee?'<p class="fine">The state of '+esc(s.st)+' charges '+esc(s.app.fee)+' to issue the licence'+
+      (prose(s.app.where)?', submitted through '+esc(prose(s.app.where)):'')+'. That fee goes to '+esc(s.st)+', not to us.</p>':'')+
+    '<p class="fine">Your state licence number comes first. The number that matters after that is your NPN &mdash; '+
+    'the next step is all about it.</p>'+
+    '<div class="btnrow"><a class="btn gold" href="'+esc(applyUrl(s).url)+'" target="_blank" rel="noopener">'+
+    'Apply at '+esc(applyUrl(s).name)+' &#8599;</a></div>'+
+    '<p class="fine">Come back and tick this once your application is in.</p>'};
+
+  /* The NPN cannot live inside the Apply step: in NC and KY applying happens before the exam,
+     so there is no number yet when that step closes. It is its own step, at the end, in every
+     state. */
+  d.npn={id:'npn',t:'Lock In Your NPN',
+    m:(npn?'NPN '+npn:'Your National Producer Number'),body:
+    '<p>Your <b>NPN</b> is the number that follows you for the rest of your career. It usually turns up a few '+
+    'days after your licence, by email &mdash; or you can look it up yourself.</p>'+
+    '<div class="btnrow"><a class="btn navy" href="https://npn-lookup.app.nipr.com/npn-lookup/PacNpnSearch.htm" '+
+    'target="_blank" rel="noopener">Look up your NPN &#8599;</a></div>'+
+    (npn
+      ? '<div class="npnhave"><div class="lbl">Your NPN</div><div class="val">'+esc(npn)+'</div>'+
+        '<p class="fine" style="margin:9px 0 0">Locked in and sent to your manager. Wrong number? '+
+        '<button class="alt" style="margin:0" onclick="clearNpn()">Clear it and re-enter</button></p></div>'+
+        '<div class="callout"><b>That is you done.</b> Your manager takes it from here &mdash; they register your '+
+        'NPN with FFL National, which is what triggers your HCMS invite and starts your carrier contracting. '+
+        'Watch your email for that invite, and check spam if it has not landed in a day or two.</div>'
+      : '<div class="npnbox"><label>Your NPN</label>'+
+        '<p class="hint">Type it here once you have it. Your manager gets it automatically &mdash; nothing for '+
+        'you to send, and it is what lets them start your contracting.</p>'+
+        '<input type="text" id="npnIn" inputmode="numeric" placeholder="e.g. 20841537">'+
+        '<div class="btnrow" style="margin:12px 0 0"><button class="btn" onclick="saveNpn()">Lock in my NPN</button></div></div>')};
+
+  var order;
+  if(s.gate==='book_course')     order=['plug','enroll','half','coursedone','book','fp','pass','apply','npn'];
+  else if(s.gate==='book_apply') order=['plug','apply','fp','book','enroll','half','coursedone','pass','npn'];
+  else                           order=['plug','book','enroll','half','coursedone','fp','pass','apply','npn'];
+  if(!needFp(s)) order=order.filter(function(k){ return k!=='fp'; });
+  return order.map(function(k){ return d[k]; });
+}
+
+var MOTIV={plug:'Get plugged in — your journey starts now.',book:"Lock in your exam date — that's your finish line.",
+  enroll:'Start the course — this is where it clicks.',half:'Halfway there — keep your pace to the exam.',
+  coursedone:'Course done — now go get that date behind you.',fp:'Get printed early and forget about it.',
+  pass:"Go pass that exam — you've got this!",apply:'Apply — the licence is nearly yours.',
+  npn:'Grab your NPN — one number, and you are through.'};
+
+function render(){
+  var s=st(), c=costModel(s), steps=stepDefs(s,c), h=[];
+  var done=steps.filter(function(x){return checks[x.id];}).length;
+
+  // 1. video + overview hero
+  h.push('<div class="above">&#9650; Everything above this line is the pre-licensing page you already have '+
+    '&mdash; the snapshot graphic and its content stay exactly as they are. What follows stacks underneath it.</div>');
+  h.push('<a class="video" href="https://www.youtube.com/watch?v=dBXsizbpEeo" target="_blank" rel="noopener"><div class="play">&#9654;</div>'+
+    '<div class="lab">Watch this first &mdash; how getting licensed works &#8599;</div></a>');
+  h.push('<div class="hero2"><div class="kicker">Start here &middot; your #1 goal</div><h1>Get Licensed</h1>'+
+    '<p>Everything below leads to one thing: passing your '+esc(s.st)+' exam. Eight steps, and the first one takes a minute.</p>');
+  h.push('<span class="statepill">&#128205; <b>'+esc(s.st)+'</b> &middot; '+(s.combo?esc(s.combo):'Life first')+
+    '<button onclick="focusPicker()">change</button></span>');
+  h.push('<div class="bar"><i style="width:'+Math.round(done/steps.length*100)+'%"></i></div>');
+  h.push('<div class="barlab">'+done+' of '+steps.length+' done</div>');
+  var next=null; for(var i=0;i<steps.length;i++){ if(!checks[steps[i].id]&&!steps[i].locked){ next=steps[i]; break; } }
+  if(next) h.push('<div class="nextup"><div class="nl">&#9654; Next up</div><div class="nt">'+esc(next.t)+
+    '</div><div class="nm">'+esc(MOTIV[next.id]||'')+'</div></div>');
+  h.push('</div>');
+
+  if(VIEW!==MY_STATE){
+    h.push('<div class="viewing">You are looking at <b>'+esc(s.st)+'</b>. Your own state is <b>'+esc(mine().st)+
+      '</b> &mdash; nothing here has been changed.<div class="btnrow">'+
+      '<button class="btn sm" onclick="setMine(\''+s.ab+'\')">I live in '+esc(s.st)+' &mdash; make this mine</button>'+
+      '<button class="alt" onclick="go(\''+MY_STATE+'\')">Back to '+esc(mine().st)+'</button></div></div>');
+  }
+
+  // 2. countdown — only once a real date exists
+  if(examDate){
+    var dd=daysTo(examDate);
+    h.push('<div class="count"><div class="days">'+(dd>1?dd+' days':(dd===1?'Tomorrow':(dd===0?'Today':'Passed')))+
+      '</div><div class="when">Your '+(s.combo?esc(s.combo):'Life')+' exam &mdash; '+longDate(examDate)+'</div>'+
+      '<div class="sub">Everything below is just getting you ready for that morning.</div></div>');
+  }
+
+  // 3. money, behind a caret
+  h.push(moneyPanel(s,c));
+
+  // 4. steps — open by default, collapsed once done
+  steps.forEach(function(x,i){
+    var isDone=!!checks[x.id];
+    var isCur=(next&&next.id===x.id);
+    var isOpen=(openMap[x.id]!==undefined)?openMap[x.id]:(!isDone&&!x.locked);
+    h.push('<div class="step'+(isDone?' done':'')+(isCur?' cur':'')+(x.locked?' locked':'')+(isOpen?' open':'')+
+      '" id="step_'+x.id+'"><div class="srow" onclick="toggle(\''+x.id+'\')">');
+    h.push('<div class="num">'+(isDone?'&#10003;':(x.locked?'&#128274;':(i+1)))+'</div>');
+    h.push('<div class="stitle"><div class="t">'+esc(x.t)+'</div><div class="m">'+esc(x.m||'')+'</div></div>');
+    if(x.fee) h.push('<span class="feetag'+(x.feeFree?' free':'')+'">'+esc(x.fee)+'</span>');
+    h.push('<span class="chev">&#8250;</span></div>');
+    var foot='';
+    if(x.locked){ foot=''; }
+    else if(x.noPlainDone||x.id==='npn'){
+      /* The booking step cannot be ticked by hand. A tick with no date behind it is a lie
+         the recruiter card would then repeat back to Jesse. */
+      foot = isDone?'<div style="margin-top:14px"><button class="btn sm ghost" onclick="clearDate()">Undo &mdash; I need to move this date</button></div>':'';
+    } else {
+      foot='<div style="margin-top:14px"><button class="btn sm navy" onclick="mark(\''+x.id+'\')">'+
+        (isDone?'Undo this step':'Mark this done')+'</button></div>';
+    }
+    h.push('<div class="sbody">'+x.body+foot+'</div></div>');
+  });
+
+  h.push('<p class="foot"><a href="https://partners.xcelsolutions.com/'+esc(s.slug)+
+    '/insurance-license/requirements?partner=fflnational-hkr597" target="_blank" rel="noopener">Full '+
+    esc(s.st)+' instructions on Xcel &#8599;</a><br>The official page, if the state changes something.</p>');
+
+  document.getElementById('out').innerHTML=h.join('');
+}
+
+function toggle(id){
+  var el=document.getElementById('step_'+id); if(!el) return;
+  var nowOpen=el.classList.toggle('open'); openMap[id]=nowOpen;
+}
+function mark(id){ checks[id]=!checks[id]; if(checks[id]) delete openMap[id]; else openMap[id]=true; render(); }
+function ping(id){ checks[id]=true; delete openMap[id]; render(); if(id==='pass') confetti(); }
+
+function confetti(){
+  var wrap=document.createElement('div'); wrap.className='confetti';
+  var cols=['#c9a227','#1c7c54','#2563c9','#f2c661','#e35d5d','#16233f'];
+  for(var i=0;i<90;i++){
+    var p=document.createElement('i');
+    p.style.left=(Math.random()*100)+'%';
+    p.style.background=cols[i%cols.length];
+    p.style.animationDuration=(1.9+Math.random()*1.5)+'s';
+    p.style.animationDelay=(Math.random()*.45)+'s';
+    p.style.transform='rotate('+(Math.random()*360)+'deg)';
+    wrap.appendChild(p);
+  }
+  document.body.appendChild(wrap);
+  setTimeout(function(){ wrap.remove(); },4200);
+}
+function saveNpn(){
+  var v=document.getElementById('npnIn');
+  var val=v?v.value.replace(/\D/g,''):'';
+  if(val.length<5){ alert('That does not look like an NPN yet — it is usually 7 or 8 digits.'); return; }
+  npn=val; checks.npn=true; delete openMap.npn; render(); confetti();
+}
+function clearNpn(){ npn=''; checks.npn=false; openMap.npn=true; render(); }
+function saveDate(){
+  var v=document.getElementById('dateIn'); if(!v||!v.value){ alert('Pick the date first.'); return; }
+  examDate=v.value; checks.book=true; notYet=''; delete openMap.book; render(); window.scrollTo(0,0);
+}
+function clearDate(){ examDate=''; checks.book=false; openMap.book=true; render(); }
+function notReady(){
+  var r=prompt('Mockup — pick a reason:\n  money = fee not in the budget\n  schedule = need to check my schedule\n  course = want to see the course first','money');
+  if(r&&REASONS[r]){ notYet=r; openMap.book=true; render(); }
+}
+function focusPicker(){ document.getElementById('pick').focus(); window.scrollTo(0,0); }
+function go(ab){ VIEW=ab; document.getElementById('pick').value=ab; render(); window.scrollTo(0,0); }
+function setMine(ab){ MY_STATE=ab; go(ab); }
+
+var sel=document.getElementById('pick');
+STATES.slice().sort(function(a,b){return a.st<b.st?-1:1;}).forEach(function(s){
+  var o=document.createElement('option'); o.value=s.ab;
+  o.textContent=s.st+(s.gate==='book_course'?'  — course first':(s.gate==='book_apply'?'  — apply first':
+    (s.gate==='sit_cert'?'  — certificate on exam day':(s.combo?'':'  — Life first, two exams'))));
+  sel.appendChild(o);
+});
+sel.value='GA';
+sel.addEventListener('change',function(){ go(sel.value); });
+render();
+</script>
