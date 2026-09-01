@@ -502,8 +502,27 @@
   .m5-glpick{margin:11px 0}
   .m5-pstep.locked{opacity:.7}
   .m5-pstep.locked .m5-cbox{background:#eef1f6;border-color:#cdd7e6;cursor:default;font-size:13px;color:#8894a8}
-  .m5-glhide .m5-pd{display:none}
-  .m5-gltog{float:right;font-size:12px;color:#8894a8;cursor:pointer;background:none;border:0;font-family:inherit}
+  .m5-glstep{background:#fff;border:1px solid #e6e8ee;border-radius:14px;margin-bottom:11px;box-shadow:0 2px 8px rgba(20,35,63,.05);overflow:hidden}
+  .m5-glstep.cur{border-color:#c9a227}
+  .m5-glstep.locked{opacity:.72}
+  .m5-glrow{display:flex;align-items:center;gap:14px;padding:15px 17px;cursor:pointer}
+  .m5-glnum{flex:0 0 30px;height:30px;border-radius:50%;background:#16233f;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13.5px;font-weight:700}
+  .m5-glstep.done .m5-glnum{background:#e3f2ea;color:#1c7c54}
+  .m5-glstep.locked .m5-glnum{background:#eef1f6;color:#8894a8}
+  .m5-glhead{flex:1;min-width:0}
+  .m5-glhead .t{font-size:15.5px;font-weight:700;color:#16233f}
+  .m5-glstep.done .m5-glhead .t{color:#8894a8;text-decoration:line-through}
+  .m5-glhead .m{font-size:12.5px;color:#5b6b85;margin-top:2px}
+  .m5-glchev{color:#b3bccb;font-size:17px;transition:transform .2s}
+  .m5-glstep.open .m5-glchev{transform:rotate(90deg)}
+  .m5-glbody{display:none;padding:0 17px 17px;border-top:1px solid #e6e8ee;font-size:13.5px;color:#42506a;line-height:1.55}
+  .m5-glstep.open .m5-glbody{display:block}
+  .m5-glbody>*:first-child{margin-top:14px}
+  .m5-glbody b{color:#16233f}
+  .m5-glbody p{margin:8px 0 0}
+  .m5-glbody code{background:#eef1f6;padding:2px 7px;border-radius:6px;font-size:12.5px;color:#16233f;font-weight:700}
+  .m5-gldone{display:inline-block;margin-top:14px;background:#16233f;color:#fff;border:0;border-radius:9px;padding:9px 15px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit}
+  .m5-gldone.undo{background:transparent;color:#5b6b85;border:1px solid #e6e8ee;font-weight:500}
 </style>
 </head>
 <body>
@@ -5171,6 +5190,7 @@ var M5_STATES = [{"ab":"AL","st":"Alabama","slug":"alabama","combo":"Life, Accid
 var M5_GL_EVERYONE = false;
 var M5_PREPATH_LEGACY = (typeof renderPrePath === 'function') ? renderPrePath : null;
 var M5_TOGGLEPRE_LEGACY = (typeof togglePre === 'function') ? togglePre : null;
+var M5_GL_OPEN = {};   /* per-session expand/collapse overrides */
 
 function m5GlOn(){
   try{ return M5_GL_EVERYONE || store.data.admin===true || store.data.glOptIn===true; }
@@ -5330,7 +5350,7 @@ function m5GlSteps(){
   var dt=store.data.examDate||'', legacy=(!dt && store.data.examLegacy && ck.gl_book);
   var npn=store.data.npn||'';
 
-  d.gl_plug={id:'gl_plug',t:'Get Plugged In',d:'Join our community groups so you never miss an update, a call, or a win.'+
+  d.gl_plug={id:'gl_plug',t:'Get Plugged In',m:'WhatsApp and Facebook',d:'Join our community groups so you never miss an update, a call, or a win.'+
     '<div class="m5-btnrow"><a class="m5-lnk wa" href="https://chat.whatsapp.com/JAX77XU8xCCG9iW0AyUYng" target="_blank" rel="noopener">&#128172; Join WhatsApp</a>'+
     '<a class="m5-lnk fb" href="https://www.facebook.com/groups/fflnational/" target="_blank" rel="noopener">&#128218; Join Facebook Group</a></div>'};
 
@@ -5373,10 +5393,14 @@ function m5GlSteps(){
       b.push('<p class="m5-fine"><b>Nothing below is locked behind this.</b> If the fee or the timing is not right this week, keep going &mdash; '+
         'start the course and come back. The only thing you lose by waiting is the deadline that keeps you moving.</p>');
     }
-    return {id:'gl_book',t:'Schedule Your State Exam',noTick:true,locked:locked,d:b.join('')};
+    return {id:'gl_book',t:'Schedule Your State Exam',noTick:true,locked:locked,
+      m:(dt?'Booked for '+m5GlLong(dt):(locked?'Opens once the step above is done'
+        :(legacy?'Scheduled &mdash; no date on file'
+        :(store.data.examNotYet&&M5_GL_REASON[store.data.examNotYet]?'Not booked yet &mdash; '+M5_GL_REASON[store.data.examNotYet]:'Your finish line')))),
+      d:b.join('')};
   })();
 
-  d.gl_enroll={id:'gl_enroll',t:'Enroll in Your Pre-Licensing Course',d:
+  d.gl_enroll={id:'gl_enroll',t:'Enroll in Your Pre-Licensing Course',m:'Xcel Solutions &mdash; covered',d:
     '<b>Register for your course</b>, then start it. Select <b>Life &amp; Health</b> &mdash; the <b>$199 package</b>. '+
     'Your voucher code covers it in full, so you pay nothing. Do not choose <b>Premier</b> &mdash; the voucher does not cover it.'+
     '<div class="m5-btnrow"><a class="m5-lnk go" href="https://partners.xcelsolutions.com/fflnational-hkr597" target="_blank" rel="noopener">&#128218; Register at Xcel &#8599;</a>'+
@@ -5389,23 +5413,23 @@ function m5GlSteps(){
     '<p class="fine">We are on the <b>FFL Optimum</b> team &mdash; but the <b>course</b> is booked under <b>FFL National</b>. '+
     'That one catches nearly everybody. Keep this open in another tab while you register.</p></div>'};
 
-  d.gl_half={id:'gl_half',t:'You hit 50%',d:'Halfway is worth saying out loud. Tick this and your manager knows &mdash; no screenshot, nothing to type.'};
+  d.gl_half={id:'gl_half',t:'You hit 50%',m:'One tap tells your manager',d:'Halfway is worth saying out loud. Tick this and your manager knows &mdash; no screenshot, nothing to type.'};
 
-  d.gl_coursedone={id:'gl_coursedone',t:'Course complete',d:'Course finished. Tick it, and download your certificate while you are in there.'+
+  d.gl_coursedone={id:'gl_coursedone',t:'Course complete',m:'Certificate in hand',d:'Course finished. Tick it, and download your certificate while you are in there.'+
     (s.gate==='book_course'?'<div class="m5-callout">This is what unlocks exam booking in '+m5GlEsc(s.st)+'. The booking step opens the second you tick this.</div>':'')+
     (s.gate==='sit_cert'?'<div class="m5-glwarn">Save the certificate somewhere you can find it &mdash; '+m5GlEsc(s.st)+' wants it in your hand on exam day.</div>':'')};
 
-  d.gl_fp={id:'gl_fp',t:'Get Fingerprinted',d:m5GlEsc(s.st)+' requires fingerprints before your licence can be issued. Book the appointment early &mdash; '+
+  d.gl_fp={id:'gl_fp',t:'Get Fingerprinted',m:'Required in '+s.st,d:m5GlEsc(s.st)+' requires fingerprints before your licence can be issued. Book the appointment early &mdash; '+
     'people who leave it to the end lose a week here for no reason.'+
     (s.fp.ven?'<p class="m5-fine">Where to go: '+m5GlEsc(s.fp.ven)+'</p>':'')+
     '<p class="m5-fine">'+(s.fp.fee?m5GlEsc(s.st)+' charges '+m5GlEsc(s.fp.fee)+' for the background check, paid at the appointment.'
       :m5GlEsc(s.st)+' does not publish the fee &mdash; expect to pay it at the appointment.')+' That one goes to the state, not to us.</p>'};
 
-  d.gl_pass={id:'gl_pass',t:'Pass Your Exam',d:'Take your exam &mdash; you have got this. Tick this the moment you pass.'+
+  d.gl_pass={id:'gl_pass',t:'Pass Your Exam',m:'The one that counts',d:'Take your exam &mdash; you have got this. Tick this the moment you pass.'+
     (s.gate==='sit_cert'?'<div class="m5-glwarn"><b>Certificate of completion, in hand.</b> Without it '+m5GlEsc(s.st)+' will not let you sit, and the fee is gone.</div>':'')};
 
   var ap=m5GlApply(s);
-  d.gl_apply={id:'gl_apply',t:'Apply for Your Licence',d:
+  d.gl_apply={id:'gl_apply',t:'Apply for Your Licence',m:(s.gate==='book_apply'?'Comes first in '+s.st:'The last step'),d:
     (s.gate==='book_apply'?'In '+m5GlEsc(s.st)+' this comes <b>before</b> the exam &mdash; you cannot reserve a seat until the application is in.'
       :'Apply for your state licence. Tick this once you have applied.')+
     (s.app.fee?'<p class="m5-fine">The state of '+m5GlEsc(s.st)+' charges '+m5GlEsc(s.app.fee)+' to issue the licence'+
@@ -5413,7 +5437,7 @@ function m5GlSteps(){
     '<div class="m5-btnrow"><a class="m5-lnk go" href="'+m5GlEsc(ap.url)+'" target="_blank" rel="noopener">&#128196; Apply at '+m5GlEsc(ap.name)+' &#8599;</a></div>'+
     '<p class="m5-fine">Your state licence number comes first. The number that matters after that is your NPN &mdash; the next step is all about it.</p>'};
 
-  d.gl_npn={id:'gl_npn',t:'Lock In Your NPN',noTick:true,d:
+  d.gl_npn={id:'gl_npn',t:'Lock In Your NPN',noTick:true,m:(npn?'NPN '+npn:'Your National Producer Number'),d:
     'Your <b>NPN</b> is the number that follows you for the rest of your career. It usually turns up a few days after your licence, by email &mdash; or you can look it up yourself.'+
     '<div class="m5-btnrow"><a class="m5-lnk nv" href="https://npn-lookup.app.nipr.com/npn-lookup/PacNpnSearch.htm" target="_blank" rel="noopener">&#128269; Look up your NPN &#8599;</a></div>'+
     (npn
@@ -5466,6 +5490,10 @@ function m5GlClearNpn(){
   store.data.npn=''; if(store.data.checks) store.data.checks.gl_npn=false;
   store.save(); renderPrePath();
 }
+function m5GlOpen(id){
+  var el=document.getElementById('m5gl_'+id); if(!el) return;
+  M5_GL_OPEN[id]=el.classList.toggle('open');
+}
 function m5GlToggle(id){
   var steps=m5GlSteps(), st=null;
   for(var i=0;i<steps.length;i++){ if(steps[i].id===id) st=steps[i]; }
@@ -5476,6 +5504,7 @@ function m5GlToggle(id){
   var c=store.data.checks||(store.data.checks={});
   var was=c[id];
   c[id]=was?false:(new Date()).toISOString();
+  if(was) M5_GL_OPEN[id]=true; else delete M5_GL_OPEN[id];
   store.save();
   if(!was && id==='gl_pass' && typeof m5Confetti==='function') m5Confetti();
   renderPrePath();
@@ -5507,13 +5536,25 @@ function m5GlRender(el){
   h.push('<div class="m5-prilabel"><span>Licensing progress &middot; '+m5GlEsc(s.st)+'</span><span>'+pct+'%</span></div>'+
     '<div class="m5-pribar"><span style="width:'+pct+'%"></span></div>');
 
-  steps.forEach(function(x){
+  /* Open by default, collapsed once done -- the page gets shorter as they progress. */
+  var next=null;
+  for(var n=0;n<steps.length;n++){ if(!ck[steps[n].id] && !steps[n].locked){ next=steps[n].id; break; } }
+  steps.forEach(function(x,i){
     var isDone=!!ck[x.id];
-    h.push('<div class="m5-pstep'+(isDone?' done m5-glhide':'')+(x.locked?' locked':'')+'">'+
-      '<div class="m5-cbox" onclick="m5GlToggle(\''+x.id+'\')">'+(isDone?'&#10003;':(x.locked?'&#128274;':''))+'</div>'+
-      '<div class="m5-pbody"><p class="m5-pt">'+m5GlEsc(x.t)+
-        (isDone?'<button class="m5-gltog" onclick="this.closest(\'.m5-pstep\').classList.toggle(\'m5-glhide\')">show</button>':'')+
-      '</p><div class="m5-pd">'+x.d+'</div></div></div>');
+    var isOpen=(M5_GL_OPEN[x.id]!==undefined)?M5_GL_OPEN[x.id]:(!isDone&&!x.locked);
+    var foot='';
+    if(!x.locked && !x.noTick){
+      foot='<button class="m5-gldone'+(isDone?' undo':'')+'" onclick="m5GlToggle(\''+x.id+'\')">'+
+        (isDone?'Undo this step':'Mark this done')+'</button>';
+    }
+    h.push('<div class="m5-glstep'+(isDone?' done':'')+(next===x.id?' cur':'')+(x.locked?' locked':'')+(isOpen?' open':'')+
+      '" id="m5gl_'+x.id+'">'+
+      '<div class="m5-glrow" onclick="m5GlOpen(\''+x.id+'\')">'+
+        '<div class="m5-glnum">'+(isDone?'&#10003;':(x.locked?'&#128274;':(i+1)))+'</div>'+
+        '<div class="m5-glhead"><div class="t">'+m5GlEsc(x.t)+'</div><div class="m">'+(x.m||'')+'</div></div>'+
+        '<span class="m5-glchev">&#8250;</span>'+
+      '</div>'+
+      '<div class="m5-glbody">'+x.d+foot+'</div></div>');
   });
 
   h.push('<div class="m5-glpick" style="margin-top:14px"><p class="m5-fine" style="margin-bottom:5px">Not in '+m5GlEsc(s.st)+'? Change it and the steps rewrite themselves.</p>'+m5GlPicker()+'</div>');
