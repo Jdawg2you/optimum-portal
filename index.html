@@ -4986,7 +4986,11 @@ function m5RcCard(m,idx){
   h+='<div class="nr-top"><div><div class="nr-chips">'+licChip+'<span class="nr-chip">'+chip+'</span></div><div class="nr-h">'+head+'</div>'
    + '<div class="nr-meta">'+meta+'</div>'+m5RcContact(a)+'</div>'
    + '<div class="nr-ctl">'
-   + (m.finished?'':'<button class="nr-collapse" onclick="m5RcCollapse(\''+m.em+'\',\''+m.sig+'\')"><span class="car">▲</span> Collapse</button>')
+   /* Collapse only disappears when there is genuinely nothing left to defer. A card that
+      reached the outcome but still has the recruiter's own box open is not finished
+      business — taking Collapse away there would force a choice between doing it this
+      second and deleting it, which is how a real intention gets thrown away. */
+   + (m.allDone?'':'<button class="nr-collapse" onclick="m5RcCollapse(\''+m.em+'\',\''+m.sig+'\')"><span class="car">▲</span> Collapse</button>')
    + '<button class="nr-x" title="Remove this card for good" onclick="m5RcAsk(\''+m.em+'\')">✕</button></div></div>';
   if(m.reopened){ h+='<div class="nr-reopen">↩︎ Reopened — '+(m.why?m.why:'something changed for '+m5RcEsc(n))+' since you collapsed this.</div>'; }
   if(warn&&m.pace.why){
@@ -5048,7 +5052,9 @@ window.m5RcRender=function(){
        sink to the bottom; live ones stay up top. */
     var open=[], shut=[], won=[];
     for(var k=0;k<list.length;k++){
-      if(list[k].finished) won.push(list[k]);
+      /* A win the recruiter has collapsed is handled, not pending — it belongs in the
+         one-line group with everything else they have parked, not back at the top. */
+      if(list[k].finished&&!list[k].collapsed) won.push(list[k]);
       else (list[k].collapsed?shut:open).push(list[k]);
     }
     var cap=(window.m5RcAll===true)?open.length:3;
