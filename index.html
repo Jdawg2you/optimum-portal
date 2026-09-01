@@ -523,6 +523,11 @@
   .m5-glbody code{background:#eef1f6;padding:2px 7px;border-radius:6px;font-size:12.5px;color:#16233f;font-weight:700}
   .m5-gldone{display:inline-block;margin-top:14px;background:#16233f;color:#fff;border:0;border-radius:9px;padding:9px 15px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit}
   .m5-gldone.undo{background:transparent;color:#5b6b85;border:1px solid #e6e8ee;font-weight:500}
+  .m5-glprev{background:#0e2244;color:#fff;border-radius:14px;padding:15px 17px;margin:0 0 14px;box-shadow:0 10px 30px rgba(20,35,63,.14)}
+  .m5-glprev .l{font-size:11px;text-transform:uppercase;letter-spacing:.07em;font-weight:800;color:#c9a227}
+  .m5-glprev .t{font-size:17px;font-weight:700;margin-top:4px}
+  .m5-glprev p{font-size:12.5px;opacity:.85;margin:6px 0 11px;line-height:1.5}
+  .m5-glprev .m5-glsel{background:#12305e;color:#fff;border-color:#2c4a80}
 </style>
 </head>
 <body>
@@ -5520,18 +5525,32 @@ function m5GlToggle(id){
 }
 
 /* ---------- render ---------- */
+function m5GlPreviewStrip(){
+  /* In preview there is no registration to read a state from, so the picker leads -- and
+     the strip says plainly that this is not what a real agent's page looks like. */
+  return '<div class="m5-glprev"><div class="l">Preview &mdash; not the live agent view</div>'+
+    '<div class="t">Pick a state to see what an agent there sees</div>'+
+    '<p>A real agent never chooses. Their state comes from their registration, and this dropdown only '+
+    'appears to them if they need to correct it. Everything below rewrites itself for whichever state you pick.</p>'+
+    m5GlPicker()+'</div>';
+}
 function m5GlRender(el){
+  var isPrev=!!(store.data&&store.data._preview);
   var s=m5GlMine();
   if(!s){
-    el.innerHTML='<div class="m5-pstep"><div class="m5-pbody"><p class="m5-pt">Which state are you getting licensed in?</p>'+
-      '<div class="m5-pd">Every state runs this differently &mdash; the licence to take, whether you can book the exam today, '+
-      'the fees. Tell us yours and the steps below rewrite themselves for it.<div class="m5-glpick">'+m5GlPicker()+'</div></div></div></div>';
+    el.innerHTML=(isPrev?m5GlPreviewStrip():'')+
+      (isPrev
+        ? '<p class="m5-fine" style="text-align:center;margin-top:14px">Choose a state above to see the path.</p>'
+        : '<div class="m5-pstep"><div class="m5-pbody"><p class="m5-pt">Which state are you getting licensed in?</p>'+
+          '<div class="m5-pd">Every state runs this differently &mdash; the licence to take, whether you can book the exam today, '+
+          'the fees. Tell us yours and the steps below rewrite themselves for it.<div class="m5-glpick">'+m5GlPicker()+'</div></div></div></div>');
     return;
   }
   var steps=m5GlSteps(), c=m5GlCost(s), ck=store.data.checks||{};
   var done=0; steps.forEach(function(x){ if(ck[x.id]) done++; });
   var pct=steps.length?Math.round(done/steps.length*100):0;
   var h=[];
+  if(isPrev) h.push(m5GlPreviewStrip());
 
   var dt=store.data.examDate||'';
   if(dt){
@@ -5566,7 +5585,7 @@ function m5GlRender(el){
       '<div class="m5-glbody">'+x.d+foot+'</div></div>');
   });
 
-  h.push('<div class="m5-glpick" style="margin-top:14px"><p class="m5-fine" style="margin-bottom:5px">Not in '+m5GlEsc(s.st)+'? Change it and the steps rewrite themselves.</p>'+m5GlPicker()+'</div>');
+  if(!isPrev)h.push('<div class="m5-glpick" style="margin-top:14px"><p class="m5-fine" style="margin-bottom:5px">Not in '+m5GlEsc(s.st)+'? Change it and the steps rewrite themselves.</p>'+m5GlPicker()+'</div>');
   h.push('<p class="m5-fine" style="margin-top:10px;text-align:center"><a href="https://partners.xcelsolutions.com/'+m5GlEsc(s.slug)+
     '/insurance-license/requirements?partner=fflnational-hkr597" target="_blank" rel="noopener">Full '+m5GlEsc(s.st)+
     ' instructions on Xcel &#8599;</a><br>The official page, if the state changes something.</p>');
