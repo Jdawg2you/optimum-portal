@@ -5579,7 +5579,9 @@ function m5GlShareCard(){
     '</button>'+
     '<div class="m5-glshb"><div class="m5-glshrow">'+
       '<a class="m5-glshvid" href="'+M5_GL_SHORT+'" target="_blank" rel="noopener" onclick="m5GlShareVideo()">'+
-        '<img src="share-card-thumbnail.jpg" alt="Who do you know who could benefit from this opportunity?" loading="lazy">'+
+        /* No loading="lazy": the card is inserted while collapsed, and a lazy image in a
+           hidden subtree never gets its viewport check, so it stayed blank forever. */
+        '<img src="/share-card-thumbnail.jpg" alt="Who do you know who could benefit from this opportunity?">'+
         '<span class="play"><i>&#9654;</i></span></a>'+
       '<div class="m5-glshside">'+
         '<p class="m5-glshp">Somebody in your phone is stuck where you were last week. You do not have to explain anything or sell anything '+
