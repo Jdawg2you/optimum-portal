@@ -4662,6 +4662,9 @@ window.m5Search=function(scope,val){
    kills it — the recruiter is always allowed to kill it. */
 var M5_RC_EPOCH = Date.parse('2026-08-19T00:00:00Z');
 var M5_RC_BACKFILL_DAYS = 30;
+/* How long a finished card stays up as a win before it retires on its own. Long enough
+   that a recruiter who only looks twice a week still gets to say congratulations. */
+var M5_RC_DONE_DAYS = 14;
 
 window.m5RcState=function(){
   if(!store.data.recruitCards||typeof store.data.recruitCards!=='object') store.data.recruitCards={};
@@ -4788,12 +4791,18 @@ window.m5RcCards=function(){
     var steps=m5RcSteps(a,days,c);
     var done=0,auton=0,autodone=0;
     for(var s=0;s<steps.length;s++){ if(steps[s].done) done++; if(!steps[s].you){ auton++; if(steps[s].done) autodone++; } }
-    if(done===steps.length) continue;                        /* job finished — card retires itself */
-    /* A licensed recruit who is contracted, has done their strategy call and has marked
-       himself cleared to dial IS onboarded. That is the outcome the card existed for, so
-       it retires whether or not the recruiter ever ticked their own box. The unlicensed
-       card does not do this — it hands over to the licensed card when they pass. */
-    if(a.licensed && auton>0 && autodone===auton) continue;
+    /* A card that vanishes because someone FAILED is a bug. A card that vanishes because
+       someone SUCCEEDED costs the recruiter the win — and with a fast starter the card can
+       appear and retire the same day, so they never see it at all. Finished cards now stay
+       as a celebration until they are dismissed, or for M5_RC_DONE_DAYS, whichever is first. */
+    var finished=(done===steps.length)||(a.licensed&&auton>0&&autodone===auton);
+    if(finished){
+      if(!c.fin){ c.fin=(new Date()).toISOString(); m5RcSave(); }
+      if(Math.floor((Date.now()-Date.parse(c.fin))/864e5)>M5_RC_DONE_DAYS) continue;
+    } else if(c.fin){ delete c.fin; m5RcSave(); }             /* went backwards — live again */
+    /* "Finished" for a licensed recruit means contracted + strategy call + cleared to dial.
+       That is the outcome the card existed for, and it counts whether or not the recruiter
+       ever ticked their own box. The unlicensed card cannot reach it without the licence. */
     /* Direct vs indirect. Prefer recruiter EMAIL — the one key that cannot drift. Falls
        back to name only while the backend has not been redeployed with recruiterEmail. */
     var myEm=me, myNm=m5RcNorm((store.data.name||'')||((store.data.first||'')+' '+(store.data.last||'')));
@@ -4806,7 +4815,8 @@ window.m5RcCards=function(){
        gap is the threshold — below that it is just paperwork lag, not a different person. */
     var since=(!isNaN(sgt)&&!isNaN(rt)&&(rt-sgt)>21*864e5)?a.joined:'';
     var m={a:a,em:em,c:c,days:days,steps:steps,done:done,pace:m5RcPace(a,days),
-           justLic:(c.lic0===0&&a.licensed),direct:direct,under:under,since:since};
+           justLic:(c.lic0===0&&a.licensed),direct:direct,under:under,since:since,
+           finished:finished,finAt:(c.fin||'')};
     m.sig=m5RcSig(m);
     /* Collapsed, but something changed since — reopen it and say so. */
     if(c.collapsed && c.sig && c.sig!==m.sig){ delete c.collapsed; delete c.sig; c.reopened=1; m5RcSave(); }
@@ -4896,18 +4906,19 @@ function m5RcContact(a){
 }
 function m5RcCard(m,idx){
   var a=m.a, n=m5RcFirst(a), warn=(m.pace.s==='stall');
-  var cls='nr'+(warn?' t-warn':(m.justLic?' t-promo':''));
+  var cls='nr'+(m.finished?' t-promo':(warn?' t-warn':(m.justLic?' t-promo':'')));
   var pct=Math.round(m.done/m.steps.length*100);
   /* Two chips, always. The first says where they stand on licensing and never changes
      duty; the second says what is happening with them. The old single chip meant a card
      that went orange silently dropped the licence status, which is the one fact a
      recruiter needs to know what to even say to them. */
-  var chip=warn?(m.pace.k==='quiet'?'Gone quiet':'Never started'):(m.direct?'New recruit':'In your downline');
+  var chip=m.finished?'Onboarded':(warn?(m.pace.k==='quiet'?'Gone quiet':'Never started'):(m.direct?'New recruit':'In your downline'));
   var licChip = m.justLic ? '<span class="nr-chip lic new">🎉 Newly licensed</span>'
               : (a.licensed ? '<span class="nr-chip lic">Licensed</span>'
                             : '<span class="nr-chip unl">Unlicensed</span>');
   var head, headHasSince=false;
-  if(m.justLic) head='🎉 <b>'+m5RcEsc(a.name||n)+'</b> just got licensed — here is what is next';
+  if(m.finished) head='🎉 <b>'+m5RcEsc(a.name||n)+'</b> is fully onboarded';
+  else if(m.justLic) head='🎉 <b>'+m5RcEsc(a.name||n)+'</b> just got licensed — here is what is next';
   else if(warn) head=m5RcEsc(a.name||n)+(m.pace.k==='quiet'?' has gone quiet':' has not gotten started');
   /* Never tell someone they recruited a person they did not recruit. */
   else if(!m.direct) head='<b>'+m5RcEsc(a.name||n)+'</b> joined your agency';
@@ -4916,7 +4927,8 @@ function m5RcCard(m,idx){
      person who is about to tell you she started in July. */
   else if(m.since) head='<b>'+m5RcEsc(a.name||n)+'</b> has been with you since '+m5RcLong(m.since), headHasSince=true;
   else head='🎉 Congratulations — you recruited <b>'+m5RcEsc(a.name||n)+'</b>';
-  var meta=m.justLic?'Licensed today · your job just changed'
+  var meta=m.finished?('Nothing left to chase — worth a message'+(m.finAt?' · finished '+m5RcAgo(Math.floor((Date.now()-Date.parse(m.finAt))/864e5)):''))
+          :m.justLic?'Licensed today · your job just changed'
                     :((m.since?'Started in the portal ':'Joined ')+m5RcAgo(m.days));
   if(m.since && !headHasSince) meta='With you since '+m5RcLong(m.since)+' · '+meta;
   if(!m.direct && m.under) meta+=' · <span class="nr-under">Under '+m5RcEsc(m.under)+'</span>';
@@ -4929,7 +4941,7 @@ function m5RcCard(m,idx){
   h+='<div class="nr-top"><div><div class="nr-chips">'+licChip+'<span class="nr-chip">'+chip+'</span></div><div class="nr-h">'+head+'</div>'
    + '<div class="nr-meta">'+meta+'</div>'+m5RcContact(a)+'</div>'
    + '<div class="nr-ctl">'
-   + '<button class="nr-collapse" onclick="m5RcCollapse(\''+m.em+'\',\''+m.sig+'\')"><span class="car">▲</span> Collapse</button>'
+   + (m.finished?'':'<button class="nr-collapse" onclick="m5RcCollapse(\''+m.em+'\',\''+m.sig+'\')"><span class="car">▲</span> Collapse</button>')
    + '<button class="nr-x" title="Remove this card for good" onclick="m5RcAsk(\''+m.em+'\')">✕</button></div></div>';
   if(m.reopened){ h+='<div class="nr-reopen">↩︎ Reopened — something changed for '+m5RcEsc(n)+' since you collapsed this.</div>'; }
   if(warn&&m.pace.why){
@@ -4989,10 +5001,16 @@ window.m5RcRender=function(){
     /* Collapsed rows are one line each, so they never count against the cap — otherwise
        collapsing three just promotes three more and the pile never shrinks. Handled people
        sink to the bottom; live ones stay up top. */
-    var open=[], shut=[];
-    for(var k=0;k<list.length;k++){ (list[k].collapsed?shut:open).push(list[k]); }
+    var open=[], shut=[], won=[];
+    for(var k=0;k<list.length;k++){
+      if(list[k].finished) won.push(list[k]);
+      else (list[k].collapsed?shut:open).push(list[k]);
+    }
     var cap=(window.m5RcAll===true)?open.length:3;
     var out='<div class="nr-wrap">';
+    /* Wins first. They are the shortest thing to read and the nicest thing to do, and they
+       do not count against the cap — a good week should never push the work off the page. */
+    for(var w=0;w<won.length;w++) out+=m5RcCard(won[w],'w'+w);
     for(var i=0;i<open.length&&i<cap;i++) out+=m5RcCard(open[i],i);
     if(open.length>cap) out+='<button class="nr-more" onclick="m5RcShowAll()">Show '+(open.length-cap)+' more new recruit'+((open.length-cap)===1?'':'s')+'</button>';
     if(shut.length){
