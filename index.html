@@ -5587,7 +5587,7 @@ function m5GlShareCard(){
         '<p class="m5-glshp">Somebody in your phone is stuck where you were last week. You do not have to explain anything or sell anything '+
         '&mdash; just send them the same video that got you here.</p>'+
         '<div class="m5-glshprev"><div class="l">The text that gets sent</div><p>'+m5GlEsc(M5_GL_SHARE_TEXT)+'</p></div>'+
-        '<a class="m5-glshbtn" id="m5glShareBtn" href="#" onclick="return m5GlShareTap(event)">'+
+        '<a class="m5-glshbtn" id="m5glShareBtn" href="sms:?&amp;body='+encodeURIComponent(M5_GL_SHARE_TEXT)+'" onclick="return m5GlShareTap(event)">'+
           '<span>&#128172;</span><span id="m5glShareLbl">Share this &mdash; opens your messages</span></a>'+
         '<div class="m5-glshnext"><b>If someone reaches back out to you</b>'+
         'The video tells them to contact the person who sent it &mdash; that is you. When someone does, just let your manager know '+
@@ -5619,11 +5619,12 @@ function m5GlShareTap(e){
   var lbl=document.getElementById('m5glShareLbl');
   var isMobile=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
   if(isMobile){
-    if(lbl){ lbl.innerHTML='Copied &#10003;'; setTimeout(function(){ if(lbl) lbl.innerHTML='Share this &mdash; opens your messages'; },2500); }
-    try{ window.location.href='sms:?&body='+encodeURIComponent(txt); }catch(err){}
-  } else {
-    if(lbl){ lbl.innerHTML='Copied &#10003; &mdash; paste it into a text'; setTimeout(function(){ if(lbl) lbl.innerHTML='Share this &mdash; opens your messages'; },3000); }
+    /* Let the anchor's own sms: href do the navigating -- do NOT preventDefault. */
+    if(lbl){ lbl.innerHTML='Copied &#10003; &mdash; opening Messages'; setTimeout(function(){ if(lbl) lbl.innerHTML='Share this &mdash; opens your messages'; },2500); }
+    return true;
   }
+  /* No Messages app on a desktop: keep the clipboard copy, cancel the navigation. */
+  if(lbl){ lbl.innerHTML='Copied &#10003; &mdash; paste it into a text'; setTimeout(function(){ if(lbl) lbl.innerHTML='Share this &mdash; opens your messages'; },3000); }
   if(e&&e.preventDefault) e.preventDefault();
   return false;
 }
