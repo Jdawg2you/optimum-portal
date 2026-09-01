@@ -740,21 +740,37 @@ function doLogin(){
   var btn=document.getElementById('li-btn');
   function go(status,nm,ln,em){ m5CurrentUser={first:(nm||first),last:(ln||last),email:((em||email)||'').trim().toLowerCase(),phone:phone}; routeTo(status, nm||first, ln||last); }
   function baked(){ try{ if(store.data.admin!==true) store.data.admin=false; }catch(e){} var r=lookupAgent(first,last,email,phone); go(r.status, r.name||first, last); }
+  function restoreBtn(){ if(btn){ btn.disabled=false; if(btn.getAttribute('data-orig'))btn.innerHTML=btn.getAttribute('data-orig'); } }
+  function unreachable(){
+    restoreBtn();
+    err.textContent='We could not reach our records just now \u2014 that is on us, not you. Your details are probably fine. Check your connection and press Continue again. If you are on work or school wi-fi, or using a VPN or an ad blocker, try mobile data or a different browser.';
+    err.style.display='block';
+  }
+  /* A backend that never answered is NOT the same thing as an agent who is not registered.
+     Both used to fall through to the baked snapshot, which returns "new" for every single
+     person -- so one slow request told a fully registered agent they did not exist. */
+  function handle(match, isRetry){
+    if(match && match.found===true){
+      restoreBtn();
+      try{ if(match.code) store.data.refCode=match.code; }catch(e){}
+      try{ store.data.hasNPN = (match.licensed ? !!match.hasNPN : false); }catch(e){}
+      try{ store.data.admin = (match.admin===true); }catch(e){}
+      go(match.licensed?'lic':'pre', match.first||first, match.last||last, match.email);
+      return;
+    }
+    if(match && match.found===false){   // a real answer: not in the live sheet
+      restoreBtn(); baked(); return;
+    }
+    if(!isRetry){                        // no answer -- one quiet retry before giving up
+      if(btn){ btn.disabled=true; btn.innerHTML='Still trying\u2026'; }
+      m5BackendLookup(email, phone, function(m2){ handle(m2, true); });
+      return;
+    }
+    unreachable();
+  }
   if(typeof m5BackendLookup==='function'){
     if(btn){ btn.disabled=true; if(!btn.getAttribute('data-orig'))btn.setAttribute('data-orig',btn.innerHTML); btn.innerHTML='Checking\u2026'; }
-    m5BackendLookup(email, phone, function(match){
-      if(btn){ btn.disabled=false; if(btn.getAttribute('data-orig'))btn.innerHTML=btn.getAttribute('data-orig'); }
-      if(match && match.found===true){
-        try{ if(match.code) store.data.refCode=match.code; }catch(e){}
-        try{ store.data.hasNPN = (match.licensed ? !!match.hasNPN : false); }catch(e){}
-        try{ store.data.admin = (match.admin===true); }catch(e){}
-        go(match.licensed?'lic':'pre', match.first||first, match.last||last, match.email);
-      } else if(match && match.found===false){
-        baked();   // definitively not in the live sheet -> baked list (covers Jesse), else not-registered
-      } else {
-        baked();   // backend unreachable/timeout -> baked snapshot fallback
-      }
-    });
+    m5BackendLookup(email, phone, function(match){ handle(match, false); });
   } else {
     baked();
   }
@@ -1051,7 +1067,7 @@ function m5BackendLoad(cb){
 function m5BackendLookup(email, phone, cb){
   var done=false; function once(x){ if(done)return; done=true; cb(x); }
   if(!BACKEND_URL){ once(null); return; }
-  var t=setTimeout(function(){ once(null); }, 12000); // slow/hung backend → fall back
+  var t=setTimeout(function(){ once(null); }, 20000); // slow/hung backend → caller decides
   try{
     fetch(BACKEND_URL,{method:'POST',body:JSON.stringify({action:'lookup',email:(email||'').trim().toLowerCase(),phone:(phone||'')})})
       .then(function(r){return r.json();})
