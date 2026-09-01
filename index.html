@@ -5496,7 +5496,7 @@ function m5GlSteps(){
         '<div class="m5-callout"><b>That is you done.</b> Your manager takes it from here &mdash; they register your NPN with FFL National, which is what '+
         'triggers your HCMS invite and starts your carrier contracting. Watch your email for that invite, and check spam if it has not landed in a day or two.</div>'
       : '<div class="m5-glbox"><label>Your NPN</label><p class="h">Type it here once you have it. Your manager gets it automatically &mdash; nothing for you to send, '+
-        'and it is what lets them start your contracting.</p><input type="text" id="m5GlNpn" inputmode="numeric" placeholder="e.g. 20841537">'+
+        'and it is what lets them start your contracting.</p><input type="text" id="m5GlNpn" inputmode="numeric" placeholder="8 digits &mdash; e.g. 12345678">'+
         '<div class="m5-btnrow" style="margin-bottom:0"><button class="m5-lnk go" onclick="m5GlSaveNpn()">Lock in my NPN</button></div></div>')};
 
   var order;
@@ -5534,6 +5534,16 @@ function m5GlSaveNpn(){
   store.save();
   if(typeof m5Confetti==='function') m5Confetti();
   renderPrePath();
+  /* The NPN is the last thing on the pre-licensing path. If everything else is done,
+     this is the moment they stop being a recruit -- hand them the full agent portal
+     rather than leaving them staring at a completed checklist. */
+  try{
+    var steps=m5GlSteps(), ck=store.data.checks||{}, all=true;
+    for(var i=0;i<steps.length;i++){ if(!ck[steps[i].id]) all=false; }
+    if(all && !store.data._preview && typeof m5BecomeLicensed==='function'){
+      setTimeout(function(){ try{ m5BecomeLicensed(); }catch(e){} }, 1400);
+    }
+  }catch(e){}
 }
 function m5GlClearNpn(){
   store.data.npn=''; if(store.data.checks) store.data.checks.gl_npn=false;
@@ -5698,7 +5708,7 @@ function m5GlRender(el){
     '/insurance-license/requirements?partner=fflnational-hkr597" target="_blank" rel="noopener">Full '+m5GlEsc(s.st)+
     ' instructions on Xcel &#8599;</a><br>The official page, if the state changes something.</p>');
 
-  if(done===steps.length) h.push('<button class="m5-licbtn" onclick="m5BecomeLicensed()">&#127881; Start your New Licensed Agent Onboarding &rarr;</button>');
+  if(done===steps.length) h.push('<button class="m5-licbtn" onclick="m5BecomeLicensed()">&#127881; You are licensed &mdash; open your agent portal &rarr;</button>');
   el.innerHTML=h.join('');
 }
 
