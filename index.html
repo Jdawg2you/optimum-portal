@@ -744,7 +744,7 @@ const RES_TILES=[
   {k:'tools',i:'🛠️',t:'Tools of the Trade',s:'Gear we recommend',blurb:'Optional gear that makes the work a little easier — heads up, these are affiliate links.',items:[['🎧 The headset we recommend','Comfortable for all-day calls, with clear sound.','https://www.amazon.com/dp/B0GFDWXFJW?tag=mobile0329694-20&language=en_US&linkCode=ll1&ref_=as_li_ss_tl'],['📝 For digital note-taking — reMarkable Paper Pro','A paper-feel tablet for taking your notes digitally.','https://www.amazon.com/dp/B0DG9ZXWMK?lv=shuf&linkCode=sl1&crid=1C570375D9X8Q&keywords=remarkable%2Bpaper%2Bpro&sprefix=remark%2Caps%2C190&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&language=en_US&qid=1761140595&linkId=7b46ba1410178bb2a5d2ea40c09ae1d5&th=1&dib_tag=se&tag=mobile0329694-20&dib=eyJ2IjoiMSJ9.gwSm-x5XVBwX2dG3_mZJ_lNktTj3Fig_HY9qrK6Rt3ip51AO5-qWBq5FMT1L5cvCs8keialxJL-HKZnxKmPcgJWl8u7daWueVIxv_W0fm2rYZb0ztpSmqCjoBBpbZ1NUteWHl30LhgzY4R1oyHug1Jk2CmPvA7H8y7rqt09pjapbzjzi9ov51OHSnvZ38RQMklrUJYxTrYjkQY5N2fZRvCNPeOwtm7jwjptL-kJU4E8.aYddnm15EfStAg8zARN16vxortHjkZ-HnnG_g1QZdc8&sr=8-1-spons&channelId=500&ref_=as_li_ss_tl&plpRedirect=mhFallback']]},
   {k:'payments',i:'💳',t:'Who takes Direct Express / Chime / Cash App?',s:'Carriers by payment method',items:[]},
   {k:'products',i:'📚',t:'Product Playbooks',s:'IUL · Mortgage Protection · Annuities',items:[]},
-  {k:'scripts',i:'📝',t:'Scripts',s:'All call scripts',reuse:'scripts'},
+  {k:'scripts',i:'📝',t:'Scripts',s:'Script Navigator + legacy scripts',reuse:'scripts'},
   {k:'cheats',i:'🎯',t:'Objection & Sales Cheat Sheets',s:'Opening/closing objections + policy benefits',items:[['Opening Objections Cheat Sheet','The first 30 seconds — the 7 script objections + word tracks.','https://portal.ffloptimum.com/opening-objections.html'],['Closing Objections Cheat Sheet','The money stalls and how to re-close.','https://portal.ffloptimum.com/closing-objections.html'],['Policy Benefits — Plain-English Guide','Term vs. Whole Life vs. IUL — general education.','https://portal.ffloptimum.com/policy-benefits.html']]},
   {k:'guides',i:'📄',t:'Guides & PDFs',s:'Cleared to Dial checklist, Client Profile, IUL Tree',items:[['Cleared to Dial — New-Agent Checklist','Everything you need before your first call','https://portal.ffloptimum.com/cleared-to-dial-checklist.pdf'],['New Client Profile Sheet','','https://drive.google.com/file/d/1VV0XqZdnn-quJ91uGWRY7QjPSyvKvsYh/view'],['IUL Decision Tree','','https://drive.google.com/file/d/157kcSaRkBH5bR37ZiRPgM5ypCgr0sKNR/view'],['Register your phone number to reduce spam','Step-by-step guide.','https://docs.google.com/document/d/1Wu5M_mymae8s7S7SO-KrL3pWePNrRj6WjtERPUPWC0s/edit?tab=t.0'],['How to add other state licenses','Loom walkthrough.','https://www.loom.com/share/5c9253a5d2ef4f3c82079d0c75bc4a2c?sid=45c3dbb0-54ff-4863-924e-6673bb070527'],['Emoji Leaderboard How-To','','https://docs.google.com/document/d/1rl5YRBlO0d2yrt93Vig2Wmc02wWkipqe0c40N48BOpE/edit']]},
   {k:'va',i:'🎖️',t:'VA Benefits',s:'Burial · VALife · VGLI',items:[['VA Burial Benefits','','https://www.benefits.va.gov/compensation/claims-special-burial.asp'],['VALife Overview','','https://www.va.gov/life-insurance/options-eligibility/valife/'],['VGLI Overview','','https://www.va.gov/life-insurance/options-eligibility/vgli/']]},
@@ -813,6 +813,7 @@ const NAV=[
   {v:'selfdev',ic:'📚',t:'Self Development'},
   {v:'resources',ic:'📁',t:'Resources'},
   {g:'Sell'},
+  {v:'navigator',ic:'🧭',t:'Script Navigator',url:'/script-navigator.html'},
   {v:'income',ic:'💵',t:'Income Calculator'},
   {v:'activity',ic:'📞',t:'Activity Planner'},
   {v:'agencybuild',ic:'👥',t:'Agency Builder'},
@@ -834,10 +835,10 @@ function buildNav(){
     if(n.admin&&store.data.admin!==true)return '';
     if(n.g)return `<div class="navgroup">${n.g}</div>`;
     const locked=n.lockUnl&&unl;
-    return `<div class="navitem ${locked?'locked':''}" data-view="${n.v}" data-locked="${locked}"><span class="ic">${n.ic}</span> ${n.t}${locked?'<span class="lk">🔒</span>':''}</div>`;
+    return `<div class="navitem ${locked?'locked':''}" data-view="${n.v}" data-locked="${locked}"${n.url?` data-url="${n.url}"`:''}><span class="ic">${n.ic}</span> ${n.t}${locked?'<span class="lk">🔒</span>':''}${n.url?'<span class="lk" style="opacity:.55;font-size:11px">↗</span>':''}</div>`;
   }).join('');
 }
-document.getElementById('sidenav').addEventListener('click',e=>{const it=e.target.closest('.navitem');if(!it||!it.dataset.view)return;if(it.dataset.locked==='true'){toast('Unlocks once you\'re licensed 🔒');return;}go(it.dataset.view);});
+document.getElementById('sidenav').addEventListener('click',e=>{const it=e.target.closest('.navitem');if(!it||!it.dataset.view)return;if(it.dataset.locked==='true'){toast('Unlocks once you\'re licensed 🔒');return;}if(it.dataset.url){window.open(it.dataset.url,'_blank','noopener');return;}go(it.dataset.view);});
 
 function go(view){
   document.querySelectorAll('.navitem').forEach(n=>n.classList.toggle('active',n.dataset.view===view));
@@ -1078,7 +1079,7 @@ function openRes(k){resOpen=resOpen===k?null:k;render('resources');}
 function vResources(){
   const grid=RES_TILES.map(t=>{const onclick=t.link?`window.open('${t.link}','_blank')`:`openRes('${t.k}')`;return `<div class="tool ${resOpen===t.k?'sel':''}" onclick="${onclick}"><div class="tic">${t.i}</div><div class="tt">${t.t}</div><div class="td">${t.s}</div></div>`;}).join('');
   let panel='';
-  if(resOpen){const t=RES_TILES.find(x=>x.k===resOpen);if(t){ if(t.k==='payments'&&typeof m5PaymentsPanel==='function'){panel=m5PaymentsPanel();} else if(t.k==='products'&&typeof m5ProductPanel==='function'){panel=m5ProductPanel();} else if(M5_SALES_KEYS[t.k]&&typeof salesPanel==='function'){panel=salesPanel(t.k);} else {const rows=t.reuse==='scripts'?SCRIPTS_L:(t.items||[]);panel=listPanel(`${t.i} ${t.t}`,t.blurb||'',rows);} }}
+  if(resOpen){const t=RES_TILES.find(x=>x.k===resOpen);if(t){ if(t.k==='scripts'&&typeof m5ScriptsPanel==='function'){panel=m5ScriptsPanel();} else if(t.k==='payments'&&typeof m5PaymentsPanel==='function'){panel=m5PaymentsPanel();} else if(t.k==='products'&&typeof m5ProductPanel==='function'){panel=m5ProductPanel();} else if(M5_SALES_KEYS[t.k]&&typeof salesPanel==='function'){panel=salesPanel(t.k);} else {const rows=t.reuse==='scripts'?SCRIPTS_L:(t.items||[]);panel=listPanel(`${t.i} ${t.t}`,t.blurb||'',rows);} }}
   return `<h1 class="page">Resources</h1><p class="sub">Tap a resource — multi-item ones open below; single links open directly.</p>`+(typeof m5SearchBox==='function'?m5SearchBox('res'):'')+`<div id="m5s-res-results"></div><div id="m5s-res-browse"><div class="tool-grid">${grid}</div>${panel}</div>`;
 }
 function vSupport(){return `<h1 class="page">Support</h1><p class="sub">Quick how-tos and help — the miscellaneous stuff lives here.</p>${listCard('How-Tos & Help','',MISC)}`;}
@@ -1885,6 +1886,11 @@ const ACAD_LMS=[
       "label": "The VET Script",
       "type": "link",
       "url": "https://docs.google.com/document/d/1I2OptXZINPdO5QxJTd9boXPMxYG6cAWqtgnd6XR0x8E/edit"
+     },
+     {
+      "label": "Insurance Script Navigator — the VET call, card by card",
+      "type": "link",
+      "url": "https://portal.ffloptimum.com/script-navigator.html?script=veteran"
      }
     ],
     "keyTakeaways": [
@@ -1914,6 +1920,11 @@ const ACAD_LMS=[
       "label": "The VET Script",
       "type": "link",
       "url": "https://docs.google.com/document/d/1I2OptXZINPdO5QxJTd9boXPMxYG6cAWqtgnd6XR0x8E/edit"
+     },
+     {
+      "label": "Insurance Script Navigator — the VET call, card by card",
+      "type": "link",
+      "url": "https://portal.ffloptimum.com/script-navigator.html?script=veteran"
      }
     ],
     "keyTakeaways": [
@@ -1940,6 +1951,11 @@ const ACAD_LMS=[
       "label": "The VET Script",
       "type": "link",
       "url": "https://docs.google.com/document/d/1I2OptXZINPdO5QxJTd9boXPMxYG6cAWqtgnd6XR0x8E/edit"
+     },
+     {
+      "label": "Insurance Script Navigator — the VET call, card by card",
+      "type": "link",
+      "url": "https://portal.ffloptimum.com/script-navigator.html?script=veteran"
      },
      {
       "label": "Opening Objections Cheat Sheet",
@@ -1974,6 +1990,11 @@ const ACAD_LMS=[
       "label": "The VET Script",
       "type": "link",
       "url": "https://docs.google.com/document/d/1I2OptXZINPdO5QxJTd9boXPMxYG6cAWqtgnd6XR0x8E/edit"
+     },
+     {
+      "label": "Insurance Script Navigator — the VET call, card by card",
+      "type": "link",
+      "url": "https://portal.ffloptimum.com/script-navigator.html?script=veteran"
      }
     ],
     "keyTakeaways": [
@@ -2001,6 +2022,11 @@ const ACAD_LMS=[
       "label": "The VET Script",
       "type": "link",
       "url": "https://docs.google.com/document/d/1I2OptXZINPdO5QxJTd9boXPMxYG6cAWqtgnd6XR0x8E/edit"
+     },
+     {
+      "label": "Insurance Script Navigator — the VET call, card by card",
+      "type": "link",
+      "url": "https://portal.ffloptimum.com/script-navigator.html?script=veteran"
      }
     ],
     "keyTakeaways": [
@@ -2025,6 +2051,11 @@ const ACAD_LMS=[
       "label": "The VET Script",
       "type": "link",
       "url": "https://docs.google.com/document/d/1I2OptXZINPdO5QxJTd9boXPMxYG6cAWqtgnd6XR0x8E/edit"
+     },
+     {
+      "label": "Insurance Script Navigator — the VET call, card by card",
+      "type": "link",
+      "url": "https://portal.ffloptimum.com/script-navigator.html?script=veteran"
      }
     ],
     "keyTakeaways": [
@@ -3214,6 +3245,19 @@ nav.side{padding:9px 10px}
 .m5-poperr .m5-popfb{display:inline-block}
 
 /* ---- Preview-experience: recruiting entry card + floating exit pill ---- */
+.m5-navcard{background:linear-gradient(135deg,#132a52,#0e2244);border-radius:16px;padding:20px 22px;margin-top:16px;box-shadow:0 8px 24px rgba(20,35,63,.16)}
+.m5-navtop{display:flex;align-items:center;gap:12px}
+.m5-navchip{width:40px;height:40px;flex:0 0 40px;border-radius:11px;background:rgba(242,198,97,.14);display:inline-flex;align-items:center;justify-content:center;color:var(--m5gold)}
+.m5-navchip svg{width:22px;height:22px}
+.m5-navkick{color:var(--m5gold);font-size:11px;font-weight:800;letter-spacing:.09em;text-transform:uppercase}
+.m5-navtitle{color:#fff;font-size:20px;font-weight:800;line-height:1.2;margin-top:2px}
+.m5-navsub{color:#cdd6e6;font-size:13.5px;line-height:1.6;margin:12px 0 16px}
+.m5-navbtn{display:inline-block;background:var(--m5gold);color:#2a2205;border:none;border-radius:11px;padding:13px 22px;font-size:14.5px;font-weight:800;cursor:pointer;text-decoration:none}
+.m5-navbtn:hover{filter:brightness(1.05)}
+.m5-navjumps{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px;padding-top:13px;border-top:1px solid rgba(255,255,255,.1)}
+.m5-navjlbl{color:#9fb0cc;font-size:12.5px;font-weight:600}
+.m5-navjump{color:#e8eefb;font-size:12.5px;font-weight:700;text-decoration:none;background:rgba(255,255,255,.08);border-radius:8px;padding:6px 11px}
+.m5-navjump:hover{background:rgba(255,255,255,.16)}
 .m5-previewcard{background:linear-gradient(135deg,#132a52,#0e2244);border-radius:16px;padding:20px 22px;margin-top:14px;box-shadow:0 8px 24px rgba(20,35,63,.14)}
 .m5-pvtitle{display:flex;align-items:center;gap:9px;color:#fff;font-size:16px;font-weight:800}
 .m5-pvtitle .m5-pvi{width:22px;height:22px;display:inline-flex;align-items:center;justify-content:center;color:var(--m5gold)}
@@ -3537,6 +3581,7 @@ body.m5-previewing #m5-prelic .m5-signout{visibility:hidden}
 <script>
 (function(){
 var ICO={
+ compass:'<circle cx="12" cy="12" r="9"/><path d="M15.6 8.4 13.9 13.9 8.4 15.6 10.1 10.1z"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/>',
  dash:'<rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/>',
  rocket:'<path d="M12 3c3 2 4.5 6 4.5 9L14 14.5h-4L7.5 12C7.5 9 9 5 12 3z"/><path d="M9.6 14.6C7 15 6 17.5 6 20c2.5 0 5-1 5.4-3.4"/><circle cx="12" cy="9" r="1.4"/>',
  cap:'<path d="M12 4 2.5 8.5 12 13l9.5-4.5L12 4z"/><path d="M6.5 11v4.2c0 1.4 2.7 2.8 5.5 2.8s5.5-1.4 5.5-2.8V11"/><path d="M21.5 8.5v5"/>',
@@ -3593,8 +3638,8 @@ function m5CallIcon(n){n=(n||'').toLowerCase();
  return 'calendar';
 }
 function m5icon(n){var i=ICO[n]||ICO.folder;return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+i+'</svg>';}
-var NAVICO={dashboard:'dash',faststart:'rocket',academy:'cap',sales:'briefcase',systools:'sliders',goalcard:'bars',leads:'funnel',calc:'calc',recruiting:'users',selfdev:'book',resources:'folder',income:'dollar',activity:'phone',agencybuild:'users',health:'heart',virtual:'calendar',inperson:'pin',support:'chat',gethelp:'buoy',kpi:'target',profile:'user'};
-var NAVGOLD={dashboard:1,faststart:1,academy:1,sales:1,calc:1,resources:1,kpi:1};
+var NAVICO={navigator:'compass',dashboard:'dash',faststart:'rocket',academy:'cap',sales:'briefcase',systools:'sliders',goalcard:'bars',leads:'funnel',calc:'calc',recruiting:'users',selfdev:'book',resources:'folder',income:'dollar',activity:'phone',agencybuild:'users',health:'heart',virtual:'calendar',inperson:'pin',support:'chat',gethelp:'buoy',kpi:'target',profile:'user'};
+var NAVGOLD={navigator:1,dashboard:1,faststart:1,academy:1,sales:1,calc:1,resources:1,kpi:1};
 var TITLEICO=[['sales scripts','pen'],['electronic app','laptop'],['carrier portal','shield'],['continuing education','cap'],['presentation material','bars'],['sales presentation','present'],['training video','play'],['guides & pdf','file'],['guides and pdf','file'],['va benefit','award'],['agent compensation','dollar'],['gateway','login'],['the hub','globe'],['crm center','monitor'],['crm login','monitor'],['integrityconnect','shieldc'],['integrity connect','shieldc'],['newsletter','news'],['business card','card'],['fast start playbook','clap'],['objection handling','msg'],['product & carrier','file'],['product and carrier','file'],['presentation walk','present'],['power dialer','phone'],['quoting engine','calc'],['lead order','clip'],['share ffl','mega'],['vbo','present'],['webinar','present'],['enroll a new hire','users'],['recruiting resource','file'],['recruiter playbook','clap'],['talk track','msg'],['why recruit','users'],['recruit','users'],['compensation','dollar'],['register your number','phone'],['more pickups','phone'],['adding other state','award'],['state license','award'],['leaderboard','bars'],['contact for help','headset'],['recordings','clap'],['weekly schedule','calendar'],['agency in goat','users'],['where you buy leads','clip'],['lead strategy','target'],['the winning system','award'],['message your upline','msg'],['ask the optimum','chat'],['message jesse','chat'],['whatsapp','chat'],['reduce spam','phone'],['more pickups','phone'],['other state license','award'],['contact support','headset'],['faq','book'],['submit a ticket','ticket'],['scripts','pen']];
 function icoForTitle(t){t=(t||'').toLowerCase();for(var i=0;i<TITLEICO.length;i++){if(t.indexOf(TITLEICO[i][0])>=0)return TITLEICO[i][1];}return 'folder';}
 var _mo=null;
@@ -4707,6 +4752,27 @@ function m5AgRender(){
   return h;
 }
 
+/* ===== Resources -> Scripts panel ===== */
+var M5_NAV_URL='/script-navigator.html';
+window.m5ScriptsPanel=function(){
+  var jump=[['Veterans','veteran'],['IUL','iul'],['Mortgage Protection','mortgage']].map(function(j){
+    return '<a href="'+M5_NAV_URL+'?script='+j[1]+'" target="_blank" rel="noopener" class="m5-navjump">'+j[0]+'</a>';
+  }).join('');
+  var hero='<div class="m5-navcard">'+
+    '<div class="m5-navtop"><span class="m5-navchip" data-ico="compass"></span>'+
+      '<div><div class="m5-navkick">New &middot; use this on live calls</div>'+
+      '<div class="m5-navtitle">Insurance Script Navigator</div></div></div>'+
+    '<p class="m5-navsub">Navigate the conversation instead of scrolling a document. Every card asks what the client just said, you tap the answer, and it takes you straight to the right next line &mdash; objections, health flags, VA benefits and coverage math right where you need them. Veterans, IUL and Mortgage Protection, card by card.</p>'+
+    '<a class="m5-navbtn" href="'+M5_NAV_URL+'" target="_blank" rel="noopener">Open the Script Navigator &#8599;</a>'+
+    '<div class="m5-navjumps"><span class="m5-navjlbl">Jump straight in:</span>'+jump+'</div>'+
+  '</div>';
+  var rows=(typeof SCRIPTS_L!=='undefined')?SCRIPTS_L:[];
+  var legacy=(typeof listPanel==='function')
+    ? listPanel('&#128196; Legacy scripts','The original documents &mdash; full text, for reading, printing, or the two inbound scripts the navigator does not cover yet.',rows)
+    : '';
+  return hero+legacy;
+};
+
 /* ===== Resources / Sales Tools search ===== */
 function m5sEsc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'})[c];});}
 function m5sHi(s,q){ s=m5sEsc(s); if(!q) return s; var i=s.toLowerCase().indexOf(q.toLowerCase()); if(i<0) return s; return s.slice(0,i)+'<mark>'+s.slice(i,i+q.length)+'</mark>'+s.slice(i+q.length); }
@@ -4729,6 +4795,10 @@ function m5sIndex(scope){
     if(typeof RES_TILES==='undefined') return out;
     RES_TILES.forEach(function(t){
       if(t.link){ push(t.i,t.t,t.s,t.t,m5sAct(t.link)); return; }
+      if(t.k==='scripts'){
+        push('🧭','Insurance Script Navigator','Card-by-card decision tree for Veterans, IUL and Mortgage Protection calls — objections, health flags, coverage math.','Scripts',"window.open('/script-navigator.html','_blank')");
+        push('🧭','Objection handling — Script Navigator','Every objection answered in line, right where it comes up on the call.','Scripts',"window.open('/script-navigator.html','_blank')");
+      }
       var rows = (t.reuse==='scripts' && typeof SCRIPTS_L!=='undefined') ? SCRIPTS_L : (t.items||[]);
       if(rows.length){
         rows.forEach(function(r){ push(t.i,r[0],r[1],t.t, r[2]?m5sAct(r[2]):"window.m5sOpenRes('"+t.k+"')"); });
