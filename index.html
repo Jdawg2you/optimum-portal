@@ -743,7 +743,7 @@ const BOOKS=[
 const RES_TILES=[
   {k:'tools',i:'🛠️',t:'Tools of the Trade',s:'Gear we recommend',blurb:'Optional gear that makes the work a little easier — heads up, these are affiliate links.',items:[['🎧 The headset we recommend','Comfortable for all-day calls, with clear sound.','https://www.amazon.com/dp/B0GFDWXFJW?tag=mobile0329694-20&language=en_US&linkCode=ll1&ref_=as_li_ss_tl'],['📝 For digital note-taking — reMarkable Paper Pro','A paper-feel tablet for taking your notes digitally.','https://www.amazon.com/dp/B0DG9ZXWMK?lv=shuf&linkCode=sl1&crid=1C570375D9X8Q&keywords=remarkable%2Bpaper%2Bpro&sprefix=remark%2Caps%2C190&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&language=en_US&qid=1761140595&linkId=7b46ba1410178bb2a5d2ea40c09ae1d5&th=1&dib_tag=se&tag=mobile0329694-20&dib=eyJ2IjoiMSJ9.gwSm-x5XVBwX2dG3_mZJ_lNktTj3Fig_HY9qrK6Rt3ip51AO5-qWBq5FMT1L5cvCs8keialxJL-HKZnxKmPcgJWl8u7daWueVIxv_W0fm2rYZb0ztpSmqCjoBBpbZ1NUteWHl30LhgzY4R1oyHug1Jk2CmPvA7H8y7rqt09pjapbzjzi9ov51OHSnvZ38RQMklrUJYxTrYjkQY5N2fZRvCNPeOwtm7jwjptL-kJU4E8.aYddnm15EfStAg8zARN16vxortHjkZ-HnnG_g1QZdc8&sr=8-1-spons&channelId=500&ref_=as_li_ss_tl&plpRedirect=mhFallback']]},
   {k:'payments',i:'💳',t:'Who takes Direct Express / Chime / Cash App?',s:'Carriers by payment method',items:[]},
-  {k:'products',i:'📚',t:'Product Playbooks',s:'IUL · Mortgage Protection · Annuities',items:[]},
+  {k:'products',i:'📚',t:'Product Training',s:'IUL · Mortgage Protection · Annuities',items:[]},
   {k:'scripts',i:'📝',t:'Scripts',s:'Script Navigator + legacy scripts',reuse:'scripts'},
   {k:'cheats',i:'🎯',t:'Objection & Sales Cheat Sheets',s:'Opening/closing objections + policy benefits',items:[['Opening Objections Cheat Sheet','The first 30 seconds — the 7 script objections + word tracks.','https://portal.ffloptimum.com/opening-objections.html'],['Closing Objections Cheat Sheet','The money stalls and how to re-close.','https://portal.ffloptimum.com/closing-objections.html'],['Policy Benefits — Plain-English Guide','Term vs. Whole Life vs. IUL — general education.','https://portal.ffloptimum.com/policy-benefits.html']]},
   {k:'guides',i:'📄',t:'Guides & PDFs',s:'Cleared to Dial checklist, Client Profile, IUL Tree',items:[['Cleared to Dial — New-Agent Checklist','Everything you need before your first call','https://portal.ffloptimum.com/cleared-to-dial-checklist.pdf'],['New Client Profile Sheet','','https://drive.google.com/file/d/1VV0XqZdnn-quJ91uGWRY7QjPSyvKvsYh/view'],['IUL Decision Tree','','https://drive.google.com/file/d/157kcSaRkBH5bR37ZiRPgM5ypCgr0sKNR/view'],['Register your phone number to reduce spam','Step-by-step guide.','https://docs.google.com/document/d/1Wu5M_mymae8s7S7SO-KrL3pWePNrRj6WjtERPUPWC0s/edit?tab=t.0'],['How to add other state licenses','Loom walkthrough.','https://www.loom.com/share/5c9253a5d2ef4f3c82079d0c75bc4a2c?sid=45c3dbb0-54ff-4863-924e-6673bb070527'],['Emoji Leaderboard How-To','','https://docs.google.com/document/d/1rl5YRBlO0d2yrt93Vig2Wmc02wWkipqe0c40N48BOpE/edit']]},
@@ -752,7 +752,7 @@ const RES_TILES=[
   {k:'news',i:'📰',t:'FFL Newsletter',s:'Sign up for FFL News',link:'https://lp.constantcontactpages.com/sl/VdEIHGR'},
   {k:'retention',i:'🔁',t:'Client Retention/Service',s:'Copy-paste client touchpoints'},
   {k:'legacy',i:'🛡️',t:'Legacy Safeguard',s:'Free end-of-life planning you offer clients'},
-  {k:'carriers',i:'🏢',t:'Carrier Portals',s:'Portals, training, guides & e-apps'},
+  {k:'carriers',i:'🏢',t:'Carrier Portals & Info',s:'Portals, training, guides & e-apps'},
   {k:'ce',i:'🎓',t:'Continuing Education',s:'CE & compliance'},
   {k:'pres',i:'📊',t:'Presentation Materials',s:'Illustrations, needs analysis'},
   {k:'bizcard',i:'🪪',t:'Static Digital Business Card',s:'Your branded card — make a copy & customize',link:'https://docs.google.com/document/d/1hTh9hUB7vrHNSYmWTYxlNP5K6dz4hqghrRXc3AFM7dU/edit?usp=sharing'}
@@ -3074,6 +3074,9 @@ nav.side{padding:9px 10px}
 .tool::after{content:"\2192";position:absolute;right:14px;bottom:12px;width:27px;height:27px;border-radius:50%;background:#f5f8fc;border:1px solid var(--line);color:#c19a24;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
 
 /* ---- Launchpad rows (Systems/Tools, Get Help, Training Library) ---- */
+.m5-plist{display:flex;flex-direction:column;gap:8px;max-width:none}
+.m5-plist .m5-row{text-decoration:none}
+.m5-plist .m5-row .rl,.m5-plist .m5-row .rd{text-decoration:none}
 .m5-row{padding:14px 16px!important;border-radius:14px!important;gap:14px;align-items:center}
 .m5-row .ri{width:46px;height:46px;flex-shrink:0}
 .m5-row .ri.m5-chip{border-radius:12px;background:linear-gradient(150deg,#17294c,#101f3c);color:var(--m5gold);display:flex;align-items:center;justify-content:center;font-size:0;box-shadow:inset 0 0 0 1px rgba(232,183,58,.20)}
@@ -3174,8 +3177,8 @@ nav.side{padding:9px 10px}
 .m5-exchip{width:46px;height:46px;flex-shrink:0;border-radius:12px;background:linear-gradient(150deg,#17294c,#101f3c);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 1px rgba(232,183,58,.20)}
 .m5-exchip svg{width:22px;height:22px;color:var(--m5gold)}
 .m5-extext{flex:1;min-width:0}
-.m5-exname{font-size:14.5px;font-weight:700;color:#16233f}
-.m5-exsub{font-size:12px;color:#8a93a5;margin-top:2px}
+.m5-exname{display:block;font-size:14.5px;font-weight:700;color:#16233f}
+.m5-exsub{display:block;font-size:12px;color:#8a93a5;margin-top:2px}
 .m5-exchev{color:#b6c0d1;font-size:20px;flex-shrink:0;transition:transform .18s}
 .m5-expand.open .m5-exchev{transform:rotate(90deg)}
 .m5-exbody{display:none;padding:4px 18px 18px;border-top:1px solid var(--line)}
@@ -3640,7 +3643,7 @@ function m5CallIcon(n){n=(n||'').toLowerCase();
 function m5icon(n){var i=ICO[n]||ICO.folder;return '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+i+'</svg>';}
 var NAVICO={navigator:'compass',dashboard:'dash',faststart:'rocket',academy:'cap',sales:'briefcase',systools:'sliders',goalcard:'bars',leads:'funnel',calc:'calc',recruiting:'users',selfdev:'book',resources:'folder',income:'dollar',activity:'phone',agencybuild:'users',health:'heart',virtual:'calendar',inperson:'pin',support:'chat',gethelp:'buoy',kpi:'target',profile:'user'};
 var NAVGOLD={navigator:1,dashboard:1,faststart:1,academy:1,sales:1,calc:1,resources:1,kpi:1};
-var TITLEICO=[['sales scripts','pen'],['electronic app','laptop'],['carrier portal','shield'],['continuing education','cap'],['presentation material','bars'],['sales presentation','present'],['training video','play'],['guides & pdf','file'],['guides and pdf','file'],['va benefit','award'],['agent compensation','dollar'],['gateway','login'],['the hub','globe'],['crm center','monitor'],['crm login','monitor'],['integrityconnect','shieldc'],['integrity connect','shieldc'],['newsletter','news'],['business card','card'],['fast start playbook','clap'],['objection handling','msg'],['product & carrier','file'],['product and carrier','file'],['presentation walk','present'],['power dialer','phone'],['quoting engine','calc'],['lead order','clip'],['share ffl','mega'],['vbo','present'],['webinar','present'],['enroll a new hire','users'],['recruiting resource','file'],['recruiter playbook','clap'],['talk track','msg'],['why recruit','users'],['recruit','users'],['compensation','dollar'],['register your number','phone'],['more pickups','phone'],['adding other state','award'],['state license','award'],['leaderboard','bars'],['contact for help','headset'],['recordings','clap'],['weekly schedule','calendar'],['agency in goat','users'],['where you buy leads','clip'],['lead strategy','target'],['the winning system','award'],['message your upline','msg'],['ask the optimum','chat'],['message jesse','chat'],['whatsapp','chat'],['reduce spam','phone'],['more pickups','phone'],['other state license','award'],['contact support','headset'],['faq','book'],['submit a ticket','ticket'],['scripts','pen']];
+var TITLEICO=[['sales scripts','pen'],['electronic app','laptop'],['carrier portal','shield'],['continuing education','cap'],['presentation material','bars'],['sales presentation','present'],['training video','play'],['guides & pdf','file'],['guides and pdf','file'],['va benefit','award'],['agent compensation','dollar'],['gateway','login'],['the hub','globe'],['crm center','monitor'],['crm login','monitor'],['integrityconnect','shieldc'],['integrity connect','shieldc'],['newsletter','news'],['business card','card'],['fast start playbook','clap'],['objection handling','msg'],['product & carrier','file'],['product and carrier','file'],['presentation walk','present'],['power dialer','phone'],['quoting engine','calc'],['lead order','clip'],['share ffl','mega'],['vbo','present'],['webinar','present'],['enroll a new hire','users'],['recruiting resource','file'],['recruiter playbook','clap'],['talk track','msg'],['why recruit','users'],['recruit','users'],['compensation','dollar'],['register your number','phone'],['more pickups','phone'],['adding other state','award'],['state license','award'],['leaderboard','bars'],['contact for help','headset'],['recordings','clap'],['weekly schedule','calendar'],['agency in goat','users'],['where you buy leads','clip'],['lead strategy','target'],['the winning system','award'],['message your upline','msg'],['ask the optimum','chat'],['message jesse','chat'],['whatsapp','chat'],['reduce spam','phone'],['more pickups','phone'],['other state license','award'],['contact support','headset'],['faq','book'],['submit a ticket','ticket'],['scripts','pen'],['audiobook','headset'],['money, wealth','book'],['illustration','bars'],['decision tree','compass'],['explainer video','play'],['overview','play'],['youtube','play'],['script','pen'],['annuit','dollar'],['mortgage protection','shield'],['iul','bars']];
 function icoForTitle(t){t=(t||'').toLowerCase();for(var i=0;i<TITLEICO.length;i++){if(t.indexOf(TITLEICO[i][0])>=0)return TITLEICO[i][1];}return 'folder';}
 var _mo=null;
 function m5Reskin(){
@@ -4394,14 +4397,21 @@ window.m5PaymentsPanel=function(){
     + grp('Chime / Cash App', ['American Amicable','Transamerica','Instabrain','Aflac','Aetna','Ethos'])
     + '</div>';
 };
-/* Resources: Product Playbooks — IUL, Mortgage Protection, Annuities */
+/* Resources: Product Training — one collapsible bucket per product line */
 window.m5ProductPanel=function(){
   function lk(l,d,url){ return '<a class="m5-row" href="'+url+'" target="_blank" rel="noopener"><span class="ri"></span><span class="m5-rtext"><span class="rl">'+l+'</span>'+(d?'<span class="rd">'+d+'</span>':'')+'</span><span class="ra">↗</span></a>'; }
-  function sh(t){ return '<div style="font-size:11.5px;font-weight:800;color:#a9861d;text-transform:uppercase;letter-spacing:.04em;margin:14px 0 6px 2px">'+t+'</div>'; }
+  function sh(t){ return '<div style="font-size:11.5px;font-weight:800;color:#a9861d;text-transform:uppercase;letter-spacing:.04em;margin:16px 0 6px 2px">'+t+'</div>'; }
   function nt(html){ return '<div style="font-size:12.5px;color:#55617d;line-height:1.55;margin:6px 0;padding:10px 12px;background:#f7f9fc;border-left:3px solid #dbe3f0;border-radius:8px">'+html+'</div>'; }
-  function sec(icon,title,inner){ return '<div class="m5-seclabel" style="margin-top:24px">'+icon+' '+title+'</div><div class="m5-list">'+inner+'</div>'; }
+  function bucket(id,ico,name,sub,inner,open){
+    return '<div class="m5-expand'+(open?' open':'')+'" id="m5-prod-'+id+'">'+
+      '<div class="m5-exhead" onclick="m5ToggleExpand(this)"><span class="m5-exchip" data-ico="'+ico+'"></span>'+
+        '<span class="m5-extext"><span class="m5-exname">'+name+'</span><span class="m5-exsub">'+sub+'</span></span>'+
+        '<span class="m5-exchev">›</span></div>'+
+      '<div class="m5-exbody"><div class="m5-list m5-plist">'+inner+'</div></div></div>';
+  }
   var MAIL='<a href="mailto:Support@fflnational.com">Support@fflnational.com</a>';
   var CC='<a href="mailto:wealthbuildersgroupllc@gmail.com">wealthbuildersgroupllc@gmail.com</a>';
+
   var iul=''
     + lk('IUL Explainer Video (Optimum-branded)','','https://youtu.be/fKs0Lho_Sb0')
     + lk('Epic IUL Overview — Dan','One of the best IUL educators — great overview plus a deeper dive.','https://www.youtube.com/watch?v=Ik1_Q0iicxU')
@@ -4417,25 +4427,24 @@ window.m5ProductPanel=function(){
     + lk('Max DB — Focus Flex Life illustration','','https://www.loom.com/share/8385237c46e14910b1ff9b47f11a85bc')
     + lk('Minimum DB / Max Cash — Flex Life illustration','','https://www.loom.com/share/b90a23619484438f84e4fa438112f3a5')
     + lk('General NLG Basic Illustration','','https://drive.google.com/file/d/1cWqnw1-ZfQdROqDr3RgrVY6-Z090kZK6/view?usp=sharing')
-    + sh('Carrier sites &amp; training')
-    + lk('Transamerica IUL site','','https://www.transamerica.com/ffiul2-express?SubscriberID=45173604&MID=523010189&SubscriberKey=0033s000012jEC3AAM&BatchID=1&DataSource=ANTY_TSIA_Wells_Fargo_RBC_NY-June25')
-    + lk('SRS (Simplified Retirement Solutions) — all recordings','','https://www.youtube.com/playlist?list=PLsM9LUd7nnb5m-i5JycNwMpsxb--UfHt5')
-    + lk('Americo IUL training site','','https://americoiul.com/');
-  var book=''
+    + sh('Recommended reading')
     + lk('Money, Wealth, Life Insurance — PDF','Read it, listen to it, and send it to clients.','https://drive.google.com/file/d/15PzFArtvvAIGaiVeyjZvCDKRAlj9ETpS/view?usp=sharing')
     + lk('Money, Wealth, Life Insurance — Audiobook','','https://drive.google.com/file/d/1q1W-3EK197gpOFJn9l8VX-bxjShUzUKx/view?usp=sharing');
+
   var mp=''
     + lk('Quintessential MP Overview — John Wetmore','','https://www.youtube.com/watch?v=egJ-vjY1vnw')
     + lk('Mortgage Protection Script','','https://docs.google.com/document/d/1A1Ne23k4X-FdGi99Ks_LMmh0wj1MVWaqDZNVK0u6xi0/edit?tab=t.0');
+
   var ann=''
     + lk('Learn Annuities from the GOAT','Integrity Annuity Training Program.','https://integrityannuitytrainingprogram.com/')
     + sh('Contracting')
     + nt('<b>Athene (our main FIA carrier):</b> email '+MAIL+' and CC '+CC+', and ask to contract with Athene.');
-  return '<div class="listcard" style="margin-top:16px"><h3>📚 Product Playbooks</h3><div class="lc-sub">Everything by product — training, scripts, illustrations, and contracting steps.</div>'
-    + sec('📈','IUL', iul)
-    + sec('📖','Recommended read — Money, Wealth, Life Insurance', book)
-    + sec('🏠','Mortgage Protection', mp)
-    + sec('💰','Annuities', ann)
+
+  return '<div class="listcard" style="margin-top:16px"><h3>📚 Product Training</h3>'
+    + '<div class="lc-sub">Pick a product line — training, scripts, illustrations, reading and contracting steps for each. Carrier sites and portals live under <b>Carrier Portals &amp; Info</b>.</div>'
+    + bucket('iul','bars','IUL','Explainers, script, decision tree, NLG illustrations, contracting &amp; the book.',iul,true)
+    + bucket('mp','shield','Mortgage Protection','The overview video and the MP script.',mp,false)
+    + bucket('ann','dollar','Annuities','Integrity annuity training and how to contract with Athene.',ann,false)
     + '</div>';
 };
 window.m5Ag={loaded:false,err:'',agents:[],popularity:{},filter:'all',sortKey:'joined',sortDir:-1,q:'',refreshing:false,lastSync:0};
@@ -4805,6 +4814,13 @@ function m5sIndex(scope){
         push(t.i,t.t,t.s,t.t,"window.m5sOpenRes('"+t.k+"')"); // section itself
       } else {
         push(t.i,t.t,t.s,t.t,"window.m5sOpenRes('"+t.k+"')"); // panel-only sections (videos, payments, products)
+        if(t.k==='products'){
+          [['IUL','Explainers, script, decision tree, NLG illustrations, contracting and the book.'],
+           ['Mortgage Protection','The MP overview video and the MP script.'],
+           ['Annuities','Integrity annuity training and how to contract with Athene.']].forEach(function(r){
+            push(t.i,r[0],r[1],'Product Training',"window.m5sOpenRes('products')");
+          });
+        }
       }
     });
   } else if(scope==='selfdev'){
