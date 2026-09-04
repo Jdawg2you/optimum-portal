@@ -813,7 +813,7 @@ const NAV=[
   {v:'selfdev',ic:'📚',t:'Self Development'},
   {v:'resources',ic:'📁',t:'Resources'},
   {g:'Sell'},
-  {v:'navigator',ic:'🧭',t:'Script Navigator',url:'/script-navigator.html'},
+  {v:'navigator',ic:'🧭',t:'Script Navigator',url:'https://script.ffloptimum.com/'},
   {v:'income',ic:'💵',t:'Income Calculator'},
   {v:'activity',ic:'📞',t:'Activity Planner'},
   {v:'agencybuild',ic:'👥',t:'Agency Builder'},
@@ -1889,7 +1889,7 @@ const ACAD_LMS=[
      {
       "label": "Insurance Script Navigator — the VET call, card by card",
       "type": "link",
-      "url": "https://portal.ffloptimum.com/script-navigator.html?script=veteran"
+      "url": "https://script.ffloptimum.com/?script=veteran"
      }
     ],
     "keyTakeaways": [
@@ -1923,7 +1923,7 @@ const ACAD_LMS=[
      {
       "label": "Insurance Script Navigator — the VET call, card by card",
       "type": "link",
-      "url": "https://portal.ffloptimum.com/script-navigator.html?script=veteran"
+      "url": "https://script.ffloptimum.com/?script=veteran"
      }
     ],
     "keyTakeaways": [
@@ -1954,7 +1954,7 @@ const ACAD_LMS=[
      {
       "label": "Insurance Script Navigator — the VET call, card by card",
       "type": "link",
-      "url": "https://portal.ffloptimum.com/script-navigator.html?script=veteran"
+      "url": "https://script.ffloptimum.com/?script=veteran"
      },
      {
       "label": "Opening Objections Cheat Sheet",
@@ -1993,7 +1993,7 @@ const ACAD_LMS=[
      {
       "label": "Insurance Script Navigator — the VET call, card by card",
       "type": "link",
-      "url": "https://portal.ffloptimum.com/script-navigator.html?script=veteran"
+      "url": "https://script.ffloptimum.com/?script=veteran"
      }
     ],
     "keyTakeaways": [
@@ -2025,7 +2025,7 @@ const ACAD_LMS=[
      {
       "label": "Insurance Script Navigator — the VET call, card by card",
       "type": "link",
-      "url": "https://portal.ffloptimum.com/script-navigator.html?script=veteran"
+      "url": "https://script.ffloptimum.com/?script=veteran"
      }
     ],
     "keyTakeaways": [
@@ -2054,7 +2054,7 @@ const ACAD_LMS=[
      {
       "label": "Insurance Script Navigator — the VET call, card by card",
       "type": "link",
-      "url": "https://portal.ffloptimum.com/script-navigator.html?script=veteran"
+      "url": "https://script.ffloptimum.com/?script=veteran"
      }
     ],
     "keyTakeaways": [
@@ -4761,7 +4761,7 @@ function m5AgRender(){
 }
 
 /* ===== Resources -> Scripts panel ===== */
-var M5_NAV_URL='/script-navigator.html';
+var M5_NAV_URL='https://script.ffloptimum.com/';
 window.m5ScriptsPanel=function(){
   var jump=[['Veterans','veteran'],['IUL','iul'],['Mortgage Protection','mortgage']].map(function(j){
     return '<a href="'+M5_NAV_URL+'?script='+j[1]+'" target="_blank" rel="noopener" class="m5-navjump">'+j[0]+'</a>';
@@ -4804,8 +4804,8 @@ function m5sIndex(scope){
     RES_TILES.forEach(function(t){
       if(t.link){ push(t.i,t.t,t.s,t.t,m5sAct(t.link)); return; }
       if(t.k==='scripts'){
-        push('🧭','Insurance Script Navigator','Card-by-card decision tree for Veterans, IUL and Mortgage Protection calls — objections, health flags, coverage math.','Scripts',"window.open('/script-navigator.html','_blank')");
-        push('🧭','Objection handling — Script Navigator','Every objection answered in line, right where it comes up on the call.','Scripts',"window.open('/script-navigator.html','_blank')");
+        push('🧭','Insurance Script Navigator','Card-by-card decision tree for Veterans, IUL and Mortgage Protection calls — objections, health flags, coverage math.','Scripts',"window.open('https://script.ffloptimum.com/','_blank')");
+        push('🧭','Objection handling — Script Navigator','Every objection answered in line, right where it comes up on the call.','Scripts',"window.open('https://script.ffloptimum.com/','_blank')");
       }
       var rows = (t.reuse==='scripts' && typeof SCRIPTS_L!=='undefined') ? SCRIPTS_L : (t.items||[]);
       if(rows.length){
