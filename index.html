@@ -181,6 +181,42 @@
     .respanel{padding:0 12px 12px 22px}
     .rescount{display:none}
   }
+  /* ---- Training videos: topic re-cut of the Academy library ---- */
+  .tvintro{font-size:13px;color:var(--ink-soft);line-height:1.5;margin:12px 0 10px}
+  .tvlist{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+  .tvtopic{border-bottom:1px solid #eef2f8}
+  .tvlist .tvtopic:last-child{border-bottom:0}
+  .tvhead{width:100%;appearance:none;background:transparent;border:0;font:inherit;color:inherit;cursor:pointer;display:flex;align-items:center;gap:11px;padding:12px 14px;text-align:left}
+  .tvhead:hover{background:#f7f9fd}
+  .tvhead:focus-visible{outline:2px solid var(--brand);outline-offset:-2px}
+  .tvnum{flex:0 0 auto;width:24px;height:24px;border-radius:50%;background:var(--bg);border:1px solid var(--line);color:var(--ink-soft);font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center}
+  .tvtopic.open .tvnum{background:var(--gold);border-color:var(--gold);color:#3d2c05}
+  .tvt{flex:1 1 auto;min-width:0;display:block}
+  .tvtt{display:block;font-size:14.5px;font-weight:700;line-height:1.3;color:var(--ink)}
+  .tvts{display:block;font-size:12.5px;color:var(--ink-soft);margin-top:2px;line-height:1.4}
+  .tvmeta{flex:0 0 auto;display:flex;align-items:center;gap:9px;color:var(--ink-soft)}
+  .tvn{font-size:11.5px;font-weight:700;background:var(--bg);border:1px solid var(--line);border-radius:999px;padding:3px 9px;white-space:nowrap}
+  .tvchev{font-size:11px;display:inline-block;transition:transform .16s}
+  .tvtopic.open .tvchev{transform:rotate(90deg);color:var(--gold-deep)}
+  .tvbody{padding:0 14px 14px;background:#fbfcff;border-top:1px solid #eef2f8}
+  .tvgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:15px;margin-top:13px}
+  .tvcard{min-width:0}
+  .tvthumb{position:relative;width:100%;padding:0;appearance:none;display:block;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#0c1c38 center/cover no-repeat;cursor:pointer;border:1px solid var(--line)}
+  .tvthumb::before{content:'';position:absolute;inset:0;background:rgba(8,16,32,.34)}
+  .tvplay{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:46px;height:46px;border-radius:50%;background:#ff0000;color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;padding-left:3px;box-shadow:0 6px 18px rgba(0,0,0,.45);transition:.15s}
+  .tvthumb:hover .tvplay{transform:translate(-50%,-50%) scale(1.08)}
+  .tvframe{position:relative;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:#000;border:1px solid var(--line)}
+  .tvframe iframe{width:100%;height:100%;border:0;display:block}
+  .tvname{display:block;font-size:13px;font-weight:700;line-height:1.35;margin-top:8px;color:var(--ink)}
+  .tvsec{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.04em;color:var(--gold-deep);background:#fdf6e6;border:1px solid #f0e0b8;border-radius:5px;padding:1px 5px;margin-right:6px;vertical-align:1px}
+  .tvfull{display:inline-block;font-size:12px;font-weight:600;color:var(--brand);cursor:pointer;margin-top:4px}
+  .tvfull:hover{text-decoration:underline}
+  @media(max-width:760px){
+    .tvhead{padding:12px 11px;gap:9px}
+    .tvbody{padding:0 11px 12px}
+    .tvn{padding:2px 7px;font-size:11px}
+    .tvgrid{grid-template-columns:1fr;gap:16px}
+  }
   .cc{background:#fff;border:1px solid var(--line);border-radius:13px;box-shadow:var(--shadow);overflow:hidden;cursor:pointer;transition:.15s}
   .cc:hover{transform:translateY(-2px);border-color:var(--brand)} .cc.open{border-color:var(--brand)}
   .cc .thumb{height:92px;display:flex;align-items:center;justify-content:center;font-size:32px;color:#fff}
@@ -770,13 +806,14 @@ const BOOKS=[
 /* Resources grouping — order here is the order on the page.
    Any tile key not listed still shows, under "More". */
 const RES_GROUPS=[
-  {g:'Before the call', keys:['scripts','products','cheats','pres']},
+  {g:'Before the call', keys:['training','scripts','products','cheats','pres']},
   {g:'On the call',     keys:['payments','carriers','va']},
   {g:'After the sale',  keys:['retention','legacy']},
   {g:'Getting set up',  keys:['cleared','bizcard','tools','guides']},
   {g:'Your business',   keys:['comp','ce','news']}
 ];
 const RES_TILES=[
+  {k:'training',i:'\U0001F3AC',t:'Training Videos',s:'The whole library, grouped by topic',items:[]},
   {k:'tools',i:'🛠️',t:'Tools of the Trade',s:'Gear we recommend',blurb:'Optional gear that makes the work a little easier — heads up, these are affiliate links.',items:[['🎧 The headset we recommend','Comfortable for all-day calls, with clear sound.','https://www.amazon.com/dp/B0GFDWXFJW?tag=mobile0329694-20&language=en_US&linkCode=ll1&ref_=as_li_ss_tl'],['📝 For digital note-taking — reMarkable Paper Pro','A paper-feel tablet for taking your notes digitally.','https://www.amazon.com/dp/B0DG9ZXWMK?lv=shuf&linkCode=sl1&crid=1C570375D9X8Q&keywords=remarkable%2Bpaper%2Bpro&sprefix=remark%2Caps%2C190&sp_csd=d2lkZ2V0TmFtZT1zcF9hdGY&language=en_US&qid=1761140595&linkId=7b46ba1410178bb2a5d2ea40c09ae1d5&th=1&dib_tag=se&tag=mobile0329694-20&dib=eyJ2IjoiMSJ9.gwSm-x5XVBwX2dG3_mZJ_lNktTj3Fig_HY9qrK6Rt3ip51AO5-qWBq5FMT1L5cvCs8keialxJL-HKZnxKmPcgJWl8u7daWueVIxv_W0fm2rYZb0ztpSmqCjoBBpbZ1NUteWHl30LhgzY4R1oyHug1Jk2CmPvA7H8y7rqt09pjapbzjzi9ov51OHSnvZ38RQMklrUJYxTrYjkQY5N2fZRvCNPeOwtm7jwjptL-kJU4E8.aYddnm15EfStAg8zARN16vxortHjkZ-HnnG_g1QZdc8&sr=8-1-spons&channelId=500&ref_=as_li_ss_tl&plpRedirect=mhFallback']]},
   {k:'payments',i:'💳',t:'Who takes Direct Express / Chime / Cash App?',s:'Carriers by payment method',items:[]},
   {k:'products',i:'📚',t:'Product Training',s:'IUL · Mortgage Protection · Annuities',items:[]},
@@ -1107,6 +1144,84 @@ function vSelfDev(){return `<h1 class="page">Self Development</h1><p class="sub"
   <div class="listcard"><h3>📚 Books to Read</h3>${BOOKS.map(b=>`<div class="bookcard"><div class="bookcover">${m5BookCover(b.t)}</div><div class="bookinfo"><div class="booktitle">${b.t}${b.by?` <span style="font-weight:500;color:var(--ink-soft)">· ${b.by}</span>`:''}</div><div class="bookblurb">${b.blurb}</div><div class="bookbtns">${b.pdf?`<button class="openbtn" onclick="window.open('${b.pdf}','_blank')">PDF &amp; ePub</button>`:''}${b.wb?`<button class="openbtn" onclick="window.open('${b.wb}','_blank')">PDF Workbook</button>`:''}<button class="openbtn" onclick="toast('Opening Amazon…')">Amazon</button></div></div></div>`).join('')}</div>
   ${listCard('🎧 Things to Listen To','',[['Jim Rohn — Building Your Network Marketing Business',''],['Charisma on Command (YouTube)','']])}
   ${listCard('🛠️ Tools We Use','',[['Remarkable Tablet','Client notes'],['Quality Headset','Affordable']])}`;}
+/* ---- Training videos ------------------------------------------------------
+   A topic re-cut of the same lesson videos that live in the Academy. Nothing is
+   duplicated: titles, posters and video URLs are read out of ACAD_LMS at render
+   time, so this library can never drift from the course. Each entry is
+   [moduleId, lessonId]; "Full lesson" jumps to the real lesson page. ---------*/
+const TRAIN_TOPICS=[
+  {t:'Start here & set up',s:'Day one',b:'What this training is, and the handful of things to get in place before you take your first call.',
+   v:[['start-here','0-0'],['setup','1-3']]},
+  {t:'Mindset & the real job',s:'What the work actually is',b:'The expectations talk, the math behind the business, and why results are a skill issue long before they are a lead issue.',
+   v:[['foundation','0-1'],['foundation','0-2'],['boot-camp-inner-game','2-1'],['boot-camp-inner-game','2-2-2'],['boot-camp-inner-game','2-3']]},
+  {t:'What you are selling',s:'Product, in plain English',b:'Enough product to speak to anything a veteran or their spouse puts in front of you \u2014 without turning the call into a lecture.',
+   v:[['boot-camp-inner-game','2-2'],['boot-camp-inner-game','2-2-1']]},
+  {t:'The call, start to finish',s:'The VET script, section by section',b:'The whole call broken into the pieces it is actually made of. Watch one before the part of the call you keep losing.',
+   v:[['boot-camp-vet-script','2-4-0'],['boot-camp-vet-script','2-4-1'],['boot-camp-vet-script','2-4-2'],['boot-camp-vet-script','2-4-3'],['boot-camp-vet-script','2-4-4'],['boot-camp-vet-script','2-4-5'],['boot-camp-vet-script','2-5-1'],['boot-camp-vet-script','2-5-2'],['boot-camp-vet-script','2-5-3'],['boot-camp-vet-script','2-5-4'],['boot-camp-vet-script','2-6-1'],['boot-camp-vet-script','2-6-2'],['boot-camp-vet-script','2-6-3'],['boot-camp-vet-script','2-6-4'],['boot-camp-vet-script','2-6-5']]},
+  {t:'Overcoming objections',s:'Stalls, spouses and money',b:'The deeper game behind an objection, then the drills for the ones that actually cost you the sale.',
+   v:[['deep-dive-objections','2-7-1'],['deep-dive-objections','2-7-2'],['deep-dive-objections','2-7-3']]},
+  {t:'How you get paid',s:'Advances, chargebacks, raises',b:'Where the money comes from, what claws it back, and the one lever that raises your rate.',
+   v:[['how-we-get-paid','gp-1'],['how-we-get-paid','gp-2'],['how-we-get-paid','gp-3']]},
+  {t:'Your daily machine',s:'Building the week',b:'The schedule, the standard to hold yourself to, and the referral habit that compounds on top of both.',
+   v:[['daily-machine','4-1'],['daily-machine','4-2'],['daily-machine','4-4']]},
+  {t:'Going live the right way',s:'Shadowing & compliance',b:'How the release ladder works, and the lines you never cross once you are on your own.',
+   v:[['shadow-go-live','3-1'],['compliance-ethics','ce-1']]}
+];
+let trainOpen=null;
+function trainLes(a){
+  if(typeof ACAD_LMS==='undefined')return null;
+  var m=ACAD_LMS.find(function(x){return x.id===a[0];}); if(!m)return null;
+  var l=m.lessons.find(function(x){return x.id===a[1];}); if(!l||!l.videoEmbedUrl)return null;
+  return {mod:m,les:l};
+}
+function trainAll(){var o=[];TRAIN_TOPICS.forEach(function(T){T.v.forEach(function(a){if(trainLes(a))o.push(a);});});return o;}
+function trainYt(u){var m=(u||'').match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|shorts\/|embed\/))([\w-]+)/);return m?m[1]:'';}
+function trainPlay(vid,slot){
+  var el=document.getElementById(slot); if(!el||!vid)return;
+  el.outerHTML='<div class="tvframe"><iframe src="https://www.youtube-nocookie.com/embed/'+vid+'?autoplay=1&rel=0" title="Training video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>';
+}
+function trainCard(a,ti,vi){
+  var x=trainLes(a); if(!x)return '';
+  var vid=trainYt(x.les.videoEmbedUrl);
+  var slot='tvslot_'+ti+'_'+vi;
+  var pos=x.les.poster||(vid?('https://i.ytimg.com/vi/'+vid+'/hqdefault.jpg'):'');
+  var st=pos?(' style="background-image:url(&#39;'+pos+'&#39;)"'):'';
+  var name=x.les.title, sec='';
+  var m=name.match(/\s*\(VET script (\u00a7\d+)\)\s*$/);
+  if(m){sec='<span class="tvsec">'+m[1]+'</span>';name=name.slice(0,m.index);}
+  return '<div class="tvcard">'+
+    '<button type="button" class="tvthumb" id="'+slot+'"'+st+' onclick="trainPlay(\''+vid+'\',\''+slot+'\')" aria-label="Play: '+name.replace(/"/g,'&quot;').replace(/'/g,'&#39;')+'"><span class="tvplay">&#9654;</span></button>'+
+    '<span class="tvname">'+sec+name+'</span>'+
+    '<span class="tvfull" onclick="acadGoLes(\''+x.mod.id+'\',\''+x.les.id+'\')">Full lesson &#8250;</span>'+
+  '</div>';
+}
+function openTrainTopic(i){
+  trainOpen=(trainOpen===i)?null:i;
+  render('resources');
+  if(trainOpen!==null)setTimeout(function(){
+    var el=document.querySelector('.tvtopic[data-i="'+trainOpen+'"]');
+    if(el&&el.scrollIntoView){try{el.scrollIntoView({behavior:'smooth',block:'nearest'});}catch(e){el.scrollIntoView();}}
+  },40);
+}
+function trainPanel(){
+  var n=trainAll().length;
+  var rows=TRAIN_TOPICS.map(function(T,i){
+    var vids=T.v.filter(function(a){return !!trainLes(a);});
+    if(!vids.length)return '';
+    var open=(trainOpen===i);
+    return '<div class="tvtopic'+(open?' open':'')+'" data-i="'+i+'">'+
+      '<button type="button" class="tvhead" onclick="openTrainTopic('+i+')" aria-expanded="'+(open?'true':'false')+'">'+
+        '<span class="tvnum">'+(i+1)+'</span>'+
+        '<span class="tvt"><span class="tvtt">'+T.t+'</span><span class="tvts">'+T.s+'</span></span>'+
+        '<span class="tvmeta"><span class="tvn">'+vids.length+' video'+(vids.length===1?'':'s')+'</span><span class="tvchev">&#9654;</span></span>'+
+      '</button>'+
+      (open?('<div class="tvbody"><p class="tvintro" style="margin:12px 0 0">'+T.b+'</p><div class="tvgrid">'+
+        vids.map(function(a,j){return trainCard(a,i,j);}).join('')+'</div></div>'):'')+
+    '</div>';
+  }).join('');
+  return '<p class="tvintro">'+n+' short training videos, grouped by what you need right now. Same videos as the Academy \u2014 this is the shortcut when you have one thing to fix before your next call. Tap a topic, then tap a thumbnail to play it right here.</p>'+
+    '<div class="tvlist">'+rows+'</div>';
+}
 function openRes(k){
   resOpen=resOpen===k?null:k;
   render('resources');
@@ -1116,6 +1231,7 @@ function openRes(k){
   },40);}
 }
 function resPanelFor(t){
+  if(t.k==='training')return trainPanel();
   if(t.k==='scripts'&&typeof m5ScriptsPanel==='function')return m5ScriptsPanel();
   if(t.k==='payments'&&typeof m5PaymentsPanel==='function')return m5PaymentsPanel();
   if(t.k==='products'&&typeof m5ProductPanel==='function')return m5ProductPanel();
@@ -1125,6 +1241,7 @@ function resPanelFor(t){
 }
 function resCount(t){
   if(t.link)return 0;
+  if(t.k==='training')return (typeof trainAll==='function')?trainAll().length:0;
   var rows=t.reuse==='scripts'?(typeof SCRIPTS_L!=='undefined'?SCRIPTS_L:[]):(t.items||[]);
   return rows.length;
 }
