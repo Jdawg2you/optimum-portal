@@ -181,6 +181,17 @@
     .respanel{padding:0 12px 12px 22px}
     .rescount{display:none}
   }
+  /* ---- Shareable deep links ---- */
+  h1.page{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+  .pgshare{appearance:none;border:1px solid var(--line);background:#fff;color:var(--ink-soft);font-size:13px;line-height:1;cursor:pointer;border-radius:9px;padding:6px 8px;box-shadow:var(--shadow);transition:.14s}
+  .pgshare:hover{color:var(--brand);border-color:var(--brand);transform:translateY(-1px)}
+  .pgshare:active{transform:none}
+  .reshead{display:flex;align-items:stretch}
+  .reshead .resbtn,.reshead .tvhead{flex:1 1 auto;min-width:0}
+  .resshare{flex:0 0 auto;appearance:none;border:0;background:transparent;color:#c2cad8;font-size:13px;line-height:1;cursor:pointer;padding:0 15px 0 3px}
+  .resshare:hover{color:var(--brand)}
+  .resshare:focus-visible{outline:2px solid var(--brand);outline-offset:-2px}
+  @media(max-width:760px){ .resshare{padding:0 11px 0 2px} }
   /* ---- Training videos: topic re-cut of the Academy library ---- */
   .tvintro{font-size:13px;color:var(--ink-soft);line-height:1.5;margin:12px 0 10px}
   .tvlist{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
@@ -916,11 +927,91 @@ function buildNav(){
 }
 document.getElementById('sidenav').addEventListener('click',e=>{const it=e.target.closest('.navitem');if(!it||!it.dataset.view)return;if(it.dataset.locked==='true'){toast('Unlocks once you\'re licensed 🔒');return;}if(it.dataset.url){window.open(it.dataset.url,'_blank','noopener');return;}go(it.dataset.view);});
 
+/* ---- Shareable deep links --------------------------------------------------
+   Every page carries a link button; Resources rows and training topics carry
+   one too. The link is just a hash on the normal portal URL, so whoever opens
+   it signs in as usual and lands on that exact spot instead of the dashboard.
+     #virtual                a page
+     #resources/training     a Resources row, already open
+     #resources/training/1   ... with that topic open
+   Parsed once at load, BEFORE login, because logging in does not reload. -----*/
+var M5_DEEP=(function(){
+  try{
+    var h=(location.hash||'').replace(/^#\/?/,'');
+    if(!h) return null;
+    var p=h.split('/').filter(function(x){return x!=='';});
+    if(!p.length) return null;
+    var t=(p[2]==null||p[2]==='')?null:parseInt(p[2],10);
+    return {view:decodeURIComponent(p[0]),res:p[1]?decodeURIComponent(p[1]):'',topic:(t==null||isNaN(t))?null:t};
+  }catch(e){ return null; }
+})();
+function m5DeepPath(){
+  var v=(typeof currentView==='function')?currentView():'dashboard', p=v;
+  if(v==='resources'&&typeof resOpen!=='undefined'&&resOpen){
+    p+='/'+resOpen;
+    if(resOpen==='training'&&typeof trainOpen!=='undefined'&&trainOpen!==null) p+='/'+trainOpen;
+  }
+  return p;
+}
+function m5CopyFallback(url,done){
+  try{
+    var ta=document.createElement('textarea');
+    ta.value=url; ta.setAttribute('readonly','');
+    ta.style.cssText='position:fixed;top:-1000px;left:0;opacity:0';
+    document.body.appendChild(ta); ta.select();
+    try{ ta.setSelectionRange(0,url.length); }catch(e){}
+    document.execCommand('copy'); document.body.removeChild(ta); done();
+  }catch(e){ window.prompt('Copy this link:', url); }
+}
+function m5CopyLink(path,label){
+  var url=location.origin+location.pathname+'#'+(path||m5DeepPath());
+  var done=function(){ toast((label||'Link copied')+' \u2014 it opens right here \u2705'); };
+  try{
+    if(navigator.clipboard&&navigator.clipboard.writeText){
+      navigator.clipboard.writeText(url).then(done,function(){ m5CopyFallback(url,done); });
+      return;
+    }
+  }catch(e){}
+  m5CopyFallback(url,done);
+}
+function m5ShareDecorate(){
+  try{
+    var el=document.querySelector('#content h1.page');
+    if(!el||el.querySelector('.pgshare')) return;
+    var b=document.createElement('button');
+    b.type='button'; b.className='pgshare';
+    b.title='Copy a link to this page'; b.setAttribute('aria-label','Copy a link to this page');
+    b.innerHTML='\uD83D\uDD17';
+    b.onclick=function(ev){ ev.stopPropagation(); m5CopyLink(null,'Page link copied'); };
+    el.appendChild(b);
+  }catch(e){}
+}
+function m5ApplyDeep(){
+  var d=M5_DEEP; M5_DEEP=null;
+  if(!d||!d.view){ go('dashboard'); return; }
+  var item=null;
+  for(var i=0;i<NAV.length;i++){ if(NAV[i].v===d.view){ item=NAV[i]; break; } }
+  if(!item&&['calc','income','activity','agencybuild'].indexOf(d.view)<0){ go('dashboard'); return; }
+  if(item&&item.url){ go('dashboard'); window.open(item.url,'_blank','noopener'); return; }
+  if(item&&item.admin&&store.data.admin!==true){ go('dashboard'); return; }
+  if(item&&item.lockUnl&&store.data.status==='unlicensed'){
+    go('dashboard'); toast('That section unlocks once you\u2019re licensed \uD83D\uDD12'); return;
+  }
+  go(d.view);
+  if(d.view==='resources'&&d.res&&typeof openRes==='function'){
+    setTimeout(function(){
+      openRes(d.res);
+      if(d.res==='training'&&d.topic!=null&&typeof openTrainTopic==='function'){
+        setTimeout(function(){ openTrainTopic(d.topic); },90);
+      }
+    },70);
+  }
+}
 function go(view){
   document.querySelectorAll('.navitem').forEach(n=>n.classList.toggle('active',n.dataset.view===view));
   const names={dashboard:'Dashboard',faststart:'Fast Start',academy:'Academy',income:'Income Calculator',activity:'Activity Planner',agencybuild:'Agency Builder',sales:'Sales Tools',systools:'Systems/Tools',goalcard:'Goal Card',leads:'Leads',calc:'Policy Comm Calc',recruiting:'Recruiting',selfdev:'Self Development',resources:'Resources',health:'Health',virtual:'Virtual Calls/Events',inperson:'In-Person Events',support:'General Support',gethelp:'Get Help',kpi:'My KPIs',profile:'Profile',agency:'Agency Dashboard'};
   document.getElementById('crumb').textContent=names[view]||'';
-  window.scrollTo(0,0); render(view);
+  window.scrollTo(0,0); render(view); m5ShareDecorate();
   try{ if(typeof m5TrackSection==='function') m5TrackSection(view); }catch(e){}
 }
 
@@ -981,9 +1072,9 @@ function startApp(){
   document.getElementById('app').classList.remove('hidden');
   document.getElementById('avatar').textContent=((store.data.first[0]||'A')+(store.data.last[0]||'')).toUpperCase();
   var sn=document.getElementById('m5-suname'); if(sn)sn.textContent=store.data.first||'Agent';
-  syncChip(); buildNav(); go('dashboard');
+  syncChip(); buildNav(); m5ApplyDeep();
   if(typeof m5EnsureMyCode==='function') m5EnsureMyCode();
-  if(typeof m5BackendLoad==='function') m5BackendLoad(function(){ try{ store.data.t_lastLogin=(new Date()).toISOString(); if(store.data.admin!==true){ store.data.logins=(store.data.logins||0)+1; } m5MigrateChecks(); store.save(); syncChip();buildNav();render(currentView()); }catch(e){} });
+  if(typeof m5BackendLoad==='function') m5BackendLoad(function(){ try{ store.data.t_lastLogin=(new Date()).toISOString(); if(store.data.admin!==true){ store.data.logins=(store.data.logins||0)+1; } m5MigrateChecks(); store.save(); syncChip();buildNav();render(currentView());m5ShareDecorate(); }catch(e){} });
 }
 function syncChip(){const c=document.getElementById('statuschip');if(store.data.status==='licensed'){c.textContent='Licensed Agent';c.className='statuschip';}else{c.textContent='Unlicensed Agent';c.className='statuschip unl';}}
 
@@ -1040,6 +1131,9 @@ function render(view){_cv=view;const el=document.getElementById('content');
   else if(view==='support')el.innerHTML=vSupport();
   else if(view==='profile')el.innerHTML=vProfile();
   else if(view==='kpi'){el.innerHTML=frameShell('My KPIs','Your business-health score and next-step coaching.');mountFrame(KPI_B64);}
+  /* the page-link button rides on every render, not just nav clicks, so it
+     survives in-place re-renders (opening a Resources row, ticking a box). */
+  if(typeof m5ShareDecorate==='function') m5ShareDecorate();
 }
 function ckRow(i){return `<div class="ck ${isDone(i.id)?'done':''}" onclick="toggle('${i.id}',${i.unlock?'true':'false'})"><div class="box">${isDone(i.id)?'✓':''}</div><div class="ct"><div class="cl">${i.l}</div>${i.d?`<div class="cd">${i.d}</div>`:''}</div></div>`;}
 function moduleCard(m){
@@ -1203,11 +1297,14 @@ function trainPanel(){
   var rows=YT_TOPICS.map(function(T,i){
     var open=(trainOpen===i);
     return '<div class="tvtopic'+(open?' open':'')+'" data-i="'+i+'">'+
+      '<div class="reshead">'+
       '<button type="button" class="tvhead" onclick="openTrainTopic('+i+')" aria-expanded="'+(open?'true':'false')+'">'+
         '<span class="tvnum">'+(i+1)+'</span>'+
         '<span class="tvt"><span class="tvtt">'+T.t+'</span><span class="tvts">'+T.s+'</span></span>'+
         '<span class="tvmeta"><span class="tvn">'+T.v.length+' video'+(T.v.length===1?'':'s')+'</span><span class="tvchev">&#9654;</span></span>'+
       '</button>'+
+      '<button type="button" class="resshare" title="Copy a link to this topic" aria-label="Copy a link to this topic" onclick="event.stopPropagation();m5CopyLink(\'resources/training/'+i+'\',\'Topic link copied\')">&#128279;</button>'+
+      '</div>'+
       (open?('<div class="tvbody"><p class="tvintro" style="margin:12px 0 0">'+T.b+'</p><div class="tvgrid">'+
         T.v.map(function(a,j){return trainCard(a,i,j);}).join('')+'</div></div>'):'')+
     '</div>';
@@ -1242,7 +1339,9 @@ function resCount(t){
 function resRow(t){
   var open=(resOpen===t.k), n=resCount(t);
   var onclick=t.link?("window.open('"+t.link+"','_blank')"):("openRes('"+t.k+"')");
+  var share=t.link?'':('<button type="button" class="resshare" title="Copy a link to this section" aria-label="Copy a link to this section" onclick="event.stopPropagation();m5CopyLink(\'resources/'+t.k+'\',\'Section link copied\')">&#128279;</button>');
   return '<div class="resrow'+(open?' open':'')+'" data-k="'+t.k+'">'+
+    '<div class="reshead">'+
     '<button type="button" class="resbtn" onclick="'+onclick+'"'+(t.link?'':' aria-expanded="'+(open?'true':'false')+'"')+'>'+
       '<span class="restick"></span>'+
       '<span class="restext"><span class="restitle">'+t.t+'</span><span class="ressub">'+t.s+'</span></span>'+
@@ -1250,7 +1349,7 @@ function resRow(t){
         (n?'<span class="rescount">'+n+' item'+(n===1?'':'s')+'</span>':'')+
         (t.link?'<span class="resext">&#8599;</span>':'<span class="reschev">&#9654;</span>')+
       '</span>'+
-    '</button>'+
+    '</button>'+share+'</div>'+
     (open?'<div class="respanel">'+resPanelFor(t)+'</div>':'')+
   '</div>';
 }
