@@ -1742,7 +1742,7 @@ function m5DashCalls(){
   }
   var rows=vis.map(function(o){var c=o.c,v=o.v;
     return '<a class="m5-call" href="'+c.link+'" target="_blank" rel="noopener">'+
-      '<div class="m5-chead"><span class="m5-cicon" data-ico="'+m5CallIco(c.n)+'"></span><div class="m5-ct">'+c.n+'</div></div>'+
+      '<div class="m5-chead"><span class="m5-cicon" data-ico="'+m5CallIco(c.n)+'"></span><div class="m5-ct">'+c.n+'</div>'+(c.tag?'<span class="m5-ctag '+c.tag+'">'+c.tag+'</span>':'')+'</div>'+
       /* micro description rides on the time line so the card keeps the exact
          height it had before descriptions existed. */
       '<div class="m5-ctime">'+v.timeLabel+((c.dm||c.note)?' · '+(c.dm||c.note):'')+(v.live?' <span class="m5-livedot">● live</span>':'')+'</div>'+
@@ -3437,6 +3437,13 @@ nav.side{padding:9px 10px}
 .m5-cicon{width:24px;height:24px;flex-shrink:0;color:var(--m5gold);display:flex;align-items:center;justify-content:center}
 .m5-cicon svg{width:22px;height:22px}
 .m5-call .m5-ct{margin:0}
+/* Track tag on a dashboard call card - same chip as the Virtual Calls page,
+   sized to sit on the title line so the card height does not change. */
+.m5-ctag{flex:0 0 auto;font-size:9px;font-weight:800;letter-spacing:.05em;border-radius:4px;padding:2px 5px;line-height:1.1;white-space:nowrap}
+.m5-ctag.OFS{background:#fdf4e3;color:#a9861d}
+.m5-ctag.BIZ{background:#eaf0fd;color:#2f5fd0}
+.m5-ctag.LIFE{background:#eef5ff;color:#1f4fa8}
+.m5-ctag.HEALTH{background:#e7f4f1;color:#177a68}
 
 /* ---- Dashboard progress modules (Fast Start / Academy trackers) ---- */
 .m5-modrow{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:14px 0}
