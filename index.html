@@ -438,6 +438,8 @@
   .m5-donepill{display:inline-block;margin-left:8px;background:#e3f2ea;color:#1c7c54;font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:20px;vertical-align:middle;white-space:nowrap}
   .m5-callout{background:#fff8e6;border:1px solid #f0dca6;border-radius:9px;padding:10px 12px;margin:11px 0 2px;font-size:13px;color:#7a5b12;line-height:1.5}
   .m5-fine{font-size:12.5px;color:#667085;line-height:1.55}
+  .m5-reassure{font-size:15px;line-height:1.6;color:#334155;background:#f4f7fc;border-left:3px solid var(--gold,#e0a83d);border-radius:0 8px 8px 0;padding:11px 14px;margin:14px 0 4px}
+  .m5-reassure b{color:#0e2244}
   .m5-licbtn{display:block;width:100%;margin:18px 0 6px;background:linear-gradient(120deg,#c9a227,#e6c14e);color:#2a2205;border:none;border-radius:14px;padding:18px 20px;font-size:16.5px;font-weight:800;cursor:pointer;box-shadow:0 12px 34px rgba(201,162,39,.35);transition:filter .15s,transform .06s;animation:m5pop .35s ease}
   .m5-licbtn:hover{filter:brightness(1.06)}.m5-licbtn:active{transform:translateY(1px)}
   @keyframes m5pop{0%{transform:scale(.94);opacity:0}100%{transform:scale(1);opacity:1}}
@@ -3376,6 +3378,11 @@ function acadLessonView(a,b){var m=acadFindMod(a);if(!m)return acadHomeView();va
 .agm-fld textarea{min-height:66px;resize:vertical;line-height:1.45}
 .agm-fld input:focus,.agm-fld select:focus,.agm-fld textarea:focus{border-color:#c9a227;box-shadow:0 0 0 3px rgba(201,162,39,.16)}
 .agm-two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.agm-exam{border-radius:10px;padding:10px 12px;font-size:13.5px;line-height:1.5;border:1px solid var(--line);background:#f7f9fd;color:var(--ink)}
+.agm-exam.ok{border-color:#bfe0c8;background:#f1faf3}
+.agm-exam.warn{border-color:#e8cf9a;background:#fdf7ea}
+.agm-exam.none{color:var(--ink-soft)}
+.agm-examwho{color:var(--ink-soft);font-weight:400}
 .agm-keep{font-size:11.5px;color:#8a93a5;background:#f7f9fc;border:1px solid #eaeff7;border-radius:9px;padding:7px 10px;margin:0 0 12px;line-height:1.4}
 .agm-histb{appearance:none;border:0;background:transparent;font:inherit;font-size:11.5px;font-weight:700;color:#2f5fd0;cursor:pointer;padding:5px 0 0}
 .agm-histb:hover{text-decoration:underline}
@@ -5236,7 +5243,8 @@ var M5_COACH_FIELDS=[
   {f:'leads',    l:'Lead budget &amp; source', t:'txt', p:'e.g. $500/wk, FEX direct mail'},
   {f:'obstacle', l:'Biggest obstacle right now', t:'txt', p:'What is actually in their way?'},
   {f:'next',     l:'Next commitment they made', t:'txt', p:'e.g. 20 dials a day this week'},
-  {f:'nextDate', l:'By when', t:'date'}
+  {f:'nextDate', l:'By when', t:'date'},
+  {f:'examDate', l:'Exam date', t:'date'}
 ];
 /* entries pending on this device, appended but not yet accepted by the sheet */
 function m5CoachPending(){ try{ return (store.data.coachLog=store.data.coachLog||[]); }catch(e){ return []; } }
@@ -5401,6 +5409,20 @@ function m5CoachFlush(){
       .catch(function(){});
   });
 }
+function m5AgExamLabel(iso){
+  try{
+    var p=String(iso).split('-'); if(p.length<3) return String(iso);
+    var M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    var when=M[+p[1]-1]+' '+(+p[2])+', '+p[0];
+    var days=Math.round((Date.parse(iso+'T12:00:00')-Date.now())/864e5);
+    if(isNaN(days)) return when;
+    if(days>1)  return '<b>'+when+'</b> &mdash; '+days+' days away';
+    if(days===1)return '<b>'+when+'</b> &mdash; tomorrow';
+    if(days===0)return '<b>'+when+'</b> &mdash; today';
+    if(days===-1)return '<b>'+when+'</b> &mdash; was yesterday';
+    return '<b>'+when+'</b> &mdash; was '+Math.abs(days)+' days ago';
+  }catch(e){ return String(iso); }
+}
 function m5AgCard(k){
   var a=m5AgFind(k); if(!a) return;
   m5CoachFlush();
@@ -5460,6 +5482,25 @@ function m5AgCard(k){
           fact('Academy', a.licensed? pct(a.acadPct) : '\u2014')+
           fact('Goal cards', (a.gcCards||0))+
         '</div>'+
+        (function(){
+          /* Two places an exam date can live: the agent booked it themselves on
+             their Get Licensed page, or you wrote it here after they texted it.
+             Theirs wins when both exist -- it came off the booking screen.
+             A ticked exam step with no date is the case worth flagging: that is
+             a legacy tick from before the date box existed, and the only way to
+             fill it is to ask them. */
+          var mine=(m5CoachNow(k)||{}).examDate||'';
+          var theirs=(a.examDate||'');
+          var shown=theirs||mine;
+          var booked=m5PipeHas(m5PipeGate(a,'book'));
+          var lbl, cls;
+          if(shown){ lbl=m5AgExamLabel(shown)+(theirs?'':' <span class="agm-examwho">(you recorded this)</span>'); cls='ok'; }
+          else if(booked){ lbl='Marked scheduled &mdash; <b>no date on file</b>. Ask for the date and put it in below.'; cls='warn'; }
+          else { lbl='Not booked yet.'; cls='none'; }
+          return '<div class="agm-sec">State exam</div>'+
+            '<div class="agm-exam '+cls+'">'+lbl+'</div>'+
+            (theirs?'':fld(M5_COACH_FIELDS[8]));
+        })()+
         '<div class="agm-sec">Notes</div>'+
         '<div class="agm-addnote">'+
           '<textarea id="agm-note" placeholder="What happened? What did they say?"></textarea>'+
@@ -5533,19 +5574,47 @@ function m5PipeMs(v){
   return isNaN(t)?null:t;
 }
 function m5PipeHas(v){ return v===true || (typeof v==='string' && v!==''); }
-function m5PipeCk(a,id){ var c=(a&&a.checks)||{}; return c[id]; }
+/* The pre-licensing checklist has been through three generations of step ids:
+   the original pre_1..pre_6, the u_* set, and today's gl_* set. Ticks are never
+   rewritten in the sheet, so an agent's history can be in any of them -- and the
+   pre_ -> gl_ migration only runs the next time that agent opens the portal.
+   So a gate accepts every id that has ever meant it, oldest tick wins on date. */
+function m5PipeCk(a){
+  var c=(a&&a.checks)||{}, best=null;
+  for(var i=1;i<arguments.length;i++){
+    var v=c[arguments[i]];
+    if(!m5PipeHas(v)) continue;
+    if(best===null){ best=v; continue; }
+    var tb=m5PipeMs(best), tv=m5PipeMs(v);
+    if(tv!==null && (tb===null || tv<tb)) best=v;
+  }
+  return best===null?'':best;
+}
+/* Every id that has ever stood for a pre-licensing gate, newest name first. */
+var M5_PIPE_IDS={
+  plug:['gl_plug','u_plug','pre_1'],
+  book:['gl_book','u_exam','pre_2'],
+  enroll:['gl_enroll','u_course','pre_3'],
+  half:['gl_half','u_half','pre_4'],
+  done:['gl_coursedone'],
+  pass:['gl_pass','u_pass','pre_5'],
+  apply:['gl_apply','u_apply','pre_6'],
+  npn:['gl_npn']
+};
+function m5PipeGate(a,key){ var ids=M5_PIPE_IDS[key]||[]; return m5PipeCk.apply(null,[a].concat(ids)); }
 
 var M5_PIPE_UNL=[
   {k:'reg',   l:'Registered on the portal', get:function(a){ return a.registeredOn||a.joined||''; }},
   {k:'login', l:'Actually logged in',        get:function(a){ return a.firstLogin||a.tFirst||(a.loggedIn?true:''); }},
-  {k:'plug',  l:'Got plugged in',            get:function(a){ return m5PipeCk(a,'u_plug'); }},
-  {k:'exam',  l:'Exam scheduled',            get:function(a){ return m5PipeCk(a,'u_exam'); }},
-  {k:'course',l:'Started the course',        get:function(a){ return m5PipeCk(a,'u_course'); }},
-  {k:'half',  l:'Halfway through (50%)',     get:function(a){ return m5PipeCk(a,'u_half'); }},
-  {k:'pass',  l:'Passed the state test',     get:function(a){ return m5PipeCk(a,'u_pass'); }},
-  {k:'apply', l:'Applied for the license',   get:function(a){ return m5PipeCk(a,'u_apply'); }},
+  {k:'plug',  l:'Got plugged in',            get:function(a){ return m5PipeGate(a,'plug'); }},
+  {k:'book',  l:'Exam booked',               get:function(a){ return m5PipeGate(a,'book'); }},
+  {k:'enroll',l:'Enrolled in the course',    get:function(a){ return m5PipeGate(a,'enroll'); }},
+  {k:'half',  l:'Halfway through (50%)',     get:function(a){ return m5PipeGate(a,'half'); }},
+  {k:'done',  l:'Course complete',           get:function(a){ return m5PipeGate(a,'done'); }},
+  {k:'pass',  l:'Passed the state exam',     get:function(a){ return m5PipeGate(a,'pass'); }},
+  {k:'apply', l:'Applied for the licence',   get:function(a){ return m5PipeGate(a,'apply'); }},
   {k:'lic',   l:'Licensed',                  get:function(a){ return a.licensed?(a.tLic||a.npnOn||a.appliedOn||true):''; }},
-  {k:'npn',   l:'NPN on file',               get:function(a){ return a.npnOn||(a.hasNPN?true:''); }}
+  {k:'npn',   l:'NPN on file',               get:function(a){ return a.npnOn||m5PipeGate(a,'npn')||(a.hasNPN?true:''); }}
 ];
 var M5_PIPE_LIC=[
   {k:'lic',   l:'Licensed',                  get:function(a){ return a.tLic||a.npnOn||a.appliedOn||(a.licensed?true:''); }},
@@ -5565,8 +5634,9 @@ function m5PipeCohort(which){
   if(which==='lic') return A.filter(function(a){ return !!a.licensed; });
   return A.filter(function(a){
     if(!a.licensed) return true;
-    var c=a.checks||{};
-    return !!(c.u_plug||c.u_exam||c.u_course||c.u_half||c.u_pass||c.u_apply);
+    return ['plug','book','enroll','half','done','pass','apply'].some(function(g){
+      return m5PipeHas(m5PipeGate(a,g));
+    });
   });
 }
 function m5PipeMedian(arr){
@@ -6521,7 +6591,7 @@ function m5GlSteps(){
         'Straight off the booking screen &mdash; not the date you are hoping for. Confirming it is what crosses this step off.</p>'+
         '<input type="date" id="m5GlDate"><div class="m5-btnrow" style="margin-bottom:0"><button class="m5-lnk go" onclick="m5GlSaveDate()">Confirm my exam date</button></div></div>');
       if(!store.data.examNotYet) b.push('<button class="m5-glalt" onclick="m5GlNotReady()">I cannot book it today</button>');
-      b.push('<p class="m5-fine"><b>Nothing below is locked behind this.</b> If the fee or the timing is not right this week, keep going &mdash; '+
+      b.push('<p class="m5-reassure"><b>Nothing below is locked behind this.</b> If the fee or the timing is not right this week, keep going &mdash; '+
         'start the course and come back. The only thing you lose by waiting is the deadline that keeps you moving.</p>');
     }
     return {id:'gl_book',t:'Schedule Your State Exam',noTick:true,locked:locked,
