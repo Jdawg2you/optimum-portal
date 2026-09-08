@@ -3411,6 +3411,28 @@ function acadLessonView(a,b){var m=acadFindMod(a);if(!m)return acadHomeView();va
 .pipe-med{font-size:12.5px;font-weight:700;color:#55617d;text-align:right;line-height:1.25}
 .pipe-med i{display:block;font-style:normal;font-size:9.5px;font-weight:600;color:#b0b8c6}
 .pipe-foot{font-size:11.5px;color:#9aa3b4;margin:10px 2px 0;line-height:1.45}
+.fu-list{display:flex;flex-direction:column;gap:2px}
+.fu-row{display:flex;justify-content:space-between;align-items:center;gap:12px;width:100%;appearance:none;border:0;border-bottom:1px solid #eef2f8;background:transparent;font:inherit;cursor:pointer;padding:10px 6px;text-align:left;border-radius:8px}
+.fu-row:hover{background:#f7f9fd}
+.fu-row.late{background:#fef6f3}
+.fu-row.late:hover{background:#fdeee7}
+.fu-l{min-width:0}
+.fu-n{display:block;font-size:14px;font-weight:700;color:#16233f}
+.fu-w{display:block;font-size:12px;color:#8a93a5;margin-top:2px;line-height:1.35}
+.fu-d{flex:0 0 auto;font-size:11.5px;font-weight:700;color:#8a93a5;white-space:nowrap}
+.fu-row.late .fu-d{color:#b5561f}
+.fu-row.today .fu-d{color:#a9861d}
+.agm-notes{margin-top:6px}
+.agm-note{border-left:2px solid #e6ecf6;padding:2px 0 2px 11px;margin-bottom:12px}
+.agm-nmeta{font-size:11px;font-weight:700;color:#9aa3b4;letter-spacing:.02em}
+.agm-ntext{font-size:13.5px;color:#16233f;line-height:1.5;margin-top:3px;white-space:pre-wrap;word-break:break-word}
+.agm-nnext{display:inline-block;font-size:11.5px;font-weight:700;color:#a9861d;background:#fdf6e6;border:1px solid #f0e0b8;border-radius:6px;padding:2px 7px;margin-top:6px}
+.agm-addnote{background:#f7f9fc;border:1px solid #eaeff7;border-radius:12px;padding:12px;margin-bottom:14px}
+.agm-addnote textarea{width:100%;font:inherit;font-size:13.5px;padding:9px 11px;border:1px solid #dbe2ee;border-radius:10px;min-height:60px;resize:vertical;line-height:1.45;background:#fff;color:#16233f;outline:none}
+.agm-addnote textarea:focus{border-color:#c9a227;box-shadow:0 0 0 3px rgba(201,162,39,.16)}
+.agm-addbtn{width:100%;padding:10px;border:0;border-radius:10px;background:#c9a227;color:#3d2c05;font:inherit;font-weight:800;font-size:13.5px;cursor:pointer;margin-top:8px}
+.agm-addbtn:hover{background:#b8931f}
+.agm-nofu{font-size:11.5px;color:#9aa3b4;margin:8px 2px 0}
 .pipe-wholist{display:flex;flex-direction:column;gap:2px}
 .pipe-wrow{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;appearance:none;border:0;border-bottom:1px solid #eef2f8;background:transparent;font:inherit;cursor:pointer;padding:10px 4px;text-align:left}
 .pipe-wrow:hover{background:#f7f9fd}
@@ -5271,6 +5293,79 @@ function m5CoachSave(k){
     })
     .catch(function(){ reopen(); say('Saved on this device \u2014 could not reach the sheet just now.','warn'); });
 }
+/* ---- Notes -----------------------------------------------------------------
+   A note is just another entry in the same append-only log (field 'note'), so
+   it can never be edited or deleted either -- what you wrote on the day is what
+   stays. A note can carry a follow-up: when it does, we append 'next' and
+   'nextDate' at the same moment, which both records the commitment and updates
+   the Next-commitment field on the card. That is what feeds the follow-ups due
+   list on the dashboard, and it is the difference between a diary and a system
+   that tells you who to ring today. -----------------------------------------*/
+function m5NoteList(k){
+  return m5CoachLog(k).filter(function(e){ return e && e.field==='note' && String(e.value||'').trim(); })
+                      .sort(function(x,y){ return String(y.t||'')<String(x.t||'')?-1:1; });
+}
+window.m5NoteAdd=function(k){
+  var ta=document.getElementById('agm-note');
+  var nx=document.getElementById('agm-notenext');
+  var nd=document.getElementById('agm-notedate');
+  var txt=ta?String(ta.value||'').trim():'';
+  var st=document.getElementById('agm-notestat');
+  var say=function(m,c){ if(st){ st.textContent=m; st.className='agm-stat '+(c||''); } };
+  if(!txt){ say('Write something first.',''); if(ta)ta.focus(); return; }
+  var now=(new Date()).toISOString(), me='';
+  try{ me=((store.data&&store.data.email)||'').toLowerCase(); }catch(e){}
+  var adds=[{t:now,target:k,field:'note',value:txt,by:me}];
+  var nv=nx?String(nx.value||'').trim():'', dv=nd?String(nd.value||'').trim():'';
+  if(nv) adds.push({t:now,target:k,field:'next',value:nv,by:me});
+  if(dv) adds.push({t:now,target:k,field:'nextDate',value:dv,by:me});
+  var pend=m5CoachPending();
+  adds.forEach(function(e){ pend.push(e); });
+  try{ if(store._saveLocal) store._saveLocal(); }catch(e){}
+  say('Saving\u2026','');
+  var reopen=function(){ m5AgCard(k); };
+  if(typeof BACKEND_URL==='undefined'||!BACKEND_URL){ reopen(); return; }
+  fetch(BACKEND_URL,{method:'POST',body:JSON.stringify({action:'coachAppend',email:me,target:k,entries:adds})})
+    .then(function(r){return r.json();})
+    .then(function(res){
+      if(res&&res.ok){
+        var keep=m5CoachPending().filter(function(e){ return adds.indexOf(e)<0; });
+        try{ store.data.coachLog=keep; if(store._saveLocal) store._saveLocal(); }catch(e){}
+        var a=m5AgFind(k); if(a){ a.coachLog=(a.coachLog||[]).concat(adds); }
+      }
+      reopen();
+    })
+    .catch(function(){ reopen(); });
+};
+/* the follow-up currently owed on a person: latest next + nextDate */
+function m5FollowUp(a){
+  var k=m5AgKey(a), cur=m5CoachNow(k);
+  var nx=cur['next'], nd=cur['nextDate'];
+  var what=nx?String(nx.value||''):'', when=nd?String(nd.value||''):'';
+  if(!what && !when) return null;
+  var due=when?new Date(when+'T12:00:00').getTime():null;
+  var days=(due==null)?null:Math.round((Date.now()-due)/864e5);
+  return {a:a, what:what, when:when, due:due, over:days};
+}
+function m5AgFollowups(){
+  var out=[];
+  (m5Ag.agents||[]).forEach(function(a){ var f=m5FollowUp(a); if(f&&f.due!=null) out.push(f); });
+  out=out.filter(function(f){ return f.over>=-3; });     /* due within 3 days, or overdue */
+  out.sort(function(x,y){ return y.over-x.over; });
+  if(!out.length) return '';
+  var overdue=out.filter(function(f){ return f.over>0; }).length;
+  var rows=out.map(function(f){
+    var lab=(f.over>0)?(f.over+' day'+(f.over===1?'':'s')+' overdue')
+           :(f.over===0?'due today':('due in '+Math.abs(f.over)+' day'+(f.over===-1?'':'s')));
+    return '<button type="button" class="fu-row'+(f.over>0?' late':(f.over===0?' today':''))+'" onclick="m5AgCard(\''+m5AgKey(f.a).replace(/'/g,"\\'")+'\')">'+
+      '<span class="fu-l"><span class="fu-n">'+m5AgEsc(f.a.name||'')+'</span>'+
+      (f.what?'<span class="fu-w">'+m5AgEsc(f.what)+'</span>':'')+'</span>'+
+      '<span class="fu-d">'+lab+'</span></button>';
+  }).join('');
+  return '<div class="ag-card"><h3>Follow-ups due</h3>'+
+    '<p class="sub">Commitments people made, coming due or already past'+(overdue?' \u00b7 <b>'+overdue+' overdue</b>':'')+'. Tap to open their card.</p>'+
+    '<div class="fu-list">'+rows+'</div></div>';
+}
 function m5AgClose(){
   var b=document.getElementById('agm-back'); if(b) b.parentNode.removeChild(b);
   document.removeEventListener('keydown', m5AgEsckey);
@@ -5360,12 +5455,35 @@ function m5AgCard(k){
         '<div class="agm-grid">'+
           fact('Joined', m5AgDate(a.joined))+
           fact('Last active', a.lastLogin? m5AgAgo(a.lastLogin) : 'Never logged in')+
-          fact('License', a.licensed? 'Licensed' : pct(a.gylPct)+' through')+
+          fact('License', a.licensed? 'Licensed' : (m5AgNum(a.gylPct)==null?'Not started':pct(a.gylPct)+' through'))+
           fact('Fast Start', a.licensed? pct(a.fsPct) : '\u2014')+
           fact('Academy', a.licensed? pct(a.acadPct) : '\u2014')+
           fact('Goal cards', (a.gcCards||0))+
         '</div>'+
-        '<div class="agm-sec">Coaching notes</div>'+
+        '<div class="agm-sec">Notes</div>'+
+        '<div class="agm-addnote">'+
+          '<textarea id="agm-note" placeholder="What happened? What did they say?"></textarea>'+
+          '<div class="agm-two" style="margin-top:8px">'+
+            '<div class="agm-fld" style="margin:0"><label>Next step (optional)</label><input id="agm-notenext" placeholder="e.g. send the lead order link"></div>'+
+            '<div class="agm-fld" style="margin:0"><label>By when</label><input id="agm-notedate" type="date"></div>'+
+          '</div>'+
+          '<button type="button" class="agm-addbtn" onclick="m5NoteAdd(\'' + String(k).replace(/'/g,"\\'") + '\')">Add note</button>'+
+          '<div class="agm-stat" id="agm-notestat"></div>'+
+        '</div>'+
+        (function(){
+          var ns=m5NoteList(k);
+          if(!ns.length) return '<div class="agm-nofu">No notes yet. The first one you write is the one you will be glad about in six months.</div>';
+          return '<div class="agm-notes">'+ns.map(function(n){
+            /* a follow-up logged in the same breath as the note */
+            var fu=m5CoachLog(k).filter(function(e){ return e.t===n.t && e.field==='next' && String(e.value||'').trim(); })[0];
+            var fd=m5CoachLog(k).filter(function(e){ return e.t===n.t && e.field==='nextDate' && String(e.value||'').trim(); })[0];
+            return '<div class="agm-note"><div class="agm-nmeta">'+m5AgDate(n.t)+(n.by?' · '+m5AgEsc(String(n.by).split('@')[0]):'')+'</div>'+
+              '<div class="agm-ntext">'+m5AgEsc(n.value)+'</div>'+
+              (fu?'<div class="agm-nnext">→ '+m5AgEsc(fu.value)+(fd?' · by '+m5AgEsc(fd.value):'')+'</div>':'')+
+            '</div>';
+          }).join('')+'</div>';
+        })()+
+        '<div class="agm-sec" style="margin-top:18px">Coaching notes</div>'+
         '<div class="agm-keep">Nothing here is overwritten. Saving adds a new entry \u2014 every earlier answer stays, dated.</div>'+
         fld(M5_COACH_FIELDS[0])+
         '<div class="agm-two">'+fld(M5_COACH_FIELDS[1])+fld(M5_COACH_FIELDS[2])+'</div>'+
@@ -5610,6 +5728,7 @@ function m5AgRender(){
   h+=m5AgTimeCard('② Time through Fast Start','License → Fast Start done.',fsDays,['0-3','4-7','8-14','15-21','22-30','30+'],'#1f9d55',[3,7,14,21,30]);
   h+=m5AgTimeCard('③ Time through Academy','First login → Academy complete.',acDays,['0-7','8-14','15-21','22-30','31-45','45+'],'#c9a227');
   h+='</div>';
+  h+=m5AgFollowups();
   h+=m5AgPipelines();
   h+='<div class="ag-grid2">';
   h+='<div class="ag-card"><h3>Onboarding funnel</h3><p class="sub">Where the roster sits — and where people fall off.</p>'
