@@ -3378,6 +3378,19 @@ function acadLessonView(a,b){var m=acadFindMod(a);if(!m)return acadHomeView();va
 .agm-fld textarea{min-height:66px;resize:vertical;line-height:1.45}
 .agm-fld input:focus,.agm-fld select:focus,.agm-fld textarea:focus{border-color:#c9a227;box-shadow:0 0 0 3px rgba(201,162,39,.16)}
 .agm-two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.path-rows{display:flex;flex-direction:column;gap:8px}
+.path-row{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:11px 13px;border-radius:10px;border:1px solid var(--line);background:#fff;cursor:pointer;font:inherit;color:inherit}
+.path-row:hover:not(:disabled){border-color:#c9d4e8;background:#fbfcff}
+.path-row:disabled{cursor:default;opacity:.75}
+.path-row.warn{border-color:#e8cf9a;background:#fdf9f0}
+.path-row.note{border-color:#cfdcf3;background:#f8faff}
+.path-n{flex:0 0 34px;text-align:center;font-size:19px;font-weight:700;color:var(--navy)}
+.path-row.zero .path-n{color:var(--ink-soft);font-weight:600}
+.path-txt{flex:1 1 auto;min-width:0}
+.path-txt b{display:block;font-size:13.5px;font-weight:650;color:var(--ink)}
+.path-txt i{display:block;font-style:normal;font-size:12px;color:var(--ink-soft);line-height:1.45;margin-top:2px}
+.path-go{flex:0 0 auto;color:var(--ink-soft);font-size:17px}
+.path-go.ok{color:#3f9a5c}
 .agm-exam{border-radius:10px;padding:10px 12px;font-size:13.5px;line-height:1.5;border:1px solid var(--line);background:#f7f9fd;color:var(--ink)}
 .agm-exam.ok{border-color:#bfe0c8;background:#f1faf3}
 .agm-exam.warn{border-color:#e8cf9a;background:#fdf7ea}
@@ -5758,11 +5771,110 @@ function m5PipeCard(which,title,sub){
     '<p class="pipe-foot">'+d.entered+' entered this pipeline \u00b7 median days measured from '+
       (which==='lic'?'their licence date':'the day they registered')+' \u00b7 tap a gate to see who is stuck there</p></div>';
 }
+/* ---- Path check ------------------------------------------------------------
+   The funnel above assumes everyone walks the steps in order. Plenty do not,
+   and the exceptions are the interesting part:
+
+     - Skipped booking. They are enrolled, halfway, even passed, but never
+       ticked "exam booked". Fine that they are moving; you just have no date
+       for them, so nobody knows when their finish line is.
+     - Booked, course not started. The one that actually costs time. Waiting on
+       an exam date is not a reason to sit out of the course.
+     - Neither. Plugged in and then stopped at the fork.
+
+   The last line answers the question directly: for people who did both, how
+   many days sat between booking and starting the course. If booking first were
+   holding people up, that number would be large. --------------------------- */
+function m5PathAge(v){ var t=m5PipeMs(v); return t==null?null:Math.round((Date.now()-t)/864e5); }
+function m5PathFar(a){
+  var order=[['apply','applied for the licence'],['pass','passed the exam'],['half','halfway through'],['enroll','enrolled in the course']];
+  if(a.licensed) return 'licensed';
+  for(var i=0;i<order.length;i++){ if(m5PipeHas(m5PipeGate(a,order[i][0]))) return order[i][1]; }
+  return 'moving';
+}
+function m5PathSets(){
+  var C=m5PipeCohort('unl');
+  var has=m5PipeHas, g=m5PipeGate;
+  var moved=C.filter(function(a){
+    return a.licensed||['enroll','half','pass','apply'].some(function(k){ return has(g(a,k)); });
+  });
+  return {
+    skip: moved.filter(function(a){ return !has(g(a,'book')); })
+              .map(function(a){ return {a:a,r:m5PathFar(a),d:null}; }),
+    wait: C.filter(function(a){ return has(g(a,'book')) && !has(g(a,'enroll')); })
+           .map(function(a){ return {a:a,r:null,d:m5PathAge(g(a,'book'))}; })
+           .sort(function(x,y){ return (y.d==null?-1:y.d)-(x.d==null?-1:x.d); }),
+    fork: C.filter(function(a){ return has(g(a,'plug')) && !has(g(a,'book')) && !has(g(a,'enroll')); })
+           .map(function(a){ return {a:a,r:null,d:m5PathAge(g(a,'plug'))}; })
+           .sort(function(x,y){ return (y.d==null?-1:y.d)-(x.d==null?-1:x.d); })
+  };
+}
+var M5_PATH_META={
+  skip:{t:'Skipped booking, moved on anyway',s:'Enrolled or further, but never marked an exam booked \u2014 so you have no date for them.'},
+  wait:{t:'Booked, course not started',s:'They have an exam date and have not started the course. This is the one that costs time.'},
+  fork:{t:'Plugged in, then stopped',s:'No exam booked and no course started. They stalled at the fork.'}
+};
+window.m5PathWho=function(key){
+  var set=m5PathSets()[key]||[], m=M5_PATH_META[key]||{t:'',s:''};
+  var body = set.length
+    ? '<div class="pipe-wholist">'+set.map(function(o){
+        var right = o.r ? '<span class="pipe-wdays">'+m5AgEsc(o.r)+'</span>'
+                  : (o.d==null ? '<span class="pipe-wnod">no date on record</span>'
+                               : '<span class="pipe-wdays'+(o.d>14?' hot':'')+'">'+o.d+' day'+(o.d===1?'':'s')+'</span>');
+        return '<button type="button" class="pipe-wrow" onclick="m5AgClose();m5AgCard(\''+m5AgKey(o.a).replace(/'/g,"\\'")+'\')">'+
+          '<span class="pipe-wn">'+m5AgEsc(o.a.name||'')+'</span>'+right+'</button>';
+      }).join('')+'</div>'
+    : '<div class="agm-keep" style="margin:0">Nobody in this group right now.</div>';
+  m5AgClose();
+  var html='<div class="agm-back" id="agm-back" onclick="if(event.target===this)m5AgClose()">'+
+    '<div class="agm" role="dialog" aria-modal="true">'+
+      '<div class="agm-h"><div class="agm-ht"><div class="agm-name">'+m.t+'</div>'+
+      '<div class="agm-sub">'+m.s+'</div></div>'+
+      '<button type="button" class="agm-x" onclick="m5AgClose()" aria-label="Close">\u2715</button></div>'+
+      '<div class="agm-b">'+body+'</div></div></div>';
+  var d=document.createElement('div'); d.innerHTML=html;
+  document.body.appendChild(d.firstChild);
+  document.addEventListener('keydown', m5AgEsckey);
+};
+function m5PathCard(){
+  var S=m5PathSets();
+  var C=m5PipeCohort('unl'), has=m5PipeHas, g=m5PipeGate, ms=m5PipeMs;
+  /* the delay question: days between booking and starting, for people who did both */
+  var gaps=[];
+  C.forEach(function(a){
+    var b=ms(g(a,'book')), e=ms(g(a,'enroll'));
+    if(b==null||e==null) return;
+    if(b<=e) gaps.push(Math.round((e-b)/864e5));
+  });
+  var gmed=m5PipeMedian(gaps);
+  var verdict;
+  if(!gaps.length){
+    verdict='Not enough people have done both steps yet to say whether booking first slows the course down.';
+  } else if(gmed<=2){
+    verdict='<b>Booking first is not slowing anyone down.</b> Of the '+gaps.length+' who did both, the course started a median of '+
+      gmed+' day'+(gmed===1?'':'s')+' after the exam was booked'+(gaps.length<8?' \u2014 still a small sample, worth rechecking as more come through':'')+'.';
+  } else {
+    verdict='<b>Booking first is costing time.</b> Of the '+gaps.length+' who did both, the course started a median of '+
+      gmed+' days after the exam was booked'+(gaps.length<8?' \u2014 small sample, but worth watching':'')+'.';
+  }
+  var row=function(key,tone){
+    var n=S[key].length, m=M5_PATH_META[key];
+    return '<button type="button" class="path-row'+(n?' '+tone:' zero')+'" onclick="m5PathWho(\''+key+'\')"'+(n?'':' disabled')+'>'+
+      '<span class="path-n">'+n+'</span>'+
+      '<span class="path-txt"><b>'+m.t+'</b><i>'+m.s+'</i></span>'+
+      (n?'<span class="path-go">\u203a</span>':'<span class="path-go ok">\u2713</span>')+
+    '</button>';
+  };
+  return '<div class="ag-card"><h3>Path check</h3>'+
+    '<p class="sub">Who is taking the steps out of order \u2014 and whether it is costing them anything.</p>'+
+    '<div class="path-rows">'+row('wait','warn')+row('fork','warn')+row('skip','note')+'</div>'+
+    '<p class="pipe-foot" style="margin-top:12px">'+verdict+'</p></div>';
+}
 function m5AgPipelines(){
   return '<div class="ag-grid2">'+
     m5PipeCard('unl','Pipeline \u2014 getting licensed','Every step from registering to an NPN on file.')+
     m5PipeCard('lic','Pipeline \u2014 licensed onboarding','From licence to Fast Start and Academy done.')+
-  '</div>';
+  '</div>'+m5PathCard();
 }
 function m5AgRender(){
   var A=m5Ag.agents||[];
