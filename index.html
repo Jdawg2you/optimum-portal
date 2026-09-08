@@ -5251,8 +5251,32 @@ window.m5CoachToggle=function(f){
   var b=document.getElementById('agm-histb-'+f);
   if(b) b.textContent=(open?'\u25b8 ':'\u25be ')+b.getAttribute('data-label');
 };
+/* Anything still held on this device goes out as soon as the sheet will take
+   it — otherwise entries written before the backend action existed would sit
+   here until someone happened to save that person again. */
+function m5CoachFlush(){
+  var pend=m5CoachPending();
+  if(!pend.length) return;
+  if(typeof BACKEND_URL==='undefined'||!BACKEND_URL) return;
+  var byTarget={};
+  pend.forEach(function(e){ (byTarget[e.target]=byTarget[e.target]||[]).push(e); });
+  var me=''; try{ me=((store.data&&store.data.email)||'').toLowerCase(); }catch(e){}
+  Object.keys(byTarget).forEach(function(t){
+    var batch=byTarget[t];
+    fetch(BACKEND_URL,{method:'POST',body:JSON.stringify({action:'coachAppend',email:me,target:t,entries:batch})})
+      .then(function(r){return r.json();})
+      .then(function(res){
+        if(!(res&&res.ok)) return;
+        var keep=m5CoachPending().filter(function(e){ return batch.indexOf(e)<0; });
+        try{ store.data.coachLog=keep; if(store._saveLocal) store._saveLocal(); }catch(e){}
+        var a=m5AgFind(t); if(a){ a.coachLog=(a.coachLog||[]).concat(batch); }
+      })
+      .catch(function(){});
+  });
+}
 function m5AgCard(k){
   var a=m5AgFind(k); if(!a) return;
+  m5CoachFlush();
   m5AgClose();
   var cur=m5CoachNow(k);
   var nm=m5AgEsc(a.name||''), ini=(nm.trim().split(/\s+/).map(function(w){return w[0]||'';}).join('').slice(0,2)||'A').toUpperCase();
