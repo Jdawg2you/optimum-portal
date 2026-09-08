@@ -735,8 +735,9 @@ if(store.data.last) document.getElementById('li-last').value=store.data.last;
 // UNLICENSED — Get Your License
 const GYL=[
   {id:'u_plug',check:true,l:'Get plugged in',d:'Join the community: <a href="https://www.facebook.com/groups/fflnational/" target="_blank">Facebook</a> · <a href="https://chat.whatsapp.com/JAX77XU8xCCG9iW0AyUYng" target="_blank">WhatsApp</a> · <a href="https://discord.gg/9kYZSFvYF" target="_blank">Discord</a>. Select FFL National as your main team.'},
-  {id:'u_exam',check:true,l:'Schedule your exam (within 2 weeks)',d:'<a href="https://partners.xcelsolutions.com/insurance-license/requirements?partner=fflnational-hkr597" target="_blank">Schedule / testing requirements →</a> Then text your recruiter a screenshot of your test date.'},
+  {id:'u_exam',check:true,l:'Schedule your exam (within 2 weeks)',d:'<a href="https://partners.xcelsolutions.com/insurance-license/requirements?partner=fflnational-hkr597" target="_blank">Schedule / testing requirements →</a> Then text your recruiter a screenshot of your test date.<div class="m5-exam"><label for="u-examdate">My exam is booked for</label><input type="date" id="u-examdate" value="__EXAMDATE__" onchange="m5SetExamDate(this.value)"></div>'},
   {id:'u_course',check:true,l:'Start the course',d:'<a href="https://partners.xcelsolutions.com/fflnational-hkr597" target="_blank">Register (Xcel) →</a> Select Life &amp; Health + the $199 package (not Premier). Code: fflnational-hkr597.'},
+  {id:'u_half',check:true,l:'Halfway through the course (50%)',d:'Text your manager when you hit it — this is the point most people stall, so we want to know you are through it.'},
   {info:'ℹ️ Additional info (no checkoff): watch the <a href="https://youtu.be/GNJ3khgJG2g" target="_blank">Course Hack video</a>, text your manager at 50% complete, and check your <a href="https://partners.xcelsolutions.com/insurance-license/requirements?partner=fflnational-hkr597" target="_blank">state requirements</a> (some states require fingerprinting).'},
   {id:'u_pass',check:true,l:'Passed my state test 🎉'},
   {id:'u_apply',check:true,l:'Applied for my license',d:'Get your license number + NPN. <b>Checking this unlocks your Licensed Agent onboarding.</b>',unlock:true},
@@ -1179,7 +1180,10 @@ function render(view){_cv=view;const el=document.getElementById('content');
      survives in-place re-renders (opening a Resources row, ticking a box). */
   if(typeof m5ShareDecorate==='function') m5ShareDecorate();
 }
-function ckRow(i){return `<div class="ck ${isDone(i.id)?'done':''}" onclick="toggle('${i.id}',${i.unlock?'true':'false'})"><div class="box">${isDone(i.id)?'✓':''}</div><div class="ct"><div class="cl">${i.l}</div>${i.d?`<div class="cd">${i.d}</div>`:''}</div></div>`;}
+function m5SetExamDate(v){
+  try{ store.data.examDate=String(v||''); store.save(); toast(v?'Exam date saved \u2713':'Exam date cleared'); }catch(e){}
+}
+function ckRow(i){var _d=(i.d||'').replace('__EXAMDATE__',(store.data&&store.data.examDate)||'');i=Object.assign({},i,{d:_d});return `<div class="ck ${isDone(i.id)?'done':''}" onclick="toggle('${i.id}',${i.unlock?'true':'false'})"><div class="box">${isDone(i.id)?'✓':''}</div><div class="ct"><div class="cl">${i.l}</div>${i.d?`<div class="cd">${i.d}</div>`:''}</div></div>`;}
 function moduleCard(m){
   var _ci=m.items.filter(function(i){return !i.info;});
   var _d=_ci.filter(function(i){return isDone(i.id);}).length,_t=_ci.length,_p=_t?Math.round(_d/_t*100):0;
@@ -3390,6 +3394,34 @@ function acadLessonView(a,b){var m=acadFindMod(a);if(!m)return acadHomeView();va
 .ag-seg button:hover{color:#16233f}
 .ag-seg button.on{background:#fff;color:#16233f;box-shadow:0 1px 3px rgba(20,35,63,.14)}
 .ag-searchwrap{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.pipe-card .pipe-head{display:grid;grid-template-columns:1fr 64px 30px 92px 62px;gap:8px;font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#9aa3b4;padding:0 6px 6px}
+.pipe-head span:nth-child(3),.pipe-head span:nth-child(4),.pipe-head span:nth-child(5){text-align:right}
+.pipe-rows{display:flex;flex-direction:column;gap:2px}
+.pipe-row{display:grid;grid-template-columns:1fr 64px 30px 92px 62px;gap:8px;align-items:center;width:100%;appearance:none;border:0;background:transparent;font:inherit;text-align:left;cursor:pointer;padding:7px 6px;border-radius:9px}
+.pipe-row:hover{background:#f4f7fc}
+.pipe-row.leak{background:#fef6f3}
+.pipe-row.leak:hover{background:#fdeee7}
+.pipe-lab{font-size:13px;font-weight:700;color:#16233f;min-width:0}
+.pipe-leaktag{display:inline-block;font-size:9.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#b5561f;background:#fdeee7;border-radius:4px;padding:1px 5px;margin-left:7px;vertical-align:1px}
+.pipe-bar{display:block;height:7px;background:#eef2f8;border-radius:5px;overflow:hidden}
+.pipe-bar > span{display:block;height:100%;background:linear-gradient(90deg,#2f6df0,#16233f);border-radius:5px}
+.pipe-n{font-size:14px;font-weight:800;color:#16233f;text-align:right}
+.pipe-pct{font-size:11.5px;color:#8a93a5;text-align:right;line-height:1.25}
+.pipe-pct i{display:block;font-style:normal;font-size:10px;color:#b0b8c6}
+.pipe-med{font-size:12.5px;font-weight:700;color:#55617d;text-align:right;line-height:1.25}
+.pipe-med i{display:block;font-style:normal;font-size:9.5px;font-weight:600;color:#b0b8c6}
+.pipe-foot{font-size:11.5px;color:#9aa3b4;margin:10px 2px 0;line-height:1.45}
+.pipe-wholist{display:flex;flex-direction:column;gap:2px}
+.pipe-wrow{display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;appearance:none;border:0;border-bottom:1px solid #eef2f8;background:transparent;font:inherit;cursor:pointer;padding:10px 4px;text-align:left}
+.pipe-wrow:hover{background:#f7f9fd}
+.pipe-wn{font-size:14px;font-weight:700;color:#16233f}
+.pipe-wdays{font-size:12px;font-weight:700;color:#8a93a5;white-space:nowrap}
+.pipe-wdays.hot{color:#b5561f}
+.pipe-wnod{font-size:11.5px;color:#b0b8c6;white-space:nowrap}
+@media(max-width:620px){
+  .pipe-card .pipe-head,.pipe-row{grid-template-columns:1fr 26px 78px 54px}
+  .pipe-head span:nth-child(2),.pipe-bar{display:none}
+}
 .ag-tablewrap{overflow-x:auto}
 .ag-table{width:100%;border-collapse:collapse;font-size:13px}
 .ag-table th{text-align:left;background:#16233f;color:#fff;padding:10px 10px;font-size:11.5px;font-weight:700;cursor:pointer;white-space:nowrap}
@@ -5363,6 +5395,163 @@ function m5AgTable(){
   var search='<div class="ag-searchwrap">'+seg+'<input id="m5ag-search" type="search"'+(mode==='recruiter'?' list="m5ag-reclist"':'')+' placeholder="\u{1F50E} '+(mode==='recruiter'?'Search recruiter\u2026':'Search agent name\u2026')+'" value="'+m5AgEsc(m5Ag.q||'')+'" oninput="m5AgSearch(this.value)" style="padding:9px 13px;border:1px solid #dbe2ee;border-radius:10px;font-size:13.5px;min-width:200px;font-family:inherit;outline:none;background:#fff">'+reclist+'</div>';
   return '<div class="ag-card" style="padding:0;overflow:hidden"><div style="padding:16px 20px 10px"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h3 style="margin:0">'+(m5AgIsAdmin()?'Agent roster':'Your team')+'</h3>'+search+'</div><p class="sub" style="margin:6px 0 0">'+(m5AgIsAdmin()?'Every agent':'Everyone you have recruited')+', all three tracks side by side. Click any column to sort. Showing <span id="m5ag-count">'+n+'</span>.</p></div><div class="ag-tablewrap"><table class="ag-table"><thead><tr>'+head+'</tr></thead><tbody id="m5ag-tbody">'+m5AgRows()+'</tbody></table></div></div>';
 }
+/* ---- Onboarding pipelines --------------------------------------------------
+   Two funnels: the pre-licensing path and the licensed path. For each gate we
+   show how many reached it, what share of the people who entered that is, and
+   the MEDIAN days from entry to that gate. Median, not average: with a roster
+   this size one person who took nine months would wreck a mean.
+
+   Every checklist tick is stored with the date it happened, so both numbers
+   come out of data we already hold. A tick saved before dates were stored
+   counts toward conversion but is skipped in the timing (the "n" under each
+   figure says how many it was actually able to measure).
+
+   Click any gate to see the people STUCK there: reached it, have not reached
+   the next one, and how long they have been sitting. --------------------------*/
+function m5PipeMs(v){
+  if(!v) return null;
+  if(v===true) return null;
+  var d=new Date(v); var t=d.getTime();
+  return isNaN(t)?null:t;
+}
+function m5PipeHas(v){ return v===true || (typeof v==='string' && v!==''); }
+function m5PipeCk(a,id){ var c=(a&&a.checks)||{}; return c[id]; }
+
+var M5_PIPE_UNL=[
+  {k:'reg',   l:'Registered on the portal', get:function(a){ return a.registeredOn||a.joined||''; }},
+  {k:'login', l:'Actually logged in',        get:function(a){ return a.firstLogin||a.tFirst||(a.loggedIn?true:''); }},
+  {k:'plug',  l:'Got plugged in',            get:function(a){ return m5PipeCk(a,'u_plug'); }},
+  {k:'exam',  l:'Exam scheduled',            get:function(a){ return m5PipeCk(a,'u_exam'); }},
+  {k:'course',l:'Started the course',        get:function(a){ return m5PipeCk(a,'u_course'); }},
+  {k:'half',  l:'Halfway through (50%)',     get:function(a){ return m5PipeCk(a,'u_half'); }},
+  {k:'pass',  l:'Passed the state test',     get:function(a){ return m5PipeCk(a,'u_pass'); }},
+  {k:'apply', l:'Applied for the license',   get:function(a){ return m5PipeCk(a,'u_apply'); }},
+  {k:'lic',   l:'Licensed',                  get:function(a){ return a.licensed?(a.tLic||a.npnOn||a.appliedOn||true):''; }},
+  {k:'npn',   l:'NPN on file',               get:function(a){ return a.npnOn||(a.hasNPN?true:''); }}
+];
+var M5_PIPE_LIC=[
+  {k:'lic',   l:'Licensed',                  get:function(a){ return a.tLic||a.npnOn||a.appliedOn||(a.licensed?true:''); }},
+  {k:'login', l:'Logged into the portal',    get:function(a){ return a.firstLogin||a.tFirst||(a.loggedIn?true:''); }},
+  {k:'comm',  l:'Plugged into the groups',   get:function(a){ return m5PipeCk(a,'f_comm'); }},
+  {k:'goat',  l:'Joined us on GOAT',         get:function(a){ return m5PipeCk(a,'f_goat'); }},
+  {k:'orient',l:'Attended orientation',      get:function(a){ return m5PipeCk(a,'f_orient'); }},
+  {k:'invite',l:'Invited their first 5',     get:function(a){ return m5PipeCk(a,'f_invite'); }},
+  {k:'dials', l:'Started Live Dials',        get:function(a){ return m5PipeCk(a,'f_dials'); }},
+  {k:'fsdone',l:'Fast Start complete',       get:function(a){ return a.tFsDone||((m5AgNum(a.fsPct)||0)>=100?true:''); }},
+  {k:'acdone',l:'Academy complete',          get:function(a){ return a.tAcadDone||((m5AgNum(a.acadPct)||0)>=100?true:''); }}
+];
+/* Who belongs in each funnel. Someone who came in unlicensed and is licensed
+   now still belongs in the unlicensed funnel -- they finished it. */
+function m5PipeCohort(which){
+  var A=(m5Ag.agents||[]);
+  if(which==='lic') return A.filter(function(a){ return !!a.licensed; });
+  return A.filter(function(a){
+    if(!a.licensed) return true;
+    var c=a.checks||{};
+    return !!(c.u_plug||c.u_exam||c.u_course||c.u_half||c.u_pass||c.u_apply);
+  });
+}
+function m5PipeMedian(arr){
+  if(!arr.length) return null;
+  var b=arr.slice().sort(function(x,y){return x-y;});
+  var m=Math.floor(b.length/2);
+  return b.length%2? b[m] : Math.round((b[m-1]+b[m])/2);
+}
+function m5PipeCalc(which){
+  var gates=(which==='lic')?M5_PIPE_LIC:M5_PIPE_UNL;
+  var people=m5PipeCohort(which);
+  var entered=people.length;
+  var rows=gates.map(function(g,gi){
+    var reached=[], days=[];
+    people.forEach(function(a){
+      var v=g.get(a);
+      if(!m5PipeHas(v)) return;
+      reached.push(a);
+      if(gi>0){
+        var e=m5PipeMs(gates[0].get(a)), t=m5PipeMs(v);
+        if(e!=null&&t!=null&&t>=e) days.push(Math.round((t-e)/864e5));
+      }
+    });
+    return {g:g, gi:gi, n:reached.length, people:reached, med:m5PipeMedian(days), timed:days.length};
+  });
+  /* worst single drop, so the leak names itself */
+  var worst=-1, worstPct=0;
+  for(var i=1;i<rows.length;i++){
+    var prev=rows[i-1].n; if(prev<3) continue;
+    var lost=(prev-rows[i].n)/prev;
+    if(lost>worstPct){ worstPct=lost; worst=i; }
+  }
+  return {rows:rows, entered:entered, worst:worst, which:which};
+}
+function m5PipeStuck(which,gi){
+  var d=m5PipeCalc(which), rows=d.rows;
+  if(gi<0||gi>=rows.length) return [];
+  var here=rows[gi].people, nextIds={};
+  if(gi+1<rows.length) rows[gi+1].people.forEach(function(a){ nextIds[m5AgKey(a)]=1; });
+  var gates=(which==='lic')?M5_PIPE_LIC:M5_PIPE_UNL;
+  return here.filter(function(a){ return !nextIds[m5AgKey(a)]; }).map(function(a){
+    var t=m5PipeMs(gates[gi].get(a));
+    return {a:a, since:t, days:(t==null?null:Math.round((Date.now()-t)/864e5))};
+  }).sort(function(x,y){ return (y.days==null?-1:y.days)-(x.days==null?-1:x.days); });
+}
+window.m5PipeWho=function(which,gi){
+  var gates=(which==='lic')?M5_PIPE_LIC:M5_PIPE_UNL;
+  var list=m5PipeStuck(which,gi);
+  var title=gates[gi].l;
+  var body;
+  if(!list.length){
+    body='<div class="agm-keep" style="margin:0">Nobody is sitting here \u2014 everyone who reached this gate has moved on.</div>';
+  } else {
+    body='<div class="pipe-wholist">'+list.map(function(o){
+      var d=(o.days==null)?'<span class="pipe-wnod">no date on record</span>'
+                          :('<span class="pipe-wdays'+(o.days>21?' hot':'')+'">'+o.days+' day'+(o.days===1?'':'s')+'</span>');
+      return '<button type="button" class="pipe-wrow" onclick="m5AgClose();m5AgCard(\''+m5AgKey(o.a).replace(/'/g,"\\'")+'\')">'+
+        '<span class="pipe-wn">'+m5AgEsc(o.a.name||'')+'</span>'+d+'</button>';
+    }).join('')+'</div>';
+  }
+  m5AgClose();
+  var html='<div class="agm-back" id="agm-back" onclick="if(event.target===this)m5AgClose()">'+
+    '<div class="agm" role="dialog" aria-modal="true">'+
+      '<div class="agm-h"><div class="agm-ht"><div class="agm-name">Stuck at: '+title+'</div>'+
+      '<div class="agm-sub">Reached this step, not the next one \u00b7 longest wait first</div></div>'+
+      '<button type="button" class="agm-x" onclick="m5AgClose()" aria-label="Close">\u2715</button></div>'+
+      '<div class="agm-b">'+body+'</div></div></div>';
+  var d2=document.createElement('div'); d2.innerHTML=html;
+  document.body.appendChild(d2.firstChild);
+  document.addEventListener('keydown', m5AgEsckey);
+};
+function m5PipeCard(which,title,sub){
+  var d=m5PipeCalc(which);
+  if(!d.entered){
+    return '<div class="ag-card"><h3>'+title+'</h3><p class="sub">'+sub+'</p>'+
+      '<div class="ag-soon" style="padding:16px"><div class="t">Nobody in this pipeline yet</div>Once agents come through, every gate below fills in.</div></div>';
+  }
+  var rows=d.rows.map(function(r,i){
+    var pctAll=Math.round(r.n/d.entered*100);
+    var prev=i?d.rows[i-1].n:r.n;
+    var pctPrev=prev? Math.round(r.n/prev*100):100;
+    var med=(r.med==null)?'\u2014':(r.med+'d');
+    var drop=(i && d.worst===i);
+    return '<button type="button" class="pipe-row'+(drop?' leak':'')+'" onclick="m5PipeWho(\''+which+'\','+i+')">'+
+      '<span class="pipe-lab">'+r.g.l+(drop?'<span class="pipe-leaktag">biggest drop</span>':'')+'</span>'+
+      '<span class="pipe-bar"><span style="width:'+Math.max(pctAll,1)+'%"></span></span>'+
+      '<span class="pipe-n">'+r.n+'</span>'+
+      '<span class="pipe-pct">'+pctAll+'%'+(i?'<i> \u00b7 '+pctPrev+'% of prev</i>':'')+'</span>'+
+      '<span class="pipe-med">'+med+(r.timed?'<i>n='+r.timed+'</i>':'')+'</span>'+
+    '</button>';
+  }).join('');
+  return '<div class="ag-card pipe-card"><h3>'+title+'</h3><p class="sub">'+sub+'</p>'+
+    '<div class="pipe-head"><span>Gate</span><span></span><span>#</span><span>Reached</span><span>Median</span></div>'+
+    '<div class="pipe-rows">'+rows+'</div>'+
+    '<p class="pipe-foot">'+d.entered+' entered this pipeline \u00b7 median days measured from '+
+      (which==='lic'?'their licence date':'the day they registered')+' \u00b7 tap a gate to see who is stuck there</p></div>';
+}
+function m5AgPipelines(){
+  return '<div class="ag-grid2">'+
+    m5PipeCard('unl','Pipeline \u2014 getting licensed','Every step from registering to an NPN on file.')+
+    m5PipeCard('lic','Pipeline \u2014 licensed onboarding','From licence to Fast Start and Academy done.')+
+  '</div>';
+}
 function m5AgRender(){
   var A=m5Ag.agents||[];
   var total=A.length;
@@ -5392,17 +5581,18 @@ function m5AgRender(){
     +m5AgStat('Active (7d)',active7,'logged in this week')
     +m5AgStat('Avg completion',avgComp+'%','of logged-in agents')
     +'</div>';
+  h+='<div class="ag-grid3">';
+  h+=m5AgTimeCard('① Time to get licensed','First login → NPN entered.',licDays,['0-7','8-14','15-21','22-30','31-45','45+'],'#2f6df0');
+  h+=m5AgTimeCard('② Time through Fast Start','License → Fast Start done.',fsDays,['0-3','4-7','8-14','15-21','22-30','30+'],'#1f9d55',[3,7,14,21,30]);
+  h+=m5AgTimeCard('③ Time through Academy','First login → Academy complete.',acDays,['0-7','8-14','15-21','22-30','31-45','45+'],'#c9a227');
+  h+='</div>';
+  h+=m5AgPipelines();
   h+='<div class="ag-grid2">';
   h+='<div class="ag-card"><h3>Onboarding funnel</h3><p class="sub">Where the roster sits — and where people fall off.</p>'
     +m5AgFunnel([['Added to portal',total,'#16233f'],['Logged in',loggedIn,'#2f6df0'],['Got licensed',licensed,'#3f7be0'],['Fast Start done',fFs,'#5a93e6'],['Academy done',fAc,'#8fbaf0']],total)+'</div>';
   h+='<div class="ag-card"><h3>Roster mix</h3><p class="sub">Licensed vs unlicensed, and how they arrived.</p>'
     +m5AgMix('Licensed',licensed,'Unlicensed',unlic,'#2f6df0','#e67a3a')+'<div style="height:10px"></div>'
     +m5AgMix('Self-registered',srcForm,'Manual add',srcMan,'#1f9d55','#c9a227')+'</div>';
-  h+='</div>';
-  h+='<div class="ag-grid3">';
-  h+=m5AgTimeCard('① Time to get licensed','First login → NPN entered.',licDays,['0-7','8-14','15-21','22-30','31-45','45+'],'#2f6df0');
-  h+=m5AgTimeCard('② Time through Fast Start','License → Fast Start done.',fsDays,['0-3','4-7','8-14','15-21','22-30','30+'],'#1f9d55',[3,7,14,21,30]);
-  h+=m5AgTimeCard('③ Time through Academy','First login → Academy complete.',acDays,['0-7','8-14','15-21','22-30','31-45','45+'],'#c9a227');
   h+='</div>';
   h+='<div class="ag-grid2">';
   h+=m5AgTopEngagers();
