@@ -3379,6 +3379,18 @@ function acadLessonView(a,b){var m=acadFindMod(a);if(!m)return acadHomeView();va
 .agm-fld input:focus,.agm-fld select:focus,.agm-fld textarea:focus{border-color:#c9a227;box-shadow:0 0 0 3px rgba(201,162,39,.16)}
 .agm-two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .path-rows{display:flex;flex-direction:column;gap:8px}
+.agm-seg{margin-bottom:12px}
+.onb-bar{height:6px;border-radius:99px;background:#eef2f9;overflow:hidden;margin:2px 0 12px}
+.onb-bar span{display:block;height:100%;background:var(--brand);border-radius:99px}
+.onb-rows{display:flex;flex-direction:column;gap:1px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.onb-row{display:flex;align-items:center;gap:10px;padding:9px 12px;background:#fff;font-size:13px}
+.onb-row+.onb-row{border-top:1px solid var(--line)}
+.onb-row.done{background:#f7fbf8}
+.onb-tick{flex:0 0 18px;text-align:center;color:#3f9a5c;font-weight:700}
+.onb-row:not(.done) .onb-lab{color:var(--ink-soft)}
+.onb-lab{flex:1 1 auto;min-width:0}
+.onb-when{flex:0 0 auto;color:var(--ink-soft);font-size:12px;white-space:nowrap}
+.onb-exam{margin-top:10px;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:#f7f9fd;font-size:13px}
 .path-row{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:11px 13px;border-radius:10px;border:1px solid var(--line);background:#fff;cursor:pointer;font:inherit;color:inherit}
 .path-row:hover:not(:disabled){border-color:#c9d4e8;background:#fbfcff}
 .path-row:disabled{cursor:default;opacity:.75}
@@ -5422,6 +5434,60 @@ function m5CoachFlush(){
       .catch(function(){});
   });
 }
+/* ---- Onboarding card -------------------------------------------------------
+   The coaching card is what YOU write about them. This is what THEY have done:
+   the same checklist the agent sees on their own Get Licensed / Fast Start
+   page, with the date each step was ticked. Two views of one person, and the
+   toggle at the top of both swaps between them, so it does not matter which
+   one you opened or whether the dashboard card is still on screen. ---------- */
+function m5OnbTrack(a){ return a.licensed ? 'lic' : 'unl'; }
+function m5OnbSwitch(k,view){
+  return '<div class="ag-seg agm-seg">'+
+    '<button type="button" class="'+(view==='coach'?'on':'')+'" onclick="m5AgCard(\''+String(k).replace(/'/g,"\\'")+'\')">Coaching</button>'+
+    '<button type="button" class="'+(view==='onb'?'on':'')+'" onclick="m5OnbCard(\''+String(k).replace(/'/g,"\\'")+'\')">Onboarding</button>'+
+  '</div>';
+}
+window.m5OnbCard=function(k){
+  var a=m5AgFind(k); if(!a) return;
+  var which=m5OnbTrack(a);
+  var gates=(which==='lic')?M5_PIPE_LIC:M5_PIPE_UNL;
+  var done=0, rows=gates.map(function(g){
+    var v=g.get(a), hit=m5PipeHas(v), t=m5PipeMs(v);
+    if(hit) done++;
+    var when = hit ? (t==null?'done \u2014 no date recorded':m5AgDate(new Date(t).toISOString())) : '';
+    return '<div class="onb-row'+(hit?' done':'')+'">'+
+      '<span class="onb-tick">'+(hit?'\u2713':'')+'</span>'+
+      '<span class="onb-lab">'+g.l+'</span>'+
+      '<span class="onb-when">'+when+'</span>'+
+    '</div>';
+  }).join('');
+  var pct=gates.length?Math.round(done/gates.length*100):0;
+  /* the exam date belongs here too -- it is the one dated thing that is not a tick */
+  var mine=(m5CoachNow(k)||{}).examDate||'', theirs=(a.examDate||''), shown=theirs||mine;
+  var exam='';
+  if(which==='unl'){
+    exam='<div class="onb-exam">'+(shown
+      ? 'State exam: '+m5AgExamLabel(shown)+(theirs?'':' <span class="agm-examwho">(you recorded this)</span>')
+      : (m5PipeHas(m5PipeGate(a,'book'))
+          ? 'State exam: marked scheduled, <b>no date on file</b>'
+          : 'State exam: not booked yet'))+'</div>';
+  }
+  var nm=m5AgEsc(a.name||'');
+  m5AgClose();
+  var html='<div class="agm-back" id="agm-back" onclick="if(event.target===this)m5AgClose()">'+
+    '<div class="agm" role="dialog" aria-modal="true">'+
+      '<div class="agm-h"><div class="agm-ht"><div class="agm-name">'+nm+'</div>'+
+        '<div class="agm-sub">'+(which==='lic'?'Licensed onboarding':'Getting licensed')+' \u00b7 '+done+' of '+gates.length+' steps</div></div>'+
+        '<button type="button" class="agm-x" onclick="m5AgClose()" aria-label="Close">\u2715</button></div>'+
+      '<div class="agm-b">'+m5OnbSwitch(k,'onb')+
+        '<div class="onb-bar"><span style="width:'+Math.max(pct,2)+'%"></span></div>'+
+        '<div class="onb-rows">'+rows+'</div>'+exam+
+        '<p class="pipe-foot" style="margin-top:12px">This is their own checklist, exactly as they ticked it. Dates come from the moment each box was checked.</p>'+
+      '</div></div></div>';
+  var d=document.createElement('div'); d.innerHTML=html;
+  document.body.appendChild(d.firstChild);
+  document.addEventListener('keydown', m5AgEsckey);
+};
 function m5AgExamLabel(iso){
   try{
     var p=String(iso).split('-'); if(p.length<3) return String(iso);
@@ -5482,6 +5548,7 @@ function m5AgCard(k){
         '<div class="agm-ht"><div class="agm-name">'+nm+'</div><div class="agm-sub">'+sub+'</div></div>'+
         '<button type="button" class="agm-x" onclick="m5AgClose()" aria-label="Close">\u2715</button></div>'+
       '<div class="agm-b">'+
+        m5OnbSwitch(k,'coach')+
         '<div class="agm-acts">'+
           act(email?('mailto:'+email):'', '\u2709\ufe0f','Email',!!email)+
           act(phone?('sms:'+phone):'',    '\ud83d\udcac','Text', !!phone)+
