@@ -3372,6 +3372,13 @@ function acadLessonView(a,b){var m=acadFindMod(a);if(!m)return acadHomeView();va
 .agm-fld textarea{min-height:66px;resize:vertical;line-height:1.45}
 .agm-fld input:focus,.agm-fld select:focus,.agm-fld textarea:focus{border-color:#c9a227;box-shadow:0 0 0 3px rgba(201,162,39,.16)}
 .agm-two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.agm-keep{font-size:11.5px;color:#8a93a5;background:#f7f9fc;border:1px solid #eaeff7;border-radius:9px;padding:7px 10px;margin:0 0 12px;line-height:1.4}
+.agm-histb{appearance:none;border:0;background:transparent;font:inherit;font-size:11.5px;font-weight:700;color:#2f5fd0;cursor:pointer;padding:5px 0 0}
+.agm-histb:hover{text-decoration:underline}
+.agm-hist{border-left:2px solid #e6ecf6;margin:6px 0 2px;padding:2px 0 2px 10px}
+.agm-hrow{display:flex;gap:9px;padding:4px 0;font-size:12px;line-height:1.4}
+.agm-hd{flex:0 0 auto;color:#9aa3b4;font-weight:700;white-space:nowrap}
+.agm-hv{flex:1;min-width:0;color:#55617d;word-break:break-word}
 .agm-save{width:100%;padding:12px;border:0;border-radius:11px;background:#16233f;color:#fff;font:inherit;font-weight:800;font-size:14px;cursor:pointer;margin-top:4px}
 .agm-save:hover{background:#1f2c4e}
 .agm-stat{font-size:12px;color:#8a93a5;text-align:center;margin-top:8px;min-height:16px}
@@ -5144,19 +5151,22 @@ function m5AgRecruiter(a){
   return '';
 }
 /* ---- Agent card -----------------------------------------------------------
-   Click a name in the roster and this opens: one-tap email / text / call, the
-   progress snapshot we already hold, and the coaching facts worth knowing about
-   a person (their why, in their words; full-time or part-time; the schedule they
-   committed to; what the money is for; what is in their way; what they said they
-   would do next).
+   Click a name in the roster: one-tap email / text / call, the progress
+   snapshot, and the coaching facts worth knowing about a person.
 
-   Where it saves: the coaching fields post to the backend action 'coachSave',
-   which writes one row per agent on a Coaching tab of the sheet. Until that
-   action exists on the Apps Script side, values are held on this device and
-   retried on the next save, and the card says so plainly rather than pretending.
-   Visibility rides on the roster itself: you can only open a card for someone
-   the roster already returned to you, so a leader sees their people and the
-   upline above them sees everyone underneath. -------------------------------*/
+   NOTHING IS EVER OVERWRITTEN. The store is an append-only log: one row per
+   field per save, stamped with the date and who wrote it. The card shows the
+   most recent value for each field and keeps every earlier one behind a "see
+   history" toggle. If someone's why changes in month six, month one's answer is
+   still there in their own words -- which is the entire point of writing it
+   down. Saving only appends the fields you actually changed, so the history
+   stays readable instead of filling with repeats.
+
+   Where it saves: backend action 'coachAppend', writing to a CoachingLog tab.
+   Until that action exists on the Apps Script side, entries are held on this
+   device and retried on the next save, and the card says so plainly.
+   Visibility rides on the roster: you can only open a card for someone the
+   roster already returned to you. ------------------------------------------*/
 function m5AgKey(a){ return String((a&&(a.email||a.name))||'').trim().toLowerCase(); }
 function m5AgFind(k){
   k=String(k||'').toLowerCase();
@@ -5164,107 +5174,152 @@ function m5AgFind(k){
   for(var i=0;i<A.length;i++){ if(m5AgKey(A[i])===k) return A[i]; }
   return null;
 }
-/* local mirror of the coaching fields, so a save is never lost to a flaky network */
-function m5CoachAll(){
-  try{ return (store.data.coach=store.data.coach||{}); }catch(e){ return {}; }
-}
-function m5CoachGet(k){
-  var local=(m5CoachAll()[k]||{});
-  var a=m5AgFind(k);
-  var remote=(a&&a.coach)?a.coach:{};
-  var out={}; var f;
-  for(f in remote) out[f]=remote[f];
-  for(f in local)  if(local[f]!=='' && local[f]!=null) out[f]=local[f];
+var M5_COACH_FIELDS=[
+  {f:'why',      l:'Their why \u2014 in their words', t:'area', p:'What did they actually say when you asked why they are doing this?'},
+  {f:'commit',   l:'Full-time or part-time', t:'sel', o:['','Full-time','Part-time','Undecided']},
+  {f:'schedule', l:'Committed schedule',     t:'txt', p:'e.g. Mon\u2013Thu 5\u20139pm'},
+  {f:'goal',     l:'Income goal &amp; what it is for', t:'txt', p:'e.g. $6k/mo \u2014 off the night shift'},
+  {f:'leads',    l:'Lead budget &amp; source', t:'txt', p:'e.g. $500/wk, FEX direct mail'},
+  {f:'obstacle', l:'Biggest obstacle right now', t:'txt', p:'What is actually in their way?'},
+  {f:'next',     l:'Next commitment they made', t:'txt', p:'e.g. 20 dials a day this week'},
+  {f:'nextDate', l:'By when', t:'date'}
+];
+/* entries pending on this device, appended but not yet accepted by the sheet */
+function m5CoachPending(){ try{ return (store.data.coachLog=store.data.coachLog||[]); }catch(e){ return []; } }
+/* the full log for one agent: whatever the sheet returned, plus anything still
+   waiting here, oldest first */
+function m5CoachLog(k){
+  var a=m5AgFind(k), out=[];
+  if(a&&a.coachLog&&a.coachLog.length) out=out.concat(a.coachLog);
+  m5CoachPending().forEach(function(e){ if(String(e.target||'').toLowerCase()===k) out.push(e); });
+  out.sort(function(x,y){ return String(x.t||'')<String(y.t||'')?-1:1; });
   return out;
 }
-var M5_COACH_FIELDS=['why','commit','schedule','goal','leads','obstacle','next','nextDate'];
+/* current value of every field = the most recent entry for that field */
+function m5CoachNow(k){
+  var cur={};
+  m5CoachLog(k).forEach(function(e){ if(e&&e.field) cur[e.field]=e; });
+  return cur;
+}
+function m5CoachHist(k,f){
+  return m5CoachLog(k).filter(function(e){ return e && e.field===f; });
+}
 function m5CoachSave(k){
-  var c={}, i, el;
-  for(i=0;i<M5_COACH_FIELDS.length;i++){
-    el=document.getElementById('agm-'+M5_COACH_FIELDS[i]);
-    c[M5_COACH_FIELDS[i]]= el? String(el.value||'').trim() : '';
-  }
-  c.updatedAt=(new Date()).toISOString();
-  try{ c.updatedBy=((store.data&&store.data.email)||'').toLowerCase(); }catch(e){}
-  var all=m5CoachAll(); all[k]=c;
-  try{ if(store._saveLocal) store._saveLocal(); }catch(e){}
-  var a=m5AgFind(k); if(a) a.coach=c;
+  var cur=m5CoachNow(k), now=(new Date()).toISOString(), me='';
+  try{ me=((store.data&&store.data.email)||'').toLowerCase(); }catch(e){}
+  var adds=[];
+  M5_COACH_FIELDS.forEach(function(d){
+    var el=document.getElementById('agm-'+d.f); if(!el) return;
+    var v=String(el.value||'').trim();
+    var was=(cur[d.f]&&cur[d.f].value!=null)?String(cur[d.f].value):'';
+    if(v===was) return;                     /* unchanged: nothing to append */
+    if(v==='' && was==='') return;
+    adds.push({t:now,target:k,field:d.f,value:v,by:me});
+  });
   var st=document.getElementById('agm-stat');
   var say=function(msg,cls){ if(st){ st.textContent=msg; st.className='agm-stat '+(cls||''); } };
-  say('Saving…','');
-  if(typeof BACKEND_URL==='undefined'||!BACKEND_URL){ say('Saved on this device.','ok'); return; }
-  var me=''; try{ me=((store.data&&store.data.email)||'').toLowerCase(); }catch(e){}
-  fetch(BACKEND_URL,{method:'POST',body:JSON.stringify({action:'coachSave',email:me,target:k,data:c})})
+  if(!adds.length){ say('Nothing changed.',''); return; }
+  /* hold locally first so a save is never lost to a flaky network */
+  var pend=m5CoachPending();
+  adds.forEach(function(e){ pend.push(e); });
+  try{ if(store._saveLocal) store._saveLocal(); }catch(e){}
+  say('Saving\u2026','');
+  var reopen=function(){ m5AgCard(k); };
+  if(typeof BACKEND_URL==='undefined'||!BACKEND_URL){ reopen(); say('Saved on this device.','ok'); return; }
+  fetch(BACKEND_URL,{method:'POST',body:JSON.stringify({action:'coachAppend',email:me,target:k,entries:adds})})
     .then(function(r){return r.json();})
     .then(function(res){
-      if(res&&res.ok) say('Saved ✓','ok');
-      else say('Saved on this device — the sheet is not wired up for this yet.','warn');
+      if(res&&res.ok){
+        /* the sheet has them now - drop our copies so they are not counted twice */
+        var keep=m5CoachPending().filter(function(e){ return adds.indexOf(e)<0; });
+        try{ store.data.coachLog=keep; if(store._saveLocal) store._saveLocal(); }catch(e){}
+        var a=m5AgFind(k); if(a){ a.coachLog=(a.coachLog||[]).concat(adds); }
+        reopen(); say(adds.length+' '+(adds.length===1?'entry':'entries')+' saved \u2713','ok');
+      } else { reopen(); say('Saved on this device \u2014 the sheet is not wired up for this yet.','warn'); }
     })
-    .catch(function(){ say('Saved on this device — could not reach the sheet just now.','warn'); });
+    .catch(function(){ reopen(); say('Saved on this device \u2014 could not reach the sheet just now.','warn'); });
 }
 function m5AgClose(){
   var b=document.getElementById('agm-back'); if(b) b.parentNode.removeChild(b);
   document.removeEventListener('keydown', m5AgEsckey);
 }
 function m5AgEsckey(e){ if(e.key==='Escape') m5AgClose(); }
+window.m5CoachToggle=function(f){
+  var el=document.getElementById('agm-hist-'+f); if(!el) return;
+  var open=el.style.display!=='none';
+  el.style.display=open?'none':'block';
+  var b=document.getElementById('agm-histb-'+f);
+  if(b) b.textContent=(open?'\u25b8 ':'\u25be ')+b.getAttribute('data-label');
+};
 function m5AgCard(k){
   var a=m5AgFind(k); if(!a) return;
   m5AgClose();
-  var c=m5CoachGet(k);
+  var cur=m5CoachNow(k);
   var nm=m5AgEsc(a.name||''), ini=(nm.trim().split(/\s+/).map(function(w){return w[0]||'';}).join('').slice(0,2)||'A').toUpperCase();
   var email=String(a.email||'').trim(), phone=String(a.phone||'').replace(/[^\d+]/g,'');
   var rec=m5AgRecruiter(a);
-  var sub=(a.licensed?'Licensed agent':'Unlicensed')+(rec?' · recruited by '+m5AgEsc(rec):'');
-  var mail=email?('mailto:'+email.replace(/"/g,'')):'';
-  var sms= phone?('sms:'+phone):'';
-  var tel= phone?('tel:'+phone):'';
+  var sub=(a.licensed?'Licensed agent':'Unlicensed')+(rec?' \u00b7 recruited by '+m5AgEsc(rec):'');
   var act=function(href,ico,label,on){
-    return on? '<a class="agm-act" href="'+href+'"'+(href.indexOf('mailto')===0?'':'')+'><i>'+ico+'</i>'+label+'</a>'
+    return on? '<a class="agm-act" href="'+href+'"><i>'+ico+'</i>'+label+'</a>'
              : '<span class="agm-act off"><i>'+ico+'</i>'+label+'</span>';
   };
   var fact=function(l,v){ return '<div class="agm-fact"><div class="agm-fl">'+l+'</div><div class="agm-fv">'+v+'</div></div>'; };
-  var pct=function(v){ v=m5AgNum(v); return (v==null?'—':Math.round(v)+'%'); };
-  var opt=function(v,lab,cur){ return '<option value="'+v+'"'+(cur===v?' selected':'')+'>'+lab+'</option>'; };
-  var esc=function(v){ return m5AgEsc(v||'').replace(/"/g,'&quot;'); };
+  var pct=function(v){ v=m5AgNum(v); return (v==null?'\u2014':Math.round(v)+'%'); };
+  var esc=function(v){ return m5AgEsc(v==null?'':v).replace(/"/g,'&quot;'); };
+
+  var fld=function(d){
+    var e=cur[d.f], v=(e&&e.value!=null)?String(e.value):'';
+    var input;
+    if(d.t==='area')      input='<textarea id="agm-'+d.f+'" placeholder="'+(d.p||'')+'">'+m5AgEsc(v)+'</textarea>';
+    else if(d.t==='sel'){ input='<select id="agm-'+d.f+'">'+d.o.map(function(o){
+                            return '<option value="'+o+'"'+(v===o?' selected':'')+'>'+(o||'\u2014')+'</option>'; }).join('')+'</select>'; }
+    else if(d.t==='date') input='<input id="agm-'+d.f+'" type="date" value="'+esc(v)+'">';
+    else                  input='<input id="agm-'+d.f+'" value="'+esc(v)+'" placeholder="'+(d.p||'')+'">';
+    var hist=m5CoachHist(k,d.f);
+    var prior=hist.slice(0,-1);            /* everything before the current one */
+    var hh='';
+    if(prior.length){
+      var lab=prior.length+' earlier '+(prior.length===1?'version':'versions');
+      hh='<button type="button" class="agm-histb" id="agm-histb-'+d.f+'" data-label="'+lab+'" onclick="m5CoachToggle(\''+d.f+'\')">\u25b8 '+lab+'</button>'+
+         '<div class="agm-hist" id="agm-hist-'+d.f+'" style="display:none">'+
+         prior.slice().reverse().map(function(e2){
+           return '<div class="agm-hrow"><span class="agm-hd">'+m5AgDate(e2.t)+'</span>'+
+                  '<span class="agm-hv">'+(m5AgEsc(e2.value)||'<i>cleared</i>')+'</span></div>';
+         }).join('')+'</div>';
+    }
+    return '<div class="agm-fld"><label>'+d.l+'</label>'+input+hh+'</div>';
+  };
 
   var html='<div class="agm-back" id="agm-back" onclick="if(event.target===this)m5AgClose()">'+
     '<div class="agm" role="dialog" aria-modal="true" aria-label="Agent card">'+
       '<div class="agm-h"><div class="agm-av">'+ini+'</div>'+
         '<div class="agm-ht"><div class="agm-name">'+nm+'</div><div class="agm-sub">'+sub+'</div></div>'+
-        '<button type="button" class="agm-x" onclick="m5AgClose()" aria-label="Close">✕</button></div>'+
+        '<button type="button" class="agm-x" onclick="m5AgClose()" aria-label="Close">\u2715</button></div>'+
       '<div class="agm-b">'+
         '<div class="agm-acts">'+
-          act(mail,'✉️','Email',!!email)+
-          act(sms,'💬','Text',!!phone)+
-          act(tel,'📞','Call',!!phone)+
+          act(email?('mailto:'+email):'', '\u2709\ufe0f','Email',!!email)+
+          act(phone?('sms:'+phone):'',    '\ud83d\udcac','Text', !!phone)+
+          act(phone?('tel:'+phone):'',    '\ud83d\udcde','Call', !!phone)+
         '</div>'+
         '<div class="agm-grid">'+
           fact('Joined', m5AgDate(a.joined))+
           fact('Last active', a.lastLogin? m5AgAgo(a.lastLogin) : 'Never logged in')+
           fact('License', a.licensed? 'Licensed' : pct(a.gylPct)+' through')+
-          fact('Fast Start', a.licensed? pct(a.fsPct) : '—')+
-          fact('Academy', a.licensed? pct(a.acadPct) : '—')+
+          fact('Fast Start', a.licensed? pct(a.fsPct) : '\u2014')+
+          fact('Academy', a.licensed? pct(a.acadPct) : '\u2014')+
           fact('Goal cards', (a.gcCards||0))+
         '</div>'+
         '<div class="agm-sec">Coaching notes</div>'+
-        '<div class="agm-fld"><label>Their why — in their words</label><textarea id="agm-why" placeholder="What did they actually say when you asked why they are doing this?">'+m5AgEsc(c.why||'')+'</textarea></div>'+
-        '<div class="agm-two">'+
-          '<div class="agm-fld"><label>Full-time or part-time</label><select id="agm-commit">'+
-            opt('','—',c.commit||'')+opt('Full-time','Full-time',c.commit||'')+opt('Part-time','Part-time',c.commit||'')+opt('Undecided','Undecided',c.commit||'')+
-          '</select></div>'+
-          '<div class="agm-fld"><label>Committed schedule</label><input id="agm-schedule" value="'+esc(c.schedule)+'" placeholder="e.g. Mon–Thu 5–9pm"></div>'+
-        '</div>'+
-        '<div class="agm-two">'+
-          '<div class="agm-fld"><label>Income goal &amp; what it is for</label><input id="agm-goal" value="'+esc(c.goal)+'" placeholder="e.g. $6k/mo — off the night shift"></div>'+
-          '<div class="agm-fld"><label>Lead budget &amp; source</label><input id="agm-leads" value="'+esc(c.leads)+'" placeholder="e.g. $500/wk, FEX direct mail"></div>'+
-        '</div>'+
-        '<div class="agm-fld"><label>Biggest obstacle right now</label><input id="agm-obstacle" value="'+esc(c.obstacle)+'" placeholder="What is actually in their way?"></div>'+
-        '<div class="agm-two">'+
-          '<div class="agm-fld"><label>Next commitment they made</label><input id="agm-next" value="'+esc(c.next)+'" placeholder="e.g. 20 dials a day this week"></div>'+
-          '<div class="agm-fld"><label>By when</label><input id="agm-nextDate" type="date" value="'+esc(c.nextDate)+'"></div>'+
-        '</div>'+
+        '<div class="agm-keep">Nothing here is overwritten. Saving adds a new entry \u2014 every earlier answer stays, dated.</div>'+
+        fld(M5_COACH_FIELDS[0])+
+        '<div class="agm-two">'+fld(M5_COACH_FIELDS[1])+fld(M5_COACH_FIELDS[2])+'</div>'+
+        '<div class="agm-two">'+fld(M5_COACH_FIELDS[3])+fld(M5_COACH_FIELDS[4])+'</div>'+
+        fld(M5_COACH_FIELDS[5])+
+        '<div class="agm-two">'+fld(M5_COACH_FIELDS[6])+fld(M5_COACH_FIELDS[7])+'</div>'+
         '<button type="button" class="agm-save" onclick="m5CoachSave(\''+String(k).replace(/'/g,"\\'")+'\')">Save coaching notes</button>'+
-        '<div class="agm-stat" id="agm-stat">'+(c.updatedAt?('Last updated '+m5AgDate(c.updatedAt)):'')+'</div>'+
+        '<div class="agm-stat" id="agm-stat">'+
+          (function(){ var log=m5CoachLog(k); return log.length? ('Last updated '+m5AgDate(log[log.length-1].t)+' \u00b7 '+log.length+' entr'+(log.length===1?'y':'ies')+' on record') : ''; })()+
+        '</div>'+
       '</div>'+
     '</div></div>';
   var d=document.createElement('div'); d.innerHTML=html;
