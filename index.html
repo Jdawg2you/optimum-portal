@@ -5494,28 +5494,52 @@ function m5PipeStuck(which,gi){
     return {a:a, since:t, days:(t==null?null:Math.round((Date.now()-t)/864e5))};
   }).sort(function(x,y){ return (y.days==null?-1:y.days)-(x.days==null?-1:x.days); });
 }
-window.m5PipeWho=function(which,gi){
+/* Two lists behind every gate, because they answer different questions:
+   STUCK = reached this step, has not reached the next one (your call list).
+   REACHED = everyone who has ever hit it, with the date (your proof it works). */
+window.m5PipeWho=function(which,gi,mode){
+  mode=(mode==='all')?'all':'stuck';
   var gates=(which==='lic')?M5_PIPE_LIC:M5_PIPE_UNL;
-  var list=m5PipeStuck(which,gi);
+  var d=m5PipeCalc(which);
+  var reachedAll=d.rows[gi].people;
+  var stuck=m5PipeStuck(which,gi);
   var title=gates[gi].l;
+  var rowBtn=function(a,right){
+    return '<button type="button" class="pipe-wrow" onclick="m5AgClose();m5AgCard(\''+m5AgKey(a).replace(/'/g,"\\'")+'\')">'+
+      '<span class="pipe-wn">'+m5AgEsc(a.name||'')+'</span>'+right+'</button>';
+  };
   var body;
-  if(!list.length){
-    body='<div class="agm-keep" style="margin:0">Nobody is sitting here \u2014 everyone who reached this gate has moved on.</div>';
+  if(mode==='stuck'){
+    body = stuck.length
+      ? '<div class="pipe-wholist">'+stuck.map(function(o){
+          var r=(o.days==null)?'<span class="pipe-wnod">no date on record</span>'
+                              :('<span class="pipe-wdays'+(o.days>21?' hot':'')+'">'+o.days+' day'+(o.days===1?'':'s')+' here</span>');
+          return rowBtn(o.a,r);
+        }).join('')+'</div>'
+      : '<div class="agm-keep" style="margin:0">Nobody is sitting here \u2014 everyone who reached this gate has moved on.</div>';
   } else {
-    body='<div class="pipe-wholist">'+list.map(function(o){
-      var d=(o.days==null)?'<span class="pipe-wnod">no date on record</span>'
-                          :('<span class="pipe-wdays'+(o.days>21?' hot':'')+'">'+o.days+' day'+(o.days===1?'':'s')+'</span>');
-      return '<button type="button" class="pipe-wrow" onclick="m5AgClose();m5AgCard(\''+m5AgKey(o.a).replace(/'/g,"\\'")+'\')">'+
-        '<span class="pipe-wn">'+m5AgEsc(o.a.name||'')+'</span>'+d+'</button>';
-    }).join('')+'</div>';
+    body = reachedAll.length
+      ? '<div class="pipe-wholist">'+reachedAll.slice().sort(function(x,y){
+            return (m5PipeMs(gates[gi].get(y))||0)-(m5PipeMs(gates[gi].get(x))||0); }).map(function(a){
+          var t=m5PipeMs(gates[gi].get(a));
+          var r=(t==null)?'<span class="pipe-wnod">no date on record</span>'
+                         :('<span class="pipe-wdays">'+m5AgDate(new Date(t).toISOString())+'</span>');
+          return rowBtn(a,r);
+        }).join('')+'</div>'
+      : '<div class="agm-keep" style="margin:0">Nobody has reached this gate yet.</div>';
   }
+  var seg='<div class="ag-seg" style="margin-bottom:12px">'+
+    '<button type="button" class="'+(mode==='stuck'?'on':'')+'" onclick="m5PipeWho(\''+which+'\','+gi+',\'stuck\')">Stuck here ('+stuck.length+')</button>'+
+    '<button type="button" class="'+(mode==='all'?'on':'')+'" onclick="m5PipeWho(\''+which+'\','+gi+',\'all\')">Reached it ('+reachedAll.length+')</button>'+
+  '</div>';
   m5AgClose();
   var html='<div class="agm-back" id="agm-back" onclick="if(event.target===this)m5AgClose()">'+
     '<div class="agm" role="dialog" aria-modal="true">'+
-      '<div class="agm-h"><div class="agm-ht"><div class="agm-name">Stuck at: '+title+'</div>'+
-      '<div class="agm-sub">Reached this step, not the next one \u00b7 longest wait first</div></div>'+
+      '<div class="agm-h"><div class="agm-ht"><div class="agm-name">'+title+'</div>'+
+      '<div class="agm-sub">'+(mode==='stuck'?'Reached this step, not the next one \u00b7 longest wait first'
+                                             :'Everyone who has hit this gate \u00b7 most recent first')+'</div></div>'+
       '<button type="button" class="agm-x" onclick="m5AgClose()" aria-label="Close">\u2715</button></div>'+
-      '<div class="agm-b">'+body+'</div></div></div>';
+      '<div class="agm-b">'+seg+body+'</div></div></div>';
   var d2=document.createElement('div'); d2.innerHTML=html;
   document.body.appendChild(d2.firstChild);
   document.addEventListener('keydown', m5AgEsckey);
