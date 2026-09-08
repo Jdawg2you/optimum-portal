@@ -3342,6 +3342,42 @@ function acadLessonView(a,b){var m=acadFindMod(a);if(!m)return acadHomeView();va
 .ag-big{font-size:34px;font-weight:800;color:#16233f;line-height:1;margin-top:2px}
 .ag-soon{background:repeating-linear-gradient(45deg,#f7f9fc,#f7f9fc 10px,#f2f5fb 10px,#f2f5fb 20px);border:1px dashed #cfd8ea;border-radius:14px;padding:20px;text-align:center;color:#8a93a9;font-size:12.5px;line-height:1.5}
 .ag-soon .t{font-weight:800;color:#55617d;font-size:14px;margin-bottom:4px}
+/* ---- Agent card (click a name in the roster) ---- */
+.ag-namebtn{appearance:none;border:0;background:transparent;font:inherit;font-weight:800;color:#16233f;cursor:pointer;padding:0;text-align:left;border-bottom:1px dotted #b9c3d4}
+.ag-namebtn:hover{color:#2f5fd0;border-bottom-color:#2f5fd0}
+.agm-back{position:fixed;inset:0;background:rgba(12,22,44,.55);z-index:9998;display:flex;align-items:flex-start;justify-content:center;padding:26px 16px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.agm{background:#fff;border-radius:18px;width:100%;max-width:560px;box-shadow:0 22px 60px rgba(10,20,40,.35);overflow:hidden;animation:agmin .16s ease-out}
+@keyframes agmin{from{transform:translateY(8px);opacity:.6}to{transform:none;opacity:1}}
+.agm-h{background:#16233f;color:#fff;padding:18px 20px;display:flex;align-items:flex-start;gap:12px}
+.agm-av{width:44px;height:44px;flex:0 0 auto;border-radius:50%;background:linear-gradient(150deg,#c9a227,#a9861d);color:#16233f;font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center}
+.agm-ht{flex:1;min-width:0}
+.agm-name{font-size:18px;font-weight:800;line-height:1.2}
+.agm-sub{font-size:12.5px;color:#b9c6de;margin-top:3px}
+.agm-x{appearance:none;border:0;background:rgba(255,255,255,.12);color:#fff;width:30px;height:30px;border-radius:9px;cursor:pointer;font-size:15px;line-height:1;flex:0 0 auto}
+.agm-x:hover{background:rgba(255,255,255,.24)}
+.agm-b{padding:16px 20px 20px}
+.agm-acts{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:16px}
+.agm-act{display:flex;flex-direction:column;align-items:center;gap:4px;padding:11px 6px;border:1px solid var(--line);border-radius:12px;background:#fff;color:#16233f;font-size:12px;font-weight:700;text-decoration:none;cursor:pointer}
+.agm-act:hover{border-color:#2f5fd0;color:#2f5fd0;background:#f7f9ff}
+.agm-act.off{opacity:.4;pointer-events:none}
+.agm-act i{font-style:normal;font-size:17px}
+.agm-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:16px}
+.agm-fact{background:#f7f9fc;border:1px solid #eaeff7;border-radius:11px;padding:9px 11px}
+.agm-fl{font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#8a93a5}
+.agm-fv{font-size:13.5px;font-weight:700;color:#16233f;margin-top:2px}
+.agm-sec{font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#8a93a5;margin:4px 0 9px}
+.agm-fld{margin-bottom:11px}
+.agm-fld label{display:block;font-size:11.5px;font-weight:700;color:#55617d;margin-bottom:4px}
+.agm-fld input,.agm-fld select,.agm-fld textarea{width:100%;font:inherit;font-size:13.5px;padding:9px 11px;border:1px solid #dbe2ee;border-radius:10px;background:#fff;color:#16233f;outline:none}
+.agm-fld textarea{min-height:66px;resize:vertical;line-height:1.45}
+.agm-fld input:focus,.agm-fld select:focus,.agm-fld textarea:focus{border-color:#c9a227;box-shadow:0 0 0 3px rgba(201,162,39,.16)}
+.agm-two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.agm-save{width:100%;padding:12px;border:0;border-radius:11px;background:#16233f;color:#fff;font:inherit;font-weight:800;font-size:14px;cursor:pointer;margin-top:4px}
+.agm-save:hover{background:#1f2c4e}
+.agm-stat{font-size:12px;color:#8a93a5;text-align:center;margin-top:8px;min-height:16px}
+.agm-stat.ok{color:#1f7a44;font-weight:700}
+.agm-stat.warn{color:#b5561f}
+@media(max-width:560px){.agm-grid,.agm-two{grid-template-columns:1fr}.agm-acts{gap:7px}.agm-b{padding:14px 14px 18px}}
 .ag-seg{display:inline-flex;background:#eef2f8;border:1px solid #dbe2ee;border-radius:10px;padding:2px;gap:2px}
 .ag-seg button{appearance:none;border:0;background:transparent;font:inherit;font-size:12.5px;font-weight:700;color:#55617d;padding:6px 12px;border-radius:8px;cursor:pointer;white-space:nowrap}
 .ag-seg button:hover{color:#16233f}
@@ -5032,7 +5068,7 @@ function m5AgRows(){
        tagged Manual. Now it distinguishes where each identity actually came from — and
        "Both" doubles as the migration progress bar. */
     var srcCell= a.source==='Manual' ? 'Manual' : (a.registeredOn? (a.joined?'Both':'Portal') : 'Form');
-    return '<tr><td><b>'+m5AgEsc(a.name)+'</b></td><td>'+recCell+'</td><td><span class="ag-pill '+(lic?'lic':'unl')+'">'+(lic?'Licensed':'Unlicensed')+'</span></td><td>'+m5AgDate(a.joined)+'</td><td>'+portCell+'</td><td>'+srcCell+'</td><td>'+licCell+'</td><td>'+fsCell+'</td><td>'+acCell+'</td><td>'+last+'</td><td>'+(a.gcCards||0)+'</td></tr>';
+    return '<tr><td><button type="button" class="ag-namebtn" onclick="m5AgCard(\''+m5AgKey(a).replace(/'/g,"\\'")+'\')">'+m5AgEsc(a.name)+'</button></td><td>'+recCell+'</td><td><span class="ag-pill '+(lic?'lic':'unl')+'">'+(lic?'Licensed':'Unlicensed')+'</span></td><td>'+m5AgDate(a.joined)+'</td><td>'+portCell+'</td><td>'+srcCell+'</td><td>'+licCell+'</td><td>'+fsCell+'</td><td>'+acCell+'</td><td>'+last+'</td><td>'+(a.gcCards||0)+'</td></tr>';
   }).join('');
 }
 function m5AgEsc(s){ return String(s==null?'':s).replace(/[&<>]/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;'})[c];}); }
@@ -5107,6 +5143,135 @@ function m5AgRecruiter(a){
   if((a.source||'')==='Form')return 'Jesse Stamm';
   return '';
 }
+/* ---- Agent card -----------------------------------------------------------
+   Click a name in the roster and this opens: one-tap email / text / call, the
+   progress snapshot we already hold, and the coaching facts worth knowing about
+   a person (their why, in their words; full-time or part-time; the schedule they
+   committed to; what the money is for; what is in their way; what they said they
+   would do next).
+
+   Where it saves: the coaching fields post to the backend action 'coachSave',
+   which writes one row per agent on a Coaching tab of the sheet. Until that
+   action exists on the Apps Script side, values are held on this device and
+   retried on the next save, and the card says so plainly rather than pretending.
+   Visibility rides on the roster itself: you can only open a card for someone
+   the roster already returned to you, so a leader sees their people and the
+   upline above them sees everyone underneath. -------------------------------*/
+function m5AgKey(a){ return String((a&&(a.email||a.name))||'').trim().toLowerCase(); }
+function m5AgFind(k){
+  k=String(k||'').toLowerCase();
+  var A=m5Ag.agents||[];
+  for(var i=0;i<A.length;i++){ if(m5AgKey(A[i])===k) return A[i]; }
+  return null;
+}
+/* local mirror of the coaching fields, so a save is never lost to a flaky network */
+function m5CoachAll(){
+  try{ return (store.data.coach=store.data.coach||{}); }catch(e){ return {}; }
+}
+function m5CoachGet(k){
+  var local=(m5CoachAll()[k]||{});
+  var a=m5AgFind(k);
+  var remote=(a&&a.coach)?a.coach:{};
+  var out={}; var f;
+  for(f in remote) out[f]=remote[f];
+  for(f in local)  if(local[f]!=='' && local[f]!=null) out[f]=local[f];
+  return out;
+}
+var M5_COACH_FIELDS=['why','commit','schedule','goal','leads','obstacle','next','nextDate'];
+function m5CoachSave(k){
+  var c={}, i, el;
+  for(i=0;i<M5_COACH_FIELDS.length;i++){
+    el=document.getElementById('agm-'+M5_COACH_FIELDS[i]);
+    c[M5_COACH_FIELDS[i]]= el? String(el.value||'').trim() : '';
+  }
+  c.updatedAt=(new Date()).toISOString();
+  try{ c.updatedBy=((store.data&&store.data.email)||'').toLowerCase(); }catch(e){}
+  var all=m5CoachAll(); all[k]=c;
+  try{ if(store._saveLocal) store._saveLocal(); }catch(e){}
+  var a=m5AgFind(k); if(a) a.coach=c;
+  var st=document.getElementById('agm-stat');
+  var say=function(msg,cls){ if(st){ st.textContent=msg; st.className='agm-stat '+(cls||''); } };
+  say('Saving…','');
+  if(typeof BACKEND_URL==='undefined'||!BACKEND_URL){ say('Saved on this device.','ok'); return; }
+  var me=''; try{ me=((store.data&&store.data.email)||'').toLowerCase(); }catch(e){}
+  fetch(BACKEND_URL,{method:'POST',body:JSON.stringify({action:'coachSave',email:me,target:k,data:c})})
+    .then(function(r){return r.json();})
+    .then(function(res){
+      if(res&&res.ok) say('Saved ✓','ok');
+      else say('Saved on this device — the sheet is not wired up for this yet.','warn');
+    })
+    .catch(function(){ say('Saved on this device — could not reach the sheet just now.','warn'); });
+}
+function m5AgClose(){
+  var b=document.getElementById('agm-back'); if(b) b.parentNode.removeChild(b);
+  document.removeEventListener('keydown', m5AgEsckey);
+}
+function m5AgEsckey(e){ if(e.key==='Escape') m5AgClose(); }
+function m5AgCard(k){
+  var a=m5AgFind(k); if(!a) return;
+  m5AgClose();
+  var c=m5CoachGet(k);
+  var nm=m5AgEsc(a.name||''), ini=(nm.trim().split(/\s+/).map(function(w){return w[0]||'';}).join('').slice(0,2)||'A').toUpperCase();
+  var email=String(a.email||'').trim(), phone=String(a.phone||'').replace(/[^\d+]/g,'');
+  var rec=m5AgRecruiter(a);
+  var sub=(a.licensed?'Licensed agent':'Unlicensed')+(rec?' · recruited by '+m5AgEsc(rec):'');
+  var mail=email?('mailto:'+email.replace(/"/g,'')):'';
+  var sms= phone?('sms:'+phone):'';
+  var tel= phone?('tel:'+phone):'';
+  var act=function(href,ico,label,on){
+    return on? '<a class="agm-act" href="'+href+'"'+(href.indexOf('mailto')===0?'':'')+'><i>'+ico+'</i>'+label+'</a>'
+             : '<span class="agm-act off"><i>'+ico+'</i>'+label+'</span>';
+  };
+  var fact=function(l,v){ return '<div class="agm-fact"><div class="agm-fl">'+l+'</div><div class="agm-fv">'+v+'</div></div>'; };
+  var pct=function(v){ v=m5AgNum(v); return (v==null?'—':Math.round(v)+'%'); };
+  var opt=function(v,lab,cur){ return '<option value="'+v+'"'+(cur===v?' selected':'')+'>'+lab+'</option>'; };
+  var esc=function(v){ return m5AgEsc(v||'').replace(/"/g,'&quot;'); };
+
+  var html='<div class="agm-back" id="agm-back" onclick="if(event.target===this)m5AgClose()">'+
+    '<div class="agm" role="dialog" aria-modal="true" aria-label="Agent card">'+
+      '<div class="agm-h"><div class="agm-av">'+ini+'</div>'+
+        '<div class="agm-ht"><div class="agm-name">'+nm+'</div><div class="agm-sub">'+sub+'</div></div>'+
+        '<button type="button" class="agm-x" onclick="m5AgClose()" aria-label="Close">✕</button></div>'+
+      '<div class="agm-b">'+
+        '<div class="agm-acts">'+
+          act(mail,'✉️','Email',!!email)+
+          act(sms,'💬','Text',!!phone)+
+          act(tel,'📞','Call',!!phone)+
+        '</div>'+
+        '<div class="agm-grid">'+
+          fact('Joined', m5AgDate(a.joined))+
+          fact('Last active', a.lastLogin? m5AgAgo(a.lastLogin) : 'Never logged in')+
+          fact('License', a.licensed? 'Licensed' : pct(a.gylPct)+' through')+
+          fact('Fast Start', a.licensed? pct(a.fsPct) : '—')+
+          fact('Academy', a.licensed? pct(a.acadPct) : '—')+
+          fact('Goal cards', (a.gcCards||0))+
+        '</div>'+
+        '<div class="agm-sec">Coaching notes</div>'+
+        '<div class="agm-fld"><label>Their why — in their words</label><textarea id="agm-why" placeholder="What did they actually say when you asked why they are doing this?">'+m5AgEsc(c.why||'')+'</textarea></div>'+
+        '<div class="agm-two">'+
+          '<div class="agm-fld"><label>Full-time or part-time</label><select id="agm-commit">'+
+            opt('','—',c.commit||'')+opt('Full-time','Full-time',c.commit||'')+opt('Part-time','Part-time',c.commit||'')+opt('Undecided','Undecided',c.commit||'')+
+          '</select></div>'+
+          '<div class="agm-fld"><label>Committed schedule</label><input id="agm-schedule" value="'+esc(c.schedule)+'" placeholder="e.g. Mon–Thu 5–9pm"></div>'+
+        '</div>'+
+        '<div class="agm-two">'+
+          '<div class="agm-fld"><label>Income goal &amp; what it is for</label><input id="agm-goal" value="'+esc(c.goal)+'" placeholder="e.g. $6k/mo — off the night shift"></div>'+
+          '<div class="agm-fld"><label>Lead budget &amp; source</label><input id="agm-leads" value="'+esc(c.leads)+'" placeholder="e.g. $500/wk, FEX direct mail"></div>'+
+        '</div>'+
+        '<div class="agm-fld"><label>Biggest obstacle right now</label><input id="agm-obstacle" value="'+esc(c.obstacle)+'" placeholder="What is actually in their way?"></div>'+
+        '<div class="agm-two">'+
+          '<div class="agm-fld"><label>Next commitment they made</label><input id="agm-next" value="'+esc(c.next)+'" placeholder="e.g. 20 dials a day this week"></div>'+
+          '<div class="agm-fld"><label>By when</label><input id="agm-nextDate" type="date" value="'+esc(c.nextDate)+'"></div>'+
+        '</div>'+
+        '<button type="button" class="agm-save" onclick="m5CoachSave(\''+String(k).replace(/'/g,"\\'")+'\')">Save coaching notes</button>'+
+        '<div class="agm-stat" id="agm-stat">'+(c.updatedAt?('Last updated '+m5AgDate(c.updatedAt)):'')+'</div>'+
+      '</div>'+
+    '</div></div>';
+  var d=document.createElement('div'); d.innerHTML=html;
+  document.body.appendChild(d.firstChild);
+  document.addEventListener('keydown', m5AgEsckey);
+}
+window.m5AgCard=m5AgCard; window.m5AgClose=m5AgClose; window.m5CoachSave=m5CoachSave;
 function m5AgTable(){
   var k=m5Ag.sortKey, dir=m5Ag.sortDir;
   var cols=[['name','Agent'],['recruiter','Recruiter'],['statusS','Status'],['joined','Joined'],['portal','In portal'],['source','Source'],['licV','① License'],['fsV','② Fast Start'],['acV','③ Academy'],['lastV','Last active'],['gcCards','Goal cards']];
