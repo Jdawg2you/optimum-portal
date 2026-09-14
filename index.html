@@ -409,6 +409,13 @@
   .m5-lnk.nv{background:#16233f}
   .m5-lnk.dc{background:#5865f2}
   .m5-lnk.ai{background:#2563ff;border:0;cursor:pointer;font-family:inherit}
+  button.m5-lnk.go{border:0;cursor:pointer;font-family:inherit}
+  .m5-glstudy{background:#fff;border:1px solid #e6e8ee;border-left:4px solid #e0a83d;border-radius:12px;padding:17px 19px;margin:10px 0;box-shadow:0 2px 8px rgba(20,35,63,.06)}
+  .m5-glstudy .k{font-size:10.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#9a6a11;margin-bottom:6px}
+  .m5-glstudy .h{font-size:16.5px;font-weight:800;margin:0 0 7px;line-height:1.3;color:#16233f}
+  .m5-glstudy .p{font-size:13.5px;color:#42506a;line-height:1.55;margin:0 0 13px}
+  .m5-glstudy .p b{color:#16233f}
+  @media(max-width:560px){.m5-glstudy .m5-lnk{width:100%;justify-content:center}}
   .m5xam-back{position:fixed;inset:0;background:rgba(9,16,32,.62);z-index:9000;display:flex;align-items:flex-start;justify-content:center;padding:26px 14px;overflow:auto;-webkit-overflow-scrolling:touch}
   .m5xam{width:100%;max-width:680px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 24px 60px rgba(9,16,32,.35)}
   .m5xam-h{display:flex;align-items:flex-start;gap:12px;padding:16px 18px;background:#0e2244;color:#fff}
@@ -6810,7 +6817,7 @@ function m5GlSteps(){
     'Your voucher code covers it in full, so you pay nothing. Do not choose <b>Premier</b> &mdash; the voucher does not cover it.'+
     '<div class="m5-btnrow"><a class="m5-lnk go" href="https://partners.xcelsolutions.com/fflnational-hkr597" target="_blank" rel="noopener">&#128218; Register at Xcel &#8599;</a>'+
     '<a class="m5-lnk nv" href="https://youtu.be/GNJ3khgJG2g" target="_blank" rel="noopener">&#9654; Watch this FIRST &mdash; Course Hack</a>'+
-    '<button type="button" class="m5-lnk ai" onclick="m5ExamAI()">&#129302; Use AI to study for your exam</button></div>'+
+    '<button type="button" class="m5-lnk go" onclick="m5ExamAI()">Use AI to study for your exam</button></div>'+
     '<div class="m5-glneeds"><h4>&#9755; You will need this to register</h4><dl>'+
     '<dt>Partner / voucher code</dt><dd><code>fflnational-hkr597</code></dd>'+
     '<dt>Hiring manager</dt><dd>Jesse Stamm</dd>'+
@@ -7071,6 +7078,21 @@ function m5GlPreviewStrip(){
     'appears to them if they need to correct it. Everything below rewrites itself for whichever state you pick.</p>'+
     m5GlPicker()+'</div>';
 }
+/* ---- The study card, between "50%" and "Course complete" -------------------
+   Deliberately not a step: no number, no tick, nothing to mark done. It sits in
+   the flow to make one point before they reach the end of the course -- do the
+   coursework normally, and save this for the tests that actually decide things.
+   Anchored to gl_half rather than a fixed index, because the step order changes
+   by state. ---------------------------------------------------------------*/
+function m5GlStudyCard(){
+  return '<div class="m5-glstudy">'+
+    '<div class="k">Before the test</div>'+
+    '<p class="h">Study smarter for the exam</p>'+
+    '<p class="p">Do the course and its quizzes the normal way. When you hit your <b>course final</b> and your '+
+      '<b>practice exams</b>, use this &mdash; it turns every question you missed into a drill until you know it cold.</p>'+
+    '<button type="button" class="m5-lnk go" onclick="m5ExamAI()">Use AI to study for your test</button>'+
+  '</div>';
+}
 function m5GlRender(el){
   var isPrev=!!(store.data&&store.data._preview);
   var s=m5GlMine();
@@ -7123,6 +7145,9 @@ function m5GlRender(el){
     /* Anchored to the enroll step rather than a fixed position -- the order changes
        by state, and it belongs after they have signed up for the course. */
     if(x.id==='gl_enroll' && ck.gl_enroll) h.push(m5GlShareCard());
+    /* Same idea: anchored to the 50% step, so it lands between it and
+       "Course complete" whatever order the state puts the steps in. */
+    if(x.id==='gl_half') h.push(m5GlStudyCard());
   });
 
   if(!isPrev)h.push('<div class="m5-glpick" style="margin-top:14px"><p class="m5-fine" style="margin-bottom:5px">Not in '+m5GlEsc(s.st)+'? Change it and the steps rewrite themselves.</p>'+m5GlPicker()+'</div>');
