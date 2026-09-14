@@ -3380,6 +3380,8 @@ function acadLessonView(a,b){var m=acadFindMod(a);if(!m)return acadHomeView();va
 .agm-two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .path-rows{display:flex;flex-direction:column;gap:8px}
 .agm-seg{margin-bottom:12px}
+.agm-namebtn{display:block;padding:0;border:0;background:none;cursor:pointer;text-align:left;color:inherit;font-family:inherit;font-size:18px;font-weight:800;line-height:1.2;text-decoration:underline;text-decoration-color:currentColor;text-decoration-thickness:1px;opacity:.92;text-underline-offset:3px}
+.agm-namebtn:hover{opacity:1}
 .onb-bar{height:6px;border-radius:99px;background:#eef2f9;overflow:hidden;margin:2px 0 12px}
 .onb-bar span{display:block;height:100%;background:var(--brand);border-radius:99px}
 .onb-rows{display:flex;flex-direction:column;gap:1px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
@@ -5476,7 +5478,8 @@ window.m5OnbCard=function(k){
   m5AgClose();
   var html='<div class="agm-back" id="agm-back" onclick="if(event.target===this)m5AgClose()">'+
     '<div class="agm" role="dialog" aria-modal="true">'+
-      '<div class="agm-h"><div class="agm-ht"><div class="agm-name">'+nm+'</div>'+
+      '<div class="agm-h"><div class="agm-ht">'+
+        '<button type="button" class="agm-namebtn" onclick="m5AgCard(\''+String(k).replace(/'/g,"\\'")+'\')" title="Open their coaching card">'+nm+'</button>'+
         '<div class="agm-sub">'+(which==='lic'?'Licensed onboarding':'Getting licensed')+' \u00b7 '+done+' of '+gates.length+' steps</div></div>'+
         '<button type="button" class="agm-x" onclick="m5AgClose()" aria-label="Close">\u2715</button></div>'+
       '<div class="agm-b">'+m5OnbSwitch(k,'onb')+
