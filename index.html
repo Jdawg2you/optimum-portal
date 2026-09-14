@@ -408,6 +408,28 @@
   .m5-lnk.go{background:#c9a227;color:#2a2205}
   .m5-lnk.nv{background:#16233f}
   .m5-lnk.dc{background:#5865f2}
+  .m5-lnk.ai{background:#2563ff;border:0;cursor:pointer;font-family:inherit}
+  .m5xam-back{position:fixed;inset:0;background:rgba(9,16,32,.62);z-index:9000;display:flex;align-items:flex-start;justify-content:center;padding:26px 14px;overflow:auto;-webkit-overflow-scrolling:touch}
+  .m5xam{width:100%;max-width:680px;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 24px 60px rgba(9,16,32,.35)}
+  .m5xam-h{display:flex;align-items:flex-start;gap:12px;padding:16px 18px;background:#0e2244;color:#fff}
+  .m5xam-t{font-size:17px;font-weight:800;line-height:1.25}
+  .m5xam-s{font-size:12.5px;opacity:.82;margin-top:3px;line-height:1.45}
+  .m5xam-x{margin-left:auto;background:rgba(255,255,255,.14);color:#fff;border:0;border-radius:8px;width:30px;height:30px;cursor:pointer;font-size:14px;flex:0 0 auto}
+  .m5xam-b{padding:16px 18px 20px}
+  .m5xam-b h4{margin:18px 0 8px;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:#5a6678}
+  .m5xam-why{font-size:13.5px;line-height:1.55;color:#334155;background:#f4f7fc;border-left:3px solid #e0a83d;border-radius:0 8px 8px 0;padding:11px 14px}
+  .m5xam-steps{margin:0;padding:0;list-style:none;counter-reset:xam}
+  .m5xam-steps li{counter-increment:xam;position:relative;padding:0 0 12px 34px;font-size:13.5px;line-height:1.5}
+  .m5xam-steps li:before{content:counter(xam);position:absolute;left:0;top:0;width:23px;height:23px;border-radius:50%;background:#0e2244;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .m5xam-steps li b{display:block;color:#1a2230}
+  .m5xam-steps li span{display:block;color:#5a6678;font-size:12.5px;margin-top:2px}
+  .m5xam-copyrow{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin-bottom:9px}
+  .m5xam-stat{font-size:12px;color:#5a6678;line-height:1.45}
+  .m5xam-stat.ok{color:#2f7d4d;font-weight:650}
+  .m5xam-stat.warn{color:#9a6a11}
+  .m5xam-src{width:100%;height:230px;resize:vertical;border:1px solid #e6eaf1;border-radius:10px;background:#fbfcfe;padding:12px 13px;font-size:12.5px;line-height:1.55;color:#1a2230;font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre-wrap;box-sizing:border-box}
+  .m5xam-fine{font-size:12px;color:#667085;line-height:1.55;margin:10px 0 0}
+  @media(max-width:560px){.m5xam-src{height:190px}.m5xam-copyrow .m5-lnk{width:100%;justify-content:center}}
   .m5-mgr{margin:12px 2px 4px}
   .m5-mgrlabel{display:block;font-size:12.5px;font-weight:700;color:#42506a;margin-bottom:6px}
   .m5-mgrsel{width:100%;max-width:360px;padding:10px 12px;border:1px solid #cdd7e6;border-radius:9px;font-size:14px;background:#fff;color:#16233f;cursor:pointer}
@@ -6787,7 +6809,8 @@ function m5GlSteps(){
     '<b>Register for your course</b>, then start it. Select <b>Life &amp; Health</b> &mdash; the <b>$199 package</b>. '+
     'Your voucher code covers it in full, so you pay nothing. Do not choose <b>Premier</b> &mdash; the voucher does not cover it.'+
     '<div class="m5-btnrow"><a class="m5-lnk go" href="https://partners.xcelsolutions.com/fflnational-hkr597" target="_blank" rel="noopener">&#128218; Register at Xcel &#8599;</a>'+
-    '<a class="m5-lnk nv" href="https://youtu.be/GNJ3khgJG2g" target="_blank" rel="noopener">&#9654; Watch this FIRST &mdash; Course Hack</a></div>'+
+    '<a class="m5-lnk nv" href="https://youtu.be/GNJ3khgJG2g" target="_blank" rel="noopener">&#9654; Watch this FIRST &mdash; Course Hack</a>'+
+    '<button type="button" class="m5-lnk ai" onclick="m5ExamAI()">&#129302; Use AI to study for your exam</button></div>'+
     '<div class="m5-glneeds"><h4>&#9755; You will need this to register</h4><dl>'+
     '<dt>Partner / voucher code</dt><dd><code>fflnational-hkr597</code></dd>'+
     '<dt>Hiring manager</dt><dd>Jesse Stamm</dd>'+
@@ -6845,6 +6868,65 @@ function m5GlSteps(){
 }
 
 /* ---------- actions ---------- */
+/* ---- Study for the exam with AI -------------------------------------------
+   The highest-leverage thing an agent can do between practice tests is drill
+   the questions they actually got wrong. This hands them the method and the
+   exact prompt, so there is nothing to work out and nothing to retype. The
+   prompt lives in the textarea below and that IS the copy source, so what they
+   paste is byte-for-byte what is on screen. -------------------------------*/
+var M5_XAM_PROMPT_HTML='You are my exam-prep study partner. I&#x27;m studying for my insurance licensing exam and I need to pass the test — that&#x27;s the only goal. Here&#x27;s exactly how I want you to work with me.\n\n**Step 1 — Collecting my wrong answers**\n\nI&#x27;m going to upload screenshots of questions I got wrong on a practice test. Each screenshot shows the question, the answer choices, the answer I picked (wrong), the correct answer, and the test&#x27;s explanation of why that answer is correct.\n\nI can&#x27;t upload them all at once, so I&#x27;ll send them in batches of roughly 5–10. After each batch:\n- Confirm how many questions you&#x27;ve captured so far (running total).\n- Log each question with its correct answer and the test&#x27;s explanation.\n- Do NOT start quizzing yet. Just say &quot;Got it — send the next batch or type DONE.&quot;\n\nIf a screenshot is unreadable or is missing the correct answer or explanation, tell me which one so I can re-send it.\n\nWhen I type **DONE**, move to Step 2.\n\n**Step 2 — Quizzing me**\n\nQuiz me on the questions I uploaded, one at a time, in the same multiple-choice format as the test. Shuffle the order so I&#x27;m not memorizing sequence. After I answer:\n- Tell me if I got it right or wrong.\n- If wrong, give me the correct answer and the test&#x27;s explanation, and offer a mnemonic, memory hook, or simple pattern to help it stick.\n- If right, keep moving. Briefly reinforce a hook only if this is one I&#x27;ve missed before.\n\nKeep going through all the questions, then loop back and repeat the ones I missed until I get them right at least twice in a row.\n\n**Step 3 — Tracking my progress**\n\nTrack my performance across every quiz round in this chat. Anytime I ask for a &quot;progress report&quot; (or at the end of each full pass), show me:\n- Questions I&#x27;ve mastered (correct multiple times in a row)\n- Questions I&#x27;m still missing, and how many times I&#x27;ve missed each\n- The topics or concepts where my misses cluster\n\nPrioritize drilling the ones I keep missing.\n\n**Ground rules**\n\n- Only use the correct answers and explanations from my screenshots. Do NOT research the topic, add outside information, or expand the explanation beyond what the test gave. If the test&#x27;s reasoning and your own knowledge disagree, go with the test — the test is what I need to pass.\n- Don&#x27;t lecture. Short, direct, quiz-focused.\n- Memory aids are welcome (mnemonics, acronyms, associations, &quot;if you see X, the answer is Y&quot; patterns), as long as they stay tied to the test&#x27;s explanation.\n- Do not skip questions or combine them. Every question I upload gets drilled.\n\n**Retakes**\n\nWhen I take another practice test, I&#x27;ll come back with a new set of screenshots. Add them to the existing pool, keep my history from before, and tell me which of the new misses are repeats from previous rounds versus brand new. Then start quizzing again.\n\nReady? I&#x27;ll start uploading my first batch now.';
+function m5ExamAIClose(){
+  var el=document.getElementById('m5xam-back'); if(el) el.remove();
+  document.removeEventListener('keydown', m5ExamAIEsc);
+}
+function m5ExamAIEsc(e){ if(e.key==='Escape') m5ExamAIClose(); }
+function m5ExamAICopyFallback(done,fail){
+  var ta=document.getElementById('m5xam-src');
+  try{ ta.removeAttribute('readonly'); ta.focus(); ta.select(); ta.setSelectionRange(0,999999);
+       var ok=document.execCommand('copy'); ta.setAttribute('readonly','readonly');
+       ok?done():fail();
+  }catch(e){ fail(); }
+}
+function m5ExamAICopy(){
+  var ta=document.getElementById('m5xam-src'); if(!ta) return;
+  var st=document.getElementById('m5xam-stat');
+  var done=function(){ if(st){ st.textContent='Copied ✓ Now paste it into ChatGPT, Claude or Gemini.'; st.className='m5xam-stat ok'; } };
+  var fail=function(){ if(st){ st.textContent='Could not copy automatically — tap inside the box, select all, then copy.'; st.className='m5xam-stat warn'; } };
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(ta.value).then(done, function(){ m5ExamAICopyFallback(done,fail); });
+    } else { m5ExamAICopyFallback(done,fail); }
+  }catch(e){ m5ExamAICopyFallback(done,fail); }
+}
+function m5ExamAI(){
+  m5ExamAIClose();
+  var steps=[
+    ['Take your practice test.','Screenshot every question you get wrong. Each shot needs the question, the answer choices, your answer, the correct answer, and the explanation.'],
+    ['Open a new chat.','ChatGPT, Claude, Gemini — any of them. Paste the prompt below as your first message.'],
+    ['Upload your screenshots.','Five to ten per message. It confirms each batch and waits for the next.'],
+    ['Type DONE.','That starts the quizzing. It drills you on your own misses until you get each one right twice in a row.'],
+    ['Next practice test, come back.','Same chat if you can — it keeps your history and tells you which misses are repeats. A new chat is fine too.']
+  ];
+  var list=steps.map(function(s){ return '<li><b>'+s[0]+'</b><span>'+s[1]+'</span></li>'; }).join('');
+  var h='<div class="m5xam-back" id="m5xam-back" onclick="if(event.target===this)m5ExamAIClose()">'+
+    '<div class="m5xam" role="dialog" aria-modal="true" aria-label="Use AI to study for your exam">'+
+      '<div class="m5xam-h"><div><div class="m5xam-t">Use AI to study for your exam</div>'+
+        '<div class="m5xam-s">Drill the questions you actually got wrong — not the whole course again.</div></div>'+
+        '<button type="button" class="m5xam-x" onclick="m5ExamAIClose()" aria-label="Close">✕</button></div>'+
+      '<div class="m5xam-b">'+
+        '<div class="m5xam-why">Most people re-read the material they already know. The questions you missed are the ones standing between you and a pass — so those are the only ones worth drilling.</div>'+
+        '<h4>How it works</h4><ol class="m5xam-steps">'+list+'</ol>'+
+        '<h4>The prompt — copy this</h4>'+
+        '<div class="m5xam-copyrow"><button type="button" class="m5-lnk go" onclick="m5ExamAICopy()">⧉ Copy the prompt</button>'+
+          '<span class="m5xam-stat" id="m5xam-stat">Paste it as your first message in the chat.</span></div>'+
+        '<textarea class="m5xam-src" id="m5xam-src" readonly spellcheck="false" onclick="this.select()">'+M5_XAM_PROMPT_HTML+'</textarea>'+
+        '<p class="m5xam-fine">Tip: keep that chat open all the way to exam day. The more rounds you feed it, the sharper it gets at spotting the topics you keep missing.</p>'+
+      '</div></div></div>';
+  var d=document.createElement('div'); d.innerHTML=h;
+  document.body.appendChild(d.firstChild);
+  document.addEventListener('keydown', m5ExamAIEsc);
+}
+window.m5ExamAI=m5ExamAI; window.m5ExamAIClose=m5ExamAIClose; window.m5ExamAICopy=m5ExamAICopy;
 function m5GlSaveDate(){
   var el=document.getElementById('m5GlDate');
   if(!el||!el.value){ alert('Pick the date first.'); return; }
