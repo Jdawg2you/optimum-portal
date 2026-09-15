@@ -41,7 +41,43 @@
 
   /* login */
   #login{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(1200px 600px at 20% -10%,#1b3a72,#0c1c38 60%);padding:20px;z-index:50}
-  .login-card{background:#fff;border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.35);width:100%;max-width:410px;padding:32px;text-align:center}
+  .login-card{background:#fff;border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.35);width:100%;max-width:420px;padding:32px;text-align:center}
+  /* ---- Split login: agents on the left, everyone else on the right --------
+     The old single card sent non-Optimum agents into a dead end -- they arrive
+     from the "Agent Portal" button on the website assuming it means any agent.
+     Two doors means nobody has to read a footnote to find the way out. ------*/
+  .login-split{display:grid;grid-template-columns:minmax(0,420px) 54px minmax(0,400px);align-items:stretch;
+    gap:0;width:100%;max-width:900px;margin:0 auto}
+  .lc-kick,.lg-kick{font-size:10.5px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;margin-bottom:6px}
+  .lc-kick{color:#a9861d}
+  .lg-kick{color:#e8b73a}
+  .login-card h2{margin-bottom:6px}
+  .login-or{display:flex;align-items:center;justify-content:center;position:relative}
+  .login-or:before{content:"";position:absolute;top:8%;bottom:8%;width:1px;background:rgba(255,255,255,.18)}
+  .login-or span{position:relative;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.1);
+    border:1px solid rgba(255,255,255,.22);color:#cbd6ea;font-size:12px;font-weight:600;
+    display:flex;align-items:center;justify-content:center}
+  .login-guest{background:linear-gradient(160deg,#17294c,#101f3c 62%,#0b1730);border-radius:18px;padding:30px 28px 26px;
+    color:#fff;box-shadow:0 30px 80px rgba(0,0,0,.35);display:flex;flex-direction:column}
+  .login-guest h2{font-size:22px;font-weight:800;margin:0 0 8px;color:#fff}
+  .lg-sub{font-size:13.5px;color:#b9c6de;line-height:1.6;margin:0 0 16px}
+  .lg-list{list-style:none;margin:0 0 20px;padding:0}
+  .lg-list li{padding:9px 0;border-bottom:1px solid rgba(255,255,255,.09)}
+  .lg-list li:last-child{border-bottom:0}
+  .lg-list b{display:block;font-size:13.5px;font-weight:700}
+  .lg-list span{display:block;font-size:12px;color:#9fb0cd;margin-top:1px;line-height:1.45}
+  .lg-btn{display:block;margin-top:auto;text-align:center;background:linear-gradient(135deg,#e8b73a,#c9971f);
+    color:#2a2205;font-weight:800;font-size:15px;padding:13px 20px;border-radius:11px;text-decoration:none;
+    box-shadow:0 8px 20px rgba(201,151,31,.3)}
+  .lg-btn:hover{filter:brightness(1.05)}
+  .lg-fine{font-size:11.5px;color:#93a4c2;text-align:center;margin-top:11px;line-height:1.5}
+  @media(max-width:900px){
+    .login-split{grid-template-columns:minmax(0,420px);justify-content:center}
+    .login-or{padding:16px 0}
+    .login-or:before{top:50%;bottom:auto;left:10%;right:10%;width:auto;height:1px}
+    .login-guest{padding:26px 22px 24px}
+  }
+  @media(max-height:760px) and (min-width:901px){ #login{align-items:flex-start;overflow:auto;padding-top:28px} }
   .logo{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--navy),var(--brand));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:19px}
   .brandmark{display:flex;align-items:center;justify-content:center;gap:10px}
   .brandname{font-weight:800;font-size:18px;color:var(--navy)}
@@ -685,19 +721,42 @@
 
 <!-- LOGIN -->
 <div id="login">
-  <div class="login-card">
-    <div class="m5-logoimg m5-loginlogo"></div>
-    <h2>Welcome &mdash; let's get you in</h2>
-    <p class="k">Enter your name, email, and phone and we'll take you straight to the right place. No passwords, and no need to tell us your license status &mdash; we already know.</p>
-    <div class="row2">
-      <div class="field"><label>First name</label><input id="li-first" type="text" placeholder="First"></div>
-      <div class="field"><label>Last name</label><input id="li-last" type="text" placeholder="Last"></div>
+  <div class="login-split">
+
+    <!-- left: Optimum agents -->
+    <div class="login-card">
+      <div class="m5-logoimg m5-loginlogo"></div>
+      <div class="lc-kick">Optimum agents</div>
+      <h2>Log in to your portal</h2>
+      <p class="k">Contracting, training, your team, your numbers. If you are contracted with Optimum, this is your door.</p>
+      <div class="row2">
+        <div class="field"><label>First name</label><input id="li-first" type="text" placeholder="First"></div>
+        <div class="field"><label>Last name</label><input id="li-last" type="text" placeholder="Last"></div>
+      </div>
+      <div class="field"><label>Email</label><input id="li-email" type="text" placeholder="you@email.com"></div>
+      <div class="field"><label>Phone number</label><input id="li-phone" type="text" placeholder="(555) 123-4567"></div>
+      <button class="btn" id="li-btn" onclick="doLogin()">Continue &rarr;</button>
+      <div class="m5-err" id="li-err"></div>
+      <div class="demo-note">No passwords. We match you by phone first, then email &mdash; so it is fine if either one changed.</div>
     </div>
-    <div class="field"><label>Email</label><input id="li-email" type="text" placeholder="you@email.com"></div>
-    <div class="field"><label>Phone number</label><input id="li-phone" type="text" placeholder="(555) 123-4567"></div>
-    <button class="btn" id="li-btn" onclick="doLogin()">Continue &rarr;</button>
-    <div class="m5-err" id="li-err"></div>
-    <div class="demo-note">We match you by phone number first, then email &mdash; so it's fine if either one changed.</div>
+
+    <div class="login-or"><span>or</span></div>
+
+    <!-- right: everyone else -->
+    <div class="login-guest">
+      <div class="lg-kick">Everyone else</div>
+      <h2>Use the free tools</h2>
+      <p class="lg-sub">Not with Optimum? The portal is ours &mdash; but the tools are yours. Free, no login, whoever you write business under.</p>
+      <ul class="lg-list">
+        <li><b>Product Wizard</b><span>Which carriers will actually take this client</span></li>
+        <li><b>Script Navigator</b><span>Card-by-card scripts for the whole call</span></li>
+        <li><b>Planning Tools</b><span>Income, activity, agency and commission</span></li>
+        <li><b>Cheat sheets</b><span>Objections, policy benefits, state licensing</span></li>
+      </ul>
+      <a class="lg-btn" href="https://tools.ffloptimum.com/" target="_blank" rel="noopener">Open the free tools &rarr;</a>
+      <div class="lg-fine">Plus a free agent website, digital business card and booking calendar.</div>
+    </div>
+
   </div>
 </div>
 
