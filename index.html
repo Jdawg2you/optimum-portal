@@ -1092,7 +1092,7 @@ function m5ApplyDeep(){
 }
 function go(view){
   document.querySelectorAll('.navitem').forEach(n=>n.classList.toggle('active',n.dataset.view===view));
-  const names={dashboard:'Dashboard',faststart:'Fast Start',academy:'Academy',income:'Income Calculator',activity:'Activity Planner',agencybuild:'Agency Builder',sales:'Sales Tools',systools:'Systems/Tools',goalcard:'Goal Card',leads:'Leads',calc:'Policy Comm Calc',recruiting:'Recruiting',selfdev:'Self Development',resources:'Resources',health:'Health',virtual:'Virtual Calls/Events',inperson:'In-Person Events',support:'General Support',gethelp:'Get Help',kpi:'My KPIs',profile:'Profile',agency:'Agency Dashboard'};
+  const names={dashboard:'Dashboard',faststart:'Fast Start',academy:'Academy',income:'Income Calculator',activity:'Activity Planner',agencybuild:'Agency Builder',sales:'Sales Tools',systools:'Systems/Tools',goalcard:'Goal Card',leads:'Leads',calc:'Policy Comm Calc',recruiting:'Recruiting',shareffl:'Recruiting',selfdev:'Self Development',resources:'Resources',health:'Health',virtual:'Virtual Calls/Events',inperson:'In-Person Events',support:'General Support',gethelp:'Get Help',kpi:'My KPIs',profile:'Profile',agency:'Agency Dashboard'};
   document.getElementById('crumb').textContent=names[view]||'';
   window.scrollTo(0,0); render(view); m5ShareDecorate();
   try{ if(typeof m5TrackSection==='function') m5TrackSection(view); }catch(e){}
@@ -1213,6 +1213,7 @@ function render(view){_cv=view;const el=document.getElementById('content');
   else if(view==='inperson')el.innerHTML=vInperson();
   else if(view==='support')el.innerHTML=vSupport();
   else if(view==='profile')el.innerHTML=vProfile();
+  else if(view==='shareffl')el.innerHTML=vShareFFL();
   else if(view==='kpi'){el.innerHTML=frameShell('My KPIs','Your business-health score and next-step coaching.');mountFrame(KPI_B64);}
   /* the page-link button rides on every render, not just nav clicks, so it
      survives in-place re-renders (opening a Resources row, ticking a box). */
@@ -3722,6 +3723,61 @@ nav.side{padding:9px 10px}
 .m5-ckbul li::after{content:"\2713";position:absolute;left:3.5px;top:2px;font-size:11px;font-weight:800;color:#1a9e63;line-height:16px}
 .m5-paren{display:block;color:#8a93a5;font-size:12.5px;font-style:italic;margin-bottom:2px}
 
+/* ---- Recruiting: why-first hero, share splash, share sub-page ---- */
+.m5-whyhero{background:#fff;border:1px solid var(--line);border-radius:16px;overflow:hidden;margin:0 0 12px;box-shadow:0 2px 10px rgba(20,35,63,.06)}
+.m5-whyhead{padding:17px 19px 14px}
+.m5-whyk{font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#c9971f;margin-bottom:5px}
+.m5-whyt{font-size:19px;font-weight:800;margin:0 0 6px;line-height:1.25;color:#0e2244}
+.m5-whyd{font-size:13.5px;color:#42506a;line-height:1.55;margin:0}
+.m5-whyvid{position:relative;display:flex;align-items:center;justify-content:center;margin:0 19px 15px;border:1px solid #23375e;border-radius:13px;
+  overflow:hidden;background:#0c162c center/cover no-repeat;aspect-ratio:9/16;width:calc(100% - 38px);max-width:250px;cursor:pointer;padding:0}
+.m5-whyplay{position:relative;width:52px;height:52px;border-radius:50%;background:rgba(232,183,58,.95);color:#1b2a49;display:flex;
+  align-items:center;justify-content:center;font-size:19px;box-shadow:0 6px 20px rgba(0,0,0,.42)}
+.m5-whyhero .acad-video{margin:0 19px 15px;max-width:250px}
+.m5-whyfoot{padding:0 19px 16px;font-size:12px;color:#5a6678}
+.m5-whyfoot a{color:#2563ff;font-weight:700;text-decoration:none}
+.m5-splash{position:relative;overflow:hidden;border-radius:16px;padding:22px 22px 20px;margin:0 0 12px;color:#fff;
+  background:radial-gradient(120% 140% at 12% 0%,#24406f 0%,#16233f 45%,#0c162c 100%);box-shadow:0 14px 34px rgba(12,22,44,.28)}
+.m5-splash:before{content:"";position:absolute;right:-70px;top:-70px;width:230px;height:230px;border-radius:50%;
+  background:radial-gradient(circle,rgba(232,183,58,.22),transparent 68%)}
+.m5-splashk{position:relative;display:inline-block;background:rgba(232,183,58,.16);color:#e8b73a;font-size:10.5px;font-weight:800;
+  letter-spacing:.09em;text-transform:uppercase;padding:4px 11px;border-radius:20px;margin-bottom:10px}
+.m5-splashh{position:relative;margin:0 0 7px;font-size:24px;font-weight:800;line-height:1.2}
+.m5-splashh i{font-style:normal;color:#e8b73a}
+.m5-splashp{position:relative;margin:0 0 16px;font-size:13.5px;line-height:1.6;color:#c7d3e8;max-width:46ch}
+.m5-splashcta{position:relative;display:inline-flex;align-items:center;gap:9px;background:linear-gradient(135deg,#e8b73a,#c9971f);
+  color:#2a2205;font-weight:800;font-size:14px;padding:12px 22px;border-radius:11px;border:0;cursor:pointer;font-family:inherit;
+  box-shadow:0 8px 20px rgba(201,151,31,.32)}
+.m5-splashcta:hover{filter:brightness(1.05)}
+.m5-splashsteps{position:relative;display:flex;gap:15px;margin-top:15px;padding-top:14px;border-top:1px solid rgba(255,255,255,.12);flex-wrap:wrap}
+.m5-splashsteps span{font-size:11.5px;color:#a9bad6;display:flex;align-items:center;gap:6px}
+.m5-splashsteps b{width:19px;height:19px;border-radius:50%;background:rgba(232,183,58,.18);color:#e8b73a;font-size:10.5px;
+  display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+.m5-shback{display:inline-flex;align-items:center;gap:7px;background:none;border:0;font:inherit;font-size:13px;font-weight:700;
+  color:#5a6678;cursor:pointer;padding:0;margin:0 0 10px}
+.m5-shhow{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:0 0 18px;box-shadow:0 2px 8px rgba(20,35,63,.05)}
+.m5-shhow h3{margin:0 0 4px;font-size:15px;font-weight:800;color:#0e2244}
+.m5-shhow .h{font-size:12.5px;color:#5a6678;margin:0 0 12px;line-height:1.5}
+.m5-shhow ol{margin:0;padding:0;list-style:none;counter-reset:sh}
+.m5-shhow li{counter-increment:sh;position:relative;padding:0 0 10px 32px;font-size:13.5px;color:#3d4657;line-height:1.55}
+.m5-shhow li:last-child{padding-bottom:0}
+.m5-shhow li:before{content:counter(sh);position:absolute;left:0;top:1px;width:22px;height:22px;border-radius:7px;background:#e8b73a;
+  color:#1b2a49;font-weight:800;font-size:12px;display:flex;align-items:center;justify-content:center}
+.m5-shpick{font-size:11.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#8a93a5;margin:0 0 10px}
+.m5-shcard{background:#fff;border:1px solid var(--line);border-radius:14px;margin:0 0 14px;overflow:hidden;box-shadow:0 2px 8px rgba(20,35,63,.05)}
+.m5-shhead{display:flex;align-items:flex-start;gap:12px;padding:15px 17px;border-bottom:1px solid var(--line);background:#fbfcfe}
+.m5-shmt{flex:1;min-width:0}
+.m5-shopt{display:block;font-size:10.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#c9971f;margin-bottom:3px}
+.m5-shname{display:block;font-size:15.5px;font-weight:800;color:#0e2244;line-height:1.3}
+.m5-shwho{display:block;font-size:12.5px;color:#5a6678;margin-top:3px;line-height:1.45}
+.m5-shcopy{flex:0 0 auto;background:#0e2244;color:#fff;border:0;border-radius:9px;padding:9px 16px;font:inherit;font-size:12.5px;
+  font-weight:700;cursor:pointer}
+.m5-shcopy:hover{filter:brightness(1.15)}
+.m5-shcopy.copied{background:#1a9e63}
+.m5-shbody{padding:15px 17px;font-size:13.5px;color:#3d4657;line-height:1.7}
+.m5-shbody a{color:#2563ff;font-weight:700;word-break:break-all}
+@media(max-width:560px){.m5-whyvid{max-width:100%}.m5-whyhero .acad-video{max-width:100%}.m5-shcopy{width:100%}.m5-shhead{flex-wrap:wrap}}
+
 /* ---- Recruiting: expandable "How to enroll your new hire" ---- */
 .m5-expand{background:#fff;border:1px solid var(--line);border-radius:14px;margin:10px 0;overflow:hidden;box-shadow:0 2px 8px rgba(20,35,63,.05)}
 .m5-exhead{display:flex;align-items:center;gap:14px;padding:14px 16px;cursor:pointer;user-select:none}
@@ -4328,11 +4384,102 @@ window.m5NpnSavedFlow=function(npn,rec){
 }
 window.m5CopyNpnMsg=function(btn){ try{ navigator.clipboard.writeText(m5_npnMsg); }catch(e){} if(btn){ var o=btn.textContent; btn.textContent='Copied ✓'; setTimeout(function(){ btn.textContent=o; },1500); } }
 window.m5DismissNpn=function(){ if(typeof render==='function'&&typeof currentView==='function') render(currentView()); }
+/* ---- Recruiting: why-first hero, then the share splash ---------------------
+   The 5-2 lesson video leads the page. It also lives in the Academy; this is a
+   deliberate second home, because the argument for referring on day one is the
+   thing that has to land before any of the rest of the page matters. --------*/
+var M5_WHY_VID='https://youtube.com/shorts/txcPfzVu9ao';
+function m5WhyPoster(){
+  try{
+    var m=(typeof ACAD_LMS!=='undefined')&&ACAD_LMS.filter(function(x){return x.id==='build-your-future';})[0];
+    var l=m&&m.lessons.filter(function(x){return x.id==='5-2';})[0];
+    return (l&&l.poster)||'';
+  }catch(e){ return ''; }
+}
+function m5WhyHero(){
+  var poster=m5WhyPoster();
+  var st=poster?(' style="background-image:url(&#39;'+poster+'&#39;)"'):'';
+  return '<div class="m5-whyhero">'+
+    '<div class="m5-whyhead">'+
+      '<div class="m5-whyk">Start here</div>'+
+      '<p class="m5-whyt">Why you recruit from day one</p>'+
+      '<p class="m5-whyd">Recruiting on day one means <b>referring</b> &mdash; not building, not hiring, not training. '+
+        'Two minutes on what that actually means, and what it costs you.</p>'+
+    '</div>'+
+    '<button type="button" class="m5-whyvid" id="m5-whyvid" onclick="m5WhyPlay()"'+st+' aria-label="Play the video">'+
+      '<span class="m5-whyplay">&#9654;</span></button>'+
+    '<div class="m5-whyfoot">Also in the Academy under Build Your Future &middot; '+
+      '<a href="#" onclick="acadGoLes(\'build-your-future\',\'5-2\');return false;">Open the lesson &#8250;</a></div>'+
+  '</div>';
+}
+function m5WhyPlay(){
+  var el=document.getElementById('m5-whyvid'); if(!el) return;
+  try{ el.outerHTML=acadEmbed(M5_WHY_VID); }catch(e){}
+}
+function m5ShareSplash(){
+  return '<div class="m5-splash">'+
+    '<span class="m5-splashk">Share Family First Life</span>'+
+    '<h2 class="m5-splashh">Somebody you know needs <i>to hear about this.</i></h2>'+
+    '<p class="m5-splashp">Two ready-to-send messages. Pick the one that fits where you are, copy it, send it.</p>'+
+    '<button type="button" class="m5-splashcta" onclick="go(\'shareffl\')">Share the opportunity &rarr;</button>'+
+    '<div class="m5-splashsteps"><span><b>1</b> Pick your message</span><span><b>2</b> Copy it</span><span><b>3</b> Send it</span></div>'+
+  '</div>';
+}
+
+/* ---- The share sub-page ----------------------------------------------------
+   Both messages are the agency's own wording, character for character. The copy
+   source is the rendered block itself, so what lands on the clipboard is what
+   they read on screen. ----------------------------------------------------*/
+var M5_SHARE_MSGS=[
+  {k:'new', t:"If you're new to the business", w:'You just started with FFL and want to let your circle know.',
+   body:"Hey, Hope all is well with your Family. Just a heads up I just started with a new Company and They are looking to bring on New Reps if you know anyone they pay really well. Part Time and Full Time!! Here is an Overview Video Pass this Info Along for me! JoinUS.FFLALL.com"},
+  {k:'vet', t:"If you've been with FFL for a while", w:"You're established in the business and ready to expand the team.",
+   body:"Hey, Hope all is well with your Family. You may have seen that I help people with Insurance and Retirement... Our Company is looking to bring on New Reps if you know anyone... they pay really well!! Part Time and Full Time!! Here is an Overview Video. Pass this Info Along for me! JoinUS.FFLALL.com"}
+];
+function m5ShareLinkify(t){
+  return m5AgEsc(t).replace(/JoinUS\.FFLALL\.com/g,
+    '<a href="https://JoinUS.FFLALL.com" target="_blank" rel="noopener">JoinUS.FFLALL.com</a>');
+}
+window.m5ShareCopy=function(i,btn){
+  var el=document.getElementById('m5sh-'+i); if(!el) return;
+  var txt=el.innerText;
+  var ok=function(){ btn.textContent='Copied ✓'; btn.classList.add('copied');
+    setTimeout(function(){ btn.textContent='Copy'; btn.classList.remove('copied'); },1800); };
+  var fail=function(){ try{
+      var ta=document.createElement('textarea'); ta.value=txt;
+      ta.style.cssText='position:fixed;left:-9999px'; document.body.appendChild(ta);
+      ta.select(); document.execCommand('copy'); ta.remove(); ok();
+    }catch(e){ btn.textContent='Select it manually'; } };
+  try{
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(ok,fail);
+    else fail();
+  }catch(e){ fail(); }
+};
+window.vShareFFL=function(){
+  var cards=M5_SHARE_MSGS.map(function(m,i){
+    return '<div class="m5-shcard">'+
+      '<div class="m5-shhead"><span class="m5-shmt">'+
+        '<span class="m5-shopt">Option '+(i+1)+'</span>'+
+        '<span class="m5-shname">'+m5AgEsc(m.t)+'</span>'+
+        '<span class="m5-shwho">'+m5AgEsc(m.w)+'</span></span>'+
+        '<button type="button" class="m5-shcopy" onclick="m5ShareCopy('+i+',this)">Copy</button></div>'+
+      '<div class="m5-shbody" id="m5sh-'+i+'">'+m5ShareLinkify(m.body)+'</div>'+
+    '</div>';
+  }).join('');
+  return '<button type="button" class="m5-shback" onclick="go(\'recruiting\')">&#8249; Recruiting</button>'+
+    '<h1 class="page">Share Family First Life</h1>'+
+    '<p class="sub">Pick the message that fits you, copy it, and send it to someone who should hear about this.</p>'+
+    '<div class="m5-shhow"><h3>How this works</h3>'+
+      '<p class="h">Both messages point to the overview video at JoinUS.FFLALL.com &mdash; that is what your person watches.</p>'+
+      '<ol><li>Pick the message that matches <b>where you are</b> &mdash; brand new, or been at this a while.</li>'+
+      '<li>Hit <b>Copy</b>. The whole message lands on your clipboard.</li>'+
+      '<li>Paste it into a text, a DM or an email, and send it.</li></ol></div>'+
+    '<p class="m5-shpick">Pick your message</p>'+cards;
+};
 try{
   if(typeof m5RowList==='function'){
     window.vRecruiting=function(){
       var topItems=[
-        {l:'Share FFL — Invite App',d:'Send the opportunity to a prospect in seconds.',url:'https://jdawg2you.github.io/Share-FFL/shareffl.html'},
         {l:'Why recruit from day one',d:'The mindset and philosophy — straight from the Academy.',onclick:"acadGoLes('build-your-future','5-2')"},
         {l:'Recruiting Playbook',d:'Your go-to recruiting resource.',soon:true},
         {l:'Your VBO recruiting webinar',d:'The automated business-overview webinar system.',url:'https://www.fflvbo.com/join.html'}
@@ -4393,12 +4540,9 @@ try{
           '</div>'+
           '<div class="m5-enrollbtn-wrap"><p class="m5-fine" style="margin:0 0 9px;text-align:center">Click the link below to enroll your new hire:</p><a class="m5-enrollbtn" href="https://www.joinfflnational.com/" target="_blank" rel="noopener"><span data-ico="rocket"></span> Enroll your new hire</a></div>'+
         '</div></div>';
-      var qrCard='<div style="background:#fff;border:1px solid #e3e8f2;border-radius:14px;padding:14px 16px;margin-top:10px;box-shadow:0 6px 20px rgba(20,35,63,.05);display:flex;align-items:center;gap:15px;flex-wrap:wrap">'+
-        '<img src="data:image/png;base64,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" alt="Scan to open the Share FFL app" width="112" height="112" style="width:112px;height:112px;border:1px solid #e3e8f2;border-radius:10px;padding:6px;background:#fff;flex:0 0 auto">'+
-        '<div style="font-size:13px;color:#55617d;line-height:1.55;flex:1;min-width:190px"><b style="color:#16233f">On your computer?</b> Scan this QR code with your phone to open the Share FFL app — or type the link below onto your phone:<br><a href="https://bit.ly/shareffl" target="_blank" rel="noopener" style="color:#2a56d6;font-weight:700">bit.ly/shareffl</a></div>'+
-      '</div>';
-      return '<h1 class="page">Recruiting</h1><p class="sub">Build your team — resources, webinar system, and comp.</p>'+
-        m5RowList([topItems[0]])+qrCard+m5RowList(topItems.slice(1))+
+      return '<h1 class="page">Recruiting</h1><p class="sub">Build your team &mdash; resources, webinar system, and comp.</p>'+
+        m5WhyHero()+m5ShareSplash()+
+        '<div class="m5-seclabel" style="margin-top:26px">Recruiting resources</div>'+m5RowList(topItems)+
         '<div class="m5-seclabel" style="margin-top:26px">Bringing on a new agent</div>'+m5RecruitLinkCard()+ex+
         '<div class="m5-previewcard"><div class="m5-pvtitle"><span class="m5-pvi" data-ico="user"></span>See it from their side</div>'+
           '<p class="m5-pvsub">Preview exactly what your new agent sees before they\'re licensed — the full pre-licensing experience. Nothing you do here is saved or tracked.</p>'+
