@@ -4425,6 +4425,9 @@ function m5WhyPlay(){
   var el=document.getElementById('m5-whyvid'); if(!el) return;
   try{ el.outerHTML=acadEmbed(M5_WHY_VID); }catch(e){}
 }
+/* These two are reached from an inline onclick, which resolves against window --
+   everything else in this block is only ever called from inside it. */
+window.m5WhyPlay=m5WhyPlay; window.M5_WHY_VID=M5_WHY_VID;
 function m5ShareSplash(){
   return '<div class="m5-splash">'+
     '<span class="m5-splashk">Share Family First Life</span>'+
