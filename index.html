@@ -4503,7 +4503,6 @@ try{
   if(typeof m5RowList==='function'){
     window.vRecruiting=function(){
       var topItems=[
-        {l:'Why recruit from day one',d:'The mindset and philosophy — straight from the Academy.',onclick:"acadGoLes('build-your-future','5-2')"},
         {l:'Recruiting Playbook',d:'Your go-to recruiting resource.',soon:true},
         {l:'Your VBO recruiting webinar',d:'The automated business-overview webinar system.',url:'https://www.fflvbo.com/join.html'}
       ];
@@ -4566,7 +4565,7 @@ try{
       return '<h1 class="page">Recruiting</h1><p class="sub">Build your team &mdash; resources, webinar system, and comp.</p>'+
         m5WhyHero()+m5ShareSplash()+
         '<div class="m5-seclabel" style="margin-top:26px">Recruiting resources</div>'+m5RowList(topItems)+
-        '<div class="m5-seclabel" style="margin-top:26px">Bringing on a new agent</div>'+m5RecruitLinkCard()+ex+
+        '<div class="m5-seclabel" style="margin-top:26px">Bringing on a new agent</div>'+ex+m5RecruitLinkCard()+
         '<div class="m5-previewcard"><div class="m5-pvtitle"><span class="m5-pvi" data-ico="user"></span>See it from their side</div>'+
           '<p class="m5-pvsub">Preview exactly what your new agent sees before they\'re licensed — the full pre-licensing experience. Nothing you do here is saved or tracked.</p>'+
           '<button class="m5-pvbtn" onclick="m5EnterPreview()">Preview the unlicensed agent experience &rarr;</button></div>'+
