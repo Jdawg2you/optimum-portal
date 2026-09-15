@@ -4450,6 +4450,17 @@ function m5ShareLinkify(t){
   return m5AgEsc(t).replace(/JoinUS\.FFLALL\.com/g,
     '<a href="https://JoinUS.FFLALL.com" target="_blank" rel="noopener">JoinUS.FFLALL.com</a>');
 }
+/* These go to people who already know the sender, so the sign-off is a first
+   name and nothing else. No title, no number, no email -- a full signature
+   block would read like a business letter and kill the whole premise. If we do
+   not know their first name, we sign nothing rather than leave a placeholder
+   sitting in a message they are about to send. */
+function m5ShareSignoff(){
+  var f='';
+  try{ f=String((store.data&&store.data.first)||'').trim(); }catch(e){}
+  if(!f) return '';
+  return '<br><br>-'+m5AgEsc(f);
+}
 window.m5ShareCopy=function(i,btn){
   var el=document.getElementById('m5sh-'+i); if(!el) return;
   var txt=el.innerText;
@@ -4473,7 +4484,7 @@ window.vShareFFL=function(){
         '<span class="m5-shname">'+m5AgEsc(m.t)+'</span>'+
         '<span class="m5-shwho">'+m5AgEsc(m.w)+'</span></span>'+
         '<button type="button" class="m5-shcopy" onclick="m5ShareCopy('+i+',this)">Copy</button></div>'+
-      '<div class="m5-shbody" id="m5sh-'+i+'">'+m5ShareLinkify(m.body)+'</div>'+
+      '<div class="m5-shbody" id="m5sh-'+i+'">'+m5ShareLinkify(m.body)+m5ShareSignoff()+'</div>'+
     '</div>';
   }).join('');
   return '<button type="button" class="m5-shback" onclick="go(\'recruiting\')">&#8249; Recruiting</button>'+
