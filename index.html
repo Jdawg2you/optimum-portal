@@ -926,7 +926,7 @@ const RECRUITING=[['📲 Share FFL — Invite App','https://jdawg2you.github.io/
 const BOOKS=[
   {t:'Think and Grow Rich',by:'Napoleon Hill',blurb:'Master your mindset, belief, and persistence for success.',pdf:'https://oceanofpdf.com/authors/napoleon-hill/pdf-epub-think-and-grow-rich-the-landmark-bestseller-now-revised-and-updated-for-the-21st-century-download-35412028785/'},
   {t:'Outwitting the Devil',by:'Napoleon Hill',blurb:'Beat the fear, doubt, and procrastination that hold you back.',pdf:'https://oceanofpdf.com/authors/napoleon-hill/pdf-epub-outwitting-the-devil-the-secret-to-freedom-and-success-download/',wb:'https://oceanofpdf.com/authors/napoleon-hill/pdf-epub-outwitting-the-deviltm-action-guide-deluxe-hardcover-interactive-study-guide-official-publication-of-the-napoleon-hill-foundation-download/'},
-  {t:'The Greatest Salesman in the World',by:'Og Mandino',blurb:'Discipline, persistence, and purpose in sales.',pdf:'https://oceanofpdf.com/authors/og-mandino/pdf-epub-the-greatest-salesman-in-the-world-download-58521370129/'},
+  {t:'The Greatest Salesman in the World',by:'Og Mandino',blurb:'Discipline, persistence, and purpose in sales.',pdf:'https://oceanofpdf.com/authors/og-mandino/pdf-epub-the-greatest-salesman-in-the-world-download-58521370129/',scrolls:'https://portal.ffloptimum.com/the-ten-scrolls.pdf'},
   {t:'As a Man Thinketh',by:'James Allen',blurb:'Your thoughts shape your results.',pdf:'https://oceanofpdf.com/authors/james-allen/pdf-epub-as-a-man-thinketh-download-51322501174/'},
   {t:'The Psychology of Selling',by:'Brian Tracy',blurb:'The mental strategies behind top producers.',pdf:'https://oceanofpdf.com/authors/brian-tracy/pdf-epub-the-psychology-of-selling-increase-your-sales-faster-and-easier-than-you-ever-thought-possible-download-66599489964/'},
   {t:'Radical Responsibility',by:'Fleet Maull',blurb:'Stop blaming; own every outcome.',pdf:'https://oceanofpdf.com/authors/ph-d-maull-fleet/pdf-epub-radical-responsibility-how-to-move-beyond-blame-fearlessly-live-your-highest-purpose-and-become-an-unstoppable-force-for-good-download/'},
@@ -1407,7 +1407,7 @@ function carrierCard(c){
 function listCard(title,sub,rows){return `<div class="listcard"><h3>${title}</h3>${sub?`<div class="lc-sub">${sub}</div>`:''}${rows.map(r=>`<div class="li"><div><div class="lt">${r[0]}</div>${r[1]?`<div class="ld">${r[1]}</div>`:''}</div><button class="openbtn" onclick="${r[1]&&r[1].startsWith('http')?`window.open('${r[1]}','_blank')`:`toast('Opening…')`}">Open</button></div>`).join('')}</div>`;}
 function vRecruiting(){return `<h1 class="page">Recruiting</h1><p class="sub">Build your team — resources, webinar system, and comp.</p>${listCard('Recruiting Resources','',RECRUITING)}`;}
 function vSelfDev(){return `<h1 class="page">Self Development</h1><p class="sub">Books, listens, and tools the top producers use.</p>
-  <div class="listcard"><h3>📚 Books to Read</h3>${BOOKS.map(b=>`<div class="bookcard"><div class="bookcover">${m5BookCover(b.t)}</div><div class="bookinfo"><div class="booktitle">${b.t}${b.by?` <span style="font-weight:500;color:var(--ink-soft)">· ${b.by}</span>`:''}</div><div class="bookblurb">${b.blurb}</div><div class="bookbtns">${b.pdf?`<button class="openbtn" onclick="window.open('${b.pdf}','_blank')">PDF &amp; ePub</button>`:''}${b.wb?`<button class="openbtn" onclick="window.open('${b.wb}','_blank')">PDF Workbook</button>`:''}<button class="openbtn" onclick="toast('Opening Amazon…')">Amazon</button></div></div></div>`).join('')}</div>
+  <div class="listcard"><h3>📚 Books to Read</h3>${BOOKS.map(b=>`<div class="bookcard"><div class="bookcover">${m5BookCover(b.t)}</div><div class="bookinfo"><div class="booktitle">${b.t}${b.by?` <span style="font-weight:500;color:var(--ink-soft)">· ${b.by}</span>`:''}</div><div class="bookblurb">${b.blurb}</div><div class="bookbtns">${b.pdf?`<button class="openbtn" onclick="window.open('${b.pdf}','_blank')">PDF &amp; ePub</button>`:''}${b.wb?`<button class="openbtn" onclick="window.open('${b.wb}','_blank')">PDF Workbook</button>`:''}${b.scrolls?`<button class="openbtn" onclick="window.open('${b.scrolls}','_blank')">Ten Scrolls&mdash; Mantra/Practical Application/Prayer</button>`:''}<button class="openbtn" onclick="toast('Opening Amazon…')">Amazon</button></div></div></div>`).join('')}</div>
   ${listCard('🎧 Things to Listen To','',[['Jim Rohn — Building Your Network Marketing Business',''],['Charisma on Command (YouTube)','']])}
   ${listCard('🛠️ Tools We Use','',[['Remarkable Tablet','Client notes'],['Quality Headset','Affordable']])}`;}
 /* ---- Training videos (public YouTube) -------------------------------------
@@ -4137,6 +4137,13 @@ body.m5-previewing #m5-prelic .m5-signout{visibility:hidden}
 .m5-flyerwall{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:8px 0 14px}
 .m5-flyerbtns{display:flex;gap:8px}
 .m5-flyerbtns .openbtn{flex:1 1 0;min-width:0;padding-left:6px;padding-right:6px}
+/* The Ten Scrolls button carries a long, deliberate label -- mantra / practical
+   application / prayer -- so it opts out of .openbtn's nowrap and takes its own
+   row. Gold rather than blue because this one is ours, not a link out to
+   somebody else's PDF. */
+.m5-scrollsbtn{white-space:normal!important;flex:1 0 100%;text-align:left;line-height:1.35;
+  padding:8px 12px!important;background:#f6edd8!important;color:#7a5c16!important}
+.m5-scrollsbtn:hover{background:#efe1c2!important}
 .m5-shawncard{max-width:340px;margin:0 0 4px}
 @media(max-width:900px){.m5-flyerwall{grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}}
 @media(max-width:520px){.m5-flyerwall .m5-tcard-t{font-size:13.5px}.m5-flyerwall .m5-tcard-d{font-size:11.5px}.m5-flyerwall .m5-tcard-b{padding:11px 11px 12px;gap:7px}.m5-flyerbtns{flex-direction:column}}
@@ -4668,7 +4675,7 @@ try{
   if(typeof m5RowList==='function'){
     window.vSelfDev=function(){
       var bookCards=(typeof BOOKS!=='undefined'?BOOKS:[]).map(function(b){
-        return '<div class="bookcard"><div class="bookcover">'+(typeof m5BookCover==='function'?m5BookCover(b.t):'')+'</div><div class="bookinfo"><div class="booktitle">'+b.t+(b.by?' <span style="font-weight:500;color:var(--ink-soft)">· '+b.by+'</span>':'')+'</div><div class="bookblurb">'+(b.blurb||'')+'</div><div class="bookbtns">'+(b.pdf?'<button class="openbtn" onclick="window.open(\''+b.pdf+'\',\'_blank\')">PDF &amp; ePub</button>':'')+(b.wb?'<button class="openbtn" onclick="window.open(\''+b.wb+'\',\'_blank\')">PDF Workbook</button>':'')+'<button class="openbtn" onclick="toast(\'Opening Amazon…\')">Amazon</button></div></div></div>';
+        return '<div class="bookcard"><div class="bookcover">'+(typeof m5BookCover==='function'?m5BookCover(b.t):'')+'</div><div class="bookinfo"><div class="booktitle">'+b.t+(b.by?' <span style="font-weight:500;color:var(--ink-soft)">· '+b.by+'</span>':'')+'</div><div class="bookblurb">'+(b.blurb||'')+'</div><div class="bookbtns">'+(b.pdf?'<button class="openbtn" onclick="window.open(\''+b.pdf+'\',\'_blank\')">PDF &amp; ePub</button>':'')+(b.wb?'<button class="openbtn" onclick="window.open(\''+b.wb+'\',\'_blank\')">PDF Workbook</button>':'')+(b.scrolls?'<button class="openbtn m5-scrollsbtn" onclick="window.open(\''+b.scrolls+'\',\'_blank\')">Ten Scrolls&mdash; Mantra/Practical Application/Prayer</button>':'')+'<button class="openbtn" onclick="toast(\'Opening Amazon…\')">Amazon</button></div></div></div>';
       }).join('');
       var listenItems=[
         {l:'Jim Rohn — Building Your Network Marketing Business',d:'Classic audio on building the business.'},
