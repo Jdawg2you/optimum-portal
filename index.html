@@ -7293,8 +7293,8 @@ function m5GlToggle(id){
    they have enrolled in the course -- the video opens with "you just signed up for
    your prelicensing class", so showing it earlier would be off-message. Expanded the
    first time they see it, collapsed afterwards. */
-var M5_GL_SHARE_TEXT = "Hey, hope all is well with your family. Just a heads up, I just started with a new company and they are looking to bring on new reps. If you know anyone, they pay really well. Part time and full time! Here is an overview video, pass this info along for me please! JoinUS.FFLALL.com";
-var M5_GL_SHORT = 'https://youtube.com/shorts/EhMWwvKb6Is?feature=share';
+var M5_GL_SHARE_TEXT = "Hey! Hope all is well with your family. Quick heads-up \u2014 I just started with a new company and they're looking to bring on new reps. If you know anyone, they pay really well, part-time or full-time. Here's a short overview video \u2014 would you pass it along for me? https://youtu.be/PFufqDZLhYU";
+var M5_GL_SHORT = 'https://youtu.be/PFufqDZLhYU';
 
 function m5GlShareCard(){
   var open = !store.data.t_shareSeen;
@@ -7316,7 +7316,7 @@ function m5GlShareCard(){
       '</div>'+
       '<div class="m5-glshside">'+
         '<p class="m5-glshp">Somebody in your phone is stuck where you were last week. You do not have to explain anything or sell anything '+
-        '&mdash; just send them the same video that got you here.</p>'+
+        '&mdash; just send them the video.</p>'+
         '<div class="m5-glshprev"><div class="l">The text that gets sent</div><p>'+m5GlEsc(M5_GL_SHARE_TEXT)+'</p></div>'+
         '<a class="m5-glshbtn" id="m5glShareBtn" href="sms:?&amp;body='+encodeURIComponent(M5_GL_SHARE_TEXT)+'" onclick="return m5GlShareTap(event)">'+
           '<span>&#128172;</span><span id="m5glShareLbl">Share this &mdash; opens your messages</span></a>'+
