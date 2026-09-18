@@ -40,14 +40,14 @@
   a{color:var(--brand)} .hidden{display:none!important}
 
   /* login */
-  #login{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(1200px 600px at 20% -10%,#1b3a72,#0c1c38 60%);padding:20px;z-index:50}
+  #login{position:fixed;inset:0;display:flex;align-items:flex-start;justify-content:center;background:radial-gradient(1200px 600px at 20% -10%,#1b3a72,#0c1c38 60%);padding:20px;z-index:50;overflow-y:auto}
   .login-card{background:#fff;border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.35);width:100%;max-width:420px;padding:32px;text-align:center}
   /* ---- Split login: agents on the left, everyone else on the right --------
      The old single card sent non-Optimum agents into a dead end -- they arrive
      from the "Agent Portal" button on the website assuming it means any agent.
      Two doors means nobody has to read a footnote to find the way out. ------*/
   .login-split{display:grid;grid-template-columns:minmax(0,420px) 54px minmax(0,400px);align-items:stretch;
-    gap:0;width:100%;max-width:900px;margin:0 auto}
+    gap:0;width:100%;max-width:900px;margin:auto;row-gap:18px}
   .lc-kick,.lg-kick{font-size:10.5px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;margin-bottom:6px}
   .lc-kick{color:#a9861d}
   .lg-kick{color:#e8b73a}
@@ -57,8 +57,7 @@
   .login-or span{position:relative;width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.1);
     border:1px solid rgba(255,255,255,.22);color:#cbd6ea;font-size:12px;font-weight:600;
     display:flex;align-items:center;justify-content:center}
-  .login-guest{background:linear-gradient(160deg,#17294c,#101f3c 62%,#0b1730);border-radius:18px;padding:30px 28px 26px;
-    color:#fff;box-shadow:0 30px 80px rgba(0,0,0,.35);display:flex;flex-direction:column}
+  .login-guest{background:linear-gradient(160deg,#1E3564,#152949 62%,#0F1E3A);border-radius:18px;padding:30px 28px 26px;color:#fff;display:flex;flex-direction:column;border:1px solid rgba(255,255,255,.13);box-shadow:0 0 0 1px rgba(255,255,255,.05),0 24px 60px rgba(0,0,0,.45),0 0 90px rgba(110,160,255,.18);position:relative}
   .login-guest h2{font-size:22px;font-weight:800;margin:0 0 8px;color:#fff}
   .lg-sub{font-size:13.5px;color:#b9c6de;line-height:1.6;margin:0 0 16px}
   .lg-list{list-style:none;margin:0 0 20px;padding:0}
@@ -71,13 +70,56 @@
     box-shadow:0 8px 20px rgba(201,151,31,.3)}
   .lg-btn:hover{filter:brightness(1.05)}
   .lg-fine{font-size:11.5px;color:#93a4c2;text-align:center;margin-top:11px;line-height:1.5}
+  /* ---- "Not with Family First Life?" bar + pop-up ------------------------
+     Spans both login doors. Most people who land on this page are agents
+     somewhere -- the tools are free either way, but the contract question is
+     worth putting in front of them once, plainly, without a hard sell. ----*/
+  .m5-fflbar{grid-column:1/-1;display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+    background:linear-gradient(135deg,rgba(232,183,58,.13),rgba(232,183,58,.05));
+    border:1px solid rgba(232,183,58,.42);border-radius:999px;padding:14px 16px 14px 26px;
+    box-shadow:0 0 60px rgba(232,183,58,.10)}
+  .m5-fflbar .fb-t{font-size:14.5px;font-weight:800;color:#fff;line-height:1.35}
+  .m5-fflbar .fb-s{font-size:12.5px;color:#b9c6de;line-height:1.5;margin-top:2px}
+  .m5-fflbtn{margin-left:auto;flex:0 0 auto;appearance:none;border:0;cursor:pointer;font-family:inherit;
+    background:linear-gradient(135deg,#e8b73a,#c9971f);color:#2a2205;font-weight:800;font-size:13.5px;
+    padding:12px 22px;border-radius:999px;box-shadow:0 8px 20px rgba(201,151,31,.3)}
+  .m5-fflbtn:hover{filter:brightness(1.06)}
+  @media(max-width:900px){
+    .m5-fflbar{border-radius:18px;padding:16px 18px;text-align:left}
+    .m5-fflbtn{margin-left:0;width:100%;text-align:center}
+  }
+  #m5RecModal[hidden]{display:none}
+  #m5RecModal{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:20px}
+  #m5RecModal .m5rc-bd{position:absolute;inset:0;background:rgba(22,32,60,.55)}
+  #m5RecModal .m5rc-sheet{position:relative;background:#fff;border-radius:14px;max-width:580px;width:100%;
+    max-height:88vh;overflow-y:auto;padding:28px 28px 24px;box-shadow:0 24px 60px rgba(22,32,60,.35);
+    color:#1b1b1b;text-align:left}
+  #m5RecModal .m5rc-x{position:absolute;top:14px;right:14px;appearance:none;border:0;background:transparent;
+    font-size:16px;color:#8B8A82;cursor:pointer;padding:6px;line-height:1}
+  #m5RecModal .m5rc-x:hover{color:#0c1c38}
+  #m5RecModal h2{font-family:Georgia,'Times New Roman',serif;font-size:21px;font-weight:700;line-height:1.2;
+    letter-spacing:-.015em;margin:0 0 6px;color:#0c1c38;padding-right:24px}
+  #m5RecModal .m5rc-ask{font-size:14.5px;line-height:1.6;color:#4A4A44;margin:0 0 4px}
+  #m5RecModal .m5rc-ask b{color:#1b1b1b}
+  #m5RecModal .m5rc-note{background:#F5F1E8;border-left:3px solid #C9A24E;border-radius:0 10px 10px 0;
+    padding:11px 15px;margin:14px 0 16px;font-size:13px;line-height:1.55;color:#4A4A44}
+  #m5RecModal .m5rc-turn{font-size:13px;font-weight:700;color:#4A4A44;margin:16px 0 10px}
+  #m5RecModal .m5rc-i{border-top:1px solid #EDE9DF;padding:14px 0 2px;margin-top:8px}
+  #m5RecModal .m5rc-i h3{font-family:Georgia,'Times New Roman',serif;font-size:16px;font-weight:700;
+    margin:0 0 4px;color:#0c1c38}
+  #m5RecModal .m5rc-i p{margin:0;font-size:13.5px;line-height:1.6;color:#4A4A44}
+  #m5RecModal .m5rc-cta{display:block;text-align:center;text-decoration:none;background:#0c1c38;color:#fff;
+    font-size:15px;font-weight:600;padding:14px;border-radius:8px;margin-top:20px}
+  #m5RecModal .m5rc-2{margin:12px 0 0;text-align:center;font-size:13.5px}
+  #m5RecModal .m5rc-2 a{color:#a9861d}
+  #m5RecModal .m5rc-2 a:hover{text-decoration:underline}
   @media(max-width:900px){
     .login-split{grid-template-columns:minmax(0,420px);justify-content:center}
     .login-or{padding:16px 0}
     .login-or:before{top:50%;bottom:auto;left:10%;right:10%;width:auto;height:1px}
     .login-guest{padding:26px 22px 24px}
   }
-  @media(max-height:760px) and (min-width:901px){ #login{align-items:flex-start;overflow:auto;padding-top:28px} }
+  @media(max-height:760px){ #login{padding-top:28px} }
   .logo{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--navy),var(--brand));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:19px}
   .brandmark{display:flex;align-items:center;justify-content:center;gap:10px}
   .brandname{font-weight:800;font-size:18px;color:var(--navy)}
@@ -769,8 +811,59 @@
       <div class="lg-fine">Plus a free agent website, digital business card and booking calendar.</div>
     </div>
 
+    <div class="m5-fflbar">
+      <div>
+        <div class="fb-t">Not a Family First Life agent?</div>
+        <div class="fb-s">The tools stay free either way &mdash; but a lower contract can quietly cost you six figures. Worth two minutes.</div>
+      </div>
+      <button type="button" class="m5-fflbtn" id="m5FflOpen" aria-haspopup="dialog">See the honest take &rarr;</button>
+    </div>
+
   </div>
 </div>
+
+<div id="m5RecModal" hidden>
+  <div class="m5rc-bd" data-close></div>
+  <div class="m5rc-sheet" role="dialog" aria-modal="true" aria-labelledby="m5rcTitle">
+    <button type="button" class="m5rc-x" id="m5RecClose" aria-label="Close">&#10005;</button>
+    <h2 id="m5rcTitle">Not with Family First Life? You can still use these tools.</h2>
+    <p class="m5rc-ask">They're free, and they stay free. But while you're running your numbers, it's
+      worth asking what you're actually being paid for that production &mdash; <b>a lower contract can
+      cost you six figures over a few years without ever showing up on a single statement.</b>
+      If they're not paying you what you're worth, that's worth a hard look.</p>
+    <div class="m5rc-note"><b>Already with FFL?</b> You're in the best position there is &mdash; congratulations.</div>
+    <p class="m5rc-turn">If you're outside Family First Life, here's the honest take:</p>
+    <div class="m5rc-i"><h3>100% independent, never captive</h3>
+      <p>Forty-plus carriers. You write what's best for your client &mdash; not whatever a captive shelf allows.</p></div>
+    <div class="m5rc-i"><h3>Real leads, priced honestly</h3>
+      <p>High-intent leads from vetted independent partners. Not one overpriced in-house lead type
+      you're required to buy, and not &ldquo;free&rdquo; cold leads you quietly pay for in low comp.</p></div>
+    <div class="m5rc-i"><h3>A plug-and-play system from day one</h3>
+      <p>You're handed something that already works. FFL writes over $110 million a month &mdash; more
+      than some brokerages do in a year &mdash; as the fastest-growing brokerage in the country.
+      The system is figured out. You just run it.</p></div>
+    <div class="m5rc-i"><h3>Vested from day one</h3>
+      <p>Your business is yours &mdash; including all renewals.</p></div>
+    <div class="m5rc-i"><h3>The highest compensation in the business</h3>
+      <p>Up to 145% on your own production, plus producer bonuses, manager bonuses, carrier
+      bonuses and company trips.</p></div>
+    <a class="m5rc-cta" href="https://www.ffloptimum.com/#apply" target="_blank" rel="noopener">Start the conversation &rarr;</a>
+    <p class="m5rc-2"><a href="https://www.ffloptimum.com/#why" target="_blank" rel="noopener">Or read more about the agency first &rarr;</a></p>
+  </div>
+</div>
+<script>
+/* The FFL pop-up on the login page. Same copy as the cheat sheets so the
+   pitch reads identically wherever an agent meets it. */
+(function(){
+  var rm=document.getElementById('m5RecModal'); if(!rm) return;
+  function op(){ rm.hidden=false; var c=document.getElementById('m5RecClose'); if(c)c.focus(); }
+  function sh(){ rm.hidden=true; }
+  var c=document.getElementById('m5RecClose'); if(c) c.addEventListener('click',sh);
+  var bd=rm.querySelector('.m5rc-bd'); if(bd) bd.addEventListener('click',sh);
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') sh(); });
+  var o=document.getElementById('m5FflOpen'); if(o) o.addEventListener('click',op);
+})();
+</script>
 
 <!-- APP -->
 <div id="app" class="hidden">
