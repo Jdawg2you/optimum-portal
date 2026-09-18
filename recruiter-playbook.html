@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Optimum Recruiter Playbook</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#132540; --navy-deep:#0C1A30; --gold:#C9A24A; --gold-soft:#E8D7A8;
+  --cream:#F8F4EA; --paper:#FFFDF8; --ink:#1E2430; --ink-soft:#4B5563; --line:#DDD5C3;
+  --script-bg:#FBF7EC; --good:#2F6B4F; --warn:#9A5B12; --bad:#8B2F2F;
+  --bg:var(--cream); --fg:var(--ink); --card:var(--paper);
+  --serif:"Fraunces", Georgia, "Times New Roman", serif;
+  --sans:"Public Sans", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0F1826; --fg:#EDE7D8; --card:#162238; --line:#2B3A54; --cream:#0F1826; --paper:#162238;
+  --ink:#EDE7D8; --ink-soft:#B8B3A6; --script-bg:#1B2840; --navy:#0B1526; --gold-soft:#5C4B23;
+}}
+:root[data-theme="dark"]{
+  --bg:#0F1826; --fg:#EDE7D8; --card:#162238; --line:#2B3A54; --cream:#0F1826; --paper:#162238;
+  --ink:#EDE7D8; --ink-soft:#B8B3A6; --script-bg:#1B2840; --navy:#0B1526; --gold-soft:#5C4B23;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} }
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:17px;line-height:1.6}
+a{color:inherit}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:600;line-height:1.15;margin:0}
+p{margin:0 0 1em}
+ul,ol{margin:0 0 1em;padding-left:1.3em}
+li{margin:.25em 0}
+strong{font-weight:700}
+
+/* header band */
+.band{background:var(--navy);color:#F3EEDF;padding:26px 28px;border-bottom:4px solid var(--gold)}
+.band-inner{max-width:1180px;margin:0 auto;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap}
+.wordmark{font-family:var(--serif);font-weight:700;font-size:30px;letter-spacing:.01em;color:var(--gold);line-height:1}
+.wordmark small{display:block;font-family:var(--sans);font-weight:500;font-size:11px;letter-spacing:.18em;color:#CFC6AE;margin-top:6px}
+.band-right{text-align:right;font-size:13px;color:#CFC6AE}
+.band-right button{background:transparent;border:1px solid var(--gold);color:var(--gold);padding:8px 14px;border-radius:4px;font:600 13px var(--sans);cursor:pointer;margin-left:8px}
+.band-right button:hover{background:var(--gold);color:var(--navy-deep)}
+
+/* hero */
+.hero{max-width:1180px;margin:0 auto;padding:56px 28px 28px;display:grid;grid-template-columns:1.4fr 1fr;gap:48px;align-items:end}
+.hero h1{font-size:clamp(40px,6vw,68px);font-weight:600;letter-spacing:-.01em}
+.hero h1 em{font-style:italic;font-weight:400}
+.hero .lede{font-size:20px;color:var(--ink-soft);max-width:40ch;margin-top:18px}
+.spine{border-left:3px solid var(--gold);padding:8px 0 8px 20px;font-family:var(--serif);font-size:20px;line-height:1.5}
+.spine span{display:block}
+.spine .k{font-family:var(--sans);font-size:13px;color:var(--ink-soft);margin-bottom:6px}
+
+/* layout */
+.wrap{max-width:1180px;margin:0 auto;padding:20px 28px 80px;display:grid;grid-template-columns:230px minmax(0,1fr);gap:56px}
+nav.toc{position:sticky;top:20px;align-self:start;font-size:14px}
+nav.toc ol{list-style:none;padding:0;margin:0;border-top:1px solid var(--line)}
+nav.toc li{border-bottom:1px solid var(--line)}
+nav.toc a{display:block;padding:10px 4px;text-decoration:none;color:var(--ink-soft);line-height:1.3}
+nav.toc a:hover,nav.toc a.active{color:var(--fg)}
+nav.toc a.active{border-left:3px solid var(--gold);padding-left:10px;background:var(--card)}
+nav.toc .n{font-family:var(--serif);font-size:16px;margin-right:8px;color:var(--gold)}
+nav.toc .tools{margin-top:18px;font-size:13px;color:var(--ink-soft)}
+main{max-width:74ch}
+
+section.part{padding:36px 0 24px;border-top:1px solid var(--line);scroll-margin-top:20px}
+section.part:first-of-type{border-top:0}
+.part-head{display:flex;align-items:baseline;gap:18px;margin-bottom:8px}
+.part-head .num{font-family:var(--serif);font-size:58px;color:var(--gold);line-height:1;font-weight:400}
+.part-head h2{font-size:clamp(28px,3.4vw,38px)}
+.part .why{font-size:19px;color:var(--ink-soft);font-family:var(--serif);font-style:italic;margin:6px 0 24px;max-width:56ch}
+h3{font-size:22px;margin:32px 0 10px}
+h4{font-size:17px;font-family:var(--sans);font-weight:700;margin:22px 0 6px}
+.src{font-size:13px;color:var(--ink-soft);margin:-4px 0 18px}
+
+/* talk track blocks */
+.track{background:var(--script-bg);border:1px solid var(--line);border-left:4px solid var(--gold);padding:16px 20px;margin:16px 0 20px;border-radius:0 6px 6px 0}
+.track .who{font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;letter-spacing:.02em}
+.track p{font-family:var(--serif);font-size:18px;line-height:1.55;margin:0 0 .7em}
+.track p:last-child{margin:0}
+.track .cue{font-family:var(--sans);font-size:14px;color:var(--ink-soft);font-style:italic}
+.rule{border:1px solid var(--line);background:var(--card);padding:16px 20px;margin:16px 0;border-radius:6px}
+.rule .t{font-weight:700;margin-bottom:4px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:14px 0}
+.two .rule{margin:0}
+.verdict{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:16px 0}
+.verdict div{padding:14px;border-radius:6px;border:1px solid var(--line);background:var(--card);font-size:15px}
+.verdict .t{font-weight:700;margin-bottom:6px}
+.v-good .t{color:var(--good)} .v-bad .t{color:var(--bad)} .v-warn .t{color:var(--warn)}
+details{border:1px solid var(--line);border-radius:6px;background:var(--card);margin:10px 0;padding:0}
+details summary{cursor:pointer;padding:12px 16px;font-weight:600;list-style:none;display:flex;justify-content:space-between;align-items:center}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:"+";font-family:var(--serif);font-size:22px;color:var(--gold)}
+details[open] summary::after{content:"–"}
+details .body{padding:0 16px 14px}
+.num-list{counter-reset:s;list-style:none;padding:0}
+.num-list li{counter-increment:s;position:relative;padding-left:44px;margin:12px 0}
+.num-list li::before{content:counter(s);position:absolute;left:0;top:-2px;font-family:var(--serif);font-size:24px;color:var(--gold);width:32px;text-align:center}
+.stat{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:14px 0 20px}
+.stat div{border-top:2px solid var(--gold);padding-top:8px}
+.stat b{display:block;font-family:var(--serif);font-size:28px;font-weight:600}
+.stat small{color:var(--ink-soft);font-size:13px}
+
+/* copy templates */
+.tpl{border:1px solid var(--line);border-radius:6px;background:var(--card);margin:12px 0;overflow:hidden}
+.tpl header{display:flex;justify-content:space-between;align-items:center;padding:8px 14px;background:var(--script-bg);border-bottom:1px solid var(--line);font-size:13px;font-weight:700}
+.tpl button{font:600 12px var(--sans);border:1px solid var(--navy);background:var(--navy);color:#fff;padding:5px 10px;border-radius:4px;cursor:pointer}
+.tpl button.done{background:var(--good);border-color:var(--good)}
+button.mini{font:600 12px var(--sans);border:1px solid var(--navy);background:var(--navy);color:#fff;padding:4px 9px;border-radius:4px;cursor:pointer;margin-left:6px;vertical-align:middle}
+button.mini.done{background:var(--good);border-color:var(--good)}
+.tpl pre{margin:0;padding:14px;white-space:pre-wrap;font-family:var(--sans);font-size:15px;line-height:1.5}
+
+/* calculator */
+.calc{border:1px solid var(--line);background:var(--card);border-radius:6px;padding:18px 20px;margin:18px 0}
+.calc .grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:end}
+.calc label{display:block;font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:4px}
+.calc input{width:100%;font:600 18px var(--sans);padding:8px;border:1px solid var(--line);border-radius:4px;background:var(--paper);color:var(--fg)}
+.calc .out{margin-top:16px;display:flex;gap:28px;flex-wrap:wrap;align-items:baseline}
+.calc .out b{font-family:var(--serif);font-size:36px;font-weight:600}
+.calc .out small{display:block;color:var(--ink-soft);font-size:13px}
+.calc .note{font-size:13px;color:var(--ink-soft);margin-top:10px}
+
+/* checklist */
+.check{list-style:none;padding:0;margin:10px 0}
+.check li{display:flex;gap:12px;align-items:flex-start;padding:8px 0;border-bottom:1px dashed var(--line)}
+.check input{margin-top:5px;width:18px;height:18px;accent-color:var(--navy)}
+.check label{cursor:pointer}
+.check .sub{display:block;font-size:14px;color:var(--ink-soft)}
+.prog{font-size:13px;color:var(--ink-soft)}
+
+.next{background:var(--navy);color:#F3EEDF;padding:28px;border-radius:6px;margin-top:40px}
+.next h2{color:var(--gold);font-size:30px;margin-bottom:8px}
+.next .num-list li::before{color:var(--gold)}
+.foot{max-width:1180px;margin:0 auto;padding:20px 28px 40px;font-size:13px;color:var(--ink-soft);border-top:1px solid var(--line)}
+.foot details{background:transparent}
+mark{background:var(--gold-soft);color:inherit;padding:0 3px}
+.refer{margin:22px 0;padding:22px 26px;border:1px solid var(--line);border-radius:6px;background:var(--card);text-align:center}
+.refer .big{font-family:var(--serif);font-size:clamp(26px,3.6vw,36px);font-weight:600;line-height:1.2;display:inline-block;text-decoration:underline double var(--gold);text-decoration-thickness:3px;text-underline-offset:9px;padding-bottom:6px}
+.refer .sub{margin:16px auto 0;max-width:52ch;color:var(--ink-soft);font-size:16px}
+.flow{border:1px solid var(--line);border-radius:6px;background:var(--card);padding:14px 18px;margin:12px 0}
+.flow .t{font-weight:700;margin-bottom:8px}
+.flow ol{margin:0;padding-left:1.2em}
+.flow li{margin:.3em 0}
+.flow .who{display:inline-block;font-size:11px;font-weight:700;color:var(--ink-soft);border:1px solid var(--line);border-radius:3px;padding:1px 6px;margin-left:6px;vertical-align:middle}
+.promo{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;background:var(--navy);color:#F3EEDF;padding:18px 22px;border-radius:6px;margin:16px 0;border-left:4px solid var(--gold)}
+.promo .t{font-family:var(--serif);font-size:22px;color:var(--gold);margin-bottom:4px}
+.promo p{margin:0;font-size:15px;color:#DCD4C0}
+.promo a.btn{background:var(--gold);color:#0C1A30;text-decoration:none;font-weight:700;padding:10px 16px;border-radius:4px;white-space:nowrap;font-size:14px}
+.promo a.btn:hover{background:#E0BC62}
+.sm-link{display:inline-block;margin-top:10px;font-weight:600}
+.ws{border:1px solid var(--line);border-radius:6px;background:var(--card);padding:20px 22px;margin:18px 0;text-align:center}
+.ws-head{font-family:var(--serif);font-size:22px;font-weight:600;margin-bottom:14px}
+.ws-months{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:8px;align-items:center}
+.ws-months>div:not(.arr){border:1px solid var(--line);border-radius:6px;padding:10px 6px;background:var(--paper)}
+.ws-months small{display:block;font-size:11px;font-weight:700;color:var(--ink-soft);letter-spacing:.04em}
+.ws-months b{display:block;font-family:var(--serif);font-size:30px;font-weight:600;line-height:1.1}
+.ws-months span{display:block;font-size:12px;color:var(--ink-soft)}
+.ws-months .arr{font-family:var(--serif);font-size:26px;color:var(--gold)}
+.ws-bank{background:var(--navy);color:#F3EEDF;border-radius:6px;padding:14px;margin:14px 0}
+.ws-bank small{display:block;font-size:12px;letter-spacing:.06em;color:#CFC6AE;margin-bottom:2px}
+.ws-bank b{font-family:var(--serif);font-size:clamp(38px,6vw,56px);font-weight:700;color:var(--gold);line-height:1}
+.ws-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.ws-stats div{border-top:2px solid var(--gold);padding-top:8px}
+.ws-stats b{display:block;font-family:var(--serif);font-size:22px;font-weight:600}
+.ws-stats span{font-size:12px;color:var(--ink-soft)}
+.ws-foot{font-size:14px;color:var(--ink-soft);margin-top:14px}
+.hs details{margin-top:10px}
+@media (max-width:640px){.ws-months{grid-template-columns:1fr}.ws-months .arr{transform:rotate(90deg)}.ws-stats{grid-template-columns:1fr 1fr}}
+@media (max-width:560px){.promo{grid-template-columns:1fr}}
+.open-items{border:1px dashed var(--warn);padding:14px 18px;border-radius:6px;font-size:14px;margin:18px 0}
+.open-items .t{color:var(--warn);font-weight:700}
+
+@media (max-width:900px){
+  .wrap{grid-template-columns:1fr;gap:20px}
+  nav.toc{position:static}
+  nav.toc ol{display:grid;grid-template-columns:1fr 1fr}
+  .hero{grid-template-columns:1fr;gap:24px;padding-top:36px}
+  .two,.verdict{grid-template-columns:1fr}
+  .calc .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:560px){ .calc .grid{grid-template-columns:1fr} body{font-size:16px} }
+
+@media print{
+  @page{margin:.7in}
+  .ws-bank,.promo{background:#132540 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body{background:#fff;color:#000;font-size:11.5pt}
+  .band{background:#132540 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .band-right button,nav.toc,.tpl button,.calc,.noprint{display:none !important}
+  .wrap{display:block;padding:0}
+  main{max-width:none}
+  section.part{page-break-before:always;border-top:0;padding-top:0}
+  section.part:first-of-type{page-break-before:auto}
+  .track{background:#FBF7EC !important;-webkit-print-color-adjust:exact;print-color-adjust:exact;break-inside:avoid}
+  .rule,.tpl,details,.verdict div{break-inside:avoid}
+  details{border:0}
+  details:not([open]) .body{display:block}
+  details summary::after{display:none}
+  .next{background:#132540 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  a[href^="http"]::after{content:" (" attr(href) ")";font-size:9pt;color:#555}
+  .hero{padding-top:24pt}
+}
+</style>
+</head>
+<body>
+
+<div class="band">
+  <div class="band-inner">
+    <div class="wordmark">Optimum<small>HEALTH &nbsp;|&nbsp; LIFE &nbsp;|&nbsp; RETIREMENT</small></div>
+    <div class="band-right">
+      Recruiter Playbook · v2.3 · September 2026
+      <button type="button" onclick="window.print()">Print / Save as PDF</button>
+    </div>
+  </div>
+</div>
+
+<div class="hero">
+  <div>
+    <h1>The Recruiter <em>Playbook</em></h1>
+    <p class="lede">Everything a recruiter at Optimum needs to find, vet, sign, and launch agents — pulled from the people who've done it at scale, and written so you can run it tomorrow.</p>
+  </div>
+  <div class="spine">
+    <span class="k">The whole process, in one line</span>
+    <span>Conversation → Share FFL → Interview &amp; vet → Commissions &amp; leads talk → Contract → Onboard</span>
+    <span class="k" style="margin-top:14px">The rule underneath all of it</span>
+    <span>Recruit almost everyone. Be strict about who you <em>work with</em>.</span>
+  </div>
+</div>
+
+<div class="wrap">
+<nav class="toc" aria-label="Playbook sections">
+  <ol>
+    <li><a href="#p1"><span class="n">1</span>The recruiting mindset</a></li>
+    <li><a href="#p2"><span class="n">2</span>Quick verbal tracks</a></li>
+    <li><a href="#p3"><span class="n">3</span>Share FFL — your link</a></li>
+    <li><a href="#p4"><span class="n">4</span>Get on social</a></li>
+    <li><a href="#p5"><span class="n">5</span>Texts &amp; DMs</a></li>
+    <li><a href="#p6"><span class="n">6</span>Who to look for</a></li>
+    <li><a href="#p7"><span class="n">7</span>The interview &amp; vetting</a></li>
+    <li><a href="#p8"><span class="n">8</span>Onboard your new recruit</a></li>
+    <li><a href="#p9"><span class="n">9</span>Going further</a></li>
+  </ol>
+  <div class="tools">Tools inside: override calculator (Part 1), copy-ready texts (Part 5), the interview script &amp; scorecard (Part 7).</div>
+</nav>
+
+<main>
+
+<!-- ============================ PART 1 ============================ -->
+<section class="part" id="p1">
+  <div class="part-head"><span class="num">1</span><h2>The recruiting mindset</h2></div>
+  <p class="why">If your head isn't right about recruiting, no script in this book will work. Read this part first, and reread it when you stall.</p>
+
+  <h3>Recruiting is a gift. Gatekeeping it is selfish.</h3>
+  <p>People hold the opportunity back for two reasons: a picture in their head of who they have to <em>be</em> before they're allowed to recruit, and fear of criticism. Both are ego. Shawn started recruiting his friends with no comp plan drawn out — he knew they needed the money and wanted to see them win. Letting people say something stupid about what you do is exactly how you build thick skin. Holding it back when it could change someone's life is, plainly, selfish.</p>
+
+  <h3>ABR — Always Be Recruiting</h3>
+  <p>"They said always be closing. Yours is always be recruiting." You don't have to be a great closer to win in this business — Shawn describes a man who never became a good salesperson and makes millions a year purely by recruiting. Recruiting also kills stress: an agent with eleven people in class and seven writing business carries a fraction of the pressure of one carrying every ounce of production alone.</p>
+  <div class="rule"><div class="t">Recruiting is free. Start day one.</div>The excuse "I'll start recruiting once I have my own success story" is ego dressed up as humility. Shawn's rebuttal: <em>"Have you always been so full of yourself? You're not waiting for a success story — you're saying you won't share unless YOU succeed. Wouldn't a bad salesman want to be the best recruiter?"</em> It costs nothing to introduce the opportunity.</div>
+
+  <h3>You're a doorway, not a judge</h3>
+  <p>You are not recruiting someone because <em>they</em> will be a star. You're recruiting them because they're a doorway to the people they know. Most of Shawn's top-line people were never direct hires — someone hired someone who hired someone, and the star walked in. One of his biggest producers came in off a Craigslist ad placed by a person who is no longer even with the company. "I used to hire people for who they were. Now I hire people for who they know." Stop deciding in advance who is worth recruiting.</p>
+
+  <h3>Two different filters</h3>
+  <div class="two">
+    <div class="rule"><div class="t">Recruiting: nearly everyone</div>Every person is a doorway. Pre-judging costs you the people behind them.</div>
+    <div class="rule"><div class="t">Working with: strict</div>Accountability, humility, gratitude, work ethic, willingness to admit imperfection. If someone shows you no flaws, be scared — you have no shot working with them. They can still be recruited; you're just not obligated to coach them.</div>
+  </div>
+
+  <h3>Vetting, not selling</h3>
+  <p>"Recruiting is about finding as many people as you can to vet <em>out</em> for your opportunity. It's not find as many people as you can and put them in." A college program recruits 100 players to fill 22 starting spots. Most fail. The volume is the whole point — it lets you be selective. If you're doing the convincing, it's the wrong person.</p>
+
+  <h3>Get your own head straight on chargebacks first</h3>
+  <p>You cannot run the advanced-commissions talk track (Part 7) with conviction if you're fuzzy on it yourself. The short version: the carrier advances you roughly 75% of first-year commission when a policy issues — nine of the first twelve months, up front, on a policy that's been on the books for nine minutes. That advance is an unsecured loan you repay by the policy staying on the books. If it lapses early, the unearned part is taken back. A good closer keeps 80–85% persistency. Every recruit you sign is a person who will owe money back on some policies — and if they can't pay it, some of that becomes your problem. That's why vetting is not optional.</p>
+
+  <h3>The Optimum model</h3>
+  <div class="refer">
+    <div class="big">Refer first. Build later.</div>
+    <div class="sub">You recruit from day one — as a referral. When you spot someone who needs this, you send them the video and you point them to your manager. Your manager runs the interview. You go right back to dialing.</div>
+  </div>
+  <p>You are building — you're building <em>you</em>. Nobody hires, trains, or runs a team until they're a managing partner at <strong>$40K/month issue-paid</strong>. Tanner's logic: "If I can do 40, I can teach someone to do 20 with my eyes closed." Getting good yourself first is what keeps your future team from turning over. But learn the math now, so the shift feels natural later:</p>
+
+  <div class="calc noprint" id="calc">
+    <div class="t" style="font-weight:700;margin-bottom:12px">The calculator close — override math</div>
+    <div class="grid">
+      <div><label for="c-agents">Agents on your team</label><input id="c-agents" type="number" min="1" value="5"></div>
+      <div><label for="c-prod">Avg issue-paid per agent / mo ($)</label><input id="c-prod" type="number" min="0" step="1000" value="15000"></div>
+      <div><label for="c-spread">Your spread (%)</label><input id="c-spread" type="number" min="0" max="100" value="25"></div>
+      <div><label for="c-adv">Advance (%)</label><input id="c-adv" type="number" min="0" max="100" value="75"></div>
+    </div>
+    <div class="out">
+      <div><b id="c-month">$14,063</b><small>per month in overrides, cash-flowed at advance</small></div>
+      <div><b id="c-year">$168,750</b><small>per year (same assumptions)</small></div>
+    </div>
+    <div class="note">Tanner's example: 5 agents × $15K × 75% advance × 25% spread ≈ $14K/mo on top of personal sales. Edmond's: 20 agents × $20K × 20% = $80K/mo (full-value math, no advance factor). Seeing the number, plus "you're changing lives," is what flips a producer toward building.</div>
+    <a class="sm-link" href="https://tools.ffloptimum.com/planning/#agencybuild" target="_blank" rel="noopener">Explore the full Agency Builder in the Optimum planning tools</a>
+  </div>
+  <p class="src">Sources: Shawn Meaike calls May 1, May 22, Jul 31, Aug 7 &amp; Aug 14, 2026 · Tanner Mendelson &amp; Edmond, Builder's Calls 2026 · Lessons 5.2 and GP.1</p>
+</section>
+
+<!-- ============================ PART 2 ============================ -->
+<section class="part" id="p2">
+  <div class="part-head"><span class="num">2</span><h2>Quick verbal tracks</h2></div>
+  <p class="why">The first touch is two to five minutes. Say your piece, ask sharp questions, hand them your info, get off the phone. Familiarity breeds contempt.</p>
+
+  <h3>The five-minute conversation</h3>
+  <p>This is the spine of every in-person or phone first touch. Four moves, then out.</p>
+  <ol class="num-list">
+    <li><strong>The opener — do they love what they do?</strong> Whatever they're doing when you meet them (valet, barista, Walmart, Uber), ask about the job. Then: <em>"Do you love it? What would you rather be doing?"</em> You're listening for one thing: frustration with a heart to help their family.</li>
+    <li><strong>Sell yourself, not the comp plan.</strong> Don't explain commissions on a first touch. Jay Maska's version: <em>"I'm up at 4:30, gym by 5, office by 7:30. Take this and you'll get better mentally, physically, spiritually, financially."</em> They're deciding whether to follow <em>you</em>.</li>
+    <li><strong>"Why not you?"</strong> The line that flips a beaten-down prospect is a question, not a pitch: <em>"Why not you? Why not you and your family? Why don't you and your family deserve this?"</em> You're not selling them — you're asking a question that makes them hear their own answer.</li>
+    <li><strong>Future-pace, then hand off.</strong> <em>"Let me text you my number, and I'll send you a quick video that breaks the whole business down. Watch it and let me know if you're interested — or if you're not, that's fine too."</em> Then leave. The valet Shawn tipped $100 and asked three questions now writes $40–50K a month.</li>
+  </ol>
+
+  <h3>Openers that work anywhere</h3>
+  <div class="track">
+    <div class="who">JAY MASKA — the chip-aisle walk</div>
+    <p class="cue">The setup: Jay was 25, broke, and recruiting anyone with a pulse. His trick for getting two minutes alone with a stranger — walk into Walmart, find the youngest employee, and ask for help finding something. The walk to the aisle is the conversation.</p>
+    <p>"Hey — can you walk me to the chip aisle?" <em>(on the walk)</em> "How long have you been here? You like it? What would you rather be doing?"</p>
+    <p class="cue">If they light up about wanting more: "I run a life insurance team. Here's the honest version — you get licensed, and you've basically got a license to sell money. Your first two to four sales put a three or four thousand dollar deposit in your account. That's what gets the ball rolling. Let me text you a video you can watch and see if this might be a good fit. Let me know either way — or if you know anybody else who might be interested in making really good money with this."</p>
+    <p class="cue">Point of the story: you don't need a stage or an ad. You need a reason to talk to someone for two minutes, and the nerve to ask what they'd rather be doing. His first recruit worked at Target and has done over $1M since.</p>
+  </div>
+  <div class="track">
+    <div class="who">KYLE (KAO YI) — the right-person frame</div>
+    <p>"You can't say the wrong thing to the right person." Take the pressure off the words. You're one cold recruit away from a brand-new warm market — theirs.</p>
+  </div>
+  <div class="track">
+    <div class="who">SHAWN — the part-time definition</div>
+    <p>"Part-time is great. But define it with me — part-time here is 30 to 40 hours a week. Ten hours won't work. Twenty to thirty will."</p>
+    <p class="cue">Never continue a recruiting conversation on an undefined word. "Part-time," "full-time," "serious" — stop and put a number on it.</p>
+  </div>
+  <div class="track">
+    <div class="who">TANNER — the calculator close (for producers you want building)</div>
+    <p>"You're at 110% comp. Bring a guy in at 85 — that's a 25% spread. Average agent does about $15K a month. Five of them is $125K a month, times a 75% advance, times 25% — that's about $14K a month in overrides. On top of your own sales. And you're changing five families' lives."</p>
+  </div>
+
+  <h3>Energy: you can't recruit at a 3</h3>
+  <p>A calm, flat, methodical affect is great for phone sales — you draw people in. It does not recruit. When someone is deciding whether to follow you, they're silently asking three things: <em>Are you confident in what you do? Do you believe I can do it too? Should I follow you?</em> They have to feel you care about their success — based on what you say and how you say it. If you'd have to fake caring, don't build a team; let someone else recruit for you. But don't confuse your lack of jumping up and down with not caring: say it out loud.</p>
+  <p class="src">Sources: Shawn Meaike Jul 31 &amp; Aug 7, 2026 · Jay Maska, Kao Yi, Tanner Mendelson — Builder's Calls 2026</p>
+</section>
+
+<!-- ============================ PART 3 ============================ -->
+<section class="part" id="p3">
+  <div class="part-head"><span class="num">3</span><h2>Share FFL — your link</h2></div>
+  <p class="why">You don't explain the business. You hand people the door. This is the one tool every new agent uses from day one.</p>
+
+  <div class="promo">
+    <div>
+      <div class="t">Share FFL — one tap from your phone</div>
+      <p>Open the Optimum share page, tap the person's name in your contacts, and the What-is-FFL video goes out with a ready-made message. No typing, no explaining, no link to remember. Bookmark it on your home screen and it becomes the fastest recruiting move you have.</p>
+    </div>
+    <a class="btn" href="https://tools.ffloptimum.com/share/" target="_blank" rel="noopener">Open the share page</a>
+  </div>
+
+  <h3>How it works</h3>
+  <ol class="num-list">
+    <li><strong>You send it, not a pitch.</strong> From the share page, one tap drops the video and a short message straight into their texts, DMs, or email. Two taps, done.</li>
+    <li><strong>The video does the explaining.</strong> Fifteen minutes, A to Z — what we do, how agents get paid, what it takes. You never carry a 20-minute explanation on the phone.</li>
+    <li><strong>They raise their hand.</strong> They text you back "I'm in" or "tell me more." That's your cue.</li>
+    <li><strong>You hand them to your manager.</strong> Group text: you, them, your manager. Give your manager a heads-up first. Your manager runs the interview (Part 7). You go back to dialing.</li>
+  </ol>
+  <p>The video link on its own, for your bio and your signature: <a href="https://youtu.be/PFufqDZLhYU" target="_blank" rel="noopener">youtu.be/PFufqDZLhYU</a> <button type="button" class="mini" data-copytext="https://youtu.be/PFufqDZLhYU">Copy link</button></p>
+  <div class="hs noprint">
+    <details id="hs-ios"><summary>Put the share page on your iPhone home screen</summary><div class="body">
+      <ol style="margin:8px 0 0;padding-left:1.2em">
+        <li>Open <a href="https://tools.ffloptimum.com/share/" target="_blank" rel="noopener">the share page</a> in Safari (iPhone only allows this from Safari).</li>
+        <li>Tap the share icon at the bottom (the square with the arrow).</li>
+        <li>Scroll down and tap <strong>Add to Home Screen</strong>, then <strong>Add</strong>.</li>
+      </ol>
+    </div></details>
+    <details id="hs-android"><summary>Put the share page on your Android home screen</summary><div class="body">
+      <ol style="margin:8px 0 0;padding-left:1.2em">
+        <li>Open <a href="https://tools.ffloptimum.com/share/" target="_blank" rel="noopener">the share page</a> in Chrome.</li>
+        <li>Tap the three dots in the top right.</li>
+        <li>Tap <strong>Add to Home screen</strong> (or <strong>Install app</strong>), then <strong>Add</strong>.</li>
+      </ol>
+    </div></details>
+  </div>
+
+  <h3>You're referring. The building comes later.</h3>
+  <p>You are building — you're building your own skill and your own income first. What you're not doing yet is running interviews, training people, or carrying a team. When you spot someone who needs this, send the video, tell your manager who they are, and go back to the phones. Team-building starts at managing partner, $40K a month. The warehouse picture: you'd tell an out-of-work friend about a job that pays great. Nobody would expect you to train them. Same here.</p>
+  <p class="src">Sources: build notes Aug 2026 · Lesson 5.2 · Shawn Meaike May 22, 2026</p>
+</section>
+
+<!-- ============================ PART 4 ============================ -->
+<section class="part" id="p4">
+  <div class="part-head"><span class="num">4</span><h2>Get on social</h2></div>
+  <p class="why">Social media is the modern résumé. When someone hears about you, the first thing they do is look you up. Build what they find on purpose.</p>
+
+  <h3>Value only. No dances, no memes.</h3>
+  <p>Value-based content is your take on the opportunity, on leadership, on selling the right way — plus a little lifestyle. That's what attracts high-value people. TikTok dances and "scam-your-grandma" content repel the right people and give insurance a bad name. Jay Maska hates posting and does it anyway, because it's the path out. He now gets ~20 inbound DMs a day and distributes them to his managers.</p>
+
+  <h3>The mix that creates inbound (Wylie)</h3>
+  <div class="stat">
+    <div><b>60–70%</b><small>values, community, faith, fitness — this is what creates inbound</small></div>
+    <div><b>30–40%</b><small>numbers and business — this is what creates credibility</small></div>
+    <div><b>1/day</b><small>one piece of content, every day, same discipline as dialing</small></div>
+    <div><b>5 + 1</b><small>Kyle's cadence: five stories and one hard post a day</small></div>
+  </div>
+  <p>Wylie's result: more inbound recruits in 4 months of disciplined daily posting than in the previous 5 years combined. The land-grab framing: the old FFL era was locking out counties. The new era is locking out feeds. Every post is a house, every YouTube video a neighborhood, every event a city block.</p>
+
+  <h3>Highlights are permanent recruiting assets</h3>
+  <p>Stories disappear in 24 hours. Highlights stay forever and become the thing every prospect scrolls before the first call. Build at least three:</p>
+  <ul>
+    <li><strong>Money</strong> — deposit screenshots, agent bonuses, results.</li>
+    <li><strong>Community / gym</strong> — events, runs, the Saturday stuff.</li>
+    <li><strong>Values</strong> — faith, family, sobriety, what you stand for.</li>
+  </ul>
+
+  <h3>Your first week on social — checklist</h3>
+  <ul class="check" id="social-check">
+    <li><input type="checkbox" id="w1"><label for="w1">Clean up the profile: real photo, one line that says what you do and who you help, the What-is-FFL video link in the bio.</label></li>
+    <li><input type="checkbox" id="w2"><label for="w2">If you follow far more people than follow you, unfollow. <span class="sub">Jay went from following 4,000 to 200 — a low follow count reads as someone worth following.</span></label></li>
+    <li><input type="checkbox" id="w3"><label for="w3">Post your first value piece today. <span class="sub">Your take on something you learned this week. Bad post yesterday? Post today anyway.</span></label></li>
+    <li><input type="checkbox" id="w4"><label for="w4">Start a "Wins" highlight and put your first good-news story in it.</label></li>
+    <li><input type="checkbox" id="w5"><label for="w5">Reply to everyone who reacts. <span class="sub">The texts for that are in Texts &amp; DMs, right after this section.</span></label></li>
+    <li><input type="checkbox" id="w6"><label for="w6">Funnel every cold contact to your social and make them follow you. <span class="sub">Most big recruits are a "10-call close," not one call — your stories build the trust between calls.</span></label></li>
+  </ul>
+
+  <h3>Filming and editing, kept simple</h3>
+  <p>Phone camera, natural light, face the window, talk to one person. Under 60 seconds for feed, under 15 for stories. Captions on. Free editors that work: CapCut, Captions, InShot, or the native Instagram editor. Don't wait for a curated page — Morgan's agents without built-out pages still get floods of DMs off a ten-second office video.</p>
+  <p class="src">Sources: Wylie Hawkins, Builder's Call May 4, 2026 · Jay Maska &amp; Kao Yi, Builder's Calls 2026 · Morgan &amp; Ryan, Aug 2026 · Lesson 5.1</p>
+</section>
+
+<!-- ============================ PART 5 ============================ -->
+<section class="part" id="p5">
+  <div class="part-head"><span class="num">5</span><h2>Texts &amp; DMs</h2></div>
+  <p class="why">Once you're posting, people react. A like, a "how's the new gig going?", a DM. Every one of those is a door. These are copy-ready — edit the brackets, keep them short. Every one ends with the What-is-FFL video, and every "yes" gets handed to your manager.</p>
+
+  <h3>Warm market — the people who already know you</h3>
+  <div class="tpl"><header><span>The friend who's grinding</span><button type="button" data-copy>Copy</button></header>
+<pre>[Name] — I've been meaning to send you this. I know how hard you've been working at [job] and I've watched you do it for years. I'm building something and I genuinely think you'd be good at it. Why not you? Here's the honest breakdown: https://youtu.be/PFufqDZLhYU. Look at it when you get 15 minutes and then let's talk — I'll be straight with you about the good and the bad.</pre></div>
+
+  <div class="tpl"><header><span>The one who's been asking what you do</span><button type="button" data-copy>Copy</button></header>
+<pre>You've asked me twice now what I actually do. Here's the real version: https://youtu.be/PFufqDZLhYU. It's not for everyone — you have to work, and you have to be able to handle a couple of weeks without a paycheck while you build. If you watch it and still want to talk, give me a thumbs up and I'll get you on a call with my manager.</pre></div>
+
+  <div class="tpl"><header><span>The bank-statement Friday (Shawn)</span><button type="button" data-copy>Copy</button></header>
+<pre>[Screenshot of a deposit]
+
+Not bragging. This is what a Friday looks like now. If you've ever wondered what I do and whether you could do it — you could. Here's how it works: https://youtu.be/PFufqDZLhYU. Call me when you want the real breakdown.</pre></div>
+
+  <h3>Replying to social — when someone reacts to a post</h3>
+  <div class="tpl"><header><span>They commented or reacted to a win</span><button type="button" data-copy>Copy</button></header>
+<pre>Appreciate that. Honestly it's been the best decision I've made in a long time. If you ever want to see how it actually works — no pitch, just the breakdown — here it is: https://youtu.be/PFufqDZLhYU. Happy to answer anything after.</pre></div>
+
+  <div class="tpl"><header><span>"How's the new job going?"</span><button type="button" data-copy>Copy</button></header>
+<pre>Really good — better than I expected, honestly. Different every day and I finally control my own schedule and my income. I'll send you the page that explains it, it's easier than me typing it out: https://youtu.be/PFufqDZLhYU. Would you ever be open to something like this?</pre></div>
+
+  <div class="tpl"><header><span>A stranger DMs you off your content</span><button type="button" data-copy>Copy</button></header>
+<pre>Hey [Name] — thanks for reaching out. Quick and honest: we're bringing on a few people, it's licensed life insurance, you get paid on what you write, and we train you. Here's the full breakdown: https://youtu.be/PFufqDZLhYU. Watch it, and if you're still interested give me a thumbs up and I'll get you on a quick call with my manager.</pre></div>
+
+  <h3>Follow-ups</h3>
+  <div class="tpl"><header><span>No reply after you sent the link</span><button type="button" data-copy>Copy</button></header>
+<pre>Hey [Name] — no pressure at all. Did you get a chance to watch that video? If it's not for you, just tell me and I'll leave you alone. If it is, give me a thumbs up and I'll set up a quick call.</pre></div>
+
+  <div class="tpl"><header><span>Handing them to your manager (start a group text: you, them, your manager)</span><button type="button" data-copy>Copy</button></header>
+<pre>[Manager name], meet [Name]. [Name] is [one line — what they do, why they're looking]. They watched the video and want to talk. [Name], [Manager] runs our team and will walk you through the interview — they'll tell you the truth about whether this fits. I'll let you two take it from here.</pre></div>
+  <p style="font-size:14px;color:var(--ink-soft);margin-top:-6px">Before you send it: text your manager separately with the one-liner on who this is and how you know them, and tell them the group text is coming. Never surprise your manager with a stranger.</p>
+
+  <div class="rule"><div class="t">The daily number</div>Kyle's non-negotiable is 50 outbound DMs a day. For a brand-new agent the honest starting number is ten: five warm, five replies to whoever reacted to your content. Every one ends with the link. Track how many "done" replies you get per week — that's your recruiting scoreboard.</div>
+  <p class="src">Sources: Kao Yi, Builder's Call Jun 2026 · Shawn Meaike (bank-statement Fridays) · Morgan &amp; Ryan Aug 2026. Rewritten for Optimum in v2.1.</p>
+</section>
+
+<!-- ============================ PART 6 ============================ -->
+<section class="part" id="p6">
+  <div class="part-head"><span class="num">6</span><h2>Who to look for</h2></div>
+  <p class="why">High-level recruiting isn't chasing impressive people. It's reaching the beaten-down who have a heart to help their family.</p>
+
+  <h3>The recruit identity</h3>
+  <p>"Frustrated, busted, and disgusted — give me 100 of those a week." You can't impact somebody whose life doesn't need impacting. In Wylie and Zach's words, look for:</p>
+  <ul>
+    <li><strong>Walk-on athletes</strong> — told their whole lives they aren't good enough. They don't need talent, they need belief. Once they have it, it's a superpower.</li>
+    <li><strong>"Ex-degenerates"</strong> — people who lived in some darkness and are looking for direction. Wylie put himself here.</li>
+    <li><strong>The underdog who needs one adult to tell them what you see.</strong> Wylie's Matt Haig story: at his lowest, a successful man from his hometown put an arm around him at a soccer game and said "you're going to smoke every single one of these people." That reset his trajectory.</li>
+    <li><strong>The frustrated worker with a good heart.</strong> Tired, living check to check, wants to provide. Provision is universal — $5K or $50K, everyone wants to provide for someone.</li>
+  </ul>
+
+  <h3>Recruit for character, not résumé</h3>
+  <p>Stop only chasing experienced "leaders" — there are too few and everyone competes for them. Morgan: "When I got in the mindset of I'm going to market to everybody, that's when I really started to take off." Ali Sherwood was an assistant at a rival shop a year ago with no sales background; now ~$400K and headed to Hall of Fame. A "sales experience only" filter would have missed a Hall of Famer. Recruit for <strong>coachability, a good heart, care for people, work ethic, and underdog grit.</strong> You can develop skill. You can't develop hunger.</p>
+
+  <h3>Who not to spend cycles on</h3>
+  <ul>
+    <li>People who can't go a couple of weeks without a paycheck and view that as catastrophic. Zach's example: a friend who's great at his job but financially fragile. Seven years ago Zach would have talked him into it. Now he doesn't.</li>
+    <li>People who downplay the chargeback talk (Part 7). They're the dangerous ones — they're not engaging with reality.</li>
+    <li>People who want to be controlled: a Monday meeting and a Tuesday Zoom instead of dialing.</li>
+    <li>The person who blames everyone around them for everything that went wrong. See the magic question.</li>
+  </ul>
+
+  <h3>Where they are</h3>
+  <p>Everywhere you already go. DoorDash, Uber, the Target register, the valet stand, the gym. Jay's first recruit worked at Target and has done $1M+ over two years. On LinkedIn, target sales reps and customer-facing roles; on Instagram, target values — the person posting about their kids and their 5 a.m. workout. Weekly minimum: 50 DMs a day, one new conversation a day in person, one post a day.</p>
+
+  <h3>The 3-part vision (replaces "be #1")</h3>
+  <p>"We want to be the biggest team, $1M a month" puts the leader on a platform alone. It doesn't put the recruit anywhere. Replace it with three things every prospect can see themselves inside:</p>
+  <ol class="num-list">
+    <li><strong>You'll make more money than you ever have.</strong> We'll teach you a real skill that scales.</li>
+    <li><strong>You'll be in the best shape of your life.</strong> We're at the gym. We run on Saturdays. You'll come with us.</li>
+    <li><strong>You'll grow in your faith.</strong> Wherever you are with that today, we'll challenge you higher — no condemnation, open space.</li>
+  </ol>
+  <p>People are chasing alignment whether they know it or not. The unapologetic version of yourself attracts; the polished pitch repels.</p>
+  <p class="src">Sources: Shawn Meaike Jul 31 &amp; Aug 14, 2026 · Wylie Hawkins &amp; Zach Twardowski, May 4, 2026 · Morgan &amp; Ryan, Aug 2026 · Jay Maska 2026</p>
+</section>
+
+<!-- ============================ PART 7 ============================ -->
+<section class="part" id="p7">
+  <div class="part-head"><span class="num">7</span><h2>The interview &amp; vetting</h2></div>
+  <p class="why">The interview is not a pitch. It's vetting. Your job is to ask questions that repel the wrong people — and to run the chargeback talk before anyone signs anything.</p>
+
+  <h3>The posture</h3>
+  <p>"The weakest leadership you can provide is when you're afraid to ask people questions because you don't want the answers." You know you've asked a good question when people get uncomfortable. If there are eight things they want to know, the real one is the tenth. Whoever asks the most questions wins, and your tonality establishes that you lead the relationship. <em>They applied — that doesn't mean they want to do it.</em> Some just want to tell their girlfriend they had an interview.</p>
+
+  <h3>Two funnels: unlicensed and licensed</h3>
+  <p>We'll recruit almost anyone for the license. We won't work with everyone. The path splits on one question — do they already have a life license? Most of what your agents refer will be unlicensed, so that's the default.</p>
+
+  <div class="flow">
+    <div class="t">Unlicensed — the default</div>
+    <ol>
+      <li><strong>The What-is-FFL video.</strong> Already sent by the referring agent. <em>"What did you think of the video?"</em> is the first thing you ask. If they didn't watch it, reschedule — warmly. If they can't watch a video, they won't pass the exam or order leads.</li>
+      <li><strong>Quick touch-base call — 10 minutes.</strong> Answer what the video raised. Let them hear your energy. Ask the magic question and two or three of the filters below. Never hire on this call.</li>
+      <li><strong>Send the Q&amp;A video</strong> (the Zach video) — <a href="https://www.youtube.com/watch?v=tQMjFGRi43g" target="_blank" rel="noopener">youtube.com/watch?v=tQMjFGRi43g</a>. It answers the next twenty questions so you don't have to, and it shows the company, the culture, and the proof. They arrive at the next call with belief at an 8 instead of a 2.</li>
+      <li><strong>Follow-up call — the decision.</strong> Run the full interview off the script. Commissions talk. Leads talk. Decide: work with them, refer them as a doorway, or pass. If it's a yes: "How quickly do you want to start? What are your goals?"</li>
+      <li><strong>Registration.</strong> Send them your unique <strong>Optimum registration page link</strong> — it's in the <strong>Recruiting tab of the Optimum portal</strong>. That link starts their pre-licensing course.</li>
+      <li><strong>The assignment.</strong> <em>"Your first job is to text me the day your exam is scheduled. You've got 14 days. It takes about 20 hours."</em> Then the licensing follow-up cadence starts. Whether they text in 24 hours, a week, or never tells you everything.</li>
+    </ol>
+  </div>
+
+  <div class="flow">
+    <div class="t">Already licensed</div>
+    <ol>
+      <li><strong>They've seen the video.</strong> They already know the opportunity exists. Set an appointment — a Zoom, not a phone call.</li>
+      <li><strong>Before the Zoom:</strong> confirm they watched the What-is-FFL video and send the <a href="https://www.youtube.com/watch?v=tQMjFGRi43g" target="_blank" rel="noopener">Q&amp;A video</a>.</li>
+      <li><strong>The Zoom.</strong> Answer their questions about the video, then run the proper interview off the script — every filter, the commissions talk, the leads talk. Licensed does not mean vetted. A licensed agent who blames their last IMO for everything will blame you next.</li>
+      <li><strong>If it's a yes:</strong> send the registration link from the Recruiting tab. They skip the course and go straight into contracting — Fast Start, contracting paperwork, Academy, Americo active, Strategy Call (Part 8).</li>
+    </ol>
+  </div>
+
+  <h3>The magic question — it starts everything</h3>
+  <div class="track">
+    <div class="who">SHAWN — the accountability read</div>
+    <p>"Tell me about your situation right now. Why is it what it is?"</p>
+    <p class="cue">Then be quiet. If they blame outward — the boss, the economy, the ex, the market — stop. A person who isn't the cause of their own results will eventually make their production your fault. Shawn's 30-year friend: in debt his entire adult life, everything is always someone else's fault. "Thank God I never hired him."</p>
+  </div>
+
+  <h3>Questions that make the wrong people self-eliminate</h3>
+  <div class="track">
+    <div class="who">NO-JOB FILTER</div>
+    <p>"You don't have a job right now? Okay — sell me on why."</p>
+    <p class="cue">If they can't sell you on it, run. Shawn's been working since 13: fired Friday, mowing lawns Saturday.</p>
+  </div>
+  <div class="track">
+    <div class="who">THE BELIEF FLIP</div>
+    <p>"Why don't you believe in yourself more?"</p>
+    <p class="cue">It throws them. Then you rebuild their belief. That's the moment they decide whether you're their guy.</p>
+  </div>
+  <div class="track">
+    <div class="who">THE SIGN OUT FRONT — honesty test</div>
+    <p>"Hey, if you write $10K your first day — two on your uncle, one on your aunt, one on your aunt's friend, one on a lead — I'm going to be like, wow, that's interesting. I'm going to make some calls and check that out. So I need you to know: I'm watching."</p>
+    <p class="cue">None of us know if the house is really under surveillance, but the sign creates the awareness. The ones who don't want surveillance go do stupid stuff at a competitor.</p>
+  </div>
+  <div class="track">
+    <div class="who">W2 → 1099 — don't own their failure</div>
+    <p>"I'm not going to tell you to quit your job. Replace your income first, then make the switch on your schedule. But 1 to 4 hours a week won't work — I'll tell you that straight."</p>
+    <p class="cue">If you push someone to quit and it fails, the blame lands on you. Let them choose the timing. Define the hours.</p>
+  </div>
+  <div class="track">
+    <div class="who">TRUTH CLOSES THE VET</div>
+    <p>"I'm going to be honest with you: based on what you've told me, you have no chance to succeed at this."</p>
+    <p class="cue">When it's genuinely not working, this beats "it'll be hard." The right people lean in and argue for themselves. The wrong ones self-eliminate. Either way you win.</p>
+  </div>
+
+  <h3>Behavioral questions (ask three, listen more than you talk)</h3>
+  <ul>
+    <li>Tell me about the hardest thing you've ever pushed through. What did you do when it stopped being fun?</li>
+    <li>When was the last time you did something for 30 days straight without anyone making you?</li>
+    <li>How do you handle your own money? Who's the last person you owed, and what happened?</li>
+    <li>Is anyone else affected by this decision, and are they supportive?</li>
+    <li>What would you do with an extra $3,000 a month? (Listen for provision, not toys.)</li>
+    <li>How much of your current situation is on you?</li>
+  </ul>
+
+  <div class="promo">
+    <div>
+      <div class="t">Run the interview off the script</div>
+      <p>The whole conversation in order — a quick-read scorecard at the top, then open, discover, vet, commissions, leads, close. Mark every answer good, unclear, or red flag and the verdict fills in at the bottom. Open it on a second screen, reset it for the next person, print it if you want paper.</p>
+    </div>
+    <a class="btn" href="recruiting-interview-script.html" target="_blank" rel="noopener">Open the interview script</a>
+  </div>
+
+  <h3>Educate before they register — the two talk tracks</h3>
+  <p>Vetting is half the interview. The other half is teaching. Two things almost nobody understands walking in — how the advance works and how leads work — are the two biggest reasons agents quit angry. So you teach both, out loud, before anyone registers. Same conversation every time, from every recruiter, so no agent can ever say "nobody told me." Run them in this order.</p>
+
+  <h4 style="font-family:var(--serif);font-size:20px;margin-top:26px">Talk track 1 — advanced commissions. Run it before every contract.</h4>
+  <p>This is the single best filter for chargeback agents in the industry. A contract gets signed by everyone, including the people who'll default on it. The conversation filters <em>before</em> the signature. Contracts and Vector are backstops; this does the real work.</p>
+
+  <details open><summary>Step 1 — Find out what they actually understand</summary><div class="body">
+    <div class="track"><p>"Okay, before we go any further — do you understand how you get paid?"</p><p class="cue">They'll say something vague: "The insurance company pays me."</p><p>"Right — but do you understand HOW they do it?"</p><p class="cue">Keep asking until they say "No, I don't actually know." That's where the real conversation begins.</p></div>
+  </div></details>
+  <details><summary>Step 2 — Walk them through the advance</summary><div class="body">
+    <div class="track"><p>"What they're going to do is advance you the money for work you've not done. You write a policy. They advance you like it's been on the books for nine months. It's not been on the books for nine months. It's been on the books for nine minutes."</p><p>"Every month the client pays, you don't get paid anymore for the first nine months — because they already advanced you. But they don't charge you back anything. When you get them to month nine, ten, eleven — the back-end money pays you."</p></div>
+  </div></details>
+  <details><summary>Step 3 — Set the persistency requirement</summary><div class="body">
+    <div class="track"><p>"The carriers track your persistency. Every 10 policies you write, 7 of them better be on the books after 13 months. If 7 are, you're cold. You can be at 70.2%, 74.9%, 81.6% — just don't be below 70. Some products require higher. You have to know your products."</p></div>
+  </div></details>
+  <details><summary>Step 4 — What happens when policies fall off</summary><div class="body">
+    <div class="track"><p>"Here's the part most recruiters don't tell you. When the carrier advances the money, if somebody cancels in month one or two, you owe the money back."</p><p>"Say you write $10,000 your first month. At the end of the month, $4,000 of that charges back. You're at 60% persistency, which is not good — you're going to work on it. But you have $4,000 you owe back. Because those policies didn't even make it the first month."</p></div>
+  </div></details>
+  <details><summary>Step 5 — Drive the consequence</summary><div class="body">
+    <div class="track"><p>"So I ask you — do you have that money?"</p><p class="cue">They'll often say: "I don't have it. I spent it."</p><p>"Right. So now you owe the insurance company money. When you write more, they take it from what you wrote. Which means you have to KEEP writing every single week. Take a week off and there's no advance to claw the debt back from. The debt sits."</p><p>"And if you don't pay it back, it's no different than owing Visa, a hospital, or a restaurant. It was a loan. It's secured by your license, your credit, and your ability to ever get advanced again at any carrier — they share this data."</p></div>
+    <div class="open-items"><span class="t">Verify before another recruiter says this on a recorded call:</span> Shawn's version includes credit consequences. Confirm what actually happens to unpaid chargeback debt at Optimum (Vector listing, collections, credit reporting) so nobody overstates it.</div>
+  </div></details>
+  <details><summary>Step 6 — The presumptive close</summary><div class="body">
+    <div class="track"><p>"I'm not telling you this to scare you. I'm telling you because I have a vested interest in making sure that when some of those policies fall off — and some will, mortgage and final expense both — you can pay back the advances you got but didn't earn."</p><p>"You earn them when the client keeps the policy. The client kept it, you got the advance, the carrier didn't take anything back — everybody's happy."</p><p>"But if you write weeks one through four and then don't sell weeks five through seven — I'm not mad about what you're not doing for your family. That's your business. I'm concerned that when those policies fall off, you can't pay the debt because you spent the money."</p><p>"Or, if you don't think you can handle that, we can pay you AS EARNED. Every month the client pays, you get paid. No advance. I'd rather have the advance — everybody would. Don't ever do anything to jeopardize your ability to be advanced."</p></div>
+  </div></details>
+
+  <h4>What to listen for</h4>
+  <div class="verdict">
+    <div class="v-good"><div class="t">Hire</div>"Okay, that makes sense. You give me the money, I give it back if it doesn't stick. Cool."</div>
+    <div class="v-bad"><div class="t">Let them walk</div>Evasive. Excuses. Tells you about their bad credit. Argues. "Damn, sounds punitive—" Good. Let them go.</div>
+    <div class="v-warn"><div class="t">Dangerous</div>"Yeah, yeah, that won't happen with me." They're downplaying it. They're not engaging with reality.</div>
+  </div>
+
+
+  <h4 style="font-family:var(--serif);font-size:20px;margin-top:30px">Talk track 2 — leads. Run it right after.</h4>
+  <p>Almost nobody coming into this business understands leads, and it's the second-biggest reason new agents quit. Say it plainly, before the contract, in the same breath as the chargeback talk.</p>
+  <details open><summary>Step 1 — There are no free leads</summary><div class="body">
+    <div class="track"><p>"Second thing you need to understand before we go further. Nobody hands you people to call. You buy leads. That's your marketing budget — same as any business owner. If somebody's offering you free leads, look at what they're paying you. Usually it's 30% comp. You're paying for those leads, you just can't see it."</p></div>
+  </div></details>
+  <details><summary>Step 2 — What a lead actually is</summary><div class="body">
+    <div class="track"><p>"A lead is a real person who filled out a form asking about coverage — final expense, mortgage protection, veterans. You're not cold-calling. You're calling people who raised their hand. Fresh leads are people who asked this week; they cost more. Aged leads are people who asked a month or three ago; they cost about a dollar. You start on aged. Fresh leads are earned."</p></div>
+  </div></details>
+  <details><summary>Step 3 — The investment</summary><div class="body">
+    <div class="track"><p>"Here's what it looks like. A new agent puts $350 to $500 a week into leads. When your first deposit hits — usually week three — you take $250 to $300 of it and put it right back into aged leads, and you scale toward $500 a week. Top producers spend $1,500 to $2,000 a week on leads and write $50,000 to $65,000 a month. It's a business. You feed it."</p></div>
+    <div class="open-items"><span class="t">Open decision:</span> the vault states lead spend both weekly and monthly across calls (Shawn 8/21, Jamie). Pick one and I'll lock it here and on the Strategy Call sheet.</div>
+  </div></details>
+  <details><summary>Step 4 — Why skill comes before expensive leads</summary><div class="body">
+    <div class="track"><p>"New agents always want the 'high intent' leads. Do the math with me. A $50 lead, and you close one in ten. That's $500 to make one sale. The average policy pays around $1,500 the first year. Now one in fifteen — that's $750 a sale. You're working for the lead vendor. So you learn to close on dollar leads first. When you're closing six a week, you're ready for real-time leads."</p><p class="cue">Lead-hopping is the poison pill: "If you don't know how to close, it becomes a slot machine." Coach every agent to $40K a month before opening inbounds or other lead types.</p></div>
+  </div></details>
+  <details><summary>Step 5 — The read</summary><div class="body">
+    <div class="verdict">
+      <div class="v-good"><div class="t">Hire</div>"Okay, so I'm investing in my business. How much do I need to start?"</div>
+      <div class="v-bad"><div class="t">Let them walk</div>"Wait — I have to PAY for leads?" followed by a story about why they can't. This is the person who'll quit in 30 days and tell people you took their money.</div>
+      <div class="v-warn"><div class="t">Situational</div>Starting lean is fine. Your sponsor's leads or cheap aged leads are a legitimate entry point — Kyle's point is don't treat every recruit the same. What's not fine is someone who can't fund any leads at all.</div>
+    </div>
+  </div></details>
+  <p class="src">Sources: Elizabeth Jimenez Apr 13, 2026 · Ronnie Salam 2026 · Jay Maska 2026 · Kao Yi Jun 2026 · Lesson GP.1</p>
+
+  <h3>Two different conversations</h3>
+  <div class="two">
+    <div class="rule"><div class="t">Inexperienced / hasn't made money</div>The only goal is get better every day. Ramp: 1–2 policies week 1, 2–3 week 2, 3–5 week 3, about one a day by week 4. When goals are missed, reframe: "I've gotten better and I'm getting closer." Improvement is the early scoreboard.</div>
+    <div class="rule"><div class="t">Experienced / has made money / big following</div>Mostly building. Full transparency — income, comp, spreads, bonuses. Then sell scalability and freedom: "You don't even need to sell. Start marketing, I'll train your team." Don't fear wealthy or high-acumen prospects; they're the ones most blown away by how simple and low-overhead this is.</div>
+  </div>
+
+  <h3>Language: drop "upline" and "downline"</h3>
+  <p>"I ain't nobody's downline, bro. And ain't nobody's upline either. I'm your business partner." Replace <em>upline</em> with business partner, manager, the agency I'm with. Replace <em>downline</em> with business partner, agent on my team, agency I'm building. "Downline" creates a permanent hierarchy with you on top; the second your agent outproduces you, the word stops working. Plan your language for the day they pass you.</p>
+  <p class="src">Sources: Shawn Meaike May 1, May 22, Aug 14, 2026 · Wylie Hawkins May 4, 2026 · Elizabeth Jimenez Apr 13, 2026 · Tanner Mendelson &amp; Zach Twardowski 2026</p>
+</section>
+
+<!-- ============================ PART 8 ============================ -->
+<section class="part" id="p8">
+  <div class="part-head"><span class="num">8</span><h2>Onboard your new recruit</h2></div>
+  <p class="why">The biggest flaw in the industry is that there's no road map between passing the exam and the first sale. Build one and keep it dead simple. The prepared always crush the unprepared.</p>
+
+  <h3>Your onboarding flow at Optimum</h3>
+  <div class="flow">
+    <div class="t">Unlicensed — what they'll experience</div>
+    <ol>
+      <li>Registration link (Recruiting tab) → pre-licensing course starts</li>
+      <li>Exam scheduled — they text you the date (the assignment)</li>
+      <li>Exam passed → state license application → fingerprints (if their state requires) → NPN</li>
+      <li>Fast Start → submit contracting → Optimum Academy → Americo active</li>
+      <li>Strategy Call → live dials</li>
+    </ol>
+  </div>
+  <div class="flow">
+    <div class="t">Licensed — what they'll experience</div>
+    <ol>
+      <li>Registration link (Recruiting tab)</li>
+      <li>Fast Start → submit contracting → Optimum Academy → Americo active</li>
+      <li>Strategy Call → live dials</li>
+    </ol>
+  </div>
+  <p>Three videos do the seeding (portal welcome, Fast Start walkthrough, pre-Strategy Call prep). The Strategy Call is the only live call in onboarding — 30 minutes, triggered when Americo goes active and the prep video is watched. Follow the Strategy Call run sheet; don't improvise it. Daily portal login is the expectation from day one.</p>
+
+  <h3>The "Bum Bum Walk" — baby steps <span class="who" style="display:inline-block;font-size:11px;font-weight:700;color:var(--ink-soft);border:1px solid var(--line);border-radius:3px;padding:1px 6px;vertical-align:middle;font-family:var(--sans)">unlicensed</span></h3>
+  <p>Train a new agent the way you teach a toddler to walk. Your involvement starts when they <strong>pass the exam</strong>, not before.</p>
+  <ol class="num-list">
+    <li>Congrats. "Did you submit for your state license?"</li>
+    <li>Once licensed → fingerprints, if their state requires them. Get a walk-in appointment; the NPN can take a week to clear.</li>
+    <li>Only then → Fast Start, Academy, script reps.</li>
+  </ol>
+  <p>Don't dump license + fingerprints + boot camp + studying on them all at once. Over-complicating a simple business is the #1 builder mistake.</p>
+
+  <h3>The Golden 10 Days <span style="display:inline-block;font-size:11px;font-weight:700;color:var(--ink-soft);border:1px solid var(--line);border-radius:3px;padding:1px 6px;vertical-align:middle;font-family:var(--sans)">unlicensed</span></h3>
+  <p>There's roughly a 10-day gap between test-pass and NPN + contracting + Americo (fastest carrier to contract). Most people waste it as dead time. Do <em>all</em> the groundwork here — Academy, script reps, the first 90 seconds, the opening objections — so the agent is trained before they ever dial. Two of Ronnie's agents in their third week put up $10K because of this.</p>
+  <h3>Leverage the momentum while contracting clears <span style="display:inline-block;font-size:11px;font-weight:700;color:var(--ink-soft);border:1px solid var(--line);border-radius:3px;padding:1px 6px;vertical-align:middle;font-family:var(--sans)">licensed + unlicensed</span></h3>
+  <p>Licensed agents go through this too — contracting still takes days, and those days are free training. We're 100% virtual, so the cheat code is the <strong>Live Dials room</strong>: have them sit in 2–4 hours a day with the script open, camera on, and listen to closers — absorb tonality and <em>why</em> each question is asked. Run it like a shift, not a drop-in. When they finally dial, Day 1 is already out of the way.</p>
+
+  <h3>Lead expectations — already set</h3>
+  <p>If you ran the leads talk in Part 7, this is a reminder, not a surprise: $350–500 a week to start, first deposit goes back into aged leads, real-time leads earned at six closes a week, $40K a month before other lead types. If a new agent acts surprised by any of this after contracting, the interview was skipped. Go back and run it.</p>
+  <div class="ws">
+    <div class="ws-head">The Winning System — this has its own program</div>
+    <div class="ws-months">
+      <div><small>Month 1</small><b>$10K</b><span>$500/wk aged</span></div>
+      <div class="arr">→</div>
+      <div><small>Month 2</small><b>$20K</b><span>$500 aged + $500 fresh</span></div>
+      <div class="arr">→</div>
+      <div><small>Month 3</small><b>$30K</b><span>$500 aged + $1,000 fresh</span></div>
+    </div>
+    <div class="ws-bank"><small>In the bank after 90 days</small><b>$28,500</b></div>
+    <div class="ws-stats">
+      <div><b>$60,000</b><span>AP written</span></div>
+      <div><b>~60</b><span>policies sold</span></div>
+      <div><b>$500</b><span>out of pocket, ever</span></div>
+      <div><b>Repeatable</b><span>rinse, reinvest, expand</span></div>
+    </div>
+    <div class="ws-foot">Taught live every <strong>Tuesday at noon ET</strong> on the Winning System call. Point every new agent there on day one — you don't have to teach leads yourself.</div>
+  </div>
+
+  <h3>Open the mic before they buy a fresh lead</h3>
+  <p>Before a new agent spends a dollar on fresh leads, they demonstrate the presentation on a live call with a manager listening. If they can't run it, they're not ready — and they'd be burning $30 leads to find that out. No exceptions.</p>
+
+  <h3>Recruiters, expect attrition. Plan for it.</h3>
+  <p>Most agents will quit. That's not failure — that's the business. Don't try to figure those people out; be a good example and go find more. Target: <strong>10–20% of recruits become top producers.</strong> If you're hitting that, the system works.</p>
+
+  <h3>The non-worker rule: don't initiate</h3>
+  <p>Agents who are not working do not get your time until they <em>ask</em> for it. Don't call them, motivate them, critique them, or answer their questions until they ask. "The minute you start answering all their questions when they don't work hard, you get everything you deserve. The tail wags the dog."</p>
+  <div class="track">
+    <div class="who">WHEN THEY DO ASK — turn it back</div>
+    <p>"Great, I have a question for you first. Before you ask me yours — why don't you work?"</p>
+    <p class="cue">Then silence. Don't soften it. The question is the wake-up call.</p>
+  </div>
+  <p>The constant flow of new recruits is what lets you ignore the non-workers — and ignoring them is the only thing that creates the fear of loss that might actually move them. The middle-management disease: hire 8–12, hit $11K/month in overrides, get comfortable, stop recruiting. Three players developed, one hurt, one transfers, one left. "You didn't have bad luck. You stopped recruiting."</p>
+
+  <h3>Duplicate — build better copies of yourself</h3>
+  <p>Have your best agents present at the weekly Zoom and train new agents. Find builders, not just closers: Tanner was capped at $400K/mo with plenty of salespeople and nobody who wanted to build; it took 7–8 months to find the first solid leaders and now he has 10–12 building. "You have to become what you would want on your team."</p>
+  <p class="src">Sources: Ronnie Salam, Builder's Call 2026 · Elizabeth Jimenez Apr 13, 2026 · Shawn Meaike May 1, 2026 · Tanner Mendelson 2026 · Optimum onboarding decisions Aug 2026</p>
+</section>
+
+<!-- ============================ PART 9 ============================ -->
+<section class="part" id="p9">
+  <div class="part-head"><span class="num">9</span><h2>Going further</h2></div>
+  <p class="why">For the agent who's caught the bug and wants to put money behind it. None of this is required — Parts 3 and 5 are. This is what it looks like to run recruiting ads.</p>
+
+  <h3>Escape the "replacing volume" trap</h3>
+  <p>Most builders get stuck recruiting just enough to cover fall-off, never adding. Morgan was stuck there for about a year after burning through her warm market. The fix was cheap, local, duplicatable paid ads — not a big personal following.</p>
+
+  <h3>The exact ad (Morgan &amp; Ryan, Scottsdale — 60–75 direct agents)</h3>
+  <div class="rule">
+    <ul style="margin:0">
+      <li><strong>Creative:</strong> a video under 10 seconds about the opportunity and the system — your screen in the Live Dials room, a deposit notification, a Winning System slide. We're virtual, so show the system, not an office. Doesn't have to feature you.</li>
+      <li><strong>Copy:</strong> "Average new [City] office rep makes 10–30K a month. DM 'sales' to learn more." Use a unique code word (they use "Polaris") so replies aren't generic.</li>
+      <li><strong>Spend:</strong> $30–50/day (~$1,500/mo), geo-targeted to your metro. Cost lands around $1–2 per DM.</li>
+      <li><strong>Cadence:</strong> one post a day plus one paid ad a week. Swap creative until one hits, then ride it.</li>
+    </ul>
+  </div>
+
+  <h3>The filter funnel — goal is conversations, not bookings</h3>
+  <ol class="num-list">
+    <li>Ad → DMs.</li>
+    <li>Reply with the saved script from Part 3 plus a personal-feeling video.</li>
+    <li>Send the 7–8 minute overview (industry, pay-for-leads, 1099). This filters people out — that's the point.</li>
+    <li>Only people who reply "done" get a 10–15 minute fit call. The industry is already explained; you're checking fit.</li>
+  </ol>
+  <p><strong>Staffing:</strong> do the DMs and interviews yourself first, learn it, <em>then</em> teach a VA. Don't hire someone green and hope they figure it out.</p>
+
+  <h3>The funnel math</h3>
+  <div class="stat">
+    <div><b>15–20</b><small>into class per month, with filtering</small></div>
+    <div><b>60–70%</b><small>of fit calls end up contracted</small></div>
+    <div><b>1</b><small>successful 10K/mo agent at 20% spread ≈ your monthly ad spend back, forever</small></div>
+    <div><b>3</b><small>solid agents in a month makes you very profitable</small></div>
+  </div>
+  <div class="rule"><div class="t">Two businesses, two timelines</div>Producing is same-week ROI: buy leads, flip for cash. Recruiting is a 2–4 month lag before anyone gets through. People quit ads early because they expect producer-speed returns. "The results you're having right now are due to efforts you had three to four months ago." Fund recruiting from producer cash and stay consistent through the lag. <strong>Never stop your ad investment</strong> — not on vacation, not when sick, not when it feels slow.</div>
+
+  <h3>The weekly recruitment Zoom (Elizabeth's Wednesday model)</h3>
+  <p>Same day, same time, every week. Your top producers co-present — they're living proof. Two people dedicated to calling and confirming attendees. Keep it simple.</p>
+  <div class="stat">
+    <div><b>$120+/day</b><small>recruiting ads, kept separate from your client lead budget</small></div>
+    <div><b>~50</b><small>prospects to the Wednesday Zoom each week</small></div>
+    <div><b>5/day</b><small>recruiting interviews conducted</small></div>
+    <div><b>~20</b><small>new agents a month from ~100 conversations</small></div>
+  </div>
+  <h3>What's working in ads outside our walls</h3>
+  <p>A quick read of what the wider market is doing with Meta in 2026, filtered for what applies to recruiting:</p>
+  <ul>
+    <li><strong>Broad targeting, specific creative.</strong> Meta's algorithm now does the audience work. Your job is a creative so specific that the wrong people scroll past it — "Average new Orlando office rep makes $10–30K a month" does that; "Now hiring" doesn't.</li>
+    <li><strong>Real beats polished.</strong> User-generated-style video — your phone, your office, your voice — outperforms stock and studio. Morgan's ten-second office clip is the proof.</li>
+    <li><strong>Creative fatigue is real.</strong> Costs climb when the same ad runs for weeks. Rotate two or three clips and keep the winner.</li>
+    <li><strong>Speed to lead applies to recruits too.</strong> Reply to DMs within minutes, not hours. A saved reply plus a personal 20-second video is the standard.</li>
+    <li><strong>Watch the compliance box.</strong> Ads about a job or income opportunity fall under Meta's Employment special-ad category, which limits age, gender, and tight-radius targeting. Use it — an ad flagged for skipping it gets rejected or the account gets restricted. Keep income claims to ranges with "average" or "typical," never guarantees.</li>
+  </ul>
+  <p class="src">General Meta-ads guidance from 2026 industry sources (ClicksGeek, Stallion Leads, PSM Brokerage); Morgan &amp; Ryan's numbers are the only recruiting-specific benchmarks here.</p>
+
+  <h3>Ad-reply text (for when you're running the ad)</h3>
+  <div class="tpl"><header><span>First response to a DM off the ad</span><button type="button" data-copy>Copy</button></header>
+<pre>Hey [Name] — thanks for reaching out. We've got a team here in [City] and we're bringing on a few people this month. Here's a quick overview of what we do and how it pays: https://youtu.be/PFufqDZLhYU
+
+Watch it, and if you're still interested give me a thumbs up and we'll set up a quick 10–15 minute call.</pre></div>
+  <p class="src">Sources: Morgan &amp; Ryan, Builder's Call Aug 2026 · Elizabeth Jimenez, Builder's Call Apr 13, 2026</p>
+</section>
+
+<div class="next">
+  <h2>Your next step</h2>
+  <p>Don't read this again. Do one thing from it today.</p>
+  <ol class="num-list">
+    <li>Put the share page on your home screen (Part 3 shows how) and the video link in your bio. Today.</li>
+    <li>Have one five-minute conversation in person with someone who could be a new agent. Ask "why not you?"</li>
+    <li>Post one value piece, start your Wins highlight, and send ten texts from Part 5.</li>
+    <li>When someone gives you a thumbs up, group-text your manager. If you're the manager, run the interview off the script — unlicensed or licensed, pick the right funnel.</li>
+    <li>Before anyone registers, run the commissions talk and the leads talk. Every step.</li>
+  </ol>
+</div>
+
+</main>
+</div>
+
+<div class="foot">
+  <div>Optimum · Own Your Future · Recruiter Playbook v2.3, September 18, 2026 from the Weekly Training Vault. For agents and recruiters of Optimum, a Family First Life agency.</div>
+  <details class="noprint" style="margin-top:12px"><summary>What changed from v1 (Aug 9) and v2 (Sep 17)</summary><div class="body">
+    <ul>
+      <li>New Part 5 — Morgan &amp; Ryan's paid-ad machine and Elizabeth's weekly Zoom pulled out of Part 4 into their own section.</li>
+      <li>Part 7 adds Shawn's Aug 14 vetting-by-uncomfortable-questions material (no-job filter, belief flip, W2→1099, truth closes the vet) and an interactive scorecard.</li>
+      <li>Part 9 now uses the locked Optimum spine (Fast Start → contracting → Academy → Americo → Strategy Call) instead of the generic road map.</li>
+      <li>Text/DM templates rewritten for Optimum; the Solidity-era wording is gone.</li>
+      <li>Reskinned to the Optimum tool-suite look (cream, serif, navy band, gold wordmark). Print stylesheet added.</li>
+      <li>v2.1 (Sep 18): restructured for new agents — Share FFL moved up to Part 3 as the core mechanism; texts rewritten for warm market and social replies, ad-reply templates moved to Part 9; leads talk added to the interview; the Vault removed; chip-aisle story given its context; VBO webinar added; companion Interview Script &amp; Scorecard linked from Part 7.</li>
+      <li>v2.2 (Sep 18): "Refer first, build later" callout; manager is the hand-off in every place; calculator fixed and linked to the Agency Builder; "text me info" language gone; Share FFL section rebuilt around the one-tap share page and the What-is-FFL video; social checklist is checkboxes; Captions added; follow-up uses "thumbs up"; group-text hand-off instructions; congrats template removed; interview funnel split into unlicensed vs licensed with registration via the Recruiting tab; vetting scorecard moved to the script page; onboarding flow shown for both paths; Winning System referenced; "open the mic before you buy a fresh lead"; VBO section removed; Part 9 is now the ads chapter with outside-market notes.</li>
+      <li>v2.3 (Sep 18): Zach Q&amp;A video linked; interview-script box restyled to match the share card; "Educate before they register" heading framing the two talk tracks; fingerprints "if their state requires"; opening objections; Live Dials room replaces the local office; Winning System 90-day visual; ad creative pointed at the virtual system; add-to-home-screen steps for iPhone and Android; next steps clarified.</li>
+      <li>Still open: chargeback credit consequence, Alethia's interview tracks, weekly-vs-monthly lead cadence.</li>
+    </ul>
+  </div></details>
+</div>
+
+<script>
+(function(){
+  // calculator
+  var ids=['c-agents','c-prod','c-spread','c-adv'];
+  function fmt(n){return '$'+Math.round(n).toLocaleString('en-US');}
+  function calc(){
+    var a=+document.getElementById('c-agents').value||0, p=+document.getElementById('c-prod').value||0,
+        s=(+document.getElementById('c-spread').value||0)/100, adv=(+document.getElementById('c-adv').value||0)/100;
+    var m=a*p*s*adv;
+    document.getElementById('c-month').textContent=fmt(m);
+    document.getElementById('c-year').textContent=fmt(m*12);
+  }
+  ids.forEach(function(id){var el=document.getElementById(id); if(el) el.addEventListener('input',calc);});
+  calc();
+
+  // copy buttons
+  document.querySelectorAll('[data-copy]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var pre=btn.closest('.tpl').querySelector('pre');
+      var txt=pre.textContent;
+      function done(){btn.textContent='Copied';btn.classList.add('done');setTimeout(function(){btn.textContent='Copy';btn.classList.remove('done');},1600);}
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,function(){fallback(txt);done();});}
+      else{fallback(txt);done();}
+    });
+  });
+  document.querySelectorAll('[data-copytext]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var txt=btn.getAttribute('data-copytext');
+      function done(){btn.textContent='Copied';btn.classList.add('done');setTimeout(function(){btn.textContent='Copy link';btn.classList.remove('done');},1600);}
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(txt).then(done,function(){fallback(txt);done();});}else{fallback(txt);done();}
+    });
+  });
+  try{var ua=navigator.userAgent||'';var ios=/iPhone|iPad|iPod/.test(ua), and=/Android/.test(ua);
+    if(ios){document.getElementById('hs-ios').open=true;} else if(and){document.getElementById('hs-android').open=true;}}catch(e){}
+  function fallback(t){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');}catch(e){}document.body.removeChild(ta);}
+
+  // scorecard w/ localStorage (per-viewer convenience only)
+  var boxes=document.querySelectorAll('#scorecard input');
+  var KEY='orp-scorecard-v2';
+  try{var saved=JSON.parse(localStorage.getItem(KEY)||'{}');boxes.forEach(function(b){if(saved[b.id])b.checked=true;});}catch(e){}
+  function prog(){
+    var n=0;boxes.forEach(function(b){if(b.checked)n++;});
+    var el=document.getElementById('score-prog');
+    if(!el)return;
+    if(n===0)el.textContent='Check what you actually saw. Not what they told you.';
+    else if(n===8)el.textContent='8 of 8 — work with them.';
+    else if(n>=6)el.textContent=n+' of 8 — strong. Run the chargeback talk and watch the response.';
+    else el.textContent=n+' of 8 — recruit as a doorway; don\'t invest coaching hours yet.';
+  }
+  boxes.forEach(function(b){b.addEventListener('change',function(){var o={};boxes.forEach(function(x){o[x.id]=x.checked;});try{localStorage.setItem(KEY,JSON.stringify(o));}catch(e){}prog();});});
+  prog();
+
+  // active nav
+  var links=document.querySelectorAll('nav.toc a');var secs=document.querySelectorAll('section.part');
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(l){l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id);});}});},{rootMargin:'-20% 0px -70% 0px'});
+    secs.forEach(function(s){io.observe(s);});
+  }
+})();
+</script>
+</body>
+</html>

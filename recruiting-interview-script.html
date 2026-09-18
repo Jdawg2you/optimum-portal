@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recruiting Interview Script &amp; Scorecard — Optimum</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#132540; --gold:#C9A24A; --gold-soft:#E8D7A8; --cream:#F8F4EA; --paper:#FFFDF8;
+  --ink:#1E2430; --ink-soft:#4B5563; --line:#DDD5C3; --script-bg:#FBF7EC;
+  --good:#2F6B4F; --warn:#9A5B12; --bad:#8B2F2F;
+  --bg:var(--cream); --fg:var(--ink); --card:var(--paper);
+  --serif:"Fraunces", Georgia, serif; --sans:"Public Sans", "Helvetica Neue", Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#0F1826; --fg:#EDE7D8; --card:#162238; --line:#2B3A54; --ink-soft:#B8B3A6; --script-bg:#1B2840; --paper:#162238; --gold-soft:#5C4B23; --navy:#0B1526;
+}}
+:root[data-theme="dark"]{ --bg:#0F1826; --fg:#EDE7D8; --card:#162238; --line:#2B3A54; --ink-soft:#B8B3A6; --script-bg:#1B2840; --paper:#162238; --gold-soft:#5C4B23; --navy:#0B1526; }
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:16px;line-height:1.55}
+h1,h2,h3,h4{font-family:var(--serif);font-weight:600;line-height:1.15;margin:0}
+p{margin:0 0 .8em}
+button{font-family:var(--sans)}
+.band{background:#16203C;color:#F3EEDF;padding:11px 20px}
+.band-inner{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit}
+.brand svg{width:48px;height:48px;flex:none}
+.brand .ttl{font-family:var(--serif);font-weight:600;font-size:21px;color:#fff;line-height:1.15;white-space:nowrap}
+.brand .sub{font-family:var(--sans);font-size:13px;color:#C7C2B4;margin-top:4px;white-space:nowrap}
+.brand .sub .optlink{color:var(--gold);font-weight:700;text-decoration:none}
+.brand .sub .optlink:hover{text-decoration:underline}
+.band-right{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pill{background:var(--gold);color:#12203A;font:600 13px var(--sans);padding:9px 16px;border-radius:999px;text-decoration:none;white-space:nowrap}
+.pill:hover{background:#E0BC62}
+.more{border:1.5px solid #E6E1D4;color:#fff;background:transparent;font:600 13px var(--sans);padding:8px 14px;border-radius:999px;text-decoration:none;white-space:nowrap}
+.more:hover{background:#fff;color:#12203A}
+.brand img{width:50px;height:50px;flex:none;display:block;opacity:.95}
+.brand .sub a{color:var(--gold);text-decoration:none}
+.ffl-bar{background:#F3EEE2;border-bottom:1px solid var(--line)}
+.ffl-inner{padding:12px 24px;display:flex;justify-content:center;gap:8px;align-items:center;font-size:14px;color:#2A2A2A}
+.ffl-inner button{background:transparent;border:0;color:#B8902E;font:700 14px var(--sans);cursor:pointer;text-decoration:underline;text-underline-offset:3px;padding:0}
+.modal{display:none;position:fixed;inset:0;background:rgba(10,16,30,.7);z-index:50;align-items:center;justify-content:center;padding:20px}
+.modal.show{display:flex}
+.modal-card{position:relative;background:var(--paper);color:var(--fg);max-width:720px;width:100%;max-height:90vh;overflow:auto;border-radius:8px;padding:28px 30px;border-top:5px solid var(--gold)}
+.modal-card h2{font-size:26px;margin-bottom:12px}
+.modal-x{position:absolute;top:12px;right:14px;background:transparent;border:0;font-size:20px;cursor:pointer;color:var(--ink-soft)}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0 18px}
+.modal-grid div{border-left:3px solid var(--gold);padding:4px 12px;font-size:14px;color:var(--ink-soft)}
+.modal-grid b{display:block;color:var(--fg);font-size:15px;margin-bottom:3px}
+.modal-cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.btn-gold{background:var(--gold);color:#12203A;font:700 14px var(--sans);padding:10px 18px;border-radius:4px;text-decoration:none}
+.btn-ghost{color:var(--fg);font:600 14px var(--sans);text-decoration:underline;text-underline-offset:3px}
+@media (max-width:640px){.modal-grid{grid-template-columns:1fr}}
+.toolbar{background:var(--card);border-bottom:1px solid var(--line)}
+.toolbar-inner{max-width:1040px;margin:0 auto;padding:8px 24px;display:flex;justify-content:flex-end;gap:6px;flex-wrap:wrap;align-items:center}
+.toolbar .hint{margin-right:auto;font-size:12.5px;color:var(--ink-soft)}
+.toolbar button,.toolbar label.filebtn{background:var(--navy);border:1px solid var(--navy);color:#fff;padding:6px 12px;border-radius:4px;font:600 13px var(--sans);cursor:pointer;display:inline-block}
+.toolbar button:hover,.toolbar label.filebtn:hover{background:#0C1A30}
+.toolbar button.ghost,.toolbar label.ghost{background:transparent;color:var(--fg);border-color:var(--line)}
+.toolbar input[type=file]{display:none}
+.wrap{max-width:1040px;margin:0 auto;padding:28px 24px 120px}
+.top{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;align-items:end;margin-bottom:20px}
+h1{font-size:clamp(30px,4.5vw,44px)}
+.lede{color:var(--ink-soft);margin-top:10px;max-width:46ch}
+.meta{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.meta label{font-size:12px;font-weight:700;color:var(--ink-soft);display:block;margin-bottom:3px}
+.meta input[type=text],.meta input[type=date]{width:100%;padding:8px;border:1px solid var(--line);border-radius:4px;background:var(--paper);color:var(--fg);font:500 15px var(--sans)}
+.seg{display:flex;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+.seg label{flex:1;margin:0;text-align:center;padding:8px 6px;cursor:pointer;font:600 14px var(--sans);color:var(--fg);background:var(--paper)}
+.seg input{display:none}
+.seg label:has(input:checked){background:var(--navy);color:#fff}
+
+.stage{border-top:1px solid var(--line);padding:26px 0 10px;scroll-margin-top:80px}
+.stage-head{display:flex;align-items:baseline;gap:14px;margin-bottom:4px}
+.stage-head .num{font-family:var(--serif);font-size:40px;color:var(--gold);line-height:1;font-weight:400}
+.stage-head h2{font-size:26px}
+.stage .aim{color:var(--ink-soft);font-style:italic;font-family:var(--serif);font-size:17px;margin-bottom:14px}
+
+.qr{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:8px 0}
+.qr label{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:4px;background:var(--card);padding:9px 12px;font-size:14px;cursor:pointer}
+.qr input{accent-color:var(--navy);margin-top:3px}
+.qr label:has(input:checked){border-color:var(--good);background:rgba(47,107,79,.10)}
+.qr-out{font-family:var(--serif);font-size:20px;color:var(--gold);margin-top:8px}
+
+.q{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:0;border:1px solid var(--line);border-radius:6px;background:var(--card);margin:12px 0;overflow:hidden}
+.q.hidden{display:none}
+.q .say{padding:14px 16px;border-left:4px solid var(--gold);background:var(--script-bg)}
+.q .say .who{font-size:11px;font-weight:700;color:var(--ink-soft);margin-bottom:4px;letter-spacing:.02em}
+.q .say p{font-family:var(--serif);font-size:17px;margin:0 0 .5em}
+.q .say .cue{font-family:var(--sans);font-size:13.5px;color:var(--ink-soft);font-style:italic;margin:0}
+.q .mark{padding:12px 14px;display:flex;flex-direction:column;gap:6px;justify-content:center;border-left:1px solid var(--line)}
+.q .mark .lbl{font-size:11px;font-weight:700;color:var(--ink-soft);margin-bottom:2px}
+.opt{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer;padding:6px 8px;border:1px solid var(--line);border-radius:4px;background:var(--paper)}
+.opt input{accent-color:var(--navy);margin:0;flex:none}
+.opt.g:has(input:checked){border-color:var(--good);background:rgba(47,107,79,.12)}
+.opt.u:has(input:checked){border-color:var(--warn);background:rgba(154,91,18,.12)}
+.opt.b:has(input:checked){border-color:var(--bad);background:rgba(139,47,47,.12)}
+.q .listen{grid-column:1/-1;padding:8px 16px 12px;font-size:13.5px;color:var(--ink-soft);border-top:1px dashed var(--line)}
+.q .listen b{color:var(--fg)}
+.q .ans{grid-column:1/-1;padding:0 16px 12px;border-top:1px dashed var(--line)}
+.q .ans label{font-size:12px;font-weight:700;color:var(--ink-soft);display:block;margin:10px 0 4px}
+.q .ans textarea{width:100%;min-height:56px;border:1px solid var(--line);border-radius:4px;padding:8px;font:15px var(--sans);background:var(--paper);color:var(--fg);resize:vertical}
+.q .alert{grid-column:1/-1;display:none;padding:14px 16px;border-top:1px solid var(--line)}
+.q .alert.show{display:block}
+.q .alert.stop{background:rgba(139,47,47,.10);border-left:6px solid var(--bad)}
+.q .alert.ask{background:rgba(154,91,18,.10);border-left:6px solid var(--warn)}
+.q .alert .h{font-family:var(--serif);font-size:22px;font-weight:600;margin-bottom:4px}
+.q .alert.stop .h{color:var(--bad)} .q .alert.ask .h{color:var(--warn)}
+.q .alert p{margin:0;font-size:15px}
+.redeem{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.redeem .opt{font-size:13.5px}
+
+.panel{border:1px solid var(--line);border-radius:6px;background:var(--card);margin:12px 0;overflow:hidden}
+.panel>summary{cursor:pointer;padding:12px 16px;font-weight:700;list-style:none;display:flex;justify-content:space-between;align-items:center;background:var(--script-bg)}
+.panel>summary::-webkit-details-marker{display:none}
+.panel>summary::after{content:"+";font-family:var(--serif);font-size:22px;color:var(--gold)}
+.panel[open]>summary::after{content:"–"}
+.panel .body{padding:6px 16px 14px}
+.step{border-left:3px solid var(--gold);padding:8px 14px;margin:10px 0;background:var(--script-bg);border-radius:0 4px 4px 0}
+.step .t{font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:4px}
+.step p{font-family:var(--serif);font-size:16px;margin:0 0 .4em}
+.step .cue{font-family:var(--sans);font-size:13px;color:var(--ink-soft);font-style:italic}
+.split{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;align-items:start}
+.split-aside{position:sticky;top:12px;border:1px solid var(--line);border-radius:6px;background:var(--card);padding:10px 12px}
+.aside-t{font-size:11px;font-weight:700;color:var(--ink-soft);letter-spacing:.04em;margin:2px 0 8px}
+details.qa{border:1px solid var(--line);border-radius:4px;background:var(--paper);margin:6px 0}
+details.qa summary{cursor:pointer;padding:8px 10px;font:600 13.5px var(--sans);list-style:none;display:flex;justify-content:space-between;gap:8px}
+details.qa summary::-webkit-details-marker{display:none}
+details.qa summary::after{content:"+";font-family:var(--serif);font-size:18px;color:var(--gold);flex:none}
+details.qa[open] summary::after{content:"–"}
+details.qa .body{padding:0 10px 10px;border-top:1px dashed var(--line)}
+details.qa .body p{font-family:var(--serif);font-size:14.5px;margin:8px 0 0;line-height:1.5}
+.q .alert.info{background:rgba(19,37,64,.06);border-left:6px solid var(--navy)}
+.q .alert.info .h{color:var(--navy);font-size:18px}
+@media (max-width:900px){.split{grid-template-columns:1fr}.split-aside{position:static}}
+.confirm{display:flex;gap:10px;align-items:center;border:1px solid var(--line);border-radius:6px;background:var(--card);padding:12px 14px;margin:10px 0;font-weight:600}
+.confirm input{accent-color:var(--navy);width:18px;height:18px}
+.confirm.ok{border-color:var(--good);background:rgba(47,107,79,.10)}
+
+.decision{border:1px solid var(--line);border-radius:6px;background:var(--card);padding:18px;margin:14px 0}
+.thumb{display:flex;gap:16px;align-items:flex-start;margin-bottom:12px}
+.drv-h{font-size:11px;font-weight:700;color:var(--ink-soft);letter-spacing:.04em;margin:10px 0 2px}
+.drivers li{font-size:14px;padding:4px 0}
+.drivers em{color:var(--ink-soft);font-style:normal;font-size:12.5px}
+.drv-none{font-size:14px;color:var(--good);margin-top:8px}
+.thumb .icon{font-size:40px;line-height:1}
+.thumb .t{font-family:var(--serif);font-size:24px;font-weight:600}
+.thumb .d{font-size:14px;color:var(--ink-soft)}
+.thumb.up .t{color:var(--good)} .thumb.mid .t{color:var(--warn)} .thumb.down .t{color:var(--bad)}
+.choose{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.choose label{margin:0;text-align:center;padding:10px;border:1px solid var(--line);border-radius:4px;background:var(--paper);cursor:pointer;font-weight:700}
+.choose input{display:none}
+.choose label:has(input:checked){background:var(--navy);color:#fff;border-color:var(--navy)}
+.outcome{display:none;margin-top:14px}
+.outcome.show{display:block}
+.outcome h3{font-size:19px;margin:14px 0 8px}
+.outcome .script{border-left:4px solid var(--gold);background:var(--script-bg);padding:12px 16px;border-radius:0 6px 6px 0;font-family:var(--serif);font-size:16.5px}
+.outcome .script p{margin:0 0 .6em}
+.outcome textarea{width:100%;min-height:80px;border:1px solid var(--line);border-radius:4px;padding:8px;font:15px var(--sans);background:var(--paper);color:var(--fg);resize:vertical}
+.outcome label{font-size:12px;font-weight:700;color:var(--ink-soft);display:block;margin:10px 0 4px}
+.outcome input[type=date],.outcome input[type=text]{padding:8px;border:1px solid var(--line);border-radius:4px;background:var(--paper);color:var(--fg);font:500 15px var(--sans);width:100%}
+.steps{padding-left:1.3em;margin:6px 0 12px}
+.steps li{margin:6px 0;font-size:15px}
+.portal{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:8px 0 14px;font-size:13px;color:var(--ink-soft)}
+.hw{list-style:none;padding:0;margin:6px 0}
+.hw li{display:flex;gap:10px;align-items:flex-start;padding:6px 0;border-bottom:1px dashed var(--line);font-size:15px}
+.hw input{accent-color:var(--navy);margin-top:4px}
+.outcome .hw label{cursor:pointer;font:400 15px var(--sans);color:var(--fg);margin:0;display:inline}
+.hw li.off label{color:var(--ink-soft);text-decoration:line-through}
+.reasons{list-style:none;padding:0;margin:6px 0}
+.reasons li{padding:6px 0;border-bottom:1px dashed var(--line);font-size:15px}
+.reasons li.g::before{content:"✓ ";color:var(--good);font-weight:700}
+.reasons li.b::before{content:"✕ ";color:var(--bad);font-weight:700}
+.reasons li.u::before{content:"? ";color:var(--warn);font-weight:700}
+.note{border:1px solid var(--line);border-radius:6px;background:var(--card);padding:10px 14px;margin:14px 0}
+.note textarea{width:100%;min-height:70px;border:1px solid var(--line);border-radius:4px;padding:8px;font:15px var(--sans);background:var(--paper);color:var(--fg);resize:vertical}
+.note label{font-size:12px;font-weight:700;color:var(--ink-soft);display:block;margin-bottom:4px}
+.back{font-size:13px;color:var(--ink-soft);margin-top:24px}
+
+.bar{position:fixed;left:0;right:0;bottom:0;background:var(--navy);color:#F3EEDF;padding:12px 24px;border-top:4px solid var(--gold);display:flex;justify-content:center}
+.bar-inner{max-width:1040px;width:100%;display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap}
+.bar .v{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--gold)}
+.bar .d{font-size:13px;color:#CFC6AE;max-width:60ch}
+.bar .counts{display:flex;gap:16px;font-size:12px}
+.bar .counts b{display:block;font-family:var(--serif);font-size:20px;font-weight:600;color:#fff}
+.toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%);background:var(--good);color:#fff;padding:8px 16px;border-radius:4px;font-size:14px;display:none}
+.toast.show{display:block}
+
+@media (max-width:760px){ .pill{display:none} .top,.q{grid-template-columns:1fr} .q .mark{flex-direction:row;flex-wrap:wrap;border-left:0;border-top:1px dashed var(--line)} .choose,.qr{grid-template-columns:1fr} .band-right{text-align:left} }
+@media print{ .toolbar,.bar,.toast,.ffl-bar,.modal{display:none} .band{background:#1B2A45 !important;-webkit-print-color-adjust:exact;print-color-adjust:exact} body{background:#fff;color:#000} .q,.panel,.decision{break-inside:avoid} .q.hidden{display:none} }
+</style>
+</head>
+<body>
+<div class="band"><div class="band-inner">
+  <div class="brand">
+    <img src="data:image/png;base64,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" alt="Optimum" width="48" height="48">
+    <div><div class="ttl">Recruiting Interview Script &amp; Scorecard</div><div class="sub">Tools built for agents, by agents &nbsp;·&nbsp; Brought to you by <a class="optlink" href="https://www.ffloptimum.com/" target="_blank" rel="noopener">Optimum</a></div></div>
+  </div>
+  <div class="band-right">
+    <a class="pill" href="https://goatleads.com/registration/new?affiliate_id=66c4aa379e0123651ad2f0e6" target="_blank" rel="noopener">★ FREE Agent Website, Digital Business Card &amp; Booking Calendar</a>
+    <a class="more" href="https://tools.ffloptimum.com/" target="_blank" rel="noopener">More free tools ▾</a>
+  </div>
+</div></div>
+<div class="ffl-bar"><div class="ffl-inner"><span>Free for every agent, period.</span><button type="button" id="ffl-open">Not a Family First Life agent?</button></div></div>
+<div class="modal" id="ffl-modal" role="dialog" aria-modal="true" aria-labelledby="ffl-title">
+  <div class="modal-card">
+    <button type="button" class="modal-x" id="ffl-close" aria-label="Close">✕</button>
+    <h2 id="ffl-title">Not with Family First Life? You can still use this.</h2>
+    <p>It's free, and it stays free. But while you're vetting recruits for someone else's agency, it's worth asking what you're actually being paid for that production — <strong>a lower contract can cost you six figures over a few years without ever showing up on a single statement.</strong> If they're not paying you what you're worth, that's worth a hard look.</p>
+    <p><strong>Already with FFL?</strong> You're in the best position there is — congratulations.</p>
+    <p>If you're outside Family First Life, here's the honest take:</p>
+    <div class="modal-grid">
+      <div><b>100% independent, never captive</b>Forty-plus carriers. You write what's best for your client — not whatever a captive shelf allows.</div>
+      <div><b>Real leads, priced honestly</b>High-intent leads from vetted independent partners. Not one overpriced in-house lead type you're required to buy, and not "free" cold leads you quietly pay for in low comp.</div>
+      <div><b>A plug-and-play system from day one</b>You're handed something that already works. FFL writes over $110 million a month as the fastest-growing brokerage in the country. The system is figured out. You just run it.</div>
+      <div><b>Vested from day one</b>Your business is yours — including all renewals.</div>
+      <div><b>The highest compensation in the business</b>Up to 145% on your own production, plus producer bonuses, manager bonuses, carrier bonuses and company trips.</div>
+    </div>
+    <div class="modal-cta"><a class="btn-gold" href="https://www.ffloptimum.com/#apply" target="_blank" rel="noopener">Start the conversation</a><a class="btn-ghost" href="https://www.ffloptimum.com/#why" target="_blank" rel="noopener">Or read more about the agency first</a></div>
+  </div>
+</div>
+<div class="toolbar"><div class="toolbar-inner">
+  <span class="hint">Save keeps an editable file you can load later. Print makes a fixed copy — links stay clickable, checkboxes don't.</span>
+  <button type="button" id="btn-save">Save</button>
+  <label class="filebtn ghost">Load<input type="file" id="file-load" accept=".json,application/json"></label>
+  <button type="button" class="ghost" id="btn-print">Print</button>
+  <button type="button" class="ghost" id="btn-reset">Reset</button>
+</div></div>
+
+<div class="wrap">
+  <div class="top">
+    <div>
+      <h1>The interview, in order</h1>
+      <p class="lede">Mark <strong>licensed or not</strong> first — some questions change. Then say the gold lines, listen, and mark each answer while it's fresh. The verdict builds as you go; the close writes itself from what they said. Save it to your computer if you want it later — nothing is kept here.</p>
+    </div>
+    <div class="meta">
+      <div><label for="m-name">Candidate</label><input id="m-name" type="text" placeholder="Name"></div>
+      <div><label for="m-date">Date</label><input id="m-date" type="date"></div>
+      <div><label for="m-src">Came in through</label><input id="m-src" type="text" placeholder="Referral / Share FFL / DM"></div>
+      <div><label for="m-by">Interviewer</label><input id="m-by" type="text" placeholder="You"></div>
+      <div style="grid-column:1/-1"><label>Already licensed?</label>
+        <div class="seg"><label><input type="radio" name="lic" value="no">Not licensed</label><label><input type="radio" name="lic" value="yes">Licensed</label></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="stage" id="quick">
+    <div class="stage-head"><span class="num">✓</span><h2>Quick read — the eight things</h2></div>
+    <p class="aim">Tick these yourself as you see them — or leave them, and the questions below fill them in as you mark answers green. A box you tick or untick by hand stays the way you set it. Gratitude is the one only you can mark. Eight of eight, work with them. Five or fewer, refer them as a doorway.</p>
+    <div class="qr" id="qr">
+      <label><input type="checkbox" data-qr="0"><b>Accountability</b> — owns the result; passed the magic question</label>
+      <label><input type="checkbox" data-qr="1"><b>Humility &amp; coachability</b> — named a flaw without being pushed</label>
+      <label><input type="checkbox" data-qr="2"><b>Work ethic &amp; time</b> — defined the hours in numbers</label>
+      <label><input type="checkbox" data-qr="3"><b>Gratitude</b> — thanked you for the interview</label>
+      <label><input type="checkbox" data-qr="4"><b>Good mindset</b> — frustrated with their situation, not the world</label>
+      <label><input type="checkbox" data-qr="5"><b>Financial runway</b> — can go a couple of weeks without a check</label>
+      <label><input type="checkbox" data-qr="6"><b>Followed directions</b> — watched the video before this call</label>
+      <label><input type="checkbox" data-qr="7"><b>Leaned in</b> on the commissions and leads talks</label>
+    </div>
+    <div class="qr-out" id="qr-out">0 of 8</div>
+  </section>
+
+  <div id="stages"></div>
+
+  <!-- CLOSE -->
+  <section class="stage" id="close">
+    <div class="stage-head"><span class="num">6</span><h2>Close — never hire on this call</h2></div>
+    <p class="aim">The verdict below comes from the marks above. Make the call, and the script for it fills in from what they actually said.</p>
+
+    <details class="panel" style="margin-bottom:10px"><summary>How the verdict is scored</summary><div class="body">
+      <p style="font-size:14.5px">Every answer is worth 0 to 4 points. Green is always 0. The middle option is usually 1 (sometimes 0 — "okay, not awesome"). The red option is <strong>3 for a big red flag</strong>, 2 for a real one, 1 for a small one. Points add up.</p>
+      <ul style="font-size:14.5px;margin:0 0 6px;padding-left:1.2em">
+        <li>👍 <strong>Bring them on</strong> — 0 to 2 points.</li>
+        <li>🤔 <strong>In the middle</strong> — 3 to 5 points.</li>
+        <li>👎 <strong>Thumbs down</strong> — 6 or more, or one disqualifying answer.</li>
+      </ul>
+      <p style="font-size:14px;margin:8px 0 4px"><strong>The big ones (3 points red):</strong> didn't watch the video · blames others for their situation · got defensive on the belief flip · evasive about money they've owed · not working and won't commit to hours · under 15 hours around a job · no idea how we get paid, or clueless about chargebacks · no idea how we get clients, or can't fund any leads. Most of these mean they didn't really watch the video.</p>
+      <p style="font-size:14px;margin:0 0 4px"><strong>Disqualifying on its own (4):</strong> not working and couldn't sell you on why.</p>
+      <p style="font-size:14px;margin:0 0 4px"><strong>Real but not fatal (2):</strong> can't name anything hard they've pushed through · never done 30 days of anything.</p>
+      <p style="font-size:14px;margin:0 0 4px"><strong>Small — flagged, mostly a conversation (1):</strong> wants to quit tomorrow with no runway · a stretch without a check would be rough (and if they commit to a plan, it drops to 0; evasive about a plan, it goes to 3) · partner against it.</p>
+      <p style="font-size:13.5px;color:var(--ink-soft);margin:6px 0 0">Questions on the hidden side of a branch don't count. The verdict is a recommendation — you make the call, and whichever way you go, the answers that drove it are listed so you can say them out loud.</p>
+    </div></details>
+    <div class="decision">
+      <div class="thumb" id="thumb"><div class="icon">…</div><div><div class="t">Mark the answers first</div><div class="d">Big red flags carry 3 points, small ones 1. Six points is a thumbs down.</div></div></div>
+      <div class="choose">
+        <label><input type="radio" name="dec" value="hire">Bring them on</label>
+        <label><input type="radio" name="dec" value="maybe">Not sure yet</label>
+        <label><input type="radio" name="dec" value="pass">Pass</label>
+      </div>
+
+      <div class="outcome" id="out-hire">
+        <h3 id="hire-h">Say this</h3>
+        <div class="script" id="hire-script"></div>
+        <h3>Then — your next steps</h3>
+        <ol class="steps" id="hire-steps"></ol>
+        <div class="portal"><a class="btn-gold" href="https://portal.ffloptimum.com/#recruiting" target="_blank" rel="noopener">Open the Recruitment page in the Optimum agent portal</a><span>Optimum agents only — it will ask you to sign in.</span></div>
+        <label for="hire-notes">Anything you promised or they asked for</label>
+        <textarea id="hire-notes" data-f="hireNotes"></textarea>
+      </div>
+
+      <div class="outcome" id="out-maybe">
+        <h3>What gave you pause</h3>
+        <ul class="reasons" id="maybe-reasons"></ul>
+        <h3>Their homework — uncheck what doesn't fit, then say the rest</h3>
+        <ul class="hw" id="maybe-hw"></ul>
+        <label for="maybe-date">They text you by</label>
+        <input id="maybe-date" type="date" data-f="maybeDate">
+        <h3>Say this</h3>
+        <div class="script" id="maybe-script"></div>
+        <p style="font-size:13.5px;color:var(--ink-soft)">They follow up with you — not the other way around. Whether they text by the date, and with what, is the same test as the exam-date text. When they do, come back to this saved interview, re-mark the flagged questions, and let the verdict update.</p>
+        <label for="maybe-me">What I need to think through (private)</label>
+        <textarea id="maybe-me" data-f="maybeMe"></textarea>
+      </div>
+
+      <div class="outcome" id="out-pass">
+        <h3>Why it's a no right now</h3>
+        <ul class="reasons" id="pass-reasons"></ul>
+        <h3>Say this — and say the real reason</h3>
+        <div class="script">
+          <p>"I'm going to be honest with you, because I'd want someone to be honest with me. Based on what you've told me, I don't think this is the right fit right now. Not because you're not capable — because of <span id="pass-because">[the specific thing]</span>. If that changes, call me. And if you know somebody who's hungry for this, send them my way — I'd take that seriously."</p>
+        </div>
+        <p style="font-size:13.5px;color:var(--ink-soft)">"It'll be hard" isn't a reason. Pick the one thing above that actually decided it. The right people argue for themselves; the wrong ones agree and leave. Either way you win — and a no today can still be a doorway to who they know.</p>
+        <label for="pass-notes">Your words for the reason (edit before you say it)</label>
+        <textarea id="pass-notes" data-f="passNotes"></textarea>
+      </div>
+    </div>
+
+    <div class="note"><label for="notes">Notes — what you actually heard</label><textarea id="notes" data-f="notes" placeholder="Who they know. What they said when it got uncomfortable. The thing you'd tell your manager."></textarea></div>
+  </section>
+
+  <p class="back">Companion to the Optimum Recruiter Playbook, Part 7. A thumbs down means don\'t spend coaching hours yet — you can still recruit them as a doorway to who they know.</p>
+</div>
+
+<div class="bar"><div class="bar-inner">
+  <div><div class="v" id="v-title">Start marking answers</div><div class="d" id="v-desc">The verdict fills in as you go.</div></div>
+  <div class="counts"><div><b id="c-g">0</b>good</div><div><b id="c-u">0</b>unclear</div><div><b id="c-b">0</b>red flags</div></div>
+</div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+// ---------------- question config ----------------
+var STAGES=[
+ {n:1,title:'Open',aim:'Two minutes. Set that you lead the conversation, and check they followed directions. This is the first filter and it\'s non-negotiable.',qs:[
+  {id:'q1',youGood:'you did the homework before this call',youBad:'you didn\'t watch the video I sent',w:[1,3],who:'SAY',say:'"Thanks for jumping on. I\'ve got about twenty minutes and I\'m going to ask you some real questions — some of them are going to feel personal. That\'s on purpose. First one: what did you think of the video?"',
+   lbl:'Followed directions',opts:['Watched it','Skimmed it','Didn\'t watch it'],
+   listen:'If they can\'t watch a 15-minute video, they won\'t pass the licensing exam or order leads.',
+   alerts:{b:{k:'stop',h:'Don\'t proceed.',p:'They didn\'t do the one thing you asked. If they won\'t invest fifteen minutes to know what you\'re talking about, they won\'t invest twenty hours in a licensing course or $500 a week in leads. Reschedule — warmly — and see if they do it the second time. That answer is the answer.'},
+           u:{k:'ask',h:'You decide.',p:'They skimmed it. Ask yourself one question before you go on: if a person won\'t invest the time to even know what you\'re talking about, will they invest the time later? Some will. Most won\'t. Keep going if you want — but you already have your first data point.'}},
+   good:'they did what you asked before the call',bad:'they didn\'t watch the video you sent'}
+ ]},
+ {n:2,title:'Discover',aim:'Whoever asks the most questions wins. Ask, then be quiet.',qs:[
+  {id:'q2',youGood:'you own where you are and you know why you want more',youBad:'you put your situation on other people',w:[1,3],who:'THE MAGIC QUESTION — IT STARTS EVERYTHING',say:'"Tell me about your situation right now. What are you doing for work, and why are you looking at something like this?"',
+   cue:'Let them answer. Then the real one: "And why is your situation what it is?" Silence. Do not rescue them. Hear the whole answer.',
+   lbl:'Accountability',opts:['Owns it, names what they\'d change','Mixed — some ownership','Blames boss / economy / ex / market'],
+   listen:'A person who isn\'t the cause of their own results will eventually make their production <b>your</b> fault. You\'re also listening for frustration with a heart to help their family — "frustrated, busted, and disgusted."',
+   alerts:{b:{k:'ask',h:'Do you want to proceed?',p:'If they can\'t take ownership of where they are right now, what are they going to own later — the leads they didn\'t dial, the policies that fell off, the chargebacks? This is the thing to dig into before you go any further. Ask it again a different way: "What part of that is on you?" Their second answer tells you more than the first.'}},
+   ans:'Their situation and their why — in their words',
+   good:'they own where they are and they know why they want more',bad:'they put their situation on other people'},
+  {id:'qL1',w:[0,3],showIf:{q:'lic',vals:['yes']},youGood:'you\'ve actually used the license',youBad:'you got the license and didn\'t use it',who:'LICENSED — SAY',say:'"You already have your license. What have you been doing with it — selling, or holding it?"',
+   cue:'If selling: what, for whom, how much. If holding: "Why did you get it, and what stalled?"',
+   lbl:'What they did with it',opts:['Selling — knows their numbers','Not selling yet, but the answer feels right','Not using it — and something feels off'],
+   listen:'Producing is proof of discipline. Just licensed, or a real reason it hasn\'t started, is fine — not a factor. A license sitting in a drawer with a story that doesn\'t add up is the flag, and "nobody trained me" is the magic question failing again.',
+   ans:'What they\'ve been selling, for whom, and how much',good:'they\'ve actually used the license',bad:'they got the license and did nothing with it'},
+  {id:'qL2',w:[1,3],showIf:{q:'lic',vals:['yes']},youGood:'your reason for leaving makes sense',youBad:'your reason for leaving doesn\'t add up',who:'LICENSED — SAY',say:'"Why leave where you are?"',
+   cue:'Then quiet. You\'re listening for whether the reason is about them (I outgrew it, I want to build, the model doesn\'t fit) or about blame (they didn\'t give me leads, my upline was useless).',
+   lbl:'Why they\'re leaving',opts:['Reason makes sense','Partly makes sense','Reason makes no sense'],
+   listen:'The single best predictor of whether they\'ll do the same to you in a year. An agent who left three places because of three bad uplines has one thing in common with all three.',
+   ans:'The reason, in their words',good:'their reason for leaving makes sense',bad:'their reason for leaving doesn\'t add up'},
+  {id:'q3',youGood:'you\'ve pushed through hard things before',youBad:'you couldn\'t point to a time you pushed through something hard',w:[1,2],who:'SAY',say:'"Tell me about the hardest thing you\'ve pushed through. (What did you do when it stopped being fun?)"',
+   lbl:'Grit',opts:['Specific story, kept going','Vague','Can\'t think of one / quit'],
+   listen:'Walk-on athletes, underdogs, people who\'ve been told they weren\'t good enough — those are your people. Talent isn\'t the filter. Proof of pushing through is.',
+   ans:'The story',good:'they\'ve pushed through something hard and can tell you about it',bad:'they couldn\'t point to a time they pushed through something hard'},
+  {id:'q4',showIf:{q:'lic',vals:['no','']},youGood:'you\'ve done the work without anyone making you',youBad:'you\'ve never stuck with something for thirty days on your own',w:[1,2],who:'SAY',say:'"When\'s the last time you did something for thirty days straight without anyone making you?"',
+   lbl:'Self-discipline',opts:['Has a real example','Sort of','Nothing'],
+   listen:'Nobody makes you dial in this business. Thirty days of anything self-directed is the closest thing to a predictor you\'ll get. <b>If they say "sort of" or "nothing," the next question opens.</b>',
+   good:'they\'ve shown they can do something every day without being told',bad:'they\'ve never sustained anything for thirty days on their own'},
+  {id:'q5',youGood:'you took a hard question and opened up instead of defending',youBad:'you got defensive when the question got real',w:[1,3],showIf:{q:'q4',vals:['u','b']},who:'ONLY IF THEY HAD NOTHING FOR THE 30 DAYS — SAY',say:'"Why don\'t you believe in yourself more?"',
+   cue:'Say it straight. It throws them. You\'re not asking to be harsh — you\'re asking to hear whether they take ownership and want more out of their life, or deflect and defend. Then rebuild, using what they actually told you: "Here\'s what I\'m hearing that tells me you could do more — [the thing from their story, the reason they\'re here]."',
+   lbl:'Coachability',opts:['Took it, opened up, wants more','Deflected with a joke','Got defensive'],
+   listen:'The belief flip is the moment they decide whether you\'re their guy.',
+   alerts:{u:{k:'ask',h:'Is this someone who wants to work hard and do better?',p:'They laughed it off. That\'s not disqualifying — but it\'s the question to hold in your head for the rest of the call. A joke here is often how someone avoids saying "I don\'t know."'},
+           b:{k:'ask',h:'Is this someone who wants to work hard and do better?',p:'They got defensive. Defensiveness here means defensiveness on every coaching call. Not a stop sign — a flag. Weigh it against everything else they say.'}},
+   good:'when it got uncomfortable they opened up instead of defending',bad:'they got defensive when the question got real'},
+  {id:'q6',youGood:'you\'re straight about money',youBad:'you got evasive about money you\'ve owed',w:[0,3],who:'SAY',say:'"How do you handle your own money? Who\'s the last person or company you owed, and what happened?"',
+   lbl:'Personal accountability',opts:['Straight answer, paid it or has a plan','Uncomfortable but honest','Evasive / "long story"'],
+   listen:'How they handle their own debt is how they\'ll handle a chargeback.',
+   alerts:{u:{k:'info',h:'Note this.',p:'How they handle their own money hints at how they\'ll handle chargebacks and rolled-up debt. Uncomfortable but honest is fine — honest is the part that matters.'},
+           b:{k:'ask',h:'Note this.',p:'How they handle their own money hints at how they\'ll handle chargebacks and rolled-up debt. Evasive about money they\'ve owed is a real signal — listen hard when you get to the commissions talk.'}},
+   ans:'What they said',good:'they\'re straight about their money',bad:'they got evasive about money they\'ve owed'}
+ ]},
+ {n:3,title:'Vet — the filters',aim:'Provoke on purpose. If they get annoyed at the questions and don\'t want to talk anymore, that\'s a good thing — you sniffed it out.',qs:[
+  {id:'work',toggle:true,who:'ASK FIRST',say:'"Are you working right now?"',lbl:'Working?',tvals:['Not working','Working']},
+  {id:'q8',youGood:'you gave me a real reason for where you are',youBad:'you couldn\'t give me a reason you\'re not working',w:[1,4],showIf:{q:'work',vals:['no']},who:'NOT WORKING — SAY',say:'"So you\'re not working right now. Okay — sell me on why that is."',
+   lbl:'No-job filter',opts:['Sold you — logical reason','Reasonable but shaky','Couldn\'t sell you'],
+   listen:'A genuinely logical reason — a layoff, a move, caring for someone — makes sense. If the reason isn\'t reasonable, you have to decide: is this a person who wants to work, or someone screwing around? Shawn: fired Friday, mowing lawns Saturday.',
+   alerts:{b:{k:'stop',h:'Do we need to continue?',p:'They\'re not working and they couldn\'t give you a reason you believed. What are we doing here? You can finish the call out of courtesy — but this alone is close to a thumbs down.'}},
+   good:'they had a real reason for where they are and they sold it',bad:'they couldn\'t explain why they\'re not working'},
+  {id:'q7n',youGood:'you\'re ready to put in full-time-plus hours',youBad:'you\'ve got the time and still wouldn\'t commit to hours',w:[1,3],showIf:{q:'work',vals:['no']},who:'NOT WORKING — SAY',say:'"So you\'ve got the time. How many hours a week are you actually going to put into this? Give me a number."',
+   cue:'Someone with no job and no number is telling you something. Fifty-plus is the answer you\'re hoping for.',
+   lbl:'Hours — not working',opts:['50+ — going to bust it','Around 40','Not sure / wouldn\'t commit'],
+   listen:'Never continue on an undefined word. "Full-time," "serious" — stop and put a number on it.',
+   good:'they\'re ready to put in full-time-plus hours',bad:'they have the time and still wouldn\'t commit to hours'},
+  {id:'q9',youGood:'you\'ve got a realistic plan for the transition',youBad:'you don\'t have a plan for getting from your job to this',w:[1,1],showIf:{q:'work',vals:['yes']},who:'WORKING — SAY',say:'"Are you looking to move into this right away, or alongside what you\'re doing? Because I\'m not going to tell you to quit. Replace your income first, then make the switch on your schedule. But one to four hours a week won\'t work — I\'ll tell you that straight."',
+   lbl:'W-2 → 1099 plan',opts:['Realistic transition plan','Hasn\'t thought about it','Wants to quit tomorrow with no runway'],
+   listen:'If you push someone to quit and it fails, the blame lands on you. Let them own the timing.',
+   alerts:{u:{k:'ask',h:'They need to think this through.',p:'They\'re working and haven\'t thought about how this fits. Push on it now: "So how is that going to work — when do you dial, when do you study, what gives?" Don\'t let them leave the call without a picture of the transition.'},
+           b:{k:'info',h:'Have a plan, or be ready to bust it.',p:'Quitting tomorrow with no runway isn\'t automatically wrong — some people burn the boats and win. But say it out loud: "If you\'re going to do that, you need a plan for the first sixty days, or you\'re going to have to work unbelievably hard. Which is it?" Their answer tells you what kind of quitter they are.'}},
+   good:'they have a realistic plan for the transition',bad:'they have no plan for getting from their job to this'},
+  {id:'q7w',youGood:'you put a real number on the hours',youBad:'you wouldn\'t commit to the hours this takes',w:[0,3],showIf:{q:'work',vals:['yes']},who:'WORKING — SAY',say:'"Realistically, with the job — how many hours a week are you going to put into this? Give me a number."',
+   cue:'If they say "part-time": "Great — part-time here is thirty to forty hours a week. Ten won\'t work. Twenty to thirty will. Which is it?"',
+   lbl:'Hours — working',opts:['30+ hours, said the number','15–29 hours','Under 15 / wouldn\'t commit'],
+   alerts:{u:{k:'info',h:'That\'s tight. It can work — with a schedule.',p:'Fifteen to thirty hours around a job is doable, but only if it\'s scheduled hardcore. Say: "Then I need to see it on a calendar. Which nights? Which mornings? Saturdays?" If they can name the blocks, fine. If it\'s "whenever I can," it won\'t happen.'}},
+   listen:'Never continue on an undefined word. "Part-time," "serious" — stop and put a number on it.',
+   good:'they put a real number on the hours alongside their job',bad:'they wouldn\'t commit to the hours this takes'},
+  {id:'q10',youGood:'you can carry a few weeks without a check',youBad:'a few weeks without a check would break your household',w:[0,1],who:'SAY',say:'"Here\'s something I want you to think about honestly. There may be a stretch of time — maybe a couple of weeks — where you\'re working and no check has hit yet. Maybe you haven\'t found your stride, maybe it\'s a rough patch, maybe it\'s your own head you\'re fighting. This can be hard at times. Can you handle that stretch? What does it do to your household?"',
+   cue:'This lands differently for a 22-year-old living at home and a parent with three kids. You need to know which one you\'re talking to.',
+   lbl:'Financial runway',opts:['Has a buffer or a plan','Tight but workable','"That would destroy me"'],
+   listen:'Zach\'s friend: great at his job, financially fragile. Not a fit. Seven years ago he\'d have talked him into it. Now he doesn\'t. But plenty of good agents started paycheck to paycheck — the question is whether they\'ll plan for it.',
+   alerts:{b:{k:'ask',h:'Then they need a strong plan — or this will be rough.',p:'Say it straight: "Okay. Then you need a real plan for those weeks — what you cut, what you save, who you tell. Are you willing to make that plan and do what it takes?" Mark what they say:',
+     redeem:{id:'q10r',opts:['Says they\'ll make a plan — good','Evasive, or brushes it off — not good (+3)']}}},
+   ans:'Their household picture',good:'they can carry a few weeks without a check',bad:'a few weeks without a check would break their household'},
+  {id:'others',toggle:true,who:'ASK',say:'"What\'s your situation at home — is there anyone else who needs to be bought in to this decision? A partner, family?"',lbl:'Anyone else?',tvals:['No — it\'s just them','Yes']},
+  {id:'q11',youGood:'the people at home are behind you',youBad:'the people at home aren\'t behind this',w:[0,1],showIf:{q:'others',vals:['yes']},who:'IF YES — SAY',say:'"And are they behind you on this?"',
+   lbl:'Home support',opts:['Supportive, or already discussed','Hasn\'t told them','Against it'],
+   listen:'An unsupportive household kills more new agents than bad leads do.',
+   alerts:{u:{k:'info',h:'Worth a conversation at home first.',p:'Ask: "Do you think it might be a good idea to talk to them before you start? Not for permission — so they know what the next ninety days look like." A surprised partner in week three is where a lot of new agents quietly quit.'},
+           b:{k:'ask',h:'Get them on board, or think it through.',p:'Not a thumbs down on its own — they may have reasons. But say it: "You\'re either going to want them on board, or you need to think hard about doing this with someone pushing against you. It\'s hard enough with support." Make sure the interviewer has this conversation, not just the recruit.'}},
+   good:'the people at home are behind them',bad:'the people at home aren\'t behind this'}
+ ]},
+ {n:4,title:'Commissions — check they understood',aim:'They watched the Q&A video, so don\'t re-teach it. Unlicensed: ask them to explain it back. Licensed: ask for their numbers. The talk tracks on the right are for you — if they ask a question or get it wrong, that\'s how you answer.',panel:'commissions',qs:[
+  {id:'qL3',w:[1,3],showIf:{q:'lic',vals:['yes']},youGood:'you know your persistency and it\'s solid',youBad:'you couldn\'t tell me your persistency',who:'LICENSED — SAY',say:'"You know how the advance works. What\'s your persistency been?"',
+   cue:'A number, not a feeling. Then: "And what\'s the most you\'ve owed back at once?"',
+   lbl:'Persistency',opts:['Knows the number — 70%+','Roughly — can\'t say the number','No idea, or under 70%'],
+   listen:'A licensed agent who can\'t tell you their persistency is a bigger flag than an unlicensed one who\'s fuzzy on the concept. Under 70 means the carriers are already watching them.',
+   good:'they know their persistency and it\'s solid',bad:'they couldn\'t tell you their persistency'},
+  {id:'q12a',showIf:{q:'lic',vals:['no','']},youGood:'you understood how we get paid',youBad:'you had no idea how we get paid, even after the video',w:[0,3],who:'SAY',say:'"You watched the Q&A video. In your own words — what\'s your understanding of how we get paid?"',
+   cue:'You\'re listening for the word "advance." If they think the client pays them monthly, they didn\'t get it.',
+   lbl:'Understands the advance',opts:['Explained the advance in their own words','Partly — needed a nudge','Had no idea'],
+   listen:'If they had no idea, walk them through it using the talk track on the right — then ask the next question. They don\'t need to be perfect; they need to engage.',
+   good:'they understood from the video how the advance works',bad:'they had no idea how they get paid even after the video'},
+  {id:'q12',youGood:'you get how chargebacks work and it didn\'t scare you off',youBad:'you didn\'t engage with how chargebacks work',w:[0,3],who:'THEN ASK',say:'"So what happens if a client cancels in month two?"',
+   lbl:'Chargeback response',opts:['"I give it back if it doesn\'t stick — makes sense"','Nervous but engaged','Evasive, totally clueless, or "won\'t happen to me"'],
+   listen:'<b>Hire:</b> they lean in. <b>Let walk:</b> they argue, mention bad credit, say it sounds punitive. <b>Dangerous:</b> they downplay it — "yeah yeah, won\'t happen with me." That\'s a red flag, not a yellow.',
+   good:'they understood chargebacks and leaned in',bad:'they didn\'t engage with how chargebacks work'}
+ ]},
+ {n:5,title:'Leads — check they understood',aim:'Same idea. Unlicensed: confirm they got it. Licensed: what have they actually been spending. Then the money question. Talk tracks on the right if they need it.',panel:'leads',qs:[
+  {id:'qL4',w:[1,3],showIf:{q:'lic',vals:['yes']},youGood:'you\'ve been investing in leads and you know the numbers',youBad:'you haven\'t been buying leads',who:'LICENSED — SAY',say:'"What have you been spending on leads, and what\'s it been producing?"',
+   lbl:'Lead spend',opts:['Knows the number — $300+/week','Some, inconsistent','Nothing, or "my upline gave me leads"'],
+   listen:'"My upline gave me leads" usually means 30% comp. Explain what they were actually paying — it\'s on the right.',
+   good:'they\'ve been investing in leads and know the numbers',bad:'they haven\'t been buying leads'},
+  {id:'q13a',showIf:{q:'lic',vals:['no','']},youGood:'you understood how we get clients',youBad:'you thought leads would be handed to you',w:[1,3],who:'SAY',say:'"From the video — how do most of us get clients?"',
+   lbl:'Understands leads',opts:['Knows they buy leads and roughly what they cost','Fuzzy on it','Has no idea / thought leads were free'],
+   listen:'If they thought leads were free, use the talk track on the right — "there are no free leads" — before you ask about the money.',
+   good:'they understood from the video that leads are their investment',bad:'they thought leads would be handed to them'},
+  {id:'q13',youGood:'you see leads as investing in your business',youBad:'you can\'t or won\'t fund leads',w:[1,3],who:'THEN ASK',say:'"So what\'s your plan for that first three to five hundred a week? Or do you have a bigger budget set aside — you are starting a business."',
+   lbl:'Leads response',opts:['"I\'m investing in my business — how much to start?"','Starting lean, has a realistic path','"Wait, I have to PAY for leads?" + can\'t fund any'],
+   listen:'Starting lean is fine — a sponsor\'s leads or cheap aged leads are a legitimate entry. Someone who can\'t fund <b>any</b> leads and is surprised they have to is the person who quits in 30 days and says you took their money.',
+   good:'they see leads as an investment in their business',bad:'they can\'t or won\'t fund leads'}
+ ]}
+];
+var HOMEWORK={
+ q1:'Watch the whole video this time, and text me the one thing that surprised you.',
+ q2:'Write me one paragraph on what part of your situation is on you. Text it to me.',
+ q3:'Pick one hard thing and do it every day until we talk — dial, walk, read — and text me the streak.',
+ q4:'Pick one thing and do it every day until we talk. Text me a photo of the streak.',
+ q5:'Sit with the belief question. Text me one honest answer to it.',
+ q6:'Text me the plan for what you owe — the number and how it clears.',
+ q8:'Get something going this week — a shift, a gig, anything — and text me what it is.',
+ q7n:'Put this on a calendar — which days, which hours — and send me a screenshot.',
+ q7w:'Put this on a calendar — which nights, which mornings, Saturdays — and send me a screenshot.',
+ q9:'Write down what your week looks like with this in it. Which nights, which mornings, what gives.',
+ q10:'Bring me a sixty-day money plan: what you cut, what you save, who you tell.',
+ q11:'Have the conversation at home, and tell me how it went.',
+ q12a:'Rewatch the part of the Q&A video on how you get paid. Text me one question it doesn\'t answer.',
+ q12:'Rewatch the part of the Q&A video on chargebacks. Then text me, in your own words, what happens if a client cancels.',
+ q13a:'Rewatch the leads part of the Q&A video. Text me how we get clients, in one sentence.',
+ q13:'Text me the number you can put into leads the first month. A number, any number.',
+ qL1:'Tell me what you\'d do differently with the license this time — one paragraph.',
+ qL2:'Text me the honest reason you\'re leaving — the one you wouldn\'t put on Facebook.',
+ qL3:'Pull your persistency from the carrier portal and text me the number.',
+ qL4:'Text me what you spent on leads in the last 30 days and what it produced.'
+};
+var PANELS={
+ commissions:{title:'If they ask… (talk tracks for you)',qa:[
+  {q:'"How do I actually get paid?"',a:['"The carrier advances you the money for work you\'ve not done yet. You write a policy. They pay you like it\'s been on the books for nine months. It hasn\'t — it\'s been on the books for nine minutes."','"Every month the client pays, you don\'t get paid again for the first nine months — they already advanced you. When you get them to month nine, ten, eleven, the back-end money pays you."']},
+  {q:'"What do I have to keep on the books?"',a:['"Every 10 policies you write, 7 better be on the books after 13 months. You can be at 70.2% or 81.6% — just don\'t be below 70. Some products require higher. You have to know your products."']},
+  {q:'"What happens if a client cancels?"',a:['"If somebody cancels in month one or two, you owe the money back. Say you write $10,000 your first month and $4,000 of it charges back. You\'re at 60% persistency — not good — and you have $4,000 you owe."']},
+  {q:'"What if I don\'t have the money to pay it back?"',a:['"Then you owe the insurance company. When you write more, they take it from what you wrote. Which means you have to keep writing every week — take a week off and there\'s no advance to claw the debt back from. It sits."','"And if you don\'t pay it, it\'s no different than owing Visa or a hospital. It was a loan. It follows your license and your ability to ever get advanced again — the carriers share that data."']},
+  {q:'"Is there another way to get paid?"',a:['"Yes — as earned. Every month the client pays, you get paid. No advance, no chargeback risk. I\'d rather have the advance; everybody would. Just don\'t ever do anything to jeopardize your ability to be advanced."']},
+  {q:'"Why are you telling me all this?"',a:['"Because I have a vested interest in making sure that when some of those policies fall off — and some will — you can pay back the advances you got but didn\'t earn. You earn them when the client keeps the policy. Client keeps it, you keep the money, everybody\'s happy."']},
+  {q:'They say "that won\'t happen to me"',a:['Don\'t argue. Say: "It happens to everyone. Mortgage and final expense both. The question isn\'t whether — it\'s whether you can cover it when it does." Then mark it. Downplaying is the dangerous answer.']}
+ ]},
+ leads:{title:'If they ask… (talk tracks for you)',qa:[
+  {q:'"Do you give me leads?"',a:['"Nobody hands you people to call. You buy leads — that\'s your marketing budget, same as any business owner. If somebody\'s offering you free leads, look at what they\'re paying you. Usually it\'s 30% comp. You\'re paying for those leads, you just can\'t see it."']},
+  {q:'"What is a lead, exactly?"',a:['"A real person who filled out a form asking about coverage — final expense, mortgage protection, veterans. You\'re not cold-calling; you\'re calling people who raised their hand. Fresh leads asked this week and cost more. Aged leads asked a month or three ago and cost about a dollar. You start on aged. Fresh is earned."']},
+  {q:'"How much do I have to spend?"',a:['"A new agent puts $350 to $500 a week in. When your first deposit hits — usually week three — $250 to $300 of it goes right back into aged leads, and you scale toward $500 a week. Top producers spend $1,500 to $2,000 a week and write $50,000 to $65,000 a month. It\'s a business. You feed it."']},
+  {q:'"Can\'t I just buy the good leads?"',a:['"Do the math with me. A $50 lead and you close one in ten — that\'s $500 to make one sale. The average policy pays about $1,500 the first year. Now one in fifteen — $750 a sale. You\'re working for the lead vendor. Learn to close on dollar leads first. When you\'re closing six a week, you\'re ready for real-time leads."']},
+  {q:'"Where do I learn all this?"',a:['"We have a whole program for it — the Winning System, live every Tuesday at noon ET. Month one, $10K on $500 a week in aged leads. Month two, $20K. Month three, $30K. You\'ll be on it from day one."']},
+  {q:'They say "I can\'t afford leads right now"',a:['Starting lean is fine — a sponsor\'s leads or cheap aged leads are a real entry point. Ask: "What can you put in the first month?" A number, any number, is a plan. "Nothing" isn\'t.']}
+ ]}
+};
+var GATE_WEIGHT_NOTE='';
+
+// ---------------- render ----------------
+var root=document.getElementById('stages');
+function el(tag,cls,html){var e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;}
+STAGES.forEach(function(st){
+  var sec=el('section','stage');sec.id='stage'+st.n;
+  sec.appendChild(el('div','stage-head','<span class="num">'+st.n+'</span><h2>'+st.title+'</h2>'));
+  sec.appendChild(el('p','aim',st.aim));
+  var host=sec;
+  if(st.panel){
+    var P=PANELS[st.panel];
+    var split=el('div','split');var left=el('div','split-main');var right=el('aside','split-aside');
+    var rt='<div class="aside-t">'+P.title+'</div>';
+    P.qa.forEach(function(x){rt+='<details class="qa"><summary>'+x.q+'</summary><div class="body">'+x.a.map(function(a){return '<p>'+a+'</p>';}).join('')+'</div></details>';});
+    right.innerHTML=rt;split.appendChild(left);split.appendChild(right);sec.appendChild(split);host=left;
+  }
+  st.qs.forEach(function(q){
+    var box=el('div','q'+(q.gate?' gate':'')+(q.showIf?' hidden':''));box.id='box-'+q.id;
+    var say='<div class="say"><div class="who">'+q.who+'</div><p>'+q.say+'</p>'+(q.cue?'<p class="cue">'+q.cue+'</p>':'')+'</div>';
+    var mark='';
+    if(q.toggle){
+      mark='<div class="mark"><div class="lbl">'+q.lbl+'</div><label class="opt"><input type="radio" name="'+q.id+'" value="no">'+q.tvals[0]+'</label><label class="opt"><input type="radio" name="'+q.id+'" value="yes">'+q.tvals[1]+'</label></div>';
+    }else{
+      mark='<div class="mark"><div class="lbl">'+q.lbl+'</div>'+
+        '<label class="opt g"><input type="radio" name="'+q.id+'" value="g">'+q.opts[0]+'</label>'+
+        '<label class="opt u"><input type="radio" name="'+q.id+'" value="u">'+q.opts[1]+'</label>'+
+        '<label class="opt b"><input type="radio" name="'+q.id+'" value="b">'+q.opts[2]+'</label></div>';
+    }
+    var extra='';
+    if(q.alerts){Object.keys(q.alerts).forEach(function(k){var a=q.alerts[k];var rd='';if(a.redeem){rd='<div class="redeem"><label class="opt g"><input type="radio" name="'+a.redeem.id+'" value="ok">'+a.redeem.opts[0]+'</label><label class="opt b"><input type="radio" name="'+a.redeem.id+'" value="bad">'+a.redeem.opts[1]+'</label></div>';}extra+='<div class="alert '+a.k+'" data-alert="'+q.id+'-'+k+'"><div class="h">'+a.h+'</div><p>'+a.p+'</p>'+rd+'</div>';});}
+    if(q.listen)extra+='<div class="listen">'+q.listen+'</div>';
+    if(q.ans)extra+='<div class="ans"><label for="a-'+q.id+'">'+q.ans+'</label><textarea id="a-'+q.id+'" data-ans="'+q.id+'"></textarea></div>';
+    box.innerHTML=say+mark+extra;host.appendChild(box);
+  });
+  root.appendChild(sec);
+});
+
+// ---------------- state ----------------
+var Q={};STAGES.forEach(function(st){st.qs.forEach(function(q){Q[q.id]=q;});});
+function val(name){var c=document.querySelector('input[name="'+name+'"]:checked');return c?c.value:'';}
+function visible(q){if(!q.showIf)return true;return q.showIf.vals.indexOf(val(q.showIf.q))>=0;}
+function refreshVisibility(){
+  Object.keys(Q).forEach(function(id){var q=Q[id];if(!q.showIf)return;var b=document.getElementById('box-'+id);var v=visible(q);b.classList.toggle('hidden',!v);if(!v){document.querySelectorAll('input[name="'+id+'"]').forEach(function(r){r.checked=false;});}});
+  document.querySelectorAll('.alert').forEach(function(a){a.classList.remove('show');});
+  Object.keys(Q).forEach(function(id){var q=Q[id];if(!q.alerts||!visible(q))return;var v=val(id);if(v&&q.alerts[v]){var a=document.querySelector('[data-alert="'+id+'-'+v+'"]');if(a)a.classList.add('show');}});
+}
+function tally(){
+  var g=0,u=0,b=0,answered=0,total=0,pts=0,drivers=[],maxSingle=0;
+  Object.keys(Q).forEach(function(id){var q=Q[id];if(q.toggle||!visible(q))return;total++;var v=val(id);if(!v)return;answered++;
+    var w=q.w||[1,2];
+    if(v==='g'){g++;return;}
+    if(v==='u'){u++;var p=w[0];pts+=p;if(p>0)drivers.push({c:'u',t:q.lbl+' — '+q.opts[1],p:p});else drivers.push({c:'u',t:q.lbl+' — '+q.opts[1]+' (noted, no points)',p:0});}
+    else{b++;var p2=w[1];
+      if(id==='q10'){var r=val('q10r');if(r==='ok'){p2=0;drivers.push({c:'u',t:q.lbl+' — '+q.opts[2]+', but they committed to a plan (no points)',p:0});return;}if(r==='bad'){p2=3;}}
+      pts+=p2;maxSingle=Math.max(maxSingle,p2);drivers.push({c:'b',t:q.lbl+' — '+q.opts[2]+(id==='q10'&&val('q10r')==='bad'?', and evasive about a plan':''),p:p2});}});
+  document.getElementById('c-g').textContent=g;document.getElementById('c-u').textContent=u;document.getElementById('c-b').textContent=b;
+  var t=document.getElementById('v-title'),d=document.getElementById('v-desc');
+  var thumb=document.getElementById('thumb');var icon,title,desc,cls;
+  var down=(pts>=6||maxSingle>=4);
+  if(answered===0){cls='';icon='…';title='Mark the answers first';desc='Big red flags carry 3 points, small ones 1. Six points is a thumbs down.';t.textContent='Start marking answers';d.textContent='The verdict fills in as you go.';}
+  else if(down){cls='down';icon='👎';title='Do you really want to bring this person on?';desc=(maxSingle>=4?'One answer was disqualifying on its own. ':'')+pts+' points across '+(u+b)+' flagged answer'+((u+b)>1?'s':'')+'. Refer them as a doorway; don\'t spend coaching hours yet.';t.textContent='Thumbs down — refer as a doorway';d.textContent=desc;}
+  else if(answered<total){cls='';icon='…';title=answered+' of '+total+' marked';desc=pts+' point'+(pts===1?'':'s')+' so far. Keep going.';t.textContent='Keep going — '+answered+' of '+total+' marked';d.textContent=desc;}
+  else if(pts<=2){cls='up';icon='👍';title='Bring them on';desc=(pts?pts+' point'+(pts>1?'s':'')+' — minor.':'Clean sheet.')+' Give the assignment and watch the follow-through.';t.textContent='Thumbs up — bring them on';d.textContent=desc;}
+  else{cls='mid';icon='🤔';title='Do you want to bring this person on?';desc=pts+' points. Nothing disqualifying, but enough to think about. A follow-up call is a fine answer.';t.textContent='In the middle — decide, or set a follow-up';d.textContent=desc;}
+  thumb.className='thumb '+cls;
+  var dv='';
+  if(drivers.length){dv='<ul class="reasons drivers">'+drivers.map(function(x){return '<li class="'+x.c+'">'+x.t+(x.p?' <em>(+'+x.p+')</em>':'')+'</li>';}).join('')+'</ul>';}
+  else if(answered>0){dv='<div class="drv-none">Nothing flagged — every answer so far is green.</div>';}
+  thumb.innerHTML='<div class="icon">'+icon+'</div><div style="flex:1"><div class="t">'+title+'</div><div class="d">'+desc+'</div>'+(dv?'<div class="drv-h">What drove this</div>'+dv:'')+'</div>';
+  renderOutcome();
+}
+function reasons(kind){
+  var out=[];Object.keys(Q).forEach(function(id){var q=Q[id];if(q.toggle||!visible(q))return;var v=val(id);if(!v)return;
+    if(kind==='g'&&v==='g')out.push({c:'g',t:q.good});
+    if(kind==='yg'&&v==='g')out.push({c:'g',t:q.youGood||q.good});
+    if(kind==='yb'&&v==='b')out.push({c:'b',t:q.youBad||q.bad});
+    if(kind==='b'&&v==='b')out.push({c:'b',t:q.bad});
+    if(kind==='u'&&v==='u')out.push({c:'u',t:q.lbl+' — unclear'});});
+  return out;
+}
+function joinList(a){if(a.length<=1)return a.join('');if(a.length===2)return a[0]+' and '+a[1];return a.slice(0,-1).join(', ')+', and '+a[a.length-1];}
+function list(id,items,empty){var ul=document.getElementById(id);ul.innerHTML=items.length?items.map(function(r){return '<li class="'+r.c+'">'+r.t+'</li>';}).join(''):'<li style="color:var(--ink-soft)">'+empty+'</li>';}
+function renderOutcome(){
+  var dec=val('dec');['hire','maybe','pass'].forEach(function(k){document.getElementById('out-'+k).classList.toggle('show',dec===k);});
+  var name=document.getElementById('m-name').value||'[Name]';
+  if(dec==='hire'){
+    var gs=reasons('yg').map(function(r){return r.t;});
+    var why=gs.length?' — '+joinList(gs.slice(0,3)):'';
+    var lic=val('lic');var s,steps;
+    if(lic==='yes'){document.getElementById('hire-h').textContent='Say this — licensed';
+      s='<p>"'+name+', I like a lot of what I heard'+why+'. I think you\'d be a great addition to the team, so I\'d like to bring you on and get you started. Here\'s what that looks like: I\'m going to text you your registration link — that\'s where you get set up with us. Once you\'re registered, you go straight into contracting: Fast Start, the paperwork, our Academy, and we get your first carrier active. That\'s a few days. While it clears, you\'re sitting in the Live Dials room with the script open, listening to closers. Your first job is to register today and text me when it\'s done. Then we book your Strategy Call. Sound good?"</p>';
+      steps=['Text them your unique Optimum registration link. It\'s on the <strong>Recruitment page of the Optimum agent portal</strong> (button below).','Follow the onboarding instructions on that page — the licensed-agent path. Everything you need is there; don\'t improvise it.','Tell them the one thing to do today: register, then text you "done."','When they text, reply the same day and point them at the Live Dials room while contracting clears.','Book the Strategy Call once their first carrier is active.'];
+    }else if(lic==='no'){document.getElementById('hire-h').textContent='Say this — not licensed yet';
+      s='<p>"'+name+', I like a lot of what I heard'+why+'. I think you\'d be a great addition to the team, so I\'d like to bring you on and start you in the licensing process. Here\'s what that looks like: I\'m going to text you your registration link — that gets you set up with us and starts the course. It takes about twenty hours. You\'ve got fourteen days. Once you\'re registered and your exam is scheduled, you text me the date, and we stay in touch by text through the course. Our next big conversation is the day you have your license — then we get you contracted and into the Live Dials room. Deal?"</p><p class="cue" style="font-family:var(--sans);font-size:13.5px;color:var(--ink-soft);font-style:italic">Whether they text in 24 hours, a week, or never is the next filter.</p>';
+      steps=['Text them your unique Optimum registration link. It\'s on the <strong>Recruitment page of the Optimum agent portal</strong> (button below).','Follow the onboarding instructions on that page — the unlicensed path. Everything you need is there; don\'t improvise it.','Tell them the one thing to do today: register and start the course. Fourteen days, about twenty hours.','When they text you the exam date, reply the same day. Stay in text through the course.','The day they pass: contracting, then the Live Dials room, then the Strategy Call.'];
+    }else{document.getElementById('hire-h').textContent='Say this';s='<p style="color:var(--warn)">Mark whether they\'re licensed at the top of the page — the script and the steps are different.</p>';steps=[];}
+    document.getElementById('hire-script').innerHTML=s;
+    document.getElementById('hire-steps').innerHTML=steps.map(function(x){return '<li>'+x+'</li>';}).join('');
+  }
+  if(dec==='maybe'){
+    list('maybe-reasons',reasons('u').concat(reasons('b')),'Nothing marked unclear or red — what gave you pause?');
+    var ul=document.getElementById('maybe-hw');var ids=[];
+    Object.keys(Q).forEach(function(id){var q=Q[id];if(q.toggle||!visible(q))return;var v=val(id);if((v==='u'||v==='b')&&HOMEWORK[id])ids.push(id);});
+    var seen={};ids=ids.filter(function(id){var k=HOMEWORK[id];if(seen[k])return false;seen[k]=true;return true;});
+    var existing={};ul.querySelectorAll('input').forEach(function(c){existing[c.getAttribute('data-hw')]=c.checked;});
+    ul.innerHTML=ids.length?ids.map(function(id){var on=existing.hasOwnProperty(id)?existing[id]:true;return '<li class="'+(on?'':'off')+'"><input type="checkbox" id="hw-'+id+'" data-hw="'+id+'" '+(on?'checked':'')+'><label for="hw-'+id+'">'+HOMEWORK[id]+'</label></li>';}).join(''):'<li style="color:var(--ink-soft)">Nothing flagged — write your own below, or reconsider "bring them on."</li>';
+    var hw=[];ul.querySelectorAll('input:checked').forEach(function(c){hw.push(HOMEWORK[c.getAttribute('data-hw')]);});
+    var dt=document.getElementById('maybe-date').value;var dtxt=dt?new Date(dt+'T12:00:00').toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'}):'[day]';
+    var sc='<p>"'+name+', I like a lot of what I heard. I\'m not going to make a decision on this call. Here\'s what I think we should do before we speak again."</p>';
+    if(hw.length){sc+='<p>"'+hw.map(function(h,i){return (hw.length>1?(i+1)+'. ':'')+h;}).join(' ')+'"</p>';}
+    sc+='<p>"Text me by '+dtxt+' with that done. If I don\'t hear from you, I\'ll take that as your answer — no hard feelings. If I do, we\'ll pick this right back up."</p>';
+    document.getElementById('maybe-script').innerHTML=sc;
+  }
+  if(dec==='pass'){var r=reasons('b');list('pass-reasons',r,'Nothing marked red. If it\'s still a no, write the reason below.');
+    var yb=reasons('yb');document.getElementById('pass-because').textContent=yb.length?joinList(yb.slice(0,2).map(function(x){return x.t;})):'[the specific thing]';
+    var ta=document.getElementById('pass-notes');if(!ta.value&&yb.length)ta.value=yb.map(function(x){return x.t;}).join('; ');}
+}
+var QR_MAP=[['q2'],['q5','qL1'],['q7w','q7n'],[],['q3'],['q10'],['q1'],['q12','q13']];
+function qrAuto(){
+  document.querySelectorAll('#qr input').forEach(function(b,i){
+    if(b.getAttribute('data-manual')==='1')return;
+    var ids=QR_MAP[i];if(!ids.length)return;
+    var vis=ids.filter(function(id){return Q[id]&&visible(Q[id]);});if(!vis.length)return;
+    var answered=vis.filter(function(id){return val(id);});if(!answered.length)return;
+    b.checked=answered.every(function(id){return val(id)==='g';});
+  });
+}
+function qrTally(){qrAuto();var n=0;document.querySelectorAll('#qr input').forEach(function(b){if(b.checked)n++;});document.getElementById('qr-out').textContent=n===8?'8 of 8 — work with them':(n<=5?n+' of 8 — refer as a doorway':n+' of 8 — strong; let the script decide');}
+document.addEventListener('change',function(e){if(e.target&&e.target.closest&&e.target.closest('#qr')&&e.target.type==='checkbox'){e.target.setAttribute('data-manual','1');}if(e.target&&e.target.hasAttribute&&e.target.hasAttribute('data-hw')){e.target.closest('li').classList.toggle('off',!e.target.checked);}refreshVisibility();tally();qrTally();});
+document.addEventListener('input',function(e){if(e.target&&e.target.id==='m-name')renderOutcome();});
+
+// ---------------- save / load / print / reset ----------------
+function collect(){
+  var o={version:'orp-interview-2',saved:new Date().toISOString(),meta:{},lic:val('lic'),work:val('work'),others:val('others'),q10r:val('q10r'),hwOff:[],marks:{},answers:{},confirm:{},quick:[],dec:val('dec'),fields:{}};
+  ['m-name','m-date','m-src','m-by'].forEach(function(id){o.meta[id]=document.getElementById(id).value;});
+  Object.keys(Q).forEach(function(id){if(!Q[id].toggle)o.marks[id]=val(id);});
+  document.querySelectorAll('[data-ans]').forEach(function(t){o.answers[t.getAttribute('data-ans')]=t.value;});
+  document.querySelectorAll('[data-confirm]').forEach(function(c){o.confirm[c.getAttribute('data-confirm')]=c.checked;});
+  o.quickManual=[];document.querySelectorAll('#qr input').forEach(function(b,i){o.quick[i]=b.checked;o.quickManual[i]=b.getAttribute('data-manual')==='1';});
+  document.querySelectorAll('[data-f]').forEach(function(f){o.fields[f.getAttribute('data-f')]=f.value;});
+  document.querySelectorAll('#maybe-hw input').forEach(function(c){if(!c.checked)o.hwOff.push(c.getAttribute('data-hw'));});
+  return o;
+}
+function apply(o){
+  reset(true);
+  Object.keys(o.meta||{}).forEach(function(id){var e=document.getElementById(id);if(e)e.value=o.meta[id]||'';});
+  function setRadio(n,v){if(!v)return;var r=document.querySelector('input[name="'+n+'"][value="'+v+'"]');if(r)r.checked=true;}
+  setRadio('lic',o.lic);setRadio('work',o.work);setRadio('others',o.others);setRadio('q10r',o.q10r);
+  Object.keys(o.marks||{}).forEach(function(id){setRadio(id,o.marks[id]);});
+  Object.keys(o.answers||{}).forEach(function(id){var t=document.querySelector('[data-ans="'+id+'"]');if(t)t.value=o.answers[id]||'';});
+  Object.keys(o.confirm||{}).forEach(function(k){var c=document.querySelector('[data-confirm="'+k+'"]');if(c)c.checked=!!o.confirm[k];});
+  document.querySelectorAll('#qr input').forEach(function(b,i){b.checked=!!(o.quick&&o.quick[i]);if(o.quickManual&&o.quickManual[i])b.setAttribute('data-manual','1');});
+  Object.keys(o.fields||{}).forEach(function(k){var f=document.querySelector('[data-f="'+k+'"]');if(f)f.value=o.fields[k]||'';});
+  setRadio('dec',o.dec);
+  refreshVisibility();tally();qrTally();
+  (o.hwOff||[]).forEach(function(id){var c=document.querySelector('#maybe-hw input[data-hw="'+id+'"]');if(c){c.checked=false;c.closest('li').classList.add('off');}});renderOutcome();
+}
+function reset(silent){
+  document.querySelectorAll('input[type=radio],input[type=checkbox]').forEach(function(r){r.checked=false;r.removeAttribute('data-manual');});
+  document.querySelectorAll('input[type=text],input[type=date],textarea').forEach(function(t){t.value='';});
+  try{document.getElementById('m-date').valueAsDate=new Date();}catch(e){}
+  refreshVisibility();tally();qrTally();
+  if(!silent){window.scrollTo({top:0});toast('Reset for the next call');}
+}
+function toast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},1800);}
+function fname(ext){var n=(document.getElementById('m-name').value||'candidate').replace(/[^a-z0-9]+/gi,'-').replace(/^-|-$/g,'').toLowerCase();var d=document.getElementById('m-date').value||new Date().toISOString().slice(0,10);return 'interview-'+n+'-'+d+'.'+ext;}
+var dl=null;
+if(window.claude&&window.claude.use){claude.use('downloads').then(function(x){dl=x;});}
+function fallbackDownload(name,data,type){try{var b=new Blob([data],{type:type});var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download=name;document.body.appendChild(a);a.click();document.body.removeChild(a);setTimeout(function(){URL.revokeObjectURL(u);},2000);return true;}catch(e){return false;}}
+function saveFile(name,data,type){
+  if(dl){dl.save({filename:name,data:data}).then(function(){toast('Saved');}).catch(function(e){if(e&&e.code==='declined')return;if(!fallbackDownload(name,data,type))toast('Couldn\'t save here — open the page in a new tab and try again');});}
+  else if(!fallbackDownload(name,data,type)){toast('Saving isn\'t available in this view');}
+}
+document.getElementById('btn-save').addEventListener('click',function(){saveFile(fname('json'),JSON.stringify(collect(),null,2),'application/json');});
+document.getElementById('file-load').addEventListener('change',function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{var o=JSON.parse(r.result);if(!o||!o.marks)throw 0;apply(o);toast('Loaded '+(o.meta&&o.meta['m-name']?o.meta['m-name']:'interview'));}catch(x){toast('That file isn\'t a saved interview');}};r.readAsText(f);e.target.value='';});
+document.getElementById('btn-reset').addEventListener('click',function(){reset(false);});
+
+// printable report
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;');}
+function report(){
+  var o=collect();var name=o.meta['m-name']||'Candidate';var lab={g:'Good',u:'Unclear',b:'Red flag'};
+  var h='<!DOCTYPE html><html><head><meta charset="utf-8"><title>Interview — '+esc(name)+'</title><style>body{font-family:Georgia,serif;max-width:760px;margin:30px auto;padding:0 20px;color:#111;line-height:1.5}h1{font-size:26px;margin:0}h2{font-size:18px;border-bottom:1px solid #ccc;padding-bottom:4px;margin-top:24px}.hd{background:#132540;color:#C9A24A;padding:14px 18px;margin-bottom:18px}.hd small{color:#ddd;display:block;font-family:Arial,sans-serif;font-size:11px;letter-spacing:.15em}table{border-collapse:collapse;width:100%}td{vertical-align:top;padding:6px 8px;border-bottom:1px solid #eee;font-size:14px}td.m{width:90px;font-weight:bold;font-family:Arial,sans-serif}.g{color:#2F6B4F}.u{color:#9A5B12}.b{color:#8B2F2F}.ans{font-style:italic;color:#444}.v{font-size:22px;font-weight:bold;margin:10px 0}.meta{font-family:Arial,sans-serif;font-size:13px;color:#444}@media print{body{margin:0}}</style></head><body>';
+  h+='<div class="hd"><div style="font-size:24px;font-weight:bold">Optimum</div><small>RECRUITING INTERVIEW — SCORECARD</small></div>';
+  h+='<h1>'+esc(name)+'</h1><div class="meta">'+esc(o.meta['m-date'])+' · via '+esc(o.meta['m-src']||'—')+' · interviewer '+esc(o.meta['m-by']||'—')+' · '+(o.lic==='yes'?'Licensed':o.lic==='no'?'Not licensed':'License: not marked')+'</div>';
+  h+='<div class="v">'+esc(document.getElementById('v-title').textContent)+'</div><div class="meta">'+esc(document.getElementById('v-desc').textContent)+'</div>';
+  var qn=0;document.querySelectorAll('#qr input').forEach(function(b){if(b.checked)qn++;});
+  h+='<h2>Quick read: '+qn+' of 8</h2><table>';document.querySelectorAll('#qr label').forEach(function(l){h+='<tr><td class="m '+(l.querySelector('input').checked?'g':'')+'">'+(l.querySelector('input').checked?'✓':'—')+'</td><td>'+esc(l.textContent.trim())+'</td></tr>';});h+='</table>';
+  STAGES.forEach(function(st){h+='<h2>'+st.n+'. '+esc(st.title)+'</h2><table>';
+    st.qs.forEach(function(q){if(!visible(q))return;
+      if(q.toggle){var tv=val(q.id);h+='<tr><td class="m">'+esc(tv==='yes'?q.tvals[1]:tv==='no'?q.tvals[0]:'—')+'</td><td>'+esc(q.lbl)+'</td></tr>';return;}
+      var v=o.marks[q.id];var txt=v?q.opts[{g:0,u:1,b:2}[v]]:'—';
+      h+='<tr><td class="m '+(v||'')+'">'+(v?lab[v]:'—')+'</td><td><b>'+esc(q.lbl)+''+'</b><br>'+esc(txt)+(o.answers[q.id]?'<div class="ans">'+esc(o.answers[q.id])+'</div>':'')+'</td></tr>';});
+    h+='</table>';});
+  h+='<h2>Decision</h2><p><b>'+(o.dec==='hire'?'Bring them on':o.dec==='maybe'?'Not sure yet':o.dec==='pass'?'Pass':'Not decided')+'</b></p>';
+  if(o.dec==='maybe'){var hws=[];document.querySelectorAll('#maybe-hw input:checked').forEach(function(c){hws.push(HOMEWORK[c.getAttribute('data-hw')]);});h+='<p>They text back by: '+esc(o.fields.maybeDate||'—')+'</p><p>Homework:</p><ul>'+hws.map(function(x){return '<li>'+esc(x)+'</li>';}).join('')+'</ul><p>I think through: '+esc(o.fields.maybeMe||'—')+'</p>';}
+  if(o.dec==='pass'){h+='<p>Reason: '+esc(o.fields.passNotes||'—')+'</p>';}
+  if(o.dec==='hire'){h+='<p>'+esc(o.fields.hireNotes||'')+'</p>';}
+  h+='<h2>Notes</h2><p>'+esc(o.fields.notes||'—').replace(/\n/g,'<br>')+'</p>';
+  h+='<p class="meta" style="margin-top:30px">Optimum · Own Your Future · Recruiting Interview Script &amp; Scorecard</p><script>window.onload=function(){setTimeout(function(){try{window.print()}catch(e){}},400)}<\/script></body></html>';
+  return h;
+}
+document.getElementById('btn-print').addEventListener('click',function(){
+  var inFrame=false;try{inFrame=window.self!==window.top;}catch(e){inFrame=true;}
+  if(!inFrame){try{window.print();return;}catch(e){}}
+  saveFile(fname('html'),report(),'text/html');
+  toast('Printable copy saved — open it and it will print');
+});
+
+// FFL modal
+(function(){var m=document.getElementById('ffl-modal');document.getElementById('ffl-open').addEventListener('click',function(){m.classList.add('show');});document.getElementById('ffl-close').addEventListener('click',function(){m.classList.remove('show');});m.addEventListener('click',function(e){if(e.target===m)m.classList.remove('show');});document.addEventListener('keydown',function(e){if(e.key==='Escape')m.classList.remove('show');});})();
+// init
+try{document.getElementById('m-date').valueAsDate=new Date();}catch(e){}
+refreshVisibility();tally();qrTally();
+})();
+</script>
+</body>
+</html>
