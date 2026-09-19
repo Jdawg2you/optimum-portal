@@ -159,7 +159,42 @@
     .nextstep h3{font-size:17.5px}
     .nextstep .nssub,.nsteps li,.nsack label{font-size:14px}
   }
+
+  /* --- language bar + field --- */
+  .langbar{background:#fdf7e6;border-bottom:1px solid #eadfba;padding:13px 18px;display:flex;
+    align-items:center;gap:14px;flex-wrap:wrap}
+  .langbar.on{background:#eef4ff;border-bottom-color:#cfdcf7}
+  .lb-txt{flex:1;min-width:220px}
+  .lb-t{font-size:14px;font-weight:700;color:var(--ink)}
+  .lb-d{font-size:12.5px;color:var(--ink2);margin-top:2px}
+  .lb-en{color:var(--muted)}
+  .lb-btn,.lb-back{appearance:none;border:0;cursor:pointer;font:700 13px inherit;
+    padding:10px 17px;border-radius:9px;white-space:nowrap}
+  .lb-btn{background:var(--navy);color:#fff}
+  .lb-back{background:#fff;border:1.5px solid #9db4dd;color:#2a4a87}
+  .langfield{border:1.4px solid var(--line);border-radius:9px;background:var(--field);
+    padding:12px 13px;margin:0 0 14px}
+  .lf-q{display:block;font-size:12.5px;font-weight:700;color:var(--ink2);margin-bottom:8px}
+  .lf-ck{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;color:var(--ink);
+    cursor:pointer;margin:0 0 6px;font-weight:500}
+  .lf-ck:last-child{margin-bottom:0}
+  .lf-ck input{margin-top:3px}
+  .acknote{background:#eef4ff;border-left:3px solid #2a56d6;border-radius:0 8px 8px 0;
+    padding:10px 13px;margin:0 0 12px;font-size:12.5px;line-height:1.5;color:var(--ink2)}
+  @media(max-width:560px){ .lb-btn,.lb-back{width:100%} }
 </style>
+<script>
+/* language resolved before anything renders or reads it */
+window.REG_LANG=(function(){
+  try{
+    var q=(location.search.match(/[?&]lang=(es|en)\b/)||[])[1];
+    if(q){ try{ localStorage.setItem('m5.lang',q); }catch(e){} return q; }
+    return localStorage.getItem('m5.lang')||'en';
+  }catch(e){ return 'en'; }
+})();
+
+
+</script>
 </head>
 <body>
 
@@ -173,6 +208,15 @@
   <div class="sub">Family First Life · FFL Optimum</div>
 </header>
 
+<div class="langbar" id="langbar">
+  <div class="lb-txt">
+    <div class="lb-t">&iquest;Prefieres trabajar en espa&ntilde;ol?</div>
+    <div class="lb-d">Cambia este formulario y el portal a espa&ntilde;ol. <span class="lb-en">&middot; Prefer Spanish? Switch this form and the portal.</span></div>
+  </div>
+  <button type="button" class="lb-btn" id="lb-go" onclick="regSetLang('es')">Cambiar a espa&ntilde;ol</button>
+  <button type="button" class="lb-back" id="lb-back" onclick="regSetLang('en')" hidden>Switch back to English</button>
+</div>
+
 <div class="wrap">
   <div id="form">
     <div class="intro">
@@ -183,6 +227,11 @@
     <!-- Your info -->
     <div class="sec">
       <div class="seclabel">Your Information</div>
+      <div class="langfield">
+        <label class="lf-q">Preferred language &middot; Idioma preferido</label>
+        <label class="lf-ck"><input type="radio" name="reglang" value="en" id="rl-en" checked onchange="regSetLang('en')"><span>English</span></label>
+        <label class="lf-ck"><input type="radio" name="reglang" value="es" id="rl-es" onchange="regSetLang('es')"><span>Espa&ntilde;ol &mdash; quiero el portal y los recursos en espa&ntilde;ol</span></label>
+      </div>
       <div class="row2">
         <div><label>First Name <span class="req">*</span></label><input type="text" id="first" autocomplete="given-name"></div>
         <div><label>Last Name <span class="req">*</span></label><input type="text" id="last" autocomplete="family-name"></div>
@@ -244,10 +293,11 @@
     <!-- Acknowledgment -->
     <div class="sec">
       <div class="seclabel">Agent Accuracy &amp; Debt Acknowledgment</div>
+        <div class="acknote" id="acknote" hidden>Este acuerdo se presenta &uacute;nicamente en ingl&eacute;s, porque es el documento que firmas. Si necesitas ayuda para entenderlo, pide a tu reclutador que lo revise contigo antes de firmar.</div>
       <div class="ackhead" id="ackHead" onclick="toggleAck()">
         <span class="t">📄 Read the agreement</span><span class="chev">›</span>
       </div>
-      <div class="ackbody" id="ackBody">
+      <div class="ackbody" id="ackBody" data-notr>
         <p>By signing this digital document, I acknowledge, agree, and affirm the following:</p>
         <h4>1. Accuracy of Information</h4>
         <ul>
@@ -277,7 +327,7 @@
         </ul>
         <p style="margin-top:14px"><span class="close">By signing below, I confirm that I have read, understood, and voluntarily agree to the above terms, and that I am entering into this acknowledgment freely and without reservation.</span></p>
       </div>
-      <div class="checkrow">
+      <div class="checkrow" data-notr>
         <input type="checkbox" id="agree">
         <label for="agree">I have read, understood, and voluntarily agree to the Agent Accuracy &amp; Debt Acknowledgment above. <span class="req">*</span></label>
       </div>
@@ -350,13 +400,13 @@
   var ref=new URLSearchParams(location.search).get('ref');
   if(ref){
     document.getElementById('refchip').style.display='flex';
-    document.getElementById('reftext').textContent='Referred by sponsor code: '+ref;
+    document.getElementById('reftext').textContent=((window.REG_LANG==='es')?'Te refirió el código de patrocinador: ':'Referred by sponsor code: ')+ref;
     // JSONP lookup (cross-origin read isn't allowed on the normal endpoint, so we use a script tag)
     window.__sponsorCb=function(res){
       try{
         if(res && res.found){
           var nm=((res.first||'')+' '+(res.last||'')).trim();
-          if(nm) document.getElementById('reftext').textContent='Referred by '+nm;
+          if(nm) document.getElementById('reftext').textContent=((window.REG_LANG==='es')?'Te refirió ':'Referred by ')+''+nm;
         }
       }catch(e){}
     };
@@ -463,7 +513,7 @@
         dob:g('dob'), addr:g('addr'), city:g('city'), state:g('state'), zip:g('zip'),
         licensed:g('licensed'), npn:g('npn'), ecname:g('ecname'), ecphone:g('ecphone'),
         agreed:true, signedAt:stamp, fullname:g('fullname'),
-        license:licSmall, signature:sig, ref:ref||''
+        license:licSmall, signature:sig, ref:ref||'', lang:(window.REG_LANG||'en')
       }};
       try{
         fetch(BACKEND, {method:'POST', mode:'no-cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(payload)});
@@ -529,5 +579,129 @@ window.goatcounter = {
 };
 </script>
 <script data-goatcounter="https://ffloptimum.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+<script>
+/* ===== Spanish on the registration form ===================================
+   Same rule as the portal: a dictionary, not a translator. Only exact
+   strings listed here change. The agreement body and the consent checkbox
+   carry data-notr and are skipped outright -- that text is the document
+   being signed and stays in English until someone who owns that risk says
+   otherwise. A Spanish note above it says so plainly.
+
+   register.html and the portal are the same origin, so the choice saved
+   here is the choice the portal reads. ?lang=es in the link sets it before
+   the page is even drawn, which is how a recruiter's Spanish send works.
+   ------------------------------------------------------------------------*/
+var REG_ES={
+"New Agent Registration":"Registro de Nuevo Agente",
+"Family First Life · FFL Optimum":"Family First Life · FFL Optimum",
+"Welcome to":"Bienvenido a","and the":"y al",
+". Please fill out the information below — read everything carefully, and agree with your digital signature at the bottom. This registers you and gets you into the team portal.":
+  ". Completa la información de abajo — lee todo con cuidado y firma digitalmente al final. Esto te registra y te da acceso al portal del equipo.",
+"Your Information":"Tu Información",
+"Preferred language · Idioma preferido":"Preferred language · Idioma preferido",
+"First Name":"Nombre","Last Name":"Apellido","Email":"Correo electrónico","Phone":"Teléfono",
+"Date of Birth":"Fecha de nacimiento",
+"Home Address":"Domicilio","Street & Apt (if applicable)":"Calle y número (apartamento si aplica)",
+"City":"Ciudad","State":"Estado","Zip":"Código postal",
+"Licensing":"Licencia",
+"Are you a licensed agent?":"¿Tienes licencia de agente?",
+"Yes — I have my license":"Sí — ya tengo mi licencia",
+"No — not yet licensed":"No — todavía no tengo licencia",
+"NPN (National Producer Number)":"NPN (Número Nacional de Productor)",
+"— if licensed":"— si tienes licencia",
+"Emergency Contact":"Contacto de Emergencia",
+"Contact Name":"Nombre del contacto","Contact Number":"Teléfono del contacto",
+"Driver's License":"Licencia de Conducir",
+"Upload a clear photo of your driver's license":"Sube una foto clara de tu licencia de conducir",
+"Tap to upload or take a photo":"Toca para subir o tomar una foto",
+"On your phone this opens your camera. JPG or PNG.":"En tu teléfono esto abre la cámara. JPG o PNG.",
+"✓ License photo attached":"✓ Foto de la licencia adjuntada",
+"Stored securely and visible only to your agency admin.":
+  "Se guarda de forma segura y solo la ve el administrador de tu agencia.",
+"Agent Accuracy & Debt Acknowledgment":"Reconocimiento de Exactitud y Deuda del Agente",
+"📄 Read the agreement":"📄 Lee el acuerdo",
+"Digital Signature":"Firma Digital",
+"Sign below with your finger or mouse":"Firma abajo con el dedo o el mouse",
+"Draw your signature above":"Dibuja tu firma arriba",
+"Clear":"Borrar",
+"Type your full legal name":"Escribe tu nombre legal completo",
+"Signed on:":"Firmado el:",
+"(captured automatically when you submit)":"(se registra automáticamente al enviar)",
+"Submitting this form is not the last step":"Enviar este formulario no es el último paso",
+"Registering tells us who you are, it does not start your training. Make sure you log in to the agent portal immediately after you submit this form.":
+  "Registrarte nos dice quién eres, pero no inicia tu capacitación. Asegúrate de entrar al portal de agentes inmediatamente después de enviar este formulario.",
+"Submit this form":"Envía este formulario","with the button right below.":"con el botón de abajo.",
+"Log in to the portal":"Entra al portal",
+"on the next screen. Your name, email and phone number.":"en la siguiente pantalla. Tu nombre, correo y teléfono.",
+"Bookmark the portal":"Guarda el portal en favoritos",
+"Got it — I understand I still have to log in after I submit this, and I will do it right now.":
+  "Entendido — sé que todavía tengo que entrar al portal después de enviar esto, y lo haré ahora mismo.",
+"Submit Registration":"Enviar Registro",
+"FFL Optimum · Family First Life · Your information is stored securely and used only for agency onboarding.":
+  "FFL Optimum · Family First Life · Tu información se guarda de forma segura y se usa únicamente para tu incorporación a la agencia.",
+"You're registered!":"¡Ya estás registrado!",
+"Welcome to the FFL Optimum team.":"Bienvenido al equipo de FFL Optimum.",
+"This portal is your home base from now on.":"Este portal es tu base desde ahora.",
+"Bookmark it — next time you just log in with your name, email, and phone. No password to remember.":
+  "Guárdalo en favoritos — la próxima vez solo entras con tu nombre, correo y teléfono. Sin contraseñas que recordar.",
+"Log in to the portal →":"Entra al portal →",
+"Bookmark tip:":"Consejo:",
+"@ph:you@email.com":"tu@correo.com",
+"@ph:(555) 123-4567":"(555) 123-4567"
+};
+
+var REG_ORIG=[], REG_PH=[];
+function regTr(){
+  var es=(window.REG_LANG==='es');
+  document.documentElement.setAttribute('lang', es?'es':'en');
+  var bar=document.getElementById('langbar');
+  if(bar){
+    var go=document.getElementById('lb-go'), back=document.getElementById('lb-back');
+    if(go) go.hidden=es; if(back) back.hidden=!es;
+    bar.classList.toggle('on',es);
+  }
+  var note=document.getElementById('acknote'); if(note) note.hidden=!es;
+  var rl=document.getElementById(es?'rl-es':'rl-en'); if(rl) rl.checked=true;
+  if(!es) return;                       /* English is the untouched original */
+  try{
+    var w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
+      var p=n.parentNode; if(!p) return NodeFilter.FILTER_REJECT;
+      var t=p.nodeName; if(t==='SCRIPT'||t==='STYLE'||t==='TEXTAREA'||t==='OPTION') return NodeFilter.FILTER_REJECT;
+      if(p.closest&&p.closest('[data-notr]')) return NodeFilter.FILTER_REJECT;
+      return n.nodeValue&&n.nodeValue.trim()?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT;
+    }});
+    var nodes=[],n; while(n=w.nextNode()) nodes.push(n);
+    nodes.forEach(function(node){
+      var raw=node.nodeValue, key=raw.replace(/\s+/g,' ').trim(), t=REG_ES[key];
+      if(!t) return;
+      REG_ORIG.push([node,raw]);
+      node.nodeValue=raw.match(/^\s*/)[0]+t+raw.match(/\s*$/)[0];
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('[placeholder]'),function(e){
+      if(e.closest('[data-notr]')) return;
+      var v=e.getAttribute('placeholder'); var t=REG_ES['@ph:'+(v||'').trim()];
+      if(t){ REG_PH.push([e,v]); e.setAttribute('placeholder',t); }
+    });
+  }catch(e){}
+}
+window.regSetLang=function(l){
+  /* In place, never a reload -- someone half way through the form must not
+     lose what they have typed just because they switched language. */
+  if(l!=='es'&&l!=='en') return;
+  try{ localStorage.setItem('m5.lang',l); }catch(e){}
+  window.REG_LANG=l;
+  if(l==='en') regRestore();
+  regTr();
+};
+function regRestore(){
+  try{
+    REG_ORIG.forEach(function(pair){ pair[0].nodeValue=pair[1]; });
+    REG_PH.forEach(function(pair){ pair[0].setAttribute('placeholder',pair[1]); });
+  }catch(e){}
+}
+if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',regTr);
+else regTr();
+
+</script>
 </body>
 </html>

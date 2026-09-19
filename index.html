@@ -157,6 +157,13 @@
   .navitem.locked{opacity:.5}
   .navitem .lk{margin-left:auto;font-size:11px}
   .side-foot{padding:10px;border-top:1px solid rgba(255,255,255,.07)}
+  .m5-langrow{display:flex;align-items:center;gap:8px;padding:7px 11px;margin-bottom:3px;
+    border-radius:9px;background:rgba(255,255,255,.06)}
+  .m5-langlbl{font-size:11.5px;color:#9fb0cf;font-weight:600;flex:1}
+  .m5-langseg{display:flex;border:1px solid rgba(255,255,255,.22);border-radius:999px;overflow:hidden}
+  .m5-langseg button{appearance:none;border:0;background:transparent;color:#c8d4ea;
+    font:700 10.5px inherit;padding:4px 11px;cursor:pointer}
+  .m5-langseg button.on{background:var(--gold);color:#1b2a49}
   .side-foot .navitem{color:#9fb0cf}
 
   main{flex:1;min-width:0;display:flex;flex-direction:column}
@@ -871,7 +878,7 @@
   <aside>
     <div class="side-brand m5-brandhdr"><div class="m5-bh-name">OPTIMUM</div><div class="m5-bh-sub"><span>HEALTH</span><i></i><span>LIFE</span><i></i><span>RETIREMENT</span></div><div class="m5-bh-div"></div></div>
     <nav class="side" id="sidenav"></nav>
-    <div class="side-foot"><div class="m5-sideuser"><div class="m5-suav" id="m5-suav">A</div><div class="m5-sumeta"><div class="m5-suname" id="m5-suname">Agent</div><span class="m5-supill">Licensed Agent</span></div><div class="m5-suchev">▴</div></div><div class="navitem m5-logout" onclick="logout()"><span class="ic"></span> Log out</div></div>
+    <div class="side-foot"><div class="m5-sideuser"><div class="m5-suav" id="m5-suav">A</div><div class="m5-sumeta"><div class="m5-suname" id="m5-suname">Agent</div><span class="m5-supill">Licensed Agent</span></div><div class="m5-suchev">▴</div></div><div class="m5-langrow"><span class="m5-langlbl">Language</span><div class="m5-langseg"><button type="button" id="m5-lang-en" onclick="m5SetLang('en')">EN</button><button type="button" id="m5-lang-es" onclick="m5SetLang('es')">ES</button></div></div><div class="navitem m5-logout" onclick="logout()"><span class="ic"></span> Log out</div></div>
   </aside>
   <main>
     <div class="topbar"><div class="crumb" id="crumb">Dashboard</div>
@@ -1305,6 +1312,16 @@ function doLogin(){
       try{ if(match.code) store.data.refCode=match.code; }catch(e){}
       try{ store.data.hasNPN = (match.licensed ? !!match.hasNPN : false); }catch(e){}
       try{ store.data.admin = (match.admin===true); }catch(e){}
+      /* The record sets the default only when this device has never chosen.
+         An agent who deliberately toggled keeps their choice. Harmless until
+         the Apps Script lookup starts returning match.lang. */
+      try{
+        if(match.lang==='es'||match.lang==='en'){
+          var had=null; try{ had=localStorage.getItem('m5.lang'); }catch(e){}
+          if(!had){ try{ localStorage.setItem('m5.lang',match.lang); }catch(e){}
+                    if(match.lang!==M5_LANG) location.reload(); }
+        }
+      }catch(e){}
       go(match.licensed?'lic':'pre', match.first||first, match.last||last, match.email);
       return;
     }
@@ -4511,11 +4528,24 @@ function m5PairRows(rows){return rows.map(function(r){
 /* ---- Personal recruiting link (ref code comes from login lookup) ---- */
 window.m5MyRefCode=function(){ return (typeof store!=='undefined'&&store.data&&store.data.refCode)||''; }
 window.m5MyRegLink=function(){ var c=m5MyRefCode(); return 'https://portal.ffloptimum.com/register.html'+(c?('?ref='+c):''); }
+/* A recruiter knows who she is texting. A Spanish send should open in
+   Spanish rather than depending on the recruit finding a button. */
+window.m5MyRegLinkEs=function(){ var l=m5MyRegLink(); return l+(l.indexOf('?')>=0?'&':'?')+'lang=es'; }
+window.m5CopyMyLinkEs=function(btn){
+  var v=m5MyRegLinkEs();
+  try{ navigator.clipboard.writeText(v); }catch(e){
+    try{ var ta=document.createElement('textarea'); ta.value=v;
+         ta.style.cssText='position:fixed;left:-9999px'; document.body.appendChild(ta);
+         ta.select(); document.execCommand('copy'); ta.remove(); }catch(e2){}
+  }
+  if(btn){ var o=btn.textContent; btn.textContent='Copied \u2713';
+           setTimeout(function(){ btn.textContent=o; },1500); }
+}
 window.m5CopyMyLink=function(btn){ var i=document.getElementById('m5-reglink'); if(!i)return; try{ i.select(); }catch(e){} try{ navigator.clipboard.writeText(i.value); }catch(e){} if(btn){ var o=btn.textContent; btn.textContent='Copied ✓'; setTimeout(function(){ btn.textContent=o; }, 1500); } }
 window.m5RecruitLinkCard=function(){
   var link=m5MyRegLink(), code=m5MyRefCode();
   var body = code
-    ? '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><input id="m5-reglink" readonly value="'+link+'" onclick="this.select()" style="flex:1;min-width:210px;font-size:13px;padding:10px 12px;border:1px solid #dbe3f0;border-radius:9px;background:#f7f9fc;color:#16233f;font-family:inherit"><button onclick="m5CopyMyLink(this)" style="background:#16233f;color:#fff;border:0;border-radius:9px;padding:10px 18px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap">Copy link</button></div>'
+    ? '<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><input id="m5-reglink" readonly value="'+link+'" onclick="this.select()" style="flex:1;min-width:210px;font-size:13px;padding:10px 12px;border:1px solid #dbe3f0;border-radius:9px;background:#f7f9fc;color:#16233f;font-family:inherit"><button onclick="m5CopyMyLink(this)" style="background:#16233f;color:#fff;border:0;border-radius:9px;padding:10px 18px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap">Copy link</button><button onclick="m5CopyMyLinkEs(this)" title="Opens the registration form in Spanish" style="background:#fff;color:#16233f;border:1.5px solid #c9a227;border-radius:9px;padding:9px 15px;font-weight:700;font-size:13px;cursor:pointer;white-space:nowrap">Copy Spanish link</button></div>'
     : '<div style="font-size:12.5px;color:#8a93a9">Your link will appear here once your account syncs — log out and back in if you do not see it.</div>';
   return '<div style="background:#fff;border:1px solid #e3e8f2;border-left:4px solid #c9a227;border-radius:14px;padding:16px 18px;margin-top:14px;box-shadow:0 6px 20px rgba(20,35,63,.05)">'+
     '<div style="font-size:12px;font-weight:800;color:#a9861d;text-transform:uppercase;letter-spacing:.05em">Your personal recruiting link</div>'+
@@ -7566,6 +7596,135 @@ renderPrePath=function(){
   }
   m5GlRender(el);
 };
+</script>
+<script>
+/* ===== Spanish layer =======================================================
+   A dictionary, not a translator. Only exact strings listed in M5_ES are
+   replaced; everything else passes through untouched. That is the whole
+   design: an agent's own words, carrier underwriting verdicts, names and
+   anything not yet vetted stay English BY DEFAULT rather than by exclusion
+   rule. Adding a language cannot silently rewrite someone's own sentence.
+
+   Language resolves URL > saved > English. It rides in the URL because
+   portal.ffloptimum.com and tools.ffloptimum.com are separate origins, so
+   browser storage cannot be shared between them -- one ?lang=es link can.
+   ------------------------------------------------------------------------*/
+var M5_LANG=(function(){
+  try{
+    var q=(location.search.match(/[?&]lang=(es|en)\b/)||[])[1];
+    if(q){ try{ localStorage.setItem('m5.lang',q); }catch(e){} return q; }
+    return localStorage.getItem('m5.lang')||'en';
+  }catch(e){ return 'en'; }
+})();
+
+var M5_ES={
+/* --- sidebar / chrome --- */
+"Language":"Idioma","Log out":"Cerrar sesión","Dashboard":"Panel","Fast Start":"Inicio Rápido",
+"Academy":"Academy","Income Calculator":"Calculadora de Ingresos","Activity Planner":"Planificador de Actividad",
+"Agency Builder":"Constructor de Agencia","Sales Tools":"Herramientas de Venta","Systems/Tools":"Sistemas y Herramientas",
+"Goal Card":"Tarjeta de Metas","Leads":"Leads","Policy Comm Calc":"Calculadora de Comisiones",
+"Recruiting":"Reclutamiento","Self Development":"Desarrollo Personal","Resources":"Recursos","Health":"Salud",
+"Virtual Calls/Events":"Llamadas y Eventos Virtuales","In-Person Events":"Eventos Presenciales",
+"General Support":"Soporte General","Get Help":"Obtener Ayuda","My KPIs":"Mis KPIs","Profile":"Perfil",
+"Agency Dashboard":"Panel de Agencia","Licensed Agent":"Agente con Licencia","Unlicensed":"Sin Licencia",
+"Agent":"Agente",
+/* --- login screen --- */
+"Optimum agents":"Agentes de Optimum",
+"Log in to your portal":"Entra a tu portal",
+"Contracting, training, your team, your numbers. If you are contracted with Optimum, this is your door.":
+  "Contratación, capacitación, tu equipo, tus números. Si estás contratado con Optimum, esta es tu puerta.",
+"First name":"Nombre","Last name":"Apellido","Email":"Correo electrónico","Phone number":"Teléfono",
+"Continue →":"Continuar →",
+"No passwords. We match you by phone first, then email — so it is fine if either one changed.":
+  "Sin contraseñas. Te identificamos primero por teléfono y luego por correo — así que no hay problema si alguno cambió.",
+"or":"o",
+"Everyone else":"Para todos los demás",
+"Use the free tools":"Usa las herramientas gratuitas",
+"Not with Optimum? The portal is ours — but the tools are yours. Free, no login, whoever you write business under.":
+  "¿No estás con Optimum? El portal es nuestro — pero las herramientas son tuyas. Gratis, sin cuenta, sin importar con quién escribas tu negocio.",
+"Product Wizard":"Product Wizard",
+"Which carriers will actually take this client":"Qué aseguradoras realmente aceptan a este cliente",
+"Script Navigator":"Script Navigator",
+"Card-by-card scripts for the whole call":"Guiones tarjeta por tarjeta para toda la llamada",
+"Planning Tools":"Herramientas de Planificación",
+"Income, activity, agency and commission":"Ingresos, actividad, agencia y comisiones",
+"Cheat sheets":"Guías rápidas",
+"Objections, policy benefits, state licensing":"Objeciones, beneficios de pólizas, licencias por estado",
+"Open the free tools →":"Abrir las herramientas gratuitas →",
+"Plus a free agent website, digital business card and booking calendar.":
+  "Además, un sitio web de agente, tarjeta de presentación digital y calendario de citas — gratis.",
+"Not a Family First Life agent?":"¿No eres agente de Family First Life?",
+"We love sharing our tools either way — but a lower contract, lesser systems and subpar training cost you.":
+  "Nos encanta compartir nuestras herramientas de todos modos — pero un contrato más bajo, sistemas inferiores y capacitación deficiente te cuestan.",
+"See the honest take →":"Mira la versión honesta →",
+/* --- placeholders --- */
+"@ph:First":"Nombre","@ph:Last":"Apellido","@ph:you@email.com":"tu@correo.com",
+"@ph:(555) 123-4567":"(555) 123-4567"
+};
+
+/* Walk text nodes and translate only exact dictionary hits. Anything inside
+   [data-notr] is skipped outright -- belt and braces over the dictionary,
+   for regions that hold an agent's own words. */
+function m5Tr(root){
+  if(M5_LANG!=='es'||!root) return;
+  try{
+    var w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
+      var p=n.parentNode; if(!p) return NodeFilter.FILTER_REJECT;
+      var tag=p.nodeName; if(tag==='SCRIPT'||tag==='STYLE'||tag==='TEXTAREA') return NodeFilter.FILTER_REJECT;
+      if(p.closest&&p.closest('[data-notr]')) return NodeFilter.FILTER_REJECT;
+      return n.nodeValue&&n.nodeValue.trim()?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT;
+    }});
+    var nodes=[],n; while(n=w.nextNode()) nodes.push(n);
+    nodes.forEach(function(node){
+      var raw=node.nodeValue, key=raw.replace(/\s+/g,' ').trim(), es=M5_ES[key];
+      if(!es) return;
+      var lead=raw.match(/^\s*/)[0], tail=raw.match(/\s*$/)[0];
+      node.nodeValue=lead+es+tail;
+    });
+    var els=root.querySelectorAll?root.querySelectorAll('[placeholder],[title],[aria-label]'):[];
+    Array.prototype.forEach.call(els,function(e){
+      if(e.closest&&e.closest('[data-notr]')) return;
+      ['placeholder','title','aria-label'].forEach(function(a){
+        var v=e.getAttribute(a); if(!v) return;
+        var es=M5_ES['@ph:'+v.trim()]||M5_ES[v.trim()];
+        if(es) e.setAttribute(a,es);
+      });
+    });
+  }catch(e){}
+}
+
+function m5LangPaint(){
+  var en=document.getElementById('m5-lang-en'), es=document.getElementById('m5-lang-es');
+  if(en) en.classList.toggle('on',M5_LANG==='en');
+  if(es) es.classList.toggle('on',M5_LANG==='es');
+}
+window.m5SetLang=function(l){
+  if(l!=='es'&&l!=='en') return;
+  try{ localStorage.setItem('m5.lang',l); }catch(e){}
+  location.reload();
+};
+
+/* Translate after every render, so views built on the fly are covered. */
+(function(){
+  if(typeof render==='function'){
+    var _r=render;
+    window.render=function(v){
+      _r.apply(this,arguments);
+      m5Tr(document.getElementById('content'));
+      m5Tr(document.querySelector('aside'));
+      m5LangPaint();
+    };
+  }
+  function boot(){
+    m5Tr(document.getElementById('login'));
+    m5Tr(document.querySelector('aside'));
+    m5LangPaint();
+  }
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',boot);
+  else boot();
+  setTimeout(boot,400);
+})();
+
 </script>
 </body>
 </html>
