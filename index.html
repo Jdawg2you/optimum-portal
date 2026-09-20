@@ -4373,7 +4373,13 @@ body.m5-previewing #m5-prelic .m5-signout{visibility:hidden}
 .nr .nr-x:hover{opacity:1}
 .nr-under{color:var(--gold-deep);font-weight:700}
 .nr-fnote{font-size:12.5px;color:var(--ink-soft)}
-.nr-reopen{margin:12px 0 0;background:#eef4ff;border:1px solid #d5e2fb;color:#123a99;
+.nr-acts{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 4px}
+  .nr-act{display:inline-flex;align-items:center;gap:6px;text-decoration:none;
+    background:#fff;border:1px solid #dbe3f0;border-radius:9px;padding:8px 13px;
+    font-size:12.5px;font-weight:700;color:#16233f}
+  .nr-act:hover{border-color:#c9a227;background:#fffdf5}
+  .nr-act.off{opacity:.4;cursor:default}
+  .nr-reopen{margin:12px 0 0;background:#eef4ff;border:1px solid #d5e2fb;color:#123a99;
   border-radius:10px;padding:9px 12px;font-size:12.8px;font-weight:700}
 .nr-shut{margin-top:14px}
 .nr-shuth{font-size:11px;font-weight:900;letter-spacing:.7px;text-transform:uppercase;color:#98a2b6;margin:0 0 8px 2px}
@@ -6922,14 +6928,28 @@ function m5RcCard(m,idx){
      hunting through a card for a difference we already know we cannot name — and it is
      what every card reopened before this existed would otherwise say forever. The card
      coming back to the top is signal enough on its own. */
-  if(m.reopened&&m.why){ h+='<div class="nr-reopen">↩︎ Reopened — '+m.why+' since you collapsed this.</div>'; }
+  if(m.reopened&&m.why){ h+='<div class="nr-reopen">↩︎ Reopened &mdash; '+String(m.why||'').replace(/[.\s]+$/,'')+' since you collapsed this.</div>'; }
   if(warn&&m.pace.why){
     h+='<div class="nr-alert">⚠️ '+m5RcEsc(m.pace.why)+' A call now is worth more than one next week.'
       +m5RcMsgBlock('nrq'+idx,'quiet',n,'View &amp; copy message',m.days)+'</div>';
   } else if(m.pace.s==='slip'&&m.pace.why){
     h+='<div class="nr-alert" style="background:var(--nrab);border-color:#f0e0bd;color:#7a5a10">⏳ '+m5RcEsc(m.pace.why)+'</div>';
   }
-  h+='<div class="nr-prog"><div class="nr-bar"><i style="width:'+pct+'%"></i></div><span class="nr-pct">'+m.done+' of '+m.steps.length+'</span></div>';
+  /* The card told a recruiter to call someone and gave them no way to do
+   it. Same three actions as the agent card, from the same roster fields. */
+var _rcEm=(a.email||'').trim(), _rcPh=((a.phone||'')+'').replace(/[^0-9+]/g,'');
+if(_rcEm||_rcPh){
+  var _rcAct=function(href,ic,lbl,on){
+    return on ? '<a class="nr-act" href="'+href+'">'+ic+' '+lbl+'</a>'
+              : '<span class="nr-act off">'+ic+' '+lbl+'</span>';
+  };
+  h+='<div class="nr-acts">'
+    + _rcAct('mailto:'+_rcEm,'\u2709\ufe0f','Email',!!_rcEm)
+    + _rcAct('sms:'+_rcPh,'\ud83d\udcac','Text',!!_rcPh)
+    + _rcAct('tel:'+_rcPh,'\ud83d\udcde','Call',!!_rcPh)
+    + '</div>';
+}
+h+='<div class="nr-prog"><div class="nr-bar"><i style="width:'+pct+'%"></i></div><span class="nr-pct">'+m.done+' of '+m.steps.length+'</span></div>';
   h+='<ul class="nr-steps">';
   for(var i=0;i<m.steps.length;i++){
     var s=m.steps[i];
