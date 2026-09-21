@@ -4394,6 +4394,31 @@ body.m5-previewing #m5-prelic .m5-signout{visibility:hidden}
 .agd-l{flex:0 0 64px;opacity:.6}
 .agd-v{flex:1 1 auto;min-width:0;overflow-wrap:anywhere}
 .agd-m{opacity:.5;font-style:italic}
+.nr-hcbtn{margin-top:7px;font:inherit;font-size:12.5px;font-weight:700;color:#16233f;background:#fff7e3;border:1px solid #f1d58c;border-radius:8px;padding:6px 11px;cursor:pointer}
+.m5hc-ov{position:fixed;inset:0;background:rgba(10,20,40,.55);z-index:10000;display:flex;align-items:flex-start;justify-content:center;padding:28px 16px;overflow-y:auto}
+.m5hc{background:#fff;border-radius:18px;width:100%;max-width:520px;box-shadow:0 22px 60px rgba(10,20,40,.35);overflow:hidden;color:#16233f;margin:auto 0}
+.m5hc-h{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;background:linear-gradient(120deg,#16233f,#1f3157);color:#fff;padding:18px 20px}
+.m5hc-k{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#f2c661}
+.m5hc-tt{font-size:18px;font-weight:800;line-height:1.25;margin-top:3px}
+.m5hc-x{flex:0 0 auto;background:rgba(255,255,255,.12);border:0;color:#fff;border-radius:9px;width:32px;height:32px;cursor:pointer;font-size:14px}
+.m5hc-b{padding:16px 20px 6px}
+.m5hc-go{display:block;text-align:center;background:#c9971f;color:#16233f;font-weight:800;text-decoration:none;border-radius:11px;padding:12px;font-size:14.5px}
+.m5hc-go:hover{background:#d8a82e}
+.m5hc-sec{font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#6b7690;margin:16px 0 6px}
+.m5hc-ol{margin:0;padding-left:22px;font-size:14px;line-height:1.55}
+.m5hc-ol li{padding:2px 0}
+.m5hc-info{border:1px solid #eaeff7;background:#f7f9fc;border-radius:11px;padding:4px 12px}
+.m5hc-r{display:grid;grid-template-columns:104px 1fr auto;gap:8px;align-items:center;padding:7px 0;border-top:1px solid #edf1f7;font-size:13.5px}
+.m5hc-r:first-child{border-top:0}
+.m5hc-l{color:#6b7690}
+.m5hc-v{min-width:0;overflow-wrap:anywhere}
+.m5hc-m{color:#98a1b3;font-style:italic}
+.m5hc-cp{font:inherit;font-size:11.5px;border:1px solid #d6dce8;background:#fff;border-radius:6px;padding:3px 9px;cursor:pointer}
+.m5hc-fine{font-size:12.5px;color:#6b7690;margin:10px 0 4px}
+.m5hc-f{display:flex;gap:10px;justify-content:flex-end;padding:14px 20px 18px;flex-wrap:wrap}
+.m5hc-no{font:inherit;font-weight:700;background:#fff;border:1px solid #d6dce8;border-radius:10px;padding:10px 16px;cursor:pointer;color:#16233f}
+.m5hc-yes{font:inherit;font-weight:800;background:#1f7a4d;color:#fff;border:0;border-radius:10px;padding:10px 16px;cursor:pointer}
+@media(max-width:520px){.m5hc-r{grid-template-columns:1fr auto}.m5hc-l{grid-column:1/-1;font-size:12px}.m5hc-f>button{flex:1 1 auto}}
 .nr-acts{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 4px}
   .nr-act{display:inline-flex;align-items:center;gap:6px;text-decoration:none;
     background:#fff;border:1px solid #dbe3f0;border-radius:9px;padding:8px 13px;
@@ -6819,6 +6844,11 @@ function m5RcSteps(a,days,c){
     var just=(c.lic0===0);
     S.push({k:'s1',you:true,done:!!c.s1,t:'Confirm first steps with '+n+' within 24 hours',
       d:just?'They can produce now — everything shifts to Fast Start and contracting.':'They can produce right away, so speed is everything. Get them pointed at Fast Start today.',msg:just?'n1':'l1'});
+    /* Their contracting cannot start until the recruiter adds them on FFL National's
+       system (HCMS). Only the recruiter can do it, so it is a "you" box -- and ticking it
+       opens the steps rather than just flipping a checkmark. */
+    S.push({k:'hc',you:true,hcms:true,done:!!c.hc,t:'Enroll '+n+' on the Family First Life system (HCMS)',
+      d:'Add them as a new licensed agent on FFL National so their contracting can start. Tap the box for the steps and their info.'});
     S.push({k:'s2',you:false,done:!!st.c_nlc,t:n+' has submitted their contracting',
       d:'Not all of Fast Start — just the piece that unlocks everything else.',
       msg:(days>=14&&!st.c_nlc)?'l3':''});
@@ -6961,6 +6991,68 @@ window.m5RcExpand=function(em){
 window.m5RcToggle=function(em,k){
   var c=m5RcFor(em); c[k]=c[k]?false:(new Date()).toISOString(); m5RcSave(); m5RcRepaint();
 };
+/* ---- FFL National (HCMS) enrollment popup, opened from a licensed recruit's card ---- */
+window.m5HcOpen=function(em){
+  var A=(typeof m5Ag!=='undefined'&&m5Ag.agents)?m5Ag.agents:[], a=null;
+  for(var i=0;i<A.length;i++){ if(String(A[i].email||'').trim().toLowerCase()===em){ a=A[i]; break; } }
+  a=a||{email:em};
+  var E=m5RcEsc, n=m5RcFirst(a);
+  var me=[(store.data&&store.data.first)||'',(store.data&&store.data.last)||''].join(' ').trim();
+  var d=String(a.phone||'').replace(/\D/g,''); if(d.length===11&&d[0]==='1') d=d.slice(1);
+  var ph=d.length===10?'('+d.slice(0,3)+') '+d.slice(3,6)+'-'+d.slice(6):String(a.phone||'').trim();
+  var city=[a.city,[a.state,a.zip].filter(Boolean).join(' ')].filter(Boolean).join(', ');
+  var addr=[a.addr,city].filter(Boolean).join(', ');
+  window.__hcv={name:String(a.name||''),phone:ph,email:String(a.email||''),addr:addr,npn:String(a.npn||'')};
+  var row=function(l,k,miss){
+    var v=__hcv[k];
+    return '<div class="m5hc-r"><div class="m5hc-l">'+l+'</div><div class="m5hc-v">'+(v?E(v):'<span class="m5hc-m">'+miss+'</span>')+'</div>'+
+      (v?'<button type="button" class="m5hc-cp" onclick="m5HcCopy(this,\''+k+'\')">Copy</button>':'<span></span>')+'</div>';
+  };
+  var steps=[
+    'Click <b>Add New Hire</b>',
+    'Password: <b>4321</b>',
+    'Select <b>\u201cClick Here To Add A New Licensed Agent\u201d</b>',
+    'Agency: <b>FFL Optimum Financial Solutions</b>',
+    'Compensation rate for all starting agents: <b>80%</b>',
+    'Upline: <b>you</b>'+(me?' ('+E(me)+')':''),
+    'Recruiter: <b>\u201cAgent\u201d</b>',
+    'Lead Source: usually <b>\u201cWarm Market\u201d</b>'
+  ];
+  var h='<div class="m5hc-ov" id="m5hc" onclick="if(event.target===this)m5HcClose()"><div class="m5hc" role="dialog" aria-label="Enroll on Family First Life">'+
+    '<div class="m5hc-h"><div><div class="m5hc-k">Recruiter step</div><div class="m5hc-tt">Enroll '+E(n)+' on the Family First Life system</div></div>'+
+      '<button type="button" class="m5hc-x" onclick="m5HcClose()" aria-label="Close">\u2715</button></div>'+
+    '<div class="m5hc-b">'+
+      '<a class="m5hc-go" href="https://www.fflgetcontracted.com/Main-forms" target="_blank" rel="noopener">Open the FFL National Join page \u2197</a>'+
+      '<div class="m5hc-sec">Then follow these steps</div>'+
+      '<ol class="m5hc-ol">'+steps.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ol>'+
+      '<div class="m5hc-sec">Have their info ready</div>'+
+      '<div class="m5hc-info">'+
+        row('Name','name','Not on file')+
+        row('Phone','phone','Not on file')+
+        row('Email','email','Not on file')+
+        row('Mailing address','addr', a.addrHidden?'Ask an admin':'Not on file \u2014 ask '+E(n))+
+        row('NPN','npn','Not on file \u2014 ask '+E(n))+
+      '</div>'+
+      '<p class="m5hc-fine">Use their proper legal name. Since they\u2019re licensed, the NPN is required.</p>'+
+    '</div>'+
+    '<div class="m5hc-f"><button type="button" class="m5hc-no" onclick="m5HcClose()">Not yet</button>'+
+      '<button type="button" class="m5hc-yes" onclick="m5HcDone(\''+E(em).replace(/'/g,"\\'")+'\')">\u2713 Yes, I enrolled '+E(n)+'</button></div>'+
+  '</div></div>';
+  m5HcClose();
+  document.body.insertAdjacentHTML('beforeend',h);
+};
+window.m5HcClose=function(){ var o=document.getElementById('m5hc'); if(o) o.remove(); };
+window.m5HcDone=function(em){
+  var c=m5RcFor(em); c.hc=(new Date()).toISOString(); m5RcSave(); m5HcClose(); m5RcRepaint();
+  if(typeof toast==='function') toast('Nice \u2014 marked as enrolled.');
+};
+window.m5HcCopy=function(btn,k){
+  var t=(window.__hcv||{})[k]||''; if(!t) return;
+  var done=function(){ btn.textContent='Copied'; setTimeout(function(){ btn.textContent='Copy'; },1400); };
+  try{ navigator.clipboard.writeText(t).then(done,fb); }catch(_){ fb(); }
+  function fb(){ var ta=document.createElement('textarea'); ta.value=t; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); done(); }catch(_){} ta.remove(); }
+};
 window.m5RcAsk=function(em){ m5RcFor(em)._ask=1; m5RcRepaint(); };
 window.m5RcKeep=function(em){ delete m5RcFor(em)._ask; m5RcRepaint(); };
 window.m5RcKill=function(em){ var c=m5RcFor(em); delete c._ask; c.dismissed=(new Date()).toISOString(); m5RcSave(); m5RcRepaint(); };
@@ -7095,11 +7187,12 @@ h+='<div class="nr-prog"><div class="nr-bar"><i style="width:'+pct+'%"></i></div
   for(var i=0;i<m.steps.length;i++){
     var s=m.steps[i];
     var box=s.you
-      ? '<button class="nr-box'+(s.done?' on':'')+'" onclick="m5RcToggle(\''+m.em+'\',\''+s.k+'\')" aria-label="toggle"></button>'
+      ? '<button class="nr-box'+(s.done?' on':'')+'" onclick="'+((s.hcms&&!s.done)?'m5HcOpen':'m5RcToggle')+'(\''+m.em+'\',\''+s.k+'\')" aria-label="toggle"></button>'
       : '<span class="nr-box auto'+(s.done?' on':'')+'" title="Ticks itself from '+m5RcEsc(n)+'’s own activity"></span>';
     var tag=s.you?'':(s.done?'<span class="nr-tag ok">auto ✓</span>':'<span class="nr-tag wait">waiting on '+m5RcEsc(n)+'</span>');
     h+='<li class="nr-step'+(s.done?' done':'')+'">'+box+'<div class="nr-body"><div class="nr-t">'+m5RcEsc(s.t)+tag+'</div>'
       +'<div class="nr-d">'+m5RcEsc(s.d)+'</div>'
+      +(s.hcms?'<button type="button" class="nr-hcbtn" onclick="m5HcOpen(\''+m.em+'\')">'+(s.done?'View the enrollment steps':'Show me how \u2192')+'</button>':'')
       +(s.msg?m5RcMsgBlock('nrm'+idx+'-'+i,s.msg,n,'View &amp; copy message',m.days):'')+'</div></li>';
   }
   h+='</ul>';
