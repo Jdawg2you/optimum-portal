@@ -4373,6 +4373,14 @@ body.m5-previewing #m5-prelic .m5-signout{visibility:hidden}
 .nr .nr-x:hover{opacity:1}
 .nr-under{color:var(--gold-deep);font-weight:700}
 .nr-fnote{font-size:12.5px;color:var(--ink-soft)}
+.agd{margin:12px 0 12px;border:1px solid #eaeff7;border-radius:11px;padding:10px 12px;background:#f7f9fc;color:#16233f}
+.agd-h{display:flex;align-items:center;justify-content:space-between;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;opacity:.7;margin-bottom:6px}
+.agd-cp{font:inherit;font-size:11px;text-transform:none;letter-spacing:0;border:1px solid rgba(0,0,0,.15);background:#fff;border-radius:6px;padding:3px 10px;cursor:pointer}
+.agd-r{display:flex;gap:10px;padding:5px 0;border-top:1px solid rgba(0,0,0,.05);font-size:13px;line-height:1.35}
+.agd-r:first-of-type{border-top:0}
+.agd-l{flex:0 0 64px;opacity:.6}
+.agd-v{flex:1 1 auto;min-width:0;overflow-wrap:anywhere}
+.agd-m{opacity:.5;font-style:italic}
 .nr-acts{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 4px}
   .nr-act{display:inline-flex;align-items:center;gap:6px;text-decoration:none;
     background:#fff;border:1px solid #dbe3f0;border-radius:9px;padding:8px 13px;
@@ -5964,6 +5972,45 @@ function m5AgExamLabel(iso){
     return '<b>'+when+'</b> &mdash; was '+Math.abs(days)+' days ago';
   }catch(e){ return String(iso); }
 }
+/* Agent details -- the contact facts captured at registration, as a list you
+   can read off or copy. Address and NPN only show once the roster sends them
+   (Apps Script change). Deliberately NOT shown here: DOB, emergency contact,
+   license photo, signature, commission level. */
+function m5AgDetails(a){
+  var e=function(v){ return m5AgEsc(v==null?'':String(v)); };
+  var has=function(f){ return Object.prototype.hasOwnProperty.call(a,f); };
+  var pick=function(){ for(var i=0;i<arguments.length;i++){ var v=a[arguments[i]]; if(v!=null&&String(v).trim()) return String(v).trim(); } return ''; };
+  var nm=pick('name') || [pick('first'),pick('last')].join(' ').trim();
+  var street=pick('addr','address','homeAddress'), city=pick('city'), st=pick('state'), zip=pick('zip');
+  var cityLine=[city, [st,zip].filter(Boolean).join(' ')].filter(Boolean).join(', ');
+  var addrSent=has('addr')||has('address')||has('homeAddress')||has('city');
+  var d=String(a.phone||'').replace(/\D/g,''); if(d.length===11&&d[0]==='1') d=d.slice(1);
+  var ph=d.length===10? '('+d.slice(0,3)+') '+d.slice(3,6)+'-'+d.slice(6) : String(a.phone||'').trim();
+  var em=String(a.email||'').trim();
+  var npn=pick('npn');
+  var npnMsg= npn? '' : (!a.licensed? 'Once they’re licensed' : (has('npn')? 'Not entered yet' : (a.npnOn? 'On file — not sent to the portal yet' : 'Not entered yet')));
+  var miss=function(t){ return '<span class="agd-m">'+t+'</span>'; };
+  var row=function(l,v){ return '<div class="agd-r"><div class="agd-l">'+l+'</div><div class="agd-v">'+v+'</div></div>'; };
+  var addrHtml= (street||cityLine)? e(street)+(street&&cityLine?'<br>':'')+e(cityLine) : miss(addrSent?'Not on their registration':'Not sent to the portal yet');
+  var copy=[nm, street, cityLine, ph, em, npn?('NPN '+npn):''].filter(Boolean).join('\n');
+  window.__agdCopy=copy;
+  return '<div class="agd">'+
+    '<div class="agd-h"><span>Agent details</span>'+
+      '<button type="button" class="agd-cp" onclick="m5AgdCopy(this)">Copy</button></div>'+
+    row('Name', nm? e(nm) : miss('—'))+
+    row('Address', addrHtml)+
+    row('Phone', ph? e(ph) : miss('Not on file'))+
+    row('Email', em? e(em) : miss('Not on file'))+
+    row('NPN', npn? e(npn) : miss(npnMsg))+
+  '</div>';
+}
+window.m5AgdCopy=function(btn){
+  var t=window.__agdCopy||''; if(!t) return;
+  var done=function(){ btn.textContent='Copied'; setTimeout(function(){ btn.textContent='Copy'; },1500); };
+  try{ navigator.clipboard.writeText(t).then(done,function(){ fb(); }); }catch(_){ fb(); }
+  function fb(){ var ta=document.createElement('textarea'); ta.value=t; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); done(); }catch(_){} ta.remove(); }
+};
 function m5AgCard(k){
   var a=m5AgFind(k); if(!a) return;
   m5CoachFlush();
@@ -6016,6 +6063,7 @@ function m5AgCard(k){
           act(phone?('sms:'+phone):'',    '\ud83d\udcac','Text', !!phone)+
           act(phone?('tel:'+phone):'',    '\ud83d\udcde','Call', !!phone)+
         '</div>'+
+        m5AgDetails(a)+
         '<div class="agm-grid">'+
           fact('Joined', m5AgDate(a.joined))+
           fact('Last active', a.lastLogin? m5AgAgo(a.lastLogin) : 'Never logged in')+
