@@ -7000,12 +7000,15 @@ window.m5HcOpen=function(em){
   var me=[(store.data&&store.data.first)||'',(store.data&&store.data.last)||''].join(' ').trim();
   var d=String(a.phone||'').replace(/\D/g,''); if(d.length===11&&d[0]==='1') d=d.slice(1);
   var ph=d.length===10?'('+d.slice(0,3)+') '+d.slice(3,6)+'-'+d.slice(6):String(a.phone||'').trim();
-  var city=[a.city,[a.state,a.zip].filter(Boolean).join(' ')].filter(Boolean).join(', ');
-  var addr=[a.addr,city].filter(Boolean).join(', ');
-  window.__hcv={name:String(a.name||''),phone:ph,email:String(a.email||''),addr:addr,npn:String(a.npn||'')};
-  var row=function(l,k,miss){
+  /* Same order as FFL's "Add Licensed Agent In Contracting" form, one copy per field. */
+  var parts=String(a.name||'').trim().split(/\s+/);
+  var fn=String(a.fname||'').trim()||parts[0]||'', ln=String(a.lname||'').trim()||(parts.length>1?parts.slice(1).join(' '):'');
+  window.__hcv={first:fn,last:ln,dob:String(a.dob||''),phone:d.length===10?d:ph,email:String(a.email||''),
+    addr:String(a.addr||''),city:String(a.city||''),state:String(a.state||''),zip:String(a.zip||''),npn:String(a.npn||'')};
+  var hid=!!a.addrHidden, ask='Not on file \u2014 ask '+E(n);
+  var row=function(l,k,miss,show){
     var v=__hcv[k];
-    return '<div class="m5hc-r"><div class="m5hc-l">'+l+'</div><div class="m5hc-v">'+(v?E(v):'<span class="m5hc-m">'+miss+'</span>')+'</div>'+
+    return '<div class="m5hc-r"><div class="m5hc-l">'+l+'</div><div class="m5hc-v">'+(v?E(show||v):'<span class="m5hc-m">'+miss+'</span>')+'</div>'+
       (v?'<button type="button" class="m5hc-cp" onclick="m5HcCopy(this,\''+k+'\')">Copy</button>':'<span></span>')+'</div>';
   };
   var steps=[
@@ -7027,13 +7030,19 @@ window.m5HcOpen=function(em){
       '<ol class="m5hc-ol">'+steps.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ol>'+
       '<div class="m5hc-sec">Have their info ready</div>'+
       '<div class="m5hc-info">'+
-        row('Name','name','Not on file')+
-        row('Phone','phone','Not on file')+
-        row('Email','email','Not on file')+
-        row('Mailing address','addr', a.addrHidden?'Ask an admin':'Not on file \u2014 ask '+E(n))+
-        row('NPN','npn','Not on file \u2014 ask '+E(n))+
+        row('First name','first',ask)+
+        '<div class="m5hc-r"><div class="m5hc-l">Middle name</div><div class="m5hc-v"><span class="m5hc-m">Ask '+E(n)+' \u2014 put N/A if none</span></div><span></span></div>'+
+        row('Last name','last',ask)+
+        row('Date of birth','dob',hid?'Admins and their recruiter only':ask)+
+        row('Phone','phone',ask,ph)+
+        row('Email','email',ask)+
+        row('Address','addr',hid?'Admins and their recruiter only':ask)+
+        row('City','city',hid?'\u2014':ask)+
+        row('State','state',hid?'\u2014':ask)+
+        row('Postal code','zip',hid?'\u2014':ask)+
+        row('NPN ID','npn',ask)+
       '</div>'+
-      '<p class="m5hc-fine">Use their proper legal name. Since they\u2019re licensed, the NPN is required.</p>'+
+      '<p class="m5hc-fine">Use their proper legal name. Salutation is Mr., Ms. or Mrs. Since they\u2019re licensed, the NPN is required.</p>'+
     '</div>'+
     '<div class="m5hc-f"><button type="button" class="m5hc-no" onclick="m5HcClose()">Not yet</button>'+
       '<button type="button" class="m5hc-yes" onclick="m5HcDone(\''+E(em).replace(/'/g,"\\'")+'\')">\u2713 Yes, I enrolled '+E(n)+'</button></div>'+
