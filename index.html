@@ -7031,7 +7031,6 @@ window.m5HcOpen=function(em){
       '<div class="m5hc-sec">Have their info ready</div>'+
       '<div class="m5hc-info">'+
         row('First name','first',ask)+
-        '<div class="m5hc-r"><div class="m5hc-l">Middle name</div><div class="m5hc-v"><span class="m5hc-m">Ask '+E(n)+' \u2014 put N/A if none</span></div><span></span></div>'+
         row('Last name','last',ask)+
         row('Date of birth','dob',hid?'Admins and their recruiter only':ask)+
         row('Phone','phone',ask,ph)+
@@ -7040,7 +7039,7 @@ window.m5HcOpen=function(em){
         row('City','city',hid?'\u2014':ask)+
         row('State','state',hid?'\u2014':ask)+
         row('Postal code','zip',hid?'\u2014':ask)+
-        row('NPN ID','npn',ask)+
+        row('NPN ID','npn','Not entered yet \u2014 ask '+E(n)+' for it. When they enter it in their portal it shows up here.')+
       '</div>'+
       '<p class="m5hc-fine">Use their proper legal name. Salutation is Mr., Ms. or Mrs. Since they\u2019re licensed, the NPN is required.</p>'+
     '</div>'+
