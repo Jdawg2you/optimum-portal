@@ -2043,6 +2043,7 @@ function m5Dash(){
   var topWidgets = fsStarted ? ('<div class="m5-tworow">'+m5DashCalls()+m5DashFocus()+'</div>') : '';
   return '<h1 class="page"><span class="m5-hi" data-ico="wave"></span>Welcome, '+ (store.data.first||'there') +'!</h1>'+
     '<p class="sub">You\'re licensed and ready to write business. Watch your welcome, then keep your momentum going.</p>'+
+    (typeof m5BdBanner==='function'?m5BdBanner():'')+
     (typeof m5NpnBanner==='function'?m5NpnBanner():'')+
     (typeof m5RcRender==='function'?m5RcRender():'')+
     topWidgets+
@@ -4373,6 +4374,18 @@ body.m5-previewing #m5-prelic .m5-signout{visibility:hidden}
 .nr .nr-x:hover{opacity:1}
 .nr-under{color:var(--gold-deep);font-weight:700}
 .nr-fnote{font-size:12.5px;color:var(--ink-soft)}
+.m5-bd{display:flex;gap:14px;align-items:center;background:linear-gradient(120deg,#fff7e3,#fdeecb);border:1px solid #f1d58c;border-radius:16px;padding:14px 18px;margin:0 0 14px;color:#16233f}
+.m5-bd-ic{font-size:30px;line-height:1;flex:0 0 auto}
+.m5-bd-t{min-width:0;flex:1 1 auto}
+.m5-bd-k{font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#a0761a;margin-bottom:2px}
+.m5-bd-n,.m5-bd-me{font-size:16px;font-weight:700;line-height:1.35}
+.m5-bd-me{margin-bottom:2px}
+.m5-bd-nm{font:inherit;font-weight:800;color:#16233f;background:none;border:0;padding:0;cursor:pointer;text-decoration:underline;text-decoration-color:#c9971f;text-decoration-thickness:2px;text-underline-offset:3px}
+.m5-bd-nm:hover{color:#a0761a}
+.m5-bd-pl{font-weight:800}
+.m5-bd-s{font-size:12.5px;color:#6b5a2e;margin-top:3px}
+.agd-bdt{font-size:11px;font-weight:700;color:#a0761a;margin-left:6px}
+.agd-bdbtn{display:block;width:100%;margin-top:8px;font:inherit;font-size:13px;font-weight:700;color:#16233f;background:#fff7e3;border:1px solid #f1d58c;border-radius:9px;padding:8px 10px;cursor:pointer}
 .agd{margin:12px 0 12px;border:1px solid #eaeff7;border-radius:11px;padding:10px 12px;background:#f7f9fc;color:#16233f}
 .agd-h{display:flex;align-items:center;justify-content:space-between;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;opacity:.7;margin-bottom:6px}
 .agd-cp{font:inherit;font-size:11px;text-transform:none;letter-spacing:0;border:1px solid rgba(0,0,0,.15);background:#fff;border-radius:6px;padding:3px 10px;cursor:pointer}
@@ -5972,6 +5985,80 @@ function m5AgExamLabel(iso){
     return '<b>'+when+'</b> &mdash; was '+Math.abs(days)+' days ago';
   }catch(e){ return String(iso); }
 }
+/* ---------- Birthdays banner ----------
+   The backend's 'birthdays' action returns agency-wide birthdays for yesterday/
+   today/tomorrow (server time) -- name + month-day only, never the year. We pick
+   today's by the viewer's own clock. A "key" comes back only for people in the
+   viewer's downline; those names open the agent card, everyone else is plain text. */
+window.m5Bd={list:null,day:'',busy:false};
+function m5BdMD(d){ d=d||new Date(); return ('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }
+function m5BdIsToday(md){
+  var t=new Date(), today=m5BdMD(t);
+  if(md===today) return true;
+  var y=t.getFullYear(), leap=(y%4===0&&y%100!==0)||y%400===0;
+  return md==='02-29' && !leap && today==='02-28';
+}
+function m5BdFetch(){
+  var day=m5BdMD();
+  if(m5Bd.busy || m5Bd.day===day) return;
+  try{ var c=JSON.parse(localStorage.getItem('m5.bd')||'null'); if(c&&c.day===day&&c.who===(store.data.email||'')){ m5Bd.list=c.list; m5Bd.day=day; return; } }catch(e){}
+  if(typeof BACKEND_URL==='undefined'||!BACKEND_URL) return;
+  var email=((store.data&&store.data.email)||'').trim().toLowerCase(), phone=(store.data&&store.data.phone)||'';
+  if(!email&&!phone) return;
+  m5Bd.busy=true;
+  fetch(BACKEND_URL,{method:'POST',body:JSON.stringify({action:'birthdays',email:email,phone:phone})})
+    .then(function(r){return r.json();})
+    .then(function(j){
+      m5Bd.busy=false;
+      if(!j||!j.ok) return;
+      m5Bd.list=j.birthdays||[]; m5Bd.day=day;
+      try{ localStorage.setItem('m5.bd',JSON.stringify({day:day,who:(store.data.email||''),list:m5Bd.list})); }catch(e){}
+      if(m5BdTodayList().length && typeof currentView==='function' && currentView()==='dashboard' && typeof render==='function') render('dashboard');
+    })
+    .catch(function(){ m5Bd.busy=false; });
+}
+function m5BdTodayList(){ return (m5Bd.list||[]).filter(function(b){ return m5BdIsToday(b.md); }); }
+function m5BdBanner(){
+  m5BdFetch();
+  var L=m5BdTodayList(); if(!L.length) return '';
+  var esc=function(v){ return m5AgEsc(v==null?'':String(v)); };
+  var me=L.filter(function(b){return b.me;})[0], others=L.filter(function(b){return !b.me;});
+  var anyKey=false;
+  var nm=others.map(function(b){
+    if(b.key){ anyKey=true;
+      return '<button type="button" class="m5-bd-nm" onclick="m5BdOpen(\''+String(b.key).replace(/\\/g,'\\\\').replace(/'/g,"\\'")+'\')">'+esc(b.name)+'</button>'; }
+    return '<span class="m5-bd-pl">'+esc(b.name)+'</span>';
+  });
+  var joined= nm.length<=1? nm.join('') : nm.slice(0,-1).join(', ')+' and '+nm[nm.length-1];
+  var first=esc((store.data&&store.data.first)||'');
+  var mine= me? '<div class="m5-bd-me">Happy birthday'+(first?', '+first:'')+'! \ud83c\udf89 The whole agency is celebrating you today.</div>' : '';
+  var line= others.length? '<div class="m5-bd-n">Happy birthday to '+joined+'!</div>' : '';
+  var hint= anyKey? '<div class="m5-bd-s">Tap a name on your team to open their card and grab a birthday text.</div>' : '';
+  return '<div class="m5-bd"><div class="m5-bd-ic">\ud83c\udf82</div><div class="m5-bd-t">'+
+    '<div class="m5-bd-k">'+(L.length>1?'Birthdays today':'Birthday today')+'</div>'+mine+line+hint+'</div></div>';
+}
+window.m5BdOpen=function(k){
+  if(typeof m5AgFind==='function' && m5AgFind(k)){ m5AgCard(k); return; }
+  if(typeof toast==='function') toast('Opening their card\u2026');
+  if(!m5Ag.loaded && typeof m5AgFetch==='function') m5AgFetch(true);
+  var n=0, t=setInterval(function(){
+    n++;
+    if(m5AgFind(k)){ clearInterval(t); m5AgCard(k); return; }
+    if(n>50 || (m5Ag.loaded && n>4)){ clearInterval(t); if(typeof toast==='function') toast('Couldn\u2019t open their card \u2014 try the Agency page.'); }
+  },300);
+};
+function m5BdPretty(md){
+  var M=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var p=String(md||'').split('-'); var mo=+p[0], dy=+p[1];
+  return (mo>=1&&mo<=12&&dy)? M[mo-1]+' '+dy : '';
+}
+window.m5BdCopy=function(btn,first){
+  var t='Happy birthday, '+first+'! \ud83c\udf89 Hope today is a great one \u2014 so glad you\u2019re on this team.';
+  var done=function(){ var o=btn.textContent; btn.textContent='Copied \u2014 paste it in a text'; setTimeout(function(){ btn.textContent=o; },1800); };
+  try{ navigator.clipboard.writeText(t).then(done,fb); }catch(_){ fb(); }
+  function fb(){ var ta=document.createElement('textarea'); ta.value=t; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); done(); }catch(_){} ta.remove(); }
+};
 /* Agent details -- the contact facts captured at registration, as a list you
    can read off or copy. Address and NPN only show once the roster sends them
    (Apps Script change). Deliberately NOT shown here: DOB, emergency contact,
@@ -6004,6 +6091,10 @@ function m5AgDetails(a){
     row('Phone', ph? e(ph) : miss('Not on file'))+
     row('Email', em? e(em) : miss('Not on file'))+
     row('NPN', npn? e(npn) : miss(npnMsg))+
+    (a.bday? row('Birthday', e(m5BdPretty(a.bday))+(m5BdIsToday(a.bday)?' <span class="agd-bdt">\ud83c\udf82 Today</span>':''))
+           : (has('bday')? row('Birthday', miss('Not on their registration')) : ''))+
+    (a.bday && m5BdIsToday(a.bday)?
+      '<button type="button" class="agd-bdbtn" onclick="m5BdCopy(this,\''+e(String(nm).split(/\s+/)[0]||'friend').replace(/'/g,"\\'")+'\')">\ud83c\udf82 Copy birthday text</button>' : '')+
   '</div>';
 }
 window.m5AgdCopy=function(btn){
