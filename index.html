@@ -5993,7 +5993,7 @@ function m5AgDetails(a){
   var npnMsg= npn? '' : (!has('npn')? 'In the sheet — not sent to the portal yet' : (a.licensed? 'Not entered yet' : 'Once they’re licensed'));
   var miss=function(t){ return '<span class="agd-m">'+t+'</span>'; };
   var row=function(l,v){ return '<div class="agd-r"><div class="agd-l">'+l+'</div><div class="agd-v">'+v+'</div></div>'; };
-  var addrHtml= (street||cityLine)? e(street)+(street&&cityLine?'<br>':'')+e(cityLine) : miss(addrSent?'Not on their registration':'In the sheet — not sent to the portal yet');
+  var addrHtml= (street||cityLine)? e(street)+(street&&cityLine?'<br>':'')+e(cityLine) : miss(a.addrHidden?'Shown to admins and their recruiter':(addrSent?'Not on their registration':'In the sheet — not sent to the portal yet'));
   var copy=[nm, street, cityLine, ph, em, npn?('NPN '+npn):''].filter(Boolean).join('\n');
   window.__agdCopy=copy;
   return '<div class="agd">'+
