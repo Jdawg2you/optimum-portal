@@ -6842,8 +6842,13 @@ function m5RcSteps(a,days,c){
       d:'Two weeks is the window you set with them, so this is the moment to ask directly.',msg:'u4'});
   } else {
     var just=(c.lic0===0);
+    /* They crossed over on your watch. The congratulation is the first thing that should
+       happen, and it is the one the portal cannot do for you -- so it is its own box, and
+       the confetti keeps coming back until it is ticked. */
+    if(just) S.push({k:'cg',you:true,done:!!c.cg,t:'Congratulate '+n+' \u2014 they just passed and got licensed',
+      d:'Thirty seconds, and it is the moment they will remember. Then point them at Fast Start.',msg:'n1'});
     S.push({k:'s1',you:true,done:!!c.s1,t:'Confirm first steps with '+n+' within 24 hours',
-      d:just?'They can produce now — everything shifts to Fast Start and contracting.':'They can produce right away, so speed is everything. Get them pointed at Fast Start today.',msg:just?'n1':'l1'});
+      d:just?'They can produce now — everything shifts to Fast Start and contracting.':'They can produce right away, so speed is everything. Get them pointed at Fast Start today.',msg:just?'':'l1'});
     /* Their contracting cannot start until the recruiter adds them on FFL National's
        system (HCMS). Only the recruiter can do it, so it is a "you" box -- and ticking it
        opens the steps rather than just flipping a checkmark. */
@@ -7232,10 +7237,15 @@ window.m5RcRender=function(){
     }
     if(m5Ag.err) return '';
     var list=m5RcCards(); if(!list.length) return '';
-    /* Confetti the first time we see one of their people flip to licensed. */
+    /* Confetti for a newly licensed recruit -- and it comes back every visit until the
+       recruiter has actually congratulated them. A one-time celebration is easy to miss on
+       a phone; the point is that the win stays in their face until they act on it. Once per
+       page load, never on every repaint. */
+    if(!window.__m5BdParty) window.__m5BdParty={};
     for(var q=0;q<list.length;q++){
-      if(list[q].justLic&&!list[q].c.celebrated){
-        list[q].c.celebrated=(new Date()).toISOString(); m5RcSave();
+      if(list[q].justLic && !list[q].c.cg && !window.__m5BdParty[list[q].em]){
+        window.__m5BdParty[list[q].em]=1;
+        if(!list[q].c.celebrated){ list[q].c.celebrated=(new Date()).toISOString(); m5RcSave(); }
         try{ if(typeof m5Confetti==='function') setTimeout(m5Confetti,320); }catch(e){}
       }
     }
@@ -7643,7 +7653,18 @@ function m5GlSaveNpn(){
   if(v.length<5){ alert('That does not look like an NPN yet — it is usually 7 or 8 digits.'); return; }
   store.data.npn=v; store.data.checks=store.data.checks||{};
   store.data.checks.gl_npn=(new Date()).toISOString();
+  store.data.hasNPN=true;
   store.save();
+  /* Send it up as well. Saved only on this device it helps nobody: the recruiter needs it
+     to enroll them on FFL National, and it is what stops the portal asking again the
+     moment they cross over to the licensed side. */
+  try{
+    if(typeof BACKEND_URL!=='undefined' && BACKEND_URL){
+      var _e=((store.data&&store.data.email)||'').trim().toLowerCase(), _p=(store.data&&store.data.phone)||'';
+      if(_e||_p) fetch(BACKEND_URL,{method:'POST',body:JSON.stringify({action:'npn',email:_e,phone:_p,npn:v,
+        first:(store.data.first||''),last:(store.data.last||'')})}).catch(function(){});
+    }
+  }catch(e){}
   if(typeof m5Confetti==='function') m5Confetti();
   renderPrePath();
   /* The NPN is the last thing on the pre-licensing path. If everything else is done,
