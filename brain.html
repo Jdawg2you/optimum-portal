@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ask Optimum</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon-32.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#16233f; --navy-deep:#101f3c; --gold:#e8b73a; --gold-deep:#c9a227;
+    --paper:#f4f7fc; --card:#fff; --ink:#1a2230; --ink-soft:#5a6678; --line:#e3e8f0;
+    --dim:#9fb0cc; --green:#1a9e63; --amber:#c58a1a; --red:#c0392b;
+    --font:'Archivo',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:var(--paper);font-family:var(--font);color:var(--ink)}
+  #app{display:flex;flex-direction:column;height:100%;height:100dvh}
+
+  header{background:linear-gradient(160deg,#17294c,var(--navy-deep));color:#fff;flex:0 0 auto;
+         padding:12px 16px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 14px rgba(0,0,0,.25)}
+  .logo{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,var(--gold),var(--gold-deep));
+        display:grid;place-items:center;font-size:20px;flex:0 0 auto}
+  .ht{font-weight:800;font-size:16.5px;line-height:1.1}
+  .hs{color:var(--dim);font-size:11.5px;font-weight:600;margin-top:3px}
+  .back{margin-left:auto;color:var(--gold);font-weight:700;font-size:12.5px;text-decoration:none;
+        border:1px solid rgba(232,183,58,.45);padding:7px 12px;border-radius:999px;white-space:nowrap}
+
+  #log{flex:1 1 auto;overflow-y:auto;padding:18px 16px 8px}
+  .wrap{max-width:760px;margin:0 auto}
+  .msg{display:flex;margin:0 0 14px}
+  .msg.me{justify-content:flex-end}
+  .bubble{max-width:88%;padding:12px 15px;border-radius:16px;font-size:15px;line-height:1.5;
+          box-shadow:0 1px 2px rgba(12,28,60,.06);overflow-wrap:anywhere}
+  .me .bubble{background:var(--navy);color:#fff;border-bottom-right-radius:5px;white-space:pre-wrap}
+  .bot .bubble{background:var(--card);border:1px solid var(--line);border-bottom-left-radius:5px}
+  .bot .bubble p{margin:0 0 9px} .bot .bubble p:last-child{margin-bottom:0}
+  .bot .bubble ul,.bot .bubble ol{margin:4px 0 10px;padding-left:22px}
+  .bot .bubble li{margin:3px 0}
+  .bot .bubble a{color:#1d4ed8;font-weight:600}
+  .bot .bubble h4{margin:10px 0 5px;font-size:15px}
+  .bot .bubble blockquote{margin:6px 0;padding:6px 11px;border-left:3px solid var(--gold);background:#fbf6e6;border-radius:4px}
+
+  .src{margin-top:10px;padding-top:9px;border-top:1px dashed var(--line);font-size:12px;color:var(--ink-soft)}
+  .src b{font-weight:700;color:var(--ink)}
+  .tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px;margin-top:8px}
+  .tag.partial{background:#fbf3e0;color:#8a5d09}
+  .tag.not_covered{background:#fdecea;color:#9b2c20}
+
+  .vote{margin-top:10px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-soft)}
+  .vote button{appearance:none;border:1px solid var(--line);background:#fff;border-radius:999px;
+               font-size:20px;line-height:1;padding:5px 9px;cursor:pointer;transition:transform .08s,border-color .1s}
+  .vote button:hover{transform:scale(1.08);border-color:var(--gold)}
+  .vote button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  .vote button.on{border-color:var(--gold-deep);background:#fbf6e6}
+  .vote button:disabled{cursor:default}
+  .vote button:disabled:not(.on){opacity:.35}
+  .more{margin-top:8px;display:flex;gap:6px}
+  .more input{flex:1;min-width:0;border:1px solid var(--line);border-radius:10px;padding:9px 11px;font:inherit;font-size:13.5px}
+  .more button{appearance:none;border:0;background:var(--navy);color:#fff;font:inherit;font-weight:700;font-size:13px;
+               border-radius:10px;padding:0 13px;cursor:pointer}
+  .thanks{margin-top:8px;font-size:12.5px;color:var(--green);font-weight:600}
+
+  .welcome h2{margin:4px 0 6px;font-size:20px}
+  .welcome p{margin:0 0 10px;color:var(--ink-soft);font-size:14.5px;line-height:1.5}
+  .note{font-size:12.5px;color:var(--ink-soft);background:#eef2f9;border-radius:10px;padding:9px 12px;margin:10px 0 14px;line-height:1.45}
+  .chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px}
+  .chip{appearance:none;border:1px solid var(--line);background:#fff;color:var(--navy);font:inherit;font-weight:600;
+        font-size:13.5px;padding:9px 13px;border-radius:999px;cursor:pointer;text-align:left}
+  .chip:hover{border-color:var(--gold);background:#fffaf0}
+
+  .typing .bubble{color:var(--ink-soft);font-size:14px}
+  .dots span{display:inline-block;width:6px;height:6px;margin-right:3px;border-radius:50%;background:var(--gold-deep);
+             animation:b 1.1s infinite ease-in-out}
+  .dots span:nth-child(2){animation-delay:.15s}.dots span:nth-child(3){animation-delay:.3s}
+  @keyframes b{0%,80%,100%{opacity:.25;transform:translateY(0)}40%{opacity:1;transform:translateY(-3px)}}
+  @media (prefers-reduced-motion:reduce){.dots span{animation:none;opacity:.7}}
+
+  footer{flex:0 0 auto;background:var(--paper);border-top:1px solid var(--line);padding:10px 16px calc(12px + env(safe-area-inset-bottom))}
+  form{max-width:760px;margin:0 auto;display:flex;gap:8px;align-items:flex-end}
+  textarea{flex:1;min-width:0;resize:none;border:1px solid #cfd7e4;border-radius:14px;padding:12px 14px;font:inherit;
+           font-size:15px;line-height:1.4;max-height:140px;background:#fff;color:var(--ink)}
+  textarea:focus{outline:2px solid var(--gold);outline-offset:0;border-color:transparent}
+  #send{appearance:none;border:0;border-radius:14px;height:48px;padding:0 18px;cursor:pointer;
+        background:linear-gradient(135deg,var(--gold),var(--gold-deep));color:#2a2205;font:inherit;font-weight:800;font-size:14.5px}
+  #send:disabled{opacity:.5;cursor:default}
+  .fine{max-width:760px;margin:6px auto 0;font-size:11px;color:var(--ink-soft);text-align:center}
+
+  .gate{max-width:420px;margin:40px auto;background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px}
+  .gate h2{margin:0 0 6px;font-size:19px}
+  .gate p{margin:0 0 14px;color:var(--ink-soft);font-size:14px;line-height:1.5}
+  .gate label{display:block;font-size:12.5px;font-weight:700;margin:10px 0 5px}
+  .gate input{width:100%;border:1px solid #cfd7e4;border-radius:10px;padding:11px 12px;font:inherit;font-size:15px}
+  .gate button{margin-top:16px;width:100%;appearance:none;border:0;border-radius:11px;padding:12px;cursor:pointer;
+               background:var(--navy);color:#fff;font:inherit;font-weight:800;font-size:15px}
+  .err{color:var(--red);font-size:13px;margin-top:10px;min-height:1em}
+  .hidden{display:none!important}
+  @media (max-width:480px){ .hs{display:none} .bubble{max-width:94%} }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="logo" aria-hidden="true">🧠</div>
+    <div>
+      <div class="ht">Ask Optimum</div>
+      <div class="hs">Answers from Jesse, Shawn and our leaders · Prototype</div>
+    </div>
+    <a class="back" href="./">← Portal</a>
+  </header>
+
+  <div id="log" aria-live="polite">
+    <div class="wrap" id="thread"></div>
+  </div>
+
+  <footer id="composer" class="hidden">
+    <form id="f" autocomplete="off">
+      <label for="q" class="hidden">Your question</label>
+      <textarea id="q" rows="1" maxlength="1500" placeholder="Ask anything: scripts, leads, contracting, mindset…"></textarea>
+      <button id="send" type="submit">Ask</button>
+    </form>
+    <div class="fine">Questions and answers are reviewed to make the Brain better. Please don't type client names or personal details.</div>
+  </footer>
+</div>
+
+<script>
+/* ===== Settings ===== */
+var BRAIN_URL = 'https://script.google.com/macros/s/AKfycbx2WGRag4LkYMgQQ8N5eBjtRp309FpFWkFOX4rObVUAopYEv4SInEBqzxBF9u7Q2Zf9/exec';   // Apps Script web app URL (ends in /exec)
+
+var SUGGESTIONS = [
+  'What leads should I start with?',
+  'How do I get contracted?',
+  'Where do I find the Goal Card?',
+  "I'm struggling. What should I do?",
+  'What do I say when someone says "I need to think about it"?'
+];
+
+/* ===== State ===== */
+var me = loadMe();
+var chatHistory = [];          // [{role, content}] sent with each question for follow-ups
+var busy = false;
+var thread = document.getElementById('thread');
+var logEl = document.getElementById('log');
+var qEl = document.getElementById('q');
+var sendEl = document.getElementById('send');
+
+function loadMe(){
+  var p = {};
+  try { p = JSON.parse(localStorage.getItem('optimumPortalV2') || '{}') || {}; } catch (e) {}
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem('brain.me') || '{}') || {}; } catch (e) {}
+  return {
+    email: String(p.email || saved.email || '').trim().toLowerCase(),
+    name: [p.first, p.last].filter(Boolean).join(' ') || saved.name || '',
+    passcode: saved.passcode || ''
+  };
+}
+function saveMe(){ try { localStorage.setItem('brain.me', JSON.stringify(me)); } catch (e) {} }
+
+/* ===== Backend ===== */
+function call(payload){
+  payload.email = me.email; payload.name = me.name; payload.passcode = me.passcode;
+  return fetch(BRAIN_URL, { method: 'POST', body: JSON.stringify(payload) })
+    .then(function (r) { return r.json(); });
+}
+
+/* ===== Screens ===== */
+function showGate(msg){
+  document.getElementById('composer').classList.add('hidden');
+  thread.innerHTML =
+    '<div class="gate">' +
+      '<h2>Ask Optimum</h2>' +
+      '<p>This prototype is open to a few agents while Jesse tests it. Enter the email you use for the portal' +
+      ' and the pilot code Jesse gave you.</p>' +
+      '<label for="ge">Portal email</label><input id="ge" type="email" autocomplete="email" value="' + esc(me.email) + '">' +
+      '<label for="gc">Pilot code</label><input id="gc" type="password" autocomplete="off" value="' + esc(me.passcode) + '">' +
+      '<button id="gb" type="button">Start</button>' +
+      '<div class="err" id="gerr">' + esc(msg || '') + '</div>' +
+    '</div>';
+  var go = function () {
+    me.email = document.getElementById('ge').value.trim().toLowerCase();
+    me.passcode = document.getElementById('gc').value.trim();
+    var btn = document.getElementById('gb'); btn.disabled = true; btn.textContent = 'Checking…';
+    call({ action: 'hello' }).then(function (r) {
+      if (r && r.ok) { saveMe(); showChat(); }
+      else { btn.disabled = false; btn.textContent = 'Start';
+             document.getElementById('gerr').textContent = "That email or code isn't on the pilot list yet. Check with Jesse."; }
+    }).catch(function () { btn.disabled = false; btn.textContent = 'Start';
+      document.getElementById('gerr').textContent = "Couldn't reach the Brain. Check your connection and try again."; });
+  };
+  document.getElementById('gb').onclick = go;
+  document.getElementById('gc').onkeydown = function (e) { if (e.key === 'Enter') go(); };
+}
+
+function showChat(){
+  document.getElementById('composer').classList.remove('hidden');
+  var first = (me.name || '').split(' ')[0];
+  thread.innerHTML =
+    '<div class="welcome">' +
+      '<h2>' + (first ? 'Hey ' + esc(first) + ', what' : 'What') + ' can I help with?</h2>' +
+      '<p>Ask how to do something, where to find something, what to say on a call, or how to push through a tough week. ' +
+      'Answers come from Jesse, Shawn Meaike, our leaders\' trainings and our tools.</p>' +
+      '<div class="note">After each answer, tap 😊 😐 or 😞. That tells Jesse what to fix and what to add. ' +
+      "If I don't know something, I'll say so and point you to your upline.</div>" +
+      '<div class="chips" id="chips"></div>' +
+    '</div>';
+  var chips = document.getElementById('chips');
+  SUGGESTIONS.forEach(function (s) {
+    var b = document.createElement('button'); b.className = 'chip'; b.type = 'button'; b.textContent = s;
+    b.onclick = function () { ask(s); };
+    chips.appendChild(b);
+  });
+  qEl.focus();
+}
+
+/* ===== Chat ===== */
+function addMsg(who, html){
+  var row = document.createElement('div'); row.className = 'msg ' + who;
+  var b = document.createElement('div'); b.className = 'bubble'; b.innerHTML = html;
+  row.appendChild(b); thread.appendChild(row);
+  logEl.scrollTop = logEl.scrollHeight;
+  return b;
+}
+
+function ask(text){
+  text = String(text || '').trim();
+  if (!text || busy) return;
+  busy = true; sendEl.disabled = true;
+  var chips = document.getElementById('chips'); if (chips) chips.remove();
+  addMsg('me', esc(text));
+  qEl.value = ''; grow();
+
+  var typing = addMsg('bot typing', '<span class="dots"><span></span><span></span><span></span></span> <span id="tt">Checking the Brain…</span>');
+  typing.parentNode.classList.add('typing');
+  var steps = ['Checking the Brain…', 'Pulling what our leaders teach…', 'Writing it up…'], si = 0;
+  var timer = setInterval(function () { si = Math.min(si + 1, steps.length - 1); var t = document.getElementById('tt'); if (t) t.textContent = steps[si]; }, 3500);
+
+  call({ action: 'ask', question: text, history: chatHistory.slice(-6) })
+    .then(function (r) {
+      clearInterval(timer); typing.parentNode.remove();
+      if (!r || !r.ok) return fail(r && r.error);
+      chatHistory.push({ role: 'user', content: text }, { role: 'assistant', content: r.answer });
+      renderAnswer(r);
+    })
+    .catch(function () { clearInterval(timer); typing.parentNode.remove(); fail('network'); })
+    .then(function () { busy = false; sendEl.disabled = false; qEl.focus(); });
+}
+
+function fail(code){
+  if (code === 'auth') { showGate('Your pilot access needs a check. Enter your email and code again.'); return; }
+  var msg = code === 'limit' ? "You've hit today's question limit. It resets tomorrow. For anything urgent, ask your upline."
+          : code === 'network' ? "I couldn't reach the Brain. Check your connection and try again."
+          : 'Something went wrong on my end. Try again in a minute, and if it keeps happening, let Jesse know.';
+  addMsg('bot', '<p>' + esc(msg) + '</p>');
+}
+
+function renderAnswer(r){
+  var html = md(r.answer || '');
+  if (r.coverage === 'partial') html += '<span class="tag partial">Partly covered. Your upline can fill in the rest.</span>';
+  if (r.coverage === 'not_covered') html += '<span class="tag not_covered">Not in the Brain yet. Logged for Jesse.</span>';
+  if (r.sources && r.sources.length) {
+    html += '<div class="src"><b>From:</b> ' + r.sources.map(function (s) { return esc(s.title); }).join(' · ') + '</div>';
+  }
+  var b = addMsg('bot', html);
+  b.querySelectorAll('a').forEach(function (a) { a.target = '_blank'; a.rel = 'noopener'; });
+  if (r.reviewId) addVote(b, r.reviewId);
+}
+
+function addVote(bubble, reviewId){
+  var box = document.createElement('div'); box.className = 'vote';
+  box.innerHTML = '<span>Was this helpful?</span>';
+  var faces = [['happy', '😊', 'Helpful'], ['neutral', '😐', 'Okay'], ['sad', '😞', 'Not helpful']];
+  var buttons = faces.map(function (f) {
+    var btn = document.createElement('button'); btn.type = 'button'; btn.textContent = f[1];
+    btn.title = f[2]; btn.setAttribute('aria-label', f[2]);
+    btn.onclick = function () { vote(f[0], btn); };
+    box.appendChild(btn); return btn;
+  });
+  bubble.appendChild(box);
+
+  function vote(v, btn){
+    buttons.forEach(function (x) { x.disabled = true; });
+    btn.classList.add('on');
+    call({ action: 'feedback', reviewId: reviewId, vote: v }).catch(function () {});
+    if (v === 'happy') { thanks('Thanks! Glad it helped.'); return; }
+    var more = document.createElement('div'); more.className = 'more';
+    more.innerHTML = '<input maxlength="500" placeholder="' + (v === 'sad' ? 'What was wrong or missing?' : 'What would make it better?') +
+                     ' (optional)" aria-label="Tell us more"><button type="button">Send</button>';
+    bubble.appendChild(more);
+    var inp = more.querySelector('input'), sb = more.querySelector('button');
+    var submit = function () {
+      var c = inp.value.trim(); more.remove();
+      if (c) call({ action: 'feedback', reviewId: reviewId, vote: v, comment: c }).catch(function () {});
+      thanks(v === 'sad' ? "Thanks. Jesse will see this and fix it. For now, your upline is your best next step." : 'Thanks. Jesse reviews these.');
+    };
+    sb.onclick = submit; inp.onkeydown = function (e) { if (e.key === 'Enter') submit(); };
+    inp.focus();
+  }
+  function thanks(t){ var d = document.createElement('div'); d.className = 'thanks'; d.textContent = t; bubble.appendChild(d); }
+}
+
+/* ===== Tiny safe Markdown (escape first, then format) ===== */
+function esc(s){ return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+function inline(s){
+  return s
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, function (m, t, u) { return '<a href="' + u.replace(/"/g, '%22') + '">' + t + '</a>'; })
+    .replace(/(^|[\s(])(https?:\/\/[^\s<)]+)/g, function (m, pre, u) { return pre + '<a href="' + u + '">' + u + '</a>'; })
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/(^|[^*])\*([^*\n]+)\*/g, '$1<em>$2</em>');
+}
+function md(src){
+  var lines = esc(src).split('\n'), out = [], list = null, para = [];
+  function flushP(){ if (para.length) { out.push('<p>' + inline(para.join('<br>')) + '</p>'); para = []; } }
+  function flushL(){ if (list) { out.push('<' + list.t + '>' + list.items.map(function (i) { return '<li>' + inline(i) + '</li>'; }).join('') + '</' + list.t + '>'); list = null; } }
+  lines.forEach(function (ln) {
+    var m;
+    if (/^\s*$/.test(ln)) { flushP(); flushL(); return; }
+    if ((m = ln.match(/^\s*#{1,6}\s+(.*)$/))) { flushP(); flushL(); out.push('<h4>' + inline(m[1]) + '</h4>'); return; }
+    if ((m = ln.match(/^\s*&gt;\s?(.*)$/))) { flushP(); flushL(); out.push('<blockquote>' + inline(m[1]) + '</blockquote>'); return; }
+    if ((m = ln.match(/^\s*[-*•]\s+(.*)$/))) { flushP(); if (!list || list.t !== 'ul') { flushL(); list = { t: 'ul', items: [] }; } list.items.push(m[1]); return; }
+    if ((m = ln.match(/^\s*\d+[.)]\s+(.*)$/))) { flushP(); if (!list || list.t !== 'ol') { flushL(); list = { t: 'ol', items: [] }; } list.items.push(m[1]); return; }
+    if (/^\s*---+\s*$/.test(ln)) { flushP(); flushL(); return; }
+    flushL(); para.push(ln);
+  });
+  flushP(); flushL();
+  return out.join('');
+}
+
+/* ===== Composer ===== */
+function grow(){ qEl.style.height = 'auto'; qEl.style.height = Math.min(qEl.scrollHeight, 140) + 'px'; }
+qEl.addEventListener('input', grow);
+qEl.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); ask(qEl.value); } });
+document.getElementById('f').addEventListener('submit', function (e) { e.preventDefault(); ask(qEl.value); });
+
+/* ===== Start ===== */
+if (!me.email) showGate('');
+else {
+  thread.innerHTML = '<div class="gate"><p>Loading…</p></div>';
+  call({ action: 'hello' })
+    .then(function (r) { if (r && r.ok) showChat(); else showGate(''); })
+    .catch(function () { showGate("Couldn't reach the Brain. Check your connection and try again."); });
+}
+</script>
+</body>
+</html>
