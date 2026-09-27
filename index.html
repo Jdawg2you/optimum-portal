@@ -4076,6 +4076,9 @@ nav.side{padding:9px 10px}
 .m5-navsub{color:#cdd6e6;font-size:13.5px;line-height:1.6;margin:12px 0 16px}
 .m5-navbtn{display:inline-block;background:var(--m5gold);color:#2a2205;border:none;border-radius:11px;padding:13px 22px;font-size:14.5px;font-weight:800;cursor:pointer;text-decoration:none}
 .m5-navbtn:hover{filter:brightness(1.05)}
+.m5-navbtns{display:flex;gap:10px;flex-wrap:wrap}
+.m5-navbtn2{display:inline-block;background:rgba(255,255,255,.08);color:#e8eefb;border:1.5px solid rgba(242,198,97,.5);border-radius:11px;padding:11.5px 20px;font-size:14.5px;font-weight:800;cursor:pointer;text-decoration:none}
+.m5-navbtn2:hover{background:rgba(255,255,255,.16)}
 .m5-navjumps{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px;padding-top:13px;border-top:1px solid rgba(255,255,255,.1)}
 .m5-navjlbl{color:#9fb0cc;font-size:12.5px;font-weight:600}
 .m5-navjump{color:#e8eefb;font-size:12.5px;font-weight:700;text-decoration:none;background:rgba(255,255,255,.08);border-radius:8px;padding:6px 11px}
@@ -6635,7 +6638,10 @@ window.m5ScriptsPanel=function(){
       '<div><div class="m5-navkick">New &middot; use this on live calls</div>'+
       '<div class="m5-navtitle">Insurance Script Navigator</div></div></div>'+
     '<p class="m5-navsub">Navigate the conversation instead of scrolling a document. Every card asks what the client just said, you tap the answer, and it takes you straight to the right next line &mdash; objections, health flags, VA benefits and coverage math right where you need them. Veterans, IUL and Mortgage Protection, card by card.</p>'+
-    '<a class="m5-navbtn" href="'+M5_NAV_URL+'" target="_blank" rel="noopener">Open the Script Navigator &#8599;</a>'+
+    '<div class="m5-navbtns">'+
+      '<a class="m5-navbtn" href="'+M5_NAV_URL+'" target="_blank" rel="noopener">Open the Script Navigator &#8599;</a>'+
+      '<a class="m5-navbtn2" href="https://portal.ffloptimum.com/script-navigator-how-to.html" target="_blank" rel="noopener">How to use it &#8599;</a>'+
+    '</div>'+
     '<div class="m5-navjumps"><span class="m5-navjlbl">Jump straight in:</span>'+jump+'</div>'+
   '</div>';
   var rows=(typeof SCRIPTS_L!=='undefined')?SCRIPTS_L:[];
