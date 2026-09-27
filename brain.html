@@ -155,14 +155,15 @@ function loadMe(){
   return {
     email: String(p.email || saved.email || '').trim().toLowerCase(),
     name: [p.first, p.last].filter(Boolean).join(' ') || saved.name || '',
+    status: p.status === 'licensed' || p.status === 'unlicensed' ? p.status : '',
     passcode: saved.passcode || ''
   };
 }
-function saveMe(){ try { localStorage.setItem('brain.me', JSON.stringify(me)); } catch (e) {} }
+function saveMe(){ try { localStorage.setItem('brain.me', JSON.stringify({ email: me.email, name: me.name, passcode: me.passcode })); } catch (e) {} }
 
 /* ===== Backend ===== */
 function call(payload){
-  payload.email = me.email; payload.name = me.name; payload.passcode = me.passcode;
+  payload.email = me.email; payload.name = me.name; payload.passcode = me.passcode; payload.status = me.status;
   return fetch(BRAIN_URL, { method: 'POST', body: JSON.stringify(payload) })
     .then(function (r) { return r.json(); });
 }
