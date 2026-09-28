@@ -417,12 +417,17 @@ document.addEventListener('keydown', function (e) {
 (function () { var m = location.search.match(/[?&]q=([^&]+)/); if (m) { try { pendingQ = decodeURIComponent(m[1].replace(/\+/g, ' ')).slice(0, 1500); } catch (e) {} } })();
 
 /* ===== Start ===== */
+/* Speed: a known agent gets the chat right away. The access check runs quietly behind it
+   (and wakes the server up), so the first question doesn't pay for it. */
 if (!me.email) showGate('');
 else {
-  thread.innerHTML = '<div class="gate"><p>Loading…</p></div>';
+  showChat();
   call({ action: 'hello' })
-    .then(function (r) { if (r && r.ok) showChat(); else showGate(EMBED ? "Ask Optimum couldn't find " + me.email + " on the agent list yet. Check with your upline, or enter your pilot code." : ''); })
-    .catch(function () { showGate("Couldn't reach the Brain. Check your connection and try again."); });
+    .then(function (r) {
+      if (r && r.ok) return;
+      if (r && r.error === 'auth' && !busy) showGate(EMBED ? "Ask Optimum couldn't find " + me.email + " on the agent list yet. Check with your upline, or enter your pilot code." : '');
+    })
+    .catch(function () {});   // a network blip here is not worth interrupting them; the question will retry
 }
 </script>
 </body>

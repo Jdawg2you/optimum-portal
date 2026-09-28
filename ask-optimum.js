@@ -116,15 +116,39 @@
     document.body.appendChild(fab); document.body.appendChild(scrim); document.body.appendChild(panel);
     sync();
   }
+  var frameLoaded = false, frameFor = '', queuedQ = null;
+  function who() { var c = window.m5AskContext(); return c.email + '|' + c.status; }
+  function makeFrame(q) {
+    frame = document.createElement('iframe');
+    frame.title = 'Ask Optimum';
+    frameLoaded = false; frameFor = who();
+    frame.onload = function () {
+      frameLoaded = true;
+      if (queuedQ !== null) { var x = queuedQ; queuedQ = null; send(x); }
+    };
+    frame.src = PAGE + (q ? '&q=' + encodeURIComponent(q) : '');
+    panel.appendChild(frame);
+  }
+  function send(q) { try { frame.contentWindow.postMessage({ type: 'ao-ask', q: q || '' }, location.origin); } catch (e) {} }
+  function dropFrame() { if (frame) { frame.remove(); frame = null; frameLoaded = false; queuedQ = null; } }
+  /* Speed: load the chat quietly a few seconds after an agent signs in, so it's warm
+     (page loaded, server awake, access checked) by the time they tap Ask Optimum. */
+  var preloadTimer = null;
+  function preload() {
+    if (frame || preloadTimer) return;
+    preloadTimer = setTimeout(function () {
+      preloadTimer = null;
+      if (!frame && (isOn('app') || isOn('m5-prelic')) && window.m5AskContext().email) makeFrame('');
+    }, 2500);
+  }
   function open(q) {
     lastFocus = document.activeElement;
     if (!frame) {
-      frame = document.createElement('iframe');
-      frame.title = 'Ask Optimum';
-      frame.src = PAGE + (q ? '&q=' + encodeURIComponent(q) : '');
-      panel.appendChild(frame);
-    } else {
-      try { frame.contentWindow.postMessage({ type: 'ao-ask', q: q || '' }, location.origin); } catch (e) {}
+      makeFrame(q);
+    } else if (frameLoaded) {
+      send(q);
+    } else if (q) {
+      queuedQ = q;     // still loading in the background; ask as soon as it's ready
     }
     document.body.classList.add('ao-open');
     panel.setAttribute('aria-hidden', 'false');
@@ -146,7 +170,9 @@
     if (!fab) return;
     var on = isOn('app') || isOn('m5-prelic');
     fab.style.display = on ? '' : 'none';
-    if (!on) close();
+    if (!on) { close(); dropFrame(); }                      // next agent on this device starts fresh
+    else if (frame && frameFor !== who() && !document.body.classList.contains('ao-open')) dropFrame();   // e.g. preview switched them to unlicensed
+    if (on) preload();
     placePre();
   }
 
