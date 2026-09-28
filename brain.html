@@ -29,6 +29,11 @@
   .back{margin-left:auto;color:var(--gold);font-weight:700;font-size:12.5px;text-decoration:none;
         border:1px solid rgba(232,183,58,.45);padding:7px 12px;border-radius:999px;white-space:nowrap}
 
+  .x{margin-left:auto;appearance:none;background:transparent;border:1px solid rgba(232,183,58,.45);color:#fff;
+     width:40px;height:40px;border-radius:999px;font-size:18px;line-height:1;cursor:pointer;display:none}
+  .x:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+  body.embed .back{display:none} body.embed .x{display:grid;place-items:center}
+  body.embed header{padding:10px 12px 10px 16px;box-shadow:none}
   #log{flex:1 1 auto;overflow-y:auto;padding:18px 16px 8px}
   .wrap{max-width:760px;margin:0 auto}
   .msg{display:flex;margin:0 0 14px}
@@ -113,6 +118,7 @@
       <div class="hs">Answers from Jesse, Shawn and our leaders · Prototype</div>
     </div>
     <a class="back" href="./">← Portal</a>
+    <button class="x" id="closeBtn" type="button" aria-label="Close Ask Optimum">✕</button>
   </header>
 
   <div id="log" aria-live="polite">
@@ -133,33 +139,55 @@
 /* ===== Settings ===== */
 var BRAIN_URL = 'https://script.google.com/macros/s/AKfycbx2WGRag4LkYMgQQ8N5eBjtRp309FpFWkFOX4rObVUAopYEv4SInEBqzxBF9u7Q2Zf9/exec';   // Apps Script web app URL (ends in /exec)
 
-var SUGGESTIONS = [
-  'What leads should I start with?',
-  'How do I get contracted?',
-  'Where do I find the Goal Card?',
-  "I'm struggling. What should I do?",
-  'What do I say when someone says "I need to think about it"?'
-];
+var EMBED = /[?&]embed=1\b/.test(location.search);   // running inside the portal's Ask Optimum panel
+if (EMBED) document.body.classList.add('embed');
+
+var SUGGESTIONS = {
+  licensed: [
+    'What should I do next?',
+    'What leads should I start with?',
+    'How do I get contracted?',
+    "I'm struggling. What should I do?",
+    'What do I say when someone says "I need to think about it"?'
+  ],
+  unlicensed: [
+    'What should I do next?',
+    'How do I schedule my state exam?',
+    'Can I come to the team meetings?',
+    'When is New Agent Orientation?',
+    "I'm stuck on my course. What do I do?"
+  ]
+};
 
 /* ===== State ===== */
 var me = loadMe();
 var chatHistory = [];          // [{role, content}] sent with each question for follow-ups
 var busy = false;
+var ready = false, pendingQ = null;   // a question the portal handed over before the chat was ready
 var thread = document.getElementById('thread');
 var logEl = document.getElementById('log');
 var qEl = document.getElementById('q');
 var sendEl = document.getElementById('send');
 
+/* In the portal panel, the portal itself says who's asking and where they are. */
+function portalCtx(){
+  if (!EMBED) return null;
+  try { return (window.parent && window.parent !== window && typeof window.parent.m5AskContext === 'function') ? window.parent.m5AskContext() : null; }
+  catch (e) { return null; }
+}
 function loadMe(){
+  var c = portalCtx();
   var p = {};
   try { p = JSON.parse(localStorage.getItem('optimumPortalV2') || '{}') || {}; } catch (e) {}
   var saved = {};
   try { saved = JSON.parse(localStorage.getItem('brain.me') || '{}') || {}; } catch (e) {}
+  var status = c ? c.status : p.status;
   return {
-    email: String(p.email || saved.email || '').trim().toLowerCase(),
-    name: [p.first, p.last].filter(Boolean).join(' ') || saved.name || '',
-    status: p.status === 'licensed' || p.status === 'unlicensed' ? p.status : '',
-    phone: String(p.phone || saved.phone || '').trim(),
+    email: String((c && c.email) || p.email || saved.email || '').trim().toLowerCase(),
+    name: (c && c.name) || [p.first, p.last].filter(Boolean).join(' ') || saved.name || '',
+    status: status === 'licensed' || status === 'unlicensed' ? status : '',
+    phone: String((c && c.phone) || p.phone || saved.phone || '').trim(),
+    lang: (c && c.lang) || '',
     passcode: saved.passcode || ''
   };
 }
@@ -167,7 +195,11 @@ function saveMe(){ try { localStorage.setItem('brain.me', JSON.stringify({ email
 
 /* ===== Backend ===== */
 function call(payload){
+  var c = portalCtx();
+  if (c && (c.status === 'licensed' || c.status === 'unlicensed')) me.status = c.status;   // they may have just finished licensing
   payload.email = me.email; payload.name = me.name; payload.passcode = me.passcode; payload.status = me.status;
+  payload.portalPhone = me.phone; payload.lang = me.lang;
+  if (payload.action === 'ask' && c && c.progress) payload.progress = String(c.progress).slice(0, 1200);
   return fetch(BRAIN_URL, { method: 'POST', body: JSON.stringify(payload) })
     .then(function (r) { return r.json(); });
 }
@@ -178,10 +210,9 @@ function showGate(msg){
   thread.innerHTML =
     '<div class="gate">' +
       '<h2>Ask Optimum</h2>' +
-      '<p>This prototype is open to a few agents while Jesse tests it. Enter the email you use for the portal' +
-      ' and the pilot code Jesse gave you.</p>' +
+      '<p>Enter the email you use for the Agent Portal.</p>' +
       '<label for="ge">Portal email</label><input id="ge" type="email" autocomplete="email" value="' + esc(me.email) + '">' +
-      '<label for="gc">Pilot code</label><input id="gc" type="password" autocomplete="off" value="' + esc(me.passcode) + '">' +
+      '<label for="gc">Pilot code <span style="font-weight:500;color:var(--ink-soft)">(only if Jesse gave you one)</span></label><input id="gc" type="password" autocomplete="off" value="' + esc(me.passcode) + '">' +
       '<button id="gb" type="button">Start</button>' +
       '<div class="err" id="gerr">' + esc(msg || '') + '</div>' +
     '</div>';
@@ -192,7 +223,7 @@ function showGate(msg){
     call({ action: 'hello' }).then(function (r) {
       if (r && r.ok) { saveMe(); showChat(); }
       else { btn.disabled = false; btn.textContent = 'Start';
-             document.getElementById('gerr').textContent = "That email or code isn't on the pilot list yet. Check with Jesse."; }
+             document.getElementById('gerr').textContent = "We couldn't find that email on the agent list. Use the email you sign in to the portal with, or check with your upline."; }
     }).catch(function () { btn.disabled = false; btn.textContent = 'Start';
       document.getElementById('gerr').textContent = "Couldn't reach the Brain. Check your connection and try again."; });
   };
@@ -203,22 +234,28 @@ function showGate(msg){
 function showChat(){
   document.getElementById('composer').classList.remove('hidden');
   var first = (me.name || '').split(' ')[0];
+  var unl = me.status === 'unlicensed';
+  qEl.placeholder = unl ? 'Ask about getting licensed…' : 'Ask anything: scripts, leads, contracting, mindset…';
   thread.innerHTML =
     '<div class="welcome">' +
       '<h2>' + (first ? 'Hey ' + esc(first) + ', what' : 'What') + ' can I help with?</h2>' +
-      '<p>Ask how to do something, where to find something, what to say on a call, or how to push through a tough week. ' +
-      'Answers come from Jesse, Shawn Meaike, our leaders\' trainings and our tools.</p>' +
+      (unl
+        ? '<p>Ask anything about getting your license: your state\'s steps, the course, the exam, or joining the team calls while you study.</p>'
+        : '<p>Ask how to do something, where to find something, what to say on a call, or how to push through a tough week. ' +
+          'Answers come from Jesse, Shawn Meaike, our leaders\' trainings and our tools.</p>') +
       '<div class="note">After each answer, tap 😊 😐 or 😞. That tells Jesse what to fix and what to add. ' +
       "If I don't know something, I'll say so, send it to Jesse, and he can text you the answer.</div>" +
       '<div class="chips" id="chips"></div>' +
     '</div>';
   var chips = document.getElementById('chips');
-  SUGGESTIONS.forEach(function (s) {
+  (unl ? SUGGESTIONS.unlicensed : SUGGESTIONS.licensed).forEach(function (s) {
     var b = document.createElement('button'); b.className = 'chip'; b.type = 'button'; b.textContent = s;
     b.onclick = function () { ask(s); };
     chips.appendChild(b);
   });
-  qEl.focus();
+  if (!EMBED || window.innerWidth > 700) qEl.focus();
+  ready = true;
+  if (pendingQ) { var q = pendingQ; pendingQ = null; ask(q); }
 }
 
 /* ===== Chat ===== */
@@ -364,12 +401,27 @@ qEl.addEventListener('input', grow);
 qEl.addEventListener('keydown', function (e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); ask(qEl.value); } });
 document.getElementById('f').addEventListener('submit', function (e) { e.preventDefault(); ask(qEl.value); });
 
+/* ===== Portal panel wiring ===== */
+document.getElementById('closeBtn').onclick = function () {
+  try { window.parent.postMessage({ type: 'ao-close' }, location.origin); } catch (e) {}
+};
+window.addEventListener('message', function (e) {
+  if (e.origin !== location.origin || !e.data || e.data.type !== 'ao-ask') return;
+  var q = String(e.data.q || '').slice(0, 1500);
+  if (!q) { if (ready) qEl.focus(); return; }
+  if (ready && !busy) ask(q); else pendingQ = q;
+});
+document.addEventListener('keydown', function (e) {
+  if (EMBED && e.key === 'Escape') { try { window.parent.postMessage({ type: 'ao-close' }, location.origin); } catch (x) {} }
+});
+(function () { var m = location.search.match(/[?&]q=([^&]+)/); if (m) { try { pendingQ = decodeURIComponent(m[1].replace(/\+/g, ' ')).slice(0, 1500); } catch (e) {} } })();
+
 /* ===== Start ===== */
 if (!me.email) showGate('');
 else {
   thread.innerHTML = '<div class="gate"><p>Loading…</p></div>';
   call({ action: 'hello' })
-    .then(function (r) { if (r && r.ok) showChat(); else showGate(''); })
+    .then(function (r) { if (r && r.ok) showChat(); else showGate(EMBED ? "Ask Optimum couldn't find " + me.email + " on the agent list yet. Check with your upline, or enter your pilot code." : ''); })
     .catch(function () { showGate("Couldn't reach the Brain. Check your connection and try again."); });
 }
 </script>
