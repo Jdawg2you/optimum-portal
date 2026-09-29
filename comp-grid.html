@@ -157,10 +157,31 @@ h1{font-size:clamp(30px,4.5vw,44px);margin-bottom:6px}
 .cg-promonum{font-family:var(--serif);font-weight:600;font-size:52px;line-height:1;color:var(--gold);letter-spacing:-.01em}
 .cg-promolbl{font:700 16px var(--sans);color:#fff;line-height:1.35}
 .cg-promolbl span{display:block;font:500 13px var(--sans);color:#B6AE98;margin-top:4px}
+.cg-promopick{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:16px 0 0;font:600 15px var(--sans);color:#CFC6AE}
+.cg-promopick select{font:800 15px var(--sans);padding:8px 12px;border-radius:10px;border:1.5px solid rgba(201,162,74,.55);background:rgba(255,255,255,.07);color:#fff;cursor:pointer}
+.cg-promopick select option{color:#12203A;background:#fff}
+.cg-promocta{margin:16px 0 0;font-size:14px;color:#CFC6AE;line-height:1.6}
+.cg-promocta a{color:var(--gold);font-weight:700;text-decoration:none}
+.cg-promocta a:hover{text-decoration:underline}
 .cg-promofoot{font-size:13px;color:#A49C86;margin:14px 0 0;max-width:72ch;line-height:1.55}
 .cg-promo.top .cg-promobig{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18)}
 .cg-promo.top .cg-promonum{font-size:34px;color:#fff}
 @media(max-width:620px){.cg-promo{padding:20px 18px}.cg-promo h2{font-size:24px}.cg-promonum{font-size:40px}.cg-promobig{gap:12px;padding:15px 16px}}
+.cg-chip .anntag{font:700 9.5px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);border:1px solid var(--line);border-radius:999px;padding:2px 6px;margin-left:2px}
+.cg-chip[aria-pressed="true"] .anntag{border-color:rgba(18,32,58,.3);color:#12203A}
+:root[data-theme="dark"] .cg-chip[aria-pressed="true"] .anntag{border-color:rgba(243,238,223,.35);color:#F3EEDF}
+.cg-jump{display:inline-flex;align-items:center;gap:8px;background:var(--navy);color:#F3EEDF;border:0;border-radius:11px;font:700 13.5px var(--sans);padding:11px 17px;cursor:pointer;text-decoration:none}
+.cg-jump:hover{background:#0B1526}
+.cg-jump .ar{color:var(--gold);font-size:15px}
+.cg-annwrap{margin-top:44px;border-top:3px solid var(--navy);padding-top:8px}
+.cg-annkick{display:block;font:700 11.5px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:#B8902E;margin-top:22px}
+.cg-annwrap h2{font-family:var(--serif);font-size:30px;margin:6px 0 0;font-weight:600}
+.cg-annnote{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--navy);border-radius:12px;padding:15px 18px;margin:14px 0 18px;font-size:14.5px;line-height:1.6;max-width:78ch}
+table.cg td.tier{position:sticky;left:0;z-index:2;background:var(--script-bg);font:700 12.5px var(--sans);text-align:left;box-shadow:1px 0 0 var(--line);white-space:nowrap}
+table.cg th.tierh{position:sticky;left:0;z-index:3;background:var(--card);font:700 11.5px var(--sans);letter-spacing:.05em;text-transform:uppercase;text-align:left}
+table.cg tr.gold td{background:var(--gold-soft) !important;font-weight:800}
+:root[data-theme="dark"] table.cg tr.gold td{background:rgba(201,162,74,.22) !important}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) table.cg tr.gold td{background:rgba(201,162,74,.22) !important}}
 table.cg th.prod .note{display:block;font:500 9.5px var(--sans);color:var(--ink-soft);margin-top:3px;white-space:normal;max-width:120px;line-height:1.3}
 
 /* grid tables */
@@ -241,12 +262,6 @@ table.cg .hidecol{display:none}
   <h1>The FFL comp grid, as a tool you can actually use</h1>
   <p class="lede">Same grid, same numbers &mdash; but pick the carriers you are contracted with and set your FFL level, and it shows you your row inside the whole ladder instead of just handing you a number. Then it ranks what you get paid on, by product type.</p>
 
-  <div class="ibnote" style="background:var(--card);border:1px solid var(--line);border-left:4px solid var(--warn);border-radius:12px;padding:15px 18px;margin:20px 0;font-size:14.5px;line-height:1.55">
-    <b>Internal use only.</b> Family First Life compensation information, for contracted FFL agents. Not for clients and not for public recruiting material.
-    Transcribed from the <a href="https://portal.ffloptimum.com/comp-by-product.pdf">FFL Comp Guide, revised 8/05/2025</a>. First-year commission as a percentage of annual premium.
-    Commissions can differ by term, age and graded status &mdash; this grid is the headline rate, not a quote.
-  </div>
-
   <div class="cg-panel">
     <p class="cg-lab">1 &middot; Your FFL contract level</p>
     <div class="cg-lvlrow"><div class="cg-lvls" id="cgLvls"></div></div>
@@ -264,7 +279,14 @@ table.cg .hidecol{display:none}
       <span>On an annual premium of</span>
       <input type="text" inputmode="numeric" id="cgPrem" value="1,200" aria-label="Annual premium">
       <span>a year.</span>
-      <a href="https://tools.ffloptimum.com/#home" target="_blank" rel="noopener" style="color:#B8902E;font-weight:700;text-decoration:none">Need the full estimator? &#8599;</a>
+    </div>
+    <p style="font-size:13.5px;color:var(--ink-soft);margin:10px 0 0">Want to see your commission on a particular policy? Use our <a href="https://tools.ffloptimum.com/planning/#commission" target="_blank" rel="noopener" style="color:#B8902E;font-weight:700;text-decoration:none">Commission Estimator &#8599;</a></p>
+    <div style="display:none">
+    </div>
+
+    <div style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line);display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+      <button type="button" class="cg-jump" id="cgAnnJump">See annuity comp <span class="ar">&#8595;</span></button>
+      <span style="font-size:13.5px;color:var(--ink-soft);max-width:46ch">Annuities are a different world &mdash; paid on production tiers, not on your contract level. They sit at the bottom, on their own.</span>
     </div>
   </div>
 
@@ -277,6 +299,8 @@ table.cg .hidecol{display:none}
   <p class="cg-legend"><span class="sw"></span> your row &nbsp;&middot;&nbsp; <b style="outline:2px solid var(--navy);outline-offset:1px;padding:0 3px">outlined</b> = a carrier you selected &nbsp;&middot;&nbsp; &ldquo;&mdash;&rdquo; = not available at that level</p>
   <div id="cgGrids"></div>
 
+  <div id="cgAnn"></div>
+
   <div class="cols" style="margin-top:8px">
     <div class="card tip"><h3>How to read this</h3><ul>
       <li>Every number is <b>first-year commission</b> as a percentage of the annual premium. A 110% on a $1,200 premium is $1,320.</li>
@@ -288,6 +312,16 @@ table.cg .hidecol{display:none}
       <li>Most of this is advanced, not paid as earned. A lapse comes back out. <a href="https://tools.ffloptimum.com/chargebacks/" target="_blank" rel="noopener">Chargebacks, explained &#8599;</a></li>
       <li>Comp schedules change. If this and a current FFL release disagree, FFL wins &mdash; tell us and it gets fixed here.</li>
     </ul></div>
+  </div>
+
+  <div class="ibnote" style="background:var(--card);border:1px solid var(--line);border-left:4px solid var(--warn);border-radius:12px;padding:18px 20px;margin:34px 0 0;font-size:14.5px;line-height:1.6">
+    <b>Internal use only.</b> Family First Life compensation information, for contracted FFL agents. Not for clients and not for public recruiting material.<br><br>
+    Every figure is <b>first-year commission as a percentage of annual premium</b>, except the annuity section, which is a percentage of the premium placed.
+    Commissions can differ by term, issue age and graded status &mdash; this is the headline rate, not a quote. If this page and a current FFL release disagree, FFL wins.<br><br>
+    <b>Sources.</b> Life and IUL grids transcribed from the <a href="https://portal.ffloptimum.com/comp-by-product.pdf">FFL Comp Guide, revised 8/05/2025</a>,
+    plus the supplementary term, IUL and annuity schedules supplied by the agency.
+    Annuity and IUL compensation detail: <a href="https://drive.google.com/file/d/1xVpb9OhZfa5RskUW1ib6iNiH5LGFHwPF/view" target="_blank" rel="noopener">Simplified Retirement Solutions &mdash; Annuity &amp; IUL Compensation &#8599;</a>.
+    Deeper per-product schedules link out from their own column: <a href="https://portal.ffloptimum.com/instabrain-comp.html">InstaBrain full grid &#8599;</a>.
   </div>
 
   <p class="cg-foot">Built by Optimum from the FFL Comp Guide (revised 8/05/2025). Your level and carrier picks are remembered in this browser only &mdash; nothing is stored or sent anywhere.
@@ -306,13 +340,19 @@ table.cg .hidecol{display:none}
 })();
 </script>
 <script>
-var CG = {"levels":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65],"revised":"8/05/2025","types":{"FE":{"label":"Final expense","order":1},"WL":{"label":"Whole life","order":2},"GI":{"label":"Guaranteed issue","order":3},"TERM":{"label":"Term","order":4},"IUL":{"label":"IUL","order":5},"UL":{"label":"Universal life","order":6},"SPWL":{"label":"Single-premium WL","order":7},"ADB":{"label":"Accidental death","order":8}},"colors":{"Aetna":"#5B2D8E","Aflac":"#3D8FD1","American Amicable":"#5B7FD4","Americo":"#1F3E8C","Chubb":"#2B1F7A","Corebridge":"#B8236B","Ethos":"#1F7A3D","Foresters":"#A8327A","InstaBrain":"#D98A20","Liberty Bankers":"#C8102E","Ladder Life":"#8A8A8A","NLG":"#1A1A1A","Mutual of Omaha":"#4A7FD4","Royal Neighbors":"#3FA84A","Transamerica":"#D8232A","United Home Life":"#8B1A1A"},"products":[{"c":"Aetna","p":"Whole Life","t":"WL","g":false,"pg":1,"d":null,"n":null,"v":[null,144,137,130,125,120,115,107.5,100,92.5,85,77.5,70,70,70,70,70]},{"c":"Aflac","p":"Final EX","t":"FE","g":false,"pg":1,"d":null,"n":null,"v":[null,123,118,113,108,100,93,85,78,70,70,70,63,63,63,63,63]},{"c":"American Amicable","p":"Senior/Family Choice","t":"FE","g":true,"pg":1,"d":null,"n":null,"v":[125,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50]},{"c":"American Amicable","p":"EZ Term","t":"TERM","g":false,"pg":1,"d":null,"n":null,"v":[100,100,95,90,85,80,75,70,65,60,55,50,45,40,35,30,25]},{"c":"American Amicable","p":"Secure Life","t":"FE","g":true,"pg":1,"d":null,"n":null,"v":[140,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65]},{"c":"American Amicable","p":"Home Protector","t":"TERM","g":true,"pg":1,"d":null,"n":null,"v":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65]},{"c":"American Amicable","p":"OBA","t":null,"g":false,"pg":1,"d":null,"n":null,"v":[100,100,95,90,85,80,75,70,65,60,55,50,45,40,35,30,30]},{"c":"American Amicable","p":"Term Made Simple","t":"TERM","g":false,"pg":1,"d":null,"n":null,"v":[130,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55]},{"c":"American Amicable","p":"Family Protector","t":"TERM","g":true,"pg":1,"d":null,"n":null,"v":[130,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55]},{"c":"American Amicable","p":"XUL","t":"UL","g":false,"pg":1,"d":null,"n":null,"v":[105,105,100,95,90,85,80,75,70,65,60,55,50,45,45,45,45]},{"c":"Americo","p":"HMS 125","t":"TERM","g":true,"pg":2,"d":null,"n":null,"v":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65]},{"c":"Americo","p":"Eagle Premier","t":"FE","g":true,"pg":2,"d":null,"n":null,"v":[135,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60]},{"c":"Chubb","p":"Generational Life","t":"WL","g":true,"pg":2,"d":null,"n":null,"v":[120,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50,45]},{"c":"Corebridge","p":"GIWL","t":"GI","g":false,"pg":2,"d":null,"n":null,"v":[null,80,77.5,75,72.5,70,67.5,65,62.5,60,57.5,57.5,55,55,55,55,55]},{"c":"Corebridge","p":"SIWL","t":"FE","g":false,"pg":2,"d":null,"n":null,"v":[null,132,127,122,117,112,107,102,97,92,87,82,77,72,67,62,57]},{"c":"Ethos","p":"LGA Prime","t":"TERM","g":true,"pg":3,"d":null,"n":null,"v":[120,117.5,115,112.5,110,107.5,105,102.5,100,97.5,95,92.5,90,87.5,85,82.5,80]},{"c":"Ethos","p":"TruStage TAWL","t":"WL","g":false,"pg":3,"d":null,"n":null,"v":[120,120,117.5,115,110,105,100,95,90,87.5,85,82.5,80,77.5,70,65,60]},{"c":"Ethos","p":"TruStage SITL","t":"TERM","g":false,"pg":3,"d":null,"n":null,"v":[55,52.5,50,47.5,45,42.5,40,37.5,35,32.5,30,27.5,25,22.5,20,17.5,15]},{"c":"Ethos","p":"TruStage GAWL","t":"GI","g":false,"pg":3,"d":null,"n":null,"v":[30,27.5,25,22.5,20,17.5,15,12.5,10,7.5,5,2.5,2.5,2.5,2.5,2.5,2.5]},{"c":"Ethos","p":"Ameritas IUL","t":"IUL","g":false,"pg":3,"d":null,"n":null,"v":[125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50,45]},{"c":"Ethos","p":"Ameritas SI Term","t":"TERM","g":false,"pg":3,"d":null,"n":null,"v":[120,117.5,115,112.5,110,107.5,105,102.5,100,97.5,95,92.5,90,87.5,85,82.5,80]},{"c":"Ethos","p":"JH ROP","t":"TERM","g":true,"pg":3,"d":null,"n":null,"v":[145,145,135,130,125,115,105,100,95,90,85,80,75,70,65,60,55]},{"c":"Foresters","p":"Strong Foundation","t":"FE","g":true,"pg":4,"d":null,"n":null,"v":[null,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50,45]},{"c":"Foresters","p":"Planright","t":"FE","g":true,"pg":4,"d":null,"n":null,"v":[null,120,115,110,105,100,95,90,85,80,75,70,65,60,60,60,60]},{"c":"InstaBrain","p":"Life Term","t":"TERM","g":false,"pg":4,"d":"instabrain","n":null,"v":[130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,55]},{"c":"InstaBrain","p":"Senior Life Term/WL","t":"WL","g":false,"pg":4,"d":"instabrain","n":null,"v":[90,85,80,75,70,65,60,55,50,45,40,35,30,25,20,15,15]},{"c":"InstaBrain","p":"Final Expense WL","t":"FE","g":false,"pg":4,"d":"instabrain","n":null,"v":[128,125,123,120,118,115,113,110,108,105,103,100,98,95,93,90,90]},{"c":"InstaBrain","p":"Guaranteed Issue WL","t":"GI","g":false,"pg":4,"d":"instabrain","n":null,"v":[73,70,68,65,63,60,58,55,53,50,48,45,43,40,38,35,35]},{"c":"InstaBrain","p":"Accidental","t":"ADB","g":false,"pg":4,"d":"instabrain","n":null,"v":[90,85,80,75,70,65,60,55,50,45,40,35,30,25,20,15,15]},{"c":"Liberty Bankers","p":"FX","t":"FE","g":true,"pg":4,"d":null,"n":null,"v":[null,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50]},{"c":"Ladder Life","p":"FX","t":null,"g":false,"pg":4,"d":null,"n":null,"v":[null,120,115,110,105,100,95,90,85,80,75,70,65,60,50,50,50]},{"c":"NLG","p":"Indexed Universal Life","t":"IUL","g":false,"pg":4,"d":null,"n":"The comp guide prints this as \u201cUniversal Life\u201d. It is NLG\u2019s IUL.","v":[null,110,105,100,95,90,85,80,75,70,65,60,55,50,45,40,40]},{"c":"Mutual of Omaha","p":"Term Life Express","t":"TERM","g":false,"pg":5,"d":null,"n":null,"v":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65]},{"c":"Mutual of Omaha","p":"Final Expense","t":"FE","g":false,"pg":5,"d":null,"n":null,"v":[125,125,120,115,110,105,100,95,90,86,82,78,74,70,65,61,57]},{"c":"Mutual of Omaha","p":"IUL","t":"IUL","g":false,"pg":5,"d":null,"n":null,"v":[125,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50]},{"c":"Mutual of Omaha","p":"Children's Whole Life","t":"WL","g":false,"pg":5,"d":null,"n":null,"v":[100,100,97,95,92,90,85,80,75,70,65,60,55,50,45,40,35]},{"c":"Mutual of Omaha","p":"IULE","t":"IUL","g":false,"pg":5,"d":null,"n":null,"v":[130,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55]},{"c":"Mutual of Omaha","p":"Term Life Answers","t":"TERM","g":false,"pg":5,"d":null,"n":null,"v":[110,110,105,100,95,90,85,80,75,70,65,60,55,50,45,40,35]},{"c":"Mutual of Omaha","p":"Accidental Death","t":"ADB","g":false,"pg":5,"d":null,"n":null,"v":[130,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55]},{"c":"Royal Neighbors","p":"Term","t":"TERM","g":false,"pg":5,"d":null,"n":null,"v":[null,120,115,110,100,100,100,95,90,85,80,75,50,50,50,50,50]},{"c":"Royal Neighbors","p":"Royal Legacy SPWL","t":"SPWL","g":false,"pg":5,"d":null,"n":null,"v":[null,16,15,14,13,13,13,13,12,11,10,9,7,7,7,7,7]},{"c":"Royal Neighbors","p":"Secure Life IUL","t":"IUL","g":false,"pg":5,"d":null,"n":null,"v":[null,125,120,112,105,105,105,100,95,90,85,80,50,50,50,50,50]},{"c":"Royal Neighbors","p":"SI Whole Life","t":"FE","g":false,"pg":5,"d":null,"n":null,"v":[null,125,120,110,100,100,100,95,90,85,80,75,45,45,45,45,45]},{"c":"Transamerica","p":"FE","t":"FE","g":false,"pg":6,"d":null,"n":null,"v":[140,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,70]},{"c":"Transamerica","p":"UL","t":"UL","g":false,"pg":6,"d":null,"n":null,"v":[120,120,115,110,105,100,95,90,80,75,70,60,55,50,45,40,40]},{"c":"United Home Life","p":"FX","t":"FE","g":true,"pg":6,"d":null,"n":null,"v":[null,110,105,100,95,90,85,80,75,70,65,60,55,50,45,45,45]},{"c":"United Home Life","p":"GIWL","t":"GI","g":false,"pg":6,"d":null,"n":null,"v":[null,70,65,60,55,50,45,40,35,30,25,25,25,25,25,25,25]},{"c":"United Home Life","p":"Whole Life","t":"WL","g":false,"pg":6,"d":null,"n":null,"v":[null,120,115,110,105,100,95,90,85,80,75,70,65,60,55,55,55]},{"c":"United Home Life","p":"Accidental","t":"ADB","g":false,"pg":6,"d":null,"n":null,"v":[null,100,95,90,85,80,75,70,65,60,55,50,50,50,45,45,45]},{"c":"United Home Life","p":"Term","t":"TERM","g":false,"pg":6,"d":null,"n":null,"v":[null,110,105,100,95,90,85,80,75,70,65,60,55,50,45,45,45]}]};
+var CG = {"levels":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65],"revised":"8/05/2025","types":{"FE":{"label":"Final expense","order":1},"WL":{"label":"Whole life","order":2},"GI":{"label":"Guaranteed issue","order":3},"TERM":{"label":"Term","order":4},"IUL":{"label":"IUL","order":5},"UL":{"label":"Universal life","order":6},"SPWL":{"label":"Single-premium WL","order":7},"ADB":{"label":"Accidental death","order":8}},"colors":{"Aetna":"#5B2D8E","Aflac":"#3D8FD1","American Amicable":"#5B7FD4","Americo":"#1F3E8C","Chubb":"#2B1F7A","Corebridge":"#B8236B","Ethos":"#1F7A3D","Foresters":"#A8327A","InstaBrain":"#D98A20","Liberty Bankers":"#C8102E","Ladder Life":"#8A8A8A","NLG":"#1A1A1A","Mutual of Omaha":"#4A7FD4","Royal Neighbors":"#3FA84A","Transamerica":"#D8232A","United Home Life":"#8B1A1A","Sagicor":"#0B6E4F","Lafayette":"#7A1F3D","ANICO":"#1B4D8F","North American":"#1F6FB2","F&G":"#C0392B","Allianz":"#003781","Columbus":"#5B4B8A","Forethought":"#2E7D8F","SILAC":"#B8860B","Athene":"#0F4C5C"},"products":[{"c":"Aetna","p":"Whole Life","t":"WL","g":false,"pg":1,"d":null,"n":null,"v":[null,144,137,130,125,120,115,107.5,100,92.5,85,77.5,70,70,70,70,70]},{"c":"Aflac","p":"Final EX","t":"FE","g":false,"pg":1,"d":null,"n":null,"v":[null,123,118,113,108,100,93,85,78,70,70,70,63,63,63,63,63]},{"c":"American Amicable","p":"Senior/Family Choice","t":"FE","g":true,"pg":1,"d":null,"n":null,"v":[125,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50]},{"c":"American Amicable","p":"EZ Term","t":"TERM","g":false,"pg":1,"d":null,"n":null,"v":[100,100,95,90,85,80,75,70,65,60,55,50,45,40,35,30,25]},{"c":"American Amicable","p":"Secure Life","t":"FE","g":true,"pg":1,"d":null,"n":null,"v":[140,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65]},{"c":"American Amicable","p":"Home Protector","t":"TERM","g":true,"pg":1,"d":null,"n":null,"v":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65]},{"c":"American Amicable","p":"OBA","t":null,"g":false,"pg":1,"d":null,"n":null,"v":[100,100,95,90,85,80,75,70,65,60,55,50,45,40,35,30,30]},{"c":"American Amicable","p":"Term Made Simple","t":"TERM","g":false,"pg":1,"d":null,"n":null,"v":[130,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55]},{"c":"American Amicable","p":"Family Protector","t":"TERM","g":true,"pg":1,"d":null,"n":null,"v":[130,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55]},{"c":"American Amicable","p":"XUL","t":"UL","g":false,"pg":1,"d":null,"n":null,"v":[105,105,100,95,90,85,80,75,70,65,60,55,50,45,45,45,45]},{"c":"Americo","p":"HMS 125","t":"TERM","g":true,"pg":2,"d":null,"n":null,"v":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65]},{"c":"Americo","p":"Eagle Premier","t":"FE","g":true,"pg":2,"d":null,"n":null,"v":[135,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60]},{"c":"Chubb","p":"Generational Life","t":"WL","g":true,"pg":2,"d":null,"n":null,"v":[120,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50,45]},{"c":"Corebridge","p":"GIWL","t":"GI","g":false,"pg":2,"d":null,"n":null,"v":[null,80,77.5,75,72.5,70,67.5,65,62.5,60,57.5,57.5,55,55,55,55,55]},{"c":"Corebridge","p":"SIWL","t":"FE","g":false,"pg":2,"d":null,"n":null,"v":[null,132,127,122,117,112,107,102,97,92,87,82,77,72,67,62,57]},{"c":"Ethos","p":"LGA Prime","t":"TERM","g":true,"pg":3,"d":null,"n":null,"v":[120,117.5,115,112.5,110,107.5,105,102.5,100,97.5,95,92.5,90,87.5,85,82.5,80]},{"c":"Ethos","p":"TruStage TAWL","t":"WL","g":false,"pg":3,"d":null,"n":null,"v":[120,120,117.5,115,110,105,100,95,90,87.5,85,82.5,80,77.5,70,65,60]},{"c":"Ethos","p":"TruStage SITL","t":"TERM","g":false,"pg":3,"d":null,"n":null,"v":[55,52.5,50,47.5,45,42.5,40,37.5,35,32.5,30,27.5,25,22.5,20,17.5,15]},{"c":"Ethos","p":"TruStage GAWL","t":"GI","g":false,"pg":3,"d":null,"n":null,"v":[30,27.5,25,22.5,20,17.5,15,12.5,10,7.5,5,2.5,2.5,2.5,2.5,2.5,2.5]},{"c":"Ethos","p":"Ameritas IUL","t":"IUL","g":false,"pg":3,"d":null,"n":null,"v":[125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50,45]},{"c":"Ethos","p":"Ameritas SI Term","t":"TERM","g":false,"pg":3,"d":null,"n":null,"v":[120,117.5,115,112.5,110,107.5,105,102.5,100,97.5,95,92.5,90,87.5,85,82.5,80]},{"c":"Ethos","p":"JH ROP","t":"TERM","g":true,"pg":3,"d":null,"n":null,"v":[145,145,135,130,125,115,105,100,95,90,85,80,75,70,65,60,55]},{"c":"Foresters","p":"Strong Foundation","t":"FE","g":true,"pg":4,"d":null,"n":null,"v":[null,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50,45]},{"c":"Foresters","p":"Planright","t":"FE","g":true,"pg":4,"d":null,"n":null,"v":[null,120,115,110,105,100,95,90,85,80,75,70,65,60,60,60,60]},{"c":"InstaBrain","p":"Life Term","t":"TERM","g":false,"pg":4,"d":"instabrain","n":null,"v":[130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,55]},{"c":"InstaBrain","p":"Senior Life Term/WL","t":"WL","g":false,"pg":4,"d":"instabrain","n":null,"v":[90,85,80,75,70,65,60,55,50,45,40,35,30,25,20,15,15]},{"c":"InstaBrain","p":"Final Expense WL","t":"FE","g":false,"pg":4,"d":"instabrain","n":null,"v":[128,125,123,120,118,115,113,110,108,105,103,100,98,95,93,90,90]},{"c":"InstaBrain","p":"Guaranteed Issue WL","t":"GI","g":false,"pg":4,"d":"instabrain","n":null,"v":[73,70,68,65,63,60,58,55,53,50,48,45,43,40,38,35,35]},{"c":"InstaBrain","p":"Accidental","t":"ADB","g":false,"pg":4,"d":"instabrain","n":null,"v":[90,85,80,75,70,65,60,55,50,45,40,35,30,25,20,15,15]},{"c":"Liberty Bankers","p":"FX","t":"FE","g":true,"pg":4,"d":null,"n":null,"v":[null,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50]},{"c":"Ladder Life","p":"FX","t":null,"g":false,"pg":4,"d":null,"n":null,"v":[null,120,115,110,105,100,95,90,85,80,75,70,65,60,50,50,50]},{"c":"NLG","p":"FlexLife II","t":"IUL","g":false,"pg":4,"d":null,"n":"The comp guide prints this as \u201cUniversal Life\u201d. It is NLG\u2019s IUL.","v":[null,110,105,100,95,90,85,80,75,70,65,60,55,50,45,40,40]},{"c":"Mutual of Omaha","p":"Term Life Express","t":"TERM","g":false,"pg":5,"d":null,"n":null,"v":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65]},{"c":"Mutual of Omaha","p":"Final Expense","t":"FE","g":false,"pg":5,"d":null,"n":null,"v":[125,125,120,115,110,105,100,95,90,86,82,78,74,70,65,61,57]},{"c":"Mutual of Omaha","p":"IUL","t":"IUL","g":false,"pg":5,"d":null,"n":null,"v":[125,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50]},{"c":"Mutual of Omaha","p":"Children's Whole Life","t":"WL","g":false,"pg":5,"d":null,"n":null,"v":[100,100,97,95,92,90,85,80,75,70,65,60,55,50,45,40,35]},{"c":"Mutual of Omaha","p":"IULE","t":"IUL","g":false,"pg":5,"d":null,"n":null,"v":[130,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55]},{"c":"Mutual of Omaha","p":"Term Life Answers","t":"TERM","g":false,"pg":5,"d":null,"n":null,"v":[110,110,105,100,95,90,85,80,75,70,65,60,55,50,45,40,35]},{"c":"Mutual of Omaha","p":"Accidental Death","t":"ADB","g":false,"pg":5,"d":null,"n":null,"v":[130,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55]},{"c":"Royal Neighbors","p":"Term","t":"TERM","g":false,"pg":5,"d":null,"n":null,"v":[null,120,115,110,100,100,100,95,90,85,80,75,50,50,50,50,50]},{"c":"Royal Neighbors","p":"Royal Legacy SPWL","t":"SPWL","g":false,"pg":5,"d":null,"n":null,"v":[null,16,15,14,13,13,13,13,12,11,10,9,7,7,7,7,7]},{"c":"Royal Neighbors","p":"Secure Life IUL","t":"IUL","g":false,"pg":5,"d":null,"n":null,"v":[null,125,120,112,105,105,105,100,95,90,85,80,50,50,50,50,50]},{"c":"Royal Neighbors","p":"SI Whole Life","t":"FE","g":false,"pg":5,"d":null,"n":null,"v":[null,125,120,110,100,100,100,95,90,85,80,75,45,45,45,45,45]},{"c":"Transamerica","p":"FE","t":"FE","g":false,"pg":6,"d":null,"n":null,"v":[140,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,70]},{"c":"Transamerica","p":"UL","t":"UL","g":false,"pg":6,"d":null,"n":null,"v":[120,120,115,110,105,100,95,90,80,75,70,60,55,50,45,40,40]},{"c":"United Home Life","p":"FX","t":"FE","g":true,"pg":6,"d":null,"n":null,"v":[null,110,105,100,95,90,85,80,75,70,65,60,55,50,45,45,45]},{"c":"United Home Life","p":"GIWL","t":"GI","g":false,"pg":6,"d":null,"n":null,"v":[null,70,65,60,55,50,45,40,35,30,25,25,25,25,25,25,25]},{"c":"United Home Life","p":"Whole Life","t":"WL","g":false,"pg":6,"d":null,"n":null,"v":[null,120,115,110,105,100,95,90,85,80,75,70,65,60,55,55,55]},{"c":"United Home Life","p":"Accidental","t":"ADB","g":false,"pg":6,"d":null,"n":null,"v":[null,100,95,90,85,80,75,70,65,60,55,50,50,50,45,45,45]},{"c":"United Home Life","p":"Term","t":"TERM","g":false,"pg":6,"d":null,"n":null,"v":[null,110,105,100,95,90,85,80,75,70,65,60,55,50,45,45,45]},{"c":"Sagicor","p":"10 Year Term","t":"TERM","g":false,"pg":7,"d":null,"n":null,"v":[99,99,93,93,93,87,87,87,87,81,81,81,81,70,70,70,70]},{"c":"Sagicor","p":"15 Year Term","t":"TERM","g":false,"pg":7,"d":null,"n":null,"v":[111,111,105,105,105,97,97,97,97,89,89,89,89,77,77,77,77]},{"c":"Sagicor","p":"20 Year Term","t":"TERM","g":false,"pg":7,"d":null,"n":null,"v":[121,121,116,116,116,105,105,105,105,95,95,95,95,84,84,84,84]},{"c":"NLG","p":"10/20 Year Term","t":"TERM","g":false,"pg":7,"d":null,"n":null,"v":[92,92,88,83,80,75,71,67,62,58,55,50,45,42,38,33,33]},{"c":"NLG","p":"20/30 Year Term","t":"TERM","g":false,"pg":7,"d":null,"n":null,"v":[110,110,105,100,95,90,85,80,75,70,65,60,55,50,45,40,40]},{"c":"Lafayette","p":"IBC","t":"WL","g":false,"pg":7,"d":null,"n":null,"v":[110,110,105,100,95,90,85,80,70,65,60,55,55,55,55,55,55]},{"c":"ANICO","p":"UL","t":"UL","g":false,"pg":7,"d":null,"n":null,"v":[110,110,105,100,95,90,85,80,75,70,65,60,60,60,60,60,60]},{"c":"Transamerica","p":"FFL IUL","t":"IUL","g":false,"pg":7,"d":null,"n":null,"v":[120,120,115,110,105,100,95,90,80,75,70,60,55,50,45,40,40]},{"c":"Americo","p":"Instant Decision IUL","t":"IUL","g":false,"pg":7,"d":null,"n":null,"v":[130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50]},{"c":"North American","p":"Final Expense","t":"FE","g":false,"pg":7,"d":null,"n":null,"v":[120,120,115,110,105,100,95,90,85,80,75,70,65,60,55,55,55]},{"c":"North American","p":"Protection IUL & Custom Guarantee UL","t":"IUL","g":false,"pg":7,"d":null,"n":null,"v":[115,115,110,105,100,95,90,85,80,75,70,65,60,60,60,60,60]},{"c":"NLG","p":"RapidProtect","t":"IUL","g":false,"pg":7,"d":null,"n":"FlexLife II plus 10 points at every level, per Jesse.","v":[120,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50,50]},{"c":"F&G","p":"Pathsetter","t":"IUL","g":false,"pg":7,"d":null,"n":null,"v":[130,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55]},{"c":"F&G","p":"Pathsetter 0-17","t":"IUL","g":false,"pg":7,"d":null,"n":null,"v":[95,95,90,87.5,85,82.5,80,77.5,75,72.5,70,67.5,65,62.5,60,55,50]},{"c":"Allianz","p":"Allianz Life Pro +","t":"IUL","g":false,"pg":7,"d":null,"n":null,"v":[105,105,100,95,90,85,80,75,70,65,60,55,50,45,40,35,30]},{"c":"Columbus","p":"IUL","t":"IUL","g":false,"pg":7,"d":null,"n":null,"v":[130,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,60]},{"c":"Columbus","p":"SIUL","t":"IUL","g":false,"pg":7,"d":null,"n":null,"v":[100,100,95,90,85,80,75,70,65,60,60,60,60,60,60,60,60]},{"c":"Columbus","p":"Term","t":"TERM","g":false,"pg":7,"d":null,"n":null,"v":[75,75,70,65,60,55,50,50,50,50,50,50,50,50,50,50,50]}],"annTiers":["Green \u2014 New Agent","Yellow \u2014 100k","Blue \u2014 500k","Silver \u2014 1 Million","Gold \u2014 2 Million (FFL 140 & 145)","Platinum \u2014 5 Million (30 Million)","Black \u2014 10 Million (60 Million)","Royal (120 Million)","Red (175 Million)"],"annByTier":[{"c":"Athene","p":"Performance Elite 10","v":[5.25,6,6.25,6.5,6.75,7,7.5,8,8.5]},{"c":"NLG","p":"Zenith Growth 10","v":[4.5,5,6,6.25,6.5,6.75,7,7.5,8]},{"c":"Forethought","p":"Choice Accum 10","v":[5,5,6,6,6.5,7,7.5,8.5,8.5]},{"c":"North American","p":"Charter Plus","v":[5.6,5.95,6.3,6.65,7,7.25,7.5,8,9]},{"c":"SILAC","p":"Denali 14","v":[6.5,6.75,7,7.25,7.5,7.75,8,8.25,8.5]},{"c":"F&G","p":"Accumulator Plus 10","v":[5.5,6,6.5,7,7.5,8,8.5,9,9]}],"annByLevel":[{"c":"F&G","p":"Trailsetter","v":[11.5,11.5,11.5,9.5,9.5,9.5,9.5,9.5,9.5,9.5,9.5,6.5,6.5,6.5,6.5,6.5,6.5]}]};
 
 (function(){
   var LV = CG.levels, PR = CG.products, TY = CG.types, COL = CG.colors;
   var CARRIERS = []; PR.forEach(function(p){ if(CARRIERS.indexOf(p.c)<0) CARRIERS.push(p.c); });
+  // annuity-only carriers get a chip too, marked so it is obvious why they change nothing above
+  var ANN_ONLY = [];
+  [].concat(CG.annByTier||[], CG.annByLevel||[]).forEach(function(a){
+    if(CARRIERS.indexOf(a.c)<0 && ANN_ONLY.indexOf(a.c)<0) ANN_ONLY.push(a.c);
+  });
+  CARRIERS = CARRIERS.concat(ANN_ONLY);
 
-  var state = { level: 110, picks: {}, only: false, prem: 1200 };
+  var state = { level: 110, target: null, picks: {}, only: false, prem: 1200 };
   try{
     var raw = localStorage.getItem('ffl-comp-grid');
     if(raw){ var s = JSON.parse(raw);
@@ -320,6 +360,7 @@ var CG = {"levels":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65
       if(s.picks && typeof s.picks==='object') state.picks = s.picks;
       state.only = !!s.only;
       if(typeof s.prem==='number' && s.prem>0) state.prem = s.prem;
+      if(LV.indexOf(s.target)>-1) state.target = s.target;
     }
   }catch(e){}
   function save(){ try{ localStorage.setItem('ffl-comp-grid', JSON.stringify(state)); }catch(e){} }
@@ -339,8 +380,11 @@ var CG = {"levels":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65
   }
   function drawChips(){
     document.getElementById('cgChips').innerHTML = CARRIERS.map(function(c){
-      return '<button type="button" class="cg-chip" data-c="'+esc(c)+'" aria-pressed="'+picked(c)+'">'+
-        '<span class="dot" style="background:'+(COL[c]||'#888')+'"></span>'+esc(c)+'</button>';
+      var annOnly = ANN_ONLY.indexOf(c) > -1;
+      return '<button type="button" class="cg-chip'+(annOnly?' ann':'')+'" data-c="'+esc(c)+'" aria-pressed="'+picked(c)+'"'+
+        (annOnly?' title="Annuities only \u2014 shows in the annuity section at the bottom"':'')+'>'+
+        '<span class="dot" style="background:'+(COL[c]||'#888')+'"></span>'+esc(c)+
+        (annOnly?'<span class="anntag">annuity</span>':'')+'</button>';
     }).join('');
   }
 
@@ -405,38 +449,55 @@ var CG = {"levels":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65
       return;
     }
 
-    var up = LV[idx-1], now = 0, then = 0, counted = 0;
+    if(state.target === null || state.target === undefined || LV.indexOf(state.target) < 0 || state.target <= state.level){
+      state.target = LV[idx-1];
+    }
+    var up = state.target, ui = LV.indexOf(up), now = 0, then = 0, counted = 0;
     mine.forEach(function(p){
-      var a = rateAt(p, state.level), b = rateAt(p, up);
-      if(a===null || b===null) return;
+      var a = rateAt(p, state.level), b = p.v[ui];
+      if(a===null || b===null || b===undefined) return;
       now += a; then += b; counted++;
     });
     if(!counted){ host.innerHTML = ''; return; }
 
-    var gain     = (then - now) / counted;               // average extra points
-    var perPolicy = state.prem * gain / 100;             // extra dollars per policy
+    var gain      = (then - now) / counted;
+    var perPolicy = state.prem * gain / 100;
     var perYear   = perPolicy * POLICIES_A_YEAR;
+
+    var opts = LV.filter(function(l){ return l > state.level; })
+                 .map(function(l){ return '<option value="'+l+'"'+(l===up?' selected':'')+'>'+l+'</option>'; })
+                 .join('');
 
     host.innerHTML =
       '<div class="cg-promo"><span class="cg-promokick">Promoting yourself</span>'+
-      '<h2>What your next level is worth to you</h2>'+
-      '<p class="cg-next">Across the <b>'+counted+'</b> product'+(counted===1?'':'s')+
-        ' you can write today, moving from <b>'+state.level+'</b> to <b>'+up+'</b> adds an average of <b>'+
-        (Math.round(gain*10)/10)+' points</b> \u2014 about <b>'+money(perPolicy)+
-        '</b> more on every '+money(state.prem)+' policy you write.</p>'+
+      '<h2>What’s your next level worth to you?</h2>'+
+      '<p class="cg-next">Right now you are at <b>'+state.level+'</b>, writing <b>'+counted+'</b> product'+(counted===1?'':'s')+
+        ' across the carriers you picked.</p>'+
+      '<div class="cg-promopick"><label for="cgTarget">If you got to</label>'+
+        '<select id="cgTarget">'+opts+'</select>'+
+        '<span>and wrote exactly the same business …</span></div>'+
+      '<p class="cg-next">… that is an average of <b>'+(Math.round(gain*10)/10)+' more points</b> on every one of them — about <b>'+
+        money(perPolicy)+'</b> more on a '+money(state.prem)+' policy.</p>'+
       '<div class="cg-promobig">'+
         '<div class="cg-promonum">'+money(perYear)+'</div>'+
         '<div class="cg-promolbl">more a year, at one policy a day'+
           '<span>6 a week &middot; '+POLICIES_A_YEAR+' a year &middot; same clients, same effort, better contract</span></div>'+
       '</div>'+
-      '<p class="cg-promofoot">That is the floor, not the ceiling. It is the raise on business you are already writing \u2014 '+
+      '<p class="cg-promocta">To actually plan out your income — see how all of these numbers come together and build your goal backwards from the number you want — use the '+
+        '<a href="https://tools.ffloptimum.com/planning/#income" target="_blank" rel="noopener">Income Calculator ↗</a></p>'+
+      '<p class="cg-promofoot">That is the floor, not the ceiling. It is the raise on business you are already writing — '+
       'it counts nothing for the extra production that usually comes with the promotion.</p>'+
       '</div>';
+
+    var sel = document.getElementById('cgTarget');
+    if(sel) sel.addEventListener('change', function(){
+      state.target = parseInt(sel.value, 10); save(); drawPromo();
+    });
   }
 
   /* ---------- the grid ---------- */
   function drawGrids(){
-    var pages = [1,2,3,4,5,6], out = '';
+    var pages = [1,2,3,4,5,6,7], out = '';
     pages.forEach(function(pg){
       var cols = PR.filter(function(p){ return p.pg===pg; });
       if(state.only && anyPicked()) cols = cols.filter(function(p){ return picked(p.c); });
@@ -480,12 +541,79 @@ var CG = {"levels":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65
     document.getElementById('cgGrids').innerHTML = out;
   }
 
-  function render(){ drawLevels(); drawChips(); drawPromo(); drawScore(); drawGrids(); }
+  /* ---------- annuities: their own world, at the bottom ---------- */
+  function drawAnn(){
+    var host = document.getElementById('cgAnn');
+    var byTier = CG.annByTier || [], byLevel = CG.annByLevel || [], tiers = CG.annTiers || [];
+    var allTier = byTier, allLevel = byLevel;
+    if(state.only && anyPicked()){
+      byTier  = byTier.filter(function(a){ return picked(a.c); });
+      byLevel = byLevel.filter(function(a){ return picked(a.c); });
+    }
+    if(!allTier.length && !allLevel.length){ host.innerHTML=''; return; }
+
+    var h = '<div class="cg-annwrap" id="cgAnnTop">'+
+      '<span class="cg-annkick">Different rules</span>'+
+      '<h2>Annuity compensation</h2>'+
+      '<div class="cg-annnote"><b>Annuities are not paid on your FFL contract level.</b> They are paid on <b>production tiers</b> — '+
+      'how much annuity premium you have placed. Moving from a 110 to a 115 does not change a single number below, which is why '+
+      'annuities are kept out of the contract-level grid and out of the promotion maths above. '+
+      'The only place the two meet is the Gold tier, which the schedule marks as FFL 140 &amp; 145.<br><br>'+
+      '<a href="https://drive.google.com/file/d/1xVpb9OhZfa5RskUW1ib6iNiH5LGFHwPF/view" target="_blank" rel="noopener" '+
+      'style="color:#B8902E;font-weight:700;text-decoration:none">Simplified Retirement Solutions \u2014 full annuity &amp; IUL comp \u2197</a></div>';
+
+    if(byTier.length){
+      var spans = [], last = null;
+      byTier.forEach(function(a){ if(last && last.c===a.c){ last.n++; } else { last={c:a.c,n:1}; spans.push(last); } });
+      h += '<div class="cg-wrap"><table class="cg"><thead><tr class="grp"><th class="tierh" rowspan="2">Production tier</th>';
+      spans.forEach(function(sp){ h += '<th class="car" colspan="'+sp.n+'" style="background:'+(COL[sp.c]||'#333')+'">'+esc(sp.c)+'</th>'; });
+      h += '</tr><tr>';
+      byTier.forEach(function(a){ h += '<th class="prod">'+esc(a.p)+'<span class="ty">Annuity</span></th>'; });
+      h += '</tr></thead><tbody>';
+      tiers.forEach(function(t, ti){
+        var gold = /FFL 140/.test(t);
+        h += '<tr class="'+(gold?'gold':'')+'"><td class="tier">'+esc(t)+'</td>';
+        byTier.forEach(function(a){ h += '<td>'+(a.v[ti]==null?'&mdash;':a.v[ti]+'%')+'</td>'; });
+        h += '</tr>';
+      });
+      h += '</tbody></table></div>';
+    }
+
+    if(byLevel.length){
+      h += '<p class="cg-sub2" style="margin-top:22px"><b>Published on the contract ladder instead.</b> '+
+        'A few annuity products are quoted against the FFL level rather than a production tier. They are still annuities, '+
+        'so they are still kept out of the promotion maths.</p>';
+      h += '<div class="cg-wrap"><table class="cg"><thead><tr class="grp"><th class="lvlh" rowspan="2">FFL<br>level</th>';
+      byLevel.forEach(function(a){ h += '<th class="car" style="background:'+(COL[a.c]||'#333')+'">'+esc(a.c)+'</th>'; });
+      h += '</tr><tr>';
+      byLevel.forEach(function(a){ h += '<th class="prod">'+esc(a.p)+'<span class="ty">Annuity</span></th>'; });
+      h += '</tr></thead><tbody>';
+      LV.forEach(function(l, li){
+        var me = (l === state.level);
+        h += '<tr class="'+(me?'me':'')+'"><td class="lvl">'+l+'</td>';
+        byLevel.forEach(function(a){ h += '<td>'+(a.v[li]==null?'&mdash;':a.v[li]+'%')+'</td>'; });
+        h += '</tr>';
+      });
+      h += '</tbody></table></div>';
+    }
+
+    if(!byTier.length && !byLevel.length){
+      h += '<p class="cg-empty" style="margin-top:6px">None of the carriers you picked write annuities on this schedule. '+
+        'Untick &ldquo;show only my carriers&rdquo; to see the whole annuity grid.</p>';
+    }
+
+    h += '</div>';
+    host.innerHTML = h;
+  }
+
+  function render(){ drawLevels(); drawChips(); drawPromo(); drawScore(); drawGrids(); drawAnn(); }
 
   /* ---------- events ---------- */
   document.getElementById('cgLvls').addEventListener('click', function(e){
     var b = e.target.closest('.cg-lvl'); if(!b) return;
-    state.level = parseInt(b.getAttribute('data-l'),10); save(); render();
+    state.level = parseInt(b.getAttribute('data-l'),10);
+    if(state.target !== null && state.target <= state.level) state.target = null;
+    save(); render();
   });
   document.getElementById('cgChips').addEventListener('click', function(e){
     var b = e.target.closest('.cg-chip'); if(!b) return;
@@ -498,9 +626,13 @@ var CG = {"levels":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65
   document.getElementById('cgNone').addEventListener('click', function(){
     state.picks = {}; save(); render();
   });
+  document.getElementById('cgAnnJump').addEventListener('click', function(){
+    var t = document.getElementById('cgAnnTop');
+    if(t){ try{ t.scrollIntoView({behavior:'smooth', block:'start'}); }catch(e){ t.scrollIntoView(); } }
+  });
   var only = document.getElementById('cgOnly');
   only.checked = state.only;
-  only.addEventListener('change', function(){ state.only = only.checked; save(); drawGrids(); });
+  only.addEventListener('change', function(){ state.only = only.checked; save(); drawGrids(); drawAnn(); });
   var prem = document.getElementById('cgPrem');
   prem.value = state.prem.toLocaleString('en-US');
   function readPrem(){
