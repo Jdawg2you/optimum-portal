@@ -148,8 +148,20 @@ h1{font-size:clamp(30px,4.5vw,44px);margin-bottom:6px}
 :root[data-theme="dark"] .cg-prow.top{background:rgba(201,162,74,.16)}
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .cg-prow.top{background:rgba(201,162,74,.16)}}
 
-.cg-next{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--good);border-radius:12px;padding:14px 18px;margin:16px 0 0;font-size:14.5px}
-.cg-next b{font-family:var(--sans)}
+.cg-promo{background:var(--navy);border-radius:18px;padding:26px 28px;margin:24px 0 6px;color:#F3EEDF;box-shadow:0 10px 30px rgba(19,37,64,.16)}
+.cg-promokick{display:block;font:700 11.5px var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--gold)}
+.cg-promo h2{font-family:var(--serif);font-size:30px;line-height:1.12;color:#fff;margin:6px 0 0;font-weight:600}
+.cg-next{color:#CFC6AE;font-size:15px;line-height:1.6;margin:12px 0 0;max-width:68ch}
+.cg-next b{color:#fff;font-weight:700}
+.cg-promobig{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin:20px 0 0;padding:18px 20px;background:rgba(201,162,74,.13);border:1px solid rgba(201,162,74,.38);border-radius:14px}
+.cg-promonum{font-family:var(--serif);font-weight:600;font-size:52px;line-height:1;color:var(--gold);letter-spacing:-.01em}
+.cg-promolbl{font:700 16px var(--sans);color:#fff;line-height:1.35}
+.cg-promolbl span{display:block;font:500 13px var(--sans);color:#B6AE98;margin-top:4px}
+.cg-promofoot{font-size:13px;color:#A49C86;margin:14px 0 0;max-width:72ch;line-height:1.55}
+.cg-promo.top .cg-promobig{background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.18)}
+.cg-promo.top .cg-promonum{font-size:34px;color:#fff}
+@media(max-width:620px){.cg-promo{padding:20px 18px}.cg-promo h2{font-size:24px}.cg-promonum{font-size:40px}.cg-promobig{gap:12px;padding:15px 16px}}
+table.cg th.prod .note{display:block;font:500 9.5px var(--sans);color:var(--ink-soft);margin-top:3px;white-space:normal;max-width:120px;line-height:1.3}
 
 /* grid tables */
 .cg-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;border:1px solid var(--line);border-radius:12px;background:var(--card);margin:10px 0 26px}
@@ -256,6 +268,8 @@ table.cg .hidecol{display:none}
     </div>
   </div>
 
+  <div id="cgPromoWrap"></div>
+
   <div id="cgScoreWrap"></div>
 
   <div class="cg-head2">The whole grid</div>
@@ -292,7 +306,7 @@ table.cg .hidecol{display:none}
 })();
 </script>
 <script>
-var CG = {"levels":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65],"revised":"8/05/2025","types":{"FE":{"label":"Final expense","order":1},"WL":{"label":"Whole life","order":2},"GI":{"label":"Guaranteed issue","order":3},"TERM":{"label":"Term","order":4},"IUL":{"label":"IUL","order":5},"UL":{"label":"Universal life","order":6},"SPWL":{"label":"Single-premium WL","order":7},"ADB":{"label":"Accidental death","order":8}},"colors":{"Aetna":"#5B2D8E","Aflac":"#3D8FD1","American Amicable":"#5B7FD4","Americo":"#1F3E8C","Chubb":"#2B1F7A","Corebridge":"#B8236B","Ethos":"#1F7A3D","Foresters":"#A8327A","InstaBrain":"#D98A20","Liberty Bankers":"#C8102E","Ladder Life":"#8A8A8A","NLG":"#1A1A1A","Mutual of Omaha":"#4A7FD4","Royal Neighbors":"#3FA84A","Transamerica":"#D8232A","United Home Life":"#8B1A1A"},"products":[{"c":"Aetna","p":"Whole Life","t":"WL","g":false,"pg":1,"d":null,"v":[null,144,137,130,125,120,115,107.5,100,92.5,85,77.5,70,70,70,70,70]},{"c":"Aflac","p":"Final EX","t":"FE","g":false,"pg":1,"d":null,"v":[null,123,118,113,108,100,93,85,78,70,70,70,63,63,63,63,63]},{"c":"American Amicable","p":"Senior/Family Choice","t":"FE","g":true,"pg":1,"d":null,"v":[125,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50]},{"c":"American Amicable","p":"EZ Term","t":"TERM","g":false,"pg":1,"d":null,"v":[100,100,95,90,85,80,75,70,65,60,55,50,45,40,35,30,25]},{"c":"American Amicable","p":"Secure Life","t":"FE","g":true,"pg":1,"d":null,"v":[140,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65]},{"c":"American Amicable","p":"Home Protector","t":"TERM","g":true,"pg":1,"d":null,"v":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65]},{"c":"American Amicable","p":"OBA","t":null,"g":false,"pg":1,"d":null,"v":[100,100,95,90,85,80,75,70,65,60,55,50,45,40,35,30,30]},{"c":"American Amicable","p":"Term Made Simple","t":"TERM","g":false,"pg":1,"d":null,"v":[130,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55]},{"c":"American Amicable","p":"Family Protector","t":"TERM","g":true,"pg":1,"d":null,"v":[130,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55]},{"c":"American Amicable","p":"XUL","t":"UL","g":false,"pg":1,"d":null,"v":[105,105,100,95,90,85,80,75,70,65,60,55,50,45,45,45,45]},{"c":"Americo","p":"HMS 125","t":"TERM","g":true,"pg":2,"d":null,"v":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65]},{"c":"Americo","p":"Eagle Premier","t":"FE","g":true,"pg":2,"d":null,"v":[135,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60]},{"c":"Chubb","p":"Generational Life","t":"WL","g":true,"pg":2,"d":null,"v":[120,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50,45]},{"c":"Corebridge","p":"GIWL","t":"GI","g":false,"pg":2,"d":null,"v":[null,80,77.5,75,72.5,70,67.5,65,62.5,60,57.5,57.5,55,55,55,55,55]},{"c":"Corebridge","p":"SIWL","t":"FE","g":false,"pg":2,"d":null,"v":[null,132,127,122,117,112,107,102,97,92,87,82,77,72,67,62,57]},{"c":"Ethos","p":"LGA Prime","t":"TERM","g":true,"pg":3,"d":null,"v":[120,117.5,115,112.5,110,107.5,105,102.5,100,97.5,95,92.5,90,87.5,85,82.5,80]},{"c":"Ethos","p":"TruStage TAWL","t":"WL","g":false,"pg":3,"d":null,"v":[120,120,117.5,115,110,105,100,95,90,87.5,85,82.5,80,77.5,70,65,60]},{"c":"Ethos","p":"TruStage SITL","t":"TERM","g":false,"pg":3,"d":null,"v":[55,52.5,50,47.5,45,42.5,40,37.5,35,32.5,30,27.5,25,22.5,20,17.5,15]},{"c":"Ethos","p":"TruStage GAWL","t":"GI","g":false,"pg":3,"d":null,"v":[30,27.5,25,22.5,20,17.5,15,12.5,10,7.5,5,2.5,2.5,2.5,2.5,2.5,2.5]},{"c":"Ethos","p":"Ameritas IUL","t":"IUL","g":false,"pg":3,"d":null,"v":[125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50,45]},{"c":"Ethos","p":"Ameritas SI Term","t":"TERM","g":false,"pg":3,"d":null,"v":[120,117.5,115,112.5,110,107.5,105,102.5,100,97.5,95,92.5,90,87.5,85,82.5,80]},{"c":"Ethos","p":"JH ROP","t":"TERM","g":true,"pg":3,"d":null,"v":[145,145,135,130,125,115,105,100,95,90,85,80,75,70,65,60,55]},{"c":"Foresters","p":"Strong Foundation","t":"FE","g":true,"pg":4,"d":null,"v":[null,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50,45]},{"c":"Foresters","p":"Planright","t":"FE","g":true,"pg":4,"d":null,"v":[null,120,115,110,105,100,95,90,85,80,75,70,65,60,60,60,60]},{"c":"InstaBrain","p":"Life Term","t":"TERM","g":false,"pg":4,"d":"instabrain","v":[130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,55]},{"c":"InstaBrain","p":"Senior Life Term/WL","t":"WL","g":false,"pg":4,"d":"instabrain","v":[90,85,80,75,70,65,60,55,50,45,40,35,30,25,20,15,15]},{"c":"InstaBrain","p":"Final Expense WL","t":"FE","g":false,"pg":4,"d":"instabrain","v":[128,125,123,120,118,115,113,110,108,105,103,100,98,95,93,90,90]},{"c":"InstaBrain","p":"Guaranteed Issue WL","t":"GI","g":false,"pg":4,"d":"instabrain","v":[73,70,68,65,63,60,58,55,53,50,48,45,43,40,38,35,35]},{"c":"InstaBrain","p":"Accidental","t":"ADB","g":false,"pg":4,"d":"instabrain","v":[90,85,80,75,70,65,60,55,50,45,40,35,30,25,20,15,15]},{"c":"Liberty Bankers","p":"FX","t":"FE","g":true,"pg":4,"d":null,"v":[null,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50]},{"c":"Ladder Life","p":"FX","t":null,"g":false,"pg":4,"d":null,"v":[null,120,115,110,105,100,95,90,85,80,75,70,65,60,50,50,50]},{"c":"NLG","p":"Universal Life","t":"UL","g":false,"pg":4,"d":null,"v":[null,110,105,100,95,90,85,80,75,70,65,60,55,50,45,40,40]},{"c":"Mutual of Omaha","p":"Term Life Express","t":"TERM","g":false,"pg":5,"d":null,"v":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65]},{"c":"Mutual of Omaha","p":"Final Expense","t":"FE","g":false,"pg":5,"d":null,"v":[125,125,120,115,110,105,100,95,90,86,82,78,74,70,65,61,57]},{"c":"Mutual of Omaha","p":"IUL","t":"IUL","g":false,"pg":5,"d":null,"v":[125,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50]},{"c":"Mutual of Omaha","p":"Children's Whole Life","t":"WL","g":false,"pg":5,"d":null,"v":[100,100,97,95,92,90,85,80,75,70,65,60,55,50,45,40,35]},{"c":"Mutual of Omaha","p":"IULE","t":"IUL","g":false,"pg":5,"d":null,"v":[130,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55]},{"c":"Mutual of Omaha","p":"Term Life Answers","t":"TERM","g":false,"pg":5,"d":null,"v":[110,110,105,100,95,90,85,80,75,70,65,60,55,50,45,40,35]},{"c":"Mutual of Omaha","p":"Accidental Death","t":"ADB","g":false,"pg":5,"d":null,"v":[130,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55]},{"c":"Royal Neighbors","p":"Term","t":"TERM","g":false,"pg":5,"d":null,"v":[null,120,115,110,100,100,100,95,90,85,80,75,50,50,50,50,50]},{"c":"Royal Neighbors","p":"Royal Legacy SPWL","t":"SPWL","g":false,"pg":5,"d":null,"v":[null,16,15,14,13,13,13,13,12,11,10,9,7,7,7,7,7]},{"c":"Royal Neighbors","p":"Secure Life IUL","t":"IUL","g":false,"pg":5,"d":null,"v":[null,125,120,112,105,105,105,100,95,90,85,80,50,50,50,50,50]},{"c":"Royal Neighbors","p":"SI Whole Life","t":"FE","g":false,"pg":5,"d":null,"v":[null,125,120,110,100,100,100,95,90,85,80,75,45,45,45,45,45]},{"c":"Transamerica","p":"FE","t":"FE","g":false,"pg":6,"d":null,"v":[140,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,70]},{"c":"Transamerica","p":"UL","t":"UL","g":false,"pg":6,"d":null,"v":[120,120,115,110,105,100,95,90,80,75,70,60,55,50,45,40,40]},{"c":"United Home Life","p":"FX","t":"FE","g":true,"pg":6,"d":null,"v":[null,110,105,100,95,90,85,80,75,70,65,60,55,50,45,45,45]},{"c":"United Home Life","p":"GIWL","t":"GI","g":false,"pg":6,"d":null,"v":[null,70,65,60,55,50,45,40,35,30,25,25,25,25,25,25,25]},{"c":"United Home Life","p":"Whole Life","t":"WL","g":false,"pg":6,"d":null,"v":[null,120,115,110,105,100,95,90,85,80,75,70,65,60,55,55,55]},{"c":"United Home Life","p":"Accidental","t":"ADB","g":false,"pg":6,"d":null,"v":[null,100,95,90,85,80,75,70,65,60,55,50,50,50,45,45,45]},{"c":"United Home Life","p":"Term","t":"TERM","g":false,"pg":6,"d":null,"v":[null,110,105,100,95,90,85,80,75,70,65,60,55,50,45,45,45]}]};
+var CG = {"levels":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65],"revised":"8/05/2025","types":{"FE":{"label":"Final expense","order":1},"WL":{"label":"Whole life","order":2},"GI":{"label":"Guaranteed issue","order":3},"TERM":{"label":"Term","order":4},"IUL":{"label":"IUL","order":5},"UL":{"label":"Universal life","order":6},"SPWL":{"label":"Single-premium WL","order":7},"ADB":{"label":"Accidental death","order":8}},"colors":{"Aetna":"#5B2D8E","Aflac":"#3D8FD1","American Amicable":"#5B7FD4","Americo":"#1F3E8C","Chubb":"#2B1F7A","Corebridge":"#B8236B","Ethos":"#1F7A3D","Foresters":"#A8327A","InstaBrain":"#D98A20","Liberty Bankers":"#C8102E","Ladder Life":"#8A8A8A","NLG":"#1A1A1A","Mutual of Omaha":"#4A7FD4","Royal Neighbors":"#3FA84A","Transamerica":"#D8232A","United Home Life":"#8B1A1A"},"products":[{"c":"Aetna","p":"Whole Life","t":"WL","g":false,"pg":1,"d":null,"n":null,"v":[null,144,137,130,125,120,115,107.5,100,92.5,85,77.5,70,70,70,70,70]},{"c":"Aflac","p":"Final EX","t":"FE","g":false,"pg":1,"d":null,"n":null,"v":[null,123,118,113,108,100,93,85,78,70,70,70,63,63,63,63,63]},{"c":"American Amicable","p":"Senior/Family Choice","t":"FE","g":true,"pg":1,"d":null,"n":null,"v":[125,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50]},{"c":"American Amicable","p":"EZ Term","t":"TERM","g":false,"pg":1,"d":null,"n":null,"v":[100,100,95,90,85,80,75,70,65,60,55,50,45,40,35,30,25]},{"c":"American Amicable","p":"Secure Life","t":"FE","g":true,"pg":1,"d":null,"n":null,"v":[140,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65]},{"c":"American Amicable","p":"Home Protector","t":"TERM","g":true,"pg":1,"d":null,"n":null,"v":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65]},{"c":"American Amicable","p":"OBA","t":null,"g":false,"pg":1,"d":null,"n":null,"v":[100,100,95,90,85,80,75,70,65,60,55,50,45,40,35,30,30]},{"c":"American Amicable","p":"Term Made Simple","t":"TERM","g":false,"pg":1,"d":null,"n":null,"v":[130,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55]},{"c":"American Amicable","p":"Family Protector","t":"TERM","g":true,"pg":1,"d":null,"n":null,"v":[130,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55]},{"c":"American Amicable","p":"XUL","t":"UL","g":false,"pg":1,"d":null,"n":null,"v":[105,105,100,95,90,85,80,75,70,65,60,55,50,45,45,45,45]},{"c":"Americo","p":"HMS 125","t":"TERM","g":true,"pg":2,"d":null,"n":null,"v":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65]},{"c":"Americo","p":"Eagle Premier","t":"FE","g":true,"pg":2,"d":null,"n":null,"v":[135,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60]},{"c":"Chubb","p":"Generational Life","t":"WL","g":true,"pg":2,"d":null,"n":null,"v":[120,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50,45]},{"c":"Corebridge","p":"GIWL","t":"GI","g":false,"pg":2,"d":null,"n":null,"v":[null,80,77.5,75,72.5,70,67.5,65,62.5,60,57.5,57.5,55,55,55,55,55]},{"c":"Corebridge","p":"SIWL","t":"FE","g":false,"pg":2,"d":null,"n":null,"v":[null,132,127,122,117,112,107,102,97,92,87,82,77,72,67,62,57]},{"c":"Ethos","p":"LGA Prime","t":"TERM","g":true,"pg":3,"d":null,"n":null,"v":[120,117.5,115,112.5,110,107.5,105,102.5,100,97.5,95,92.5,90,87.5,85,82.5,80]},{"c":"Ethos","p":"TruStage TAWL","t":"WL","g":false,"pg":3,"d":null,"n":null,"v":[120,120,117.5,115,110,105,100,95,90,87.5,85,82.5,80,77.5,70,65,60]},{"c":"Ethos","p":"TruStage SITL","t":"TERM","g":false,"pg":3,"d":null,"n":null,"v":[55,52.5,50,47.5,45,42.5,40,37.5,35,32.5,30,27.5,25,22.5,20,17.5,15]},{"c":"Ethos","p":"TruStage GAWL","t":"GI","g":false,"pg":3,"d":null,"n":null,"v":[30,27.5,25,22.5,20,17.5,15,12.5,10,7.5,5,2.5,2.5,2.5,2.5,2.5,2.5]},{"c":"Ethos","p":"Ameritas IUL","t":"IUL","g":false,"pg":3,"d":null,"n":null,"v":[125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50,45]},{"c":"Ethos","p":"Ameritas SI Term","t":"TERM","g":false,"pg":3,"d":null,"n":null,"v":[120,117.5,115,112.5,110,107.5,105,102.5,100,97.5,95,92.5,90,87.5,85,82.5,80]},{"c":"Ethos","p":"JH ROP","t":"TERM","g":true,"pg":3,"d":null,"n":null,"v":[145,145,135,130,125,115,105,100,95,90,85,80,75,70,65,60,55]},{"c":"Foresters","p":"Strong Foundation","t":"FE","g":true,"pg":4,"d":null,"n":null,"v":[null,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50,45]},{"c":"Foresters","p":"Planright","t":"FE","g":true,"pg":4,"d":null,"n":null,"v":[null,120,115,110,105,100,95,90,85,80,75,70,65,60,60,60,60]},{"c":"InstaBrain","p":"Life Term","t":"TERM","g":false,"pg":4,"d":"instabrain","n":null,"v":[130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,55]},{"c":"InstaBrain","p":"Senior Life Term/WL","t":"WL","g":false,"pg":4,"d":"instabrain","n":null,"v":[90,85,80,75,70,65,60,55,50,45,40,35,30,25,20,15,15]},{"c":"InstaBrain","p":"Final Expense WL","t":"FE","g":false,"pg":4,"d":"instabrain","n":null,"v":[128,125,123,120,118,115,113,110,108,105,103,100,98,95,93,90,90]},{"c":"InstaBrain","p":"Guaranteed Issue WL","t":"GI","g":false,"pg":4,"d":"instabrain","n":null,"v":[73,70,68,65,63,60,58,55,53,50,48,45,43,40,38,35,35]},{"c":"InstaBrain","p":"Accidental","t":"ADB","g":false,"pg":4,"d":"instabrain","n":null,"v":[90,85,80,75,70,65,60,55,50,45,40,35,30,25,20,15,15]},{"c":"Liberty Bankers","p":"FX","t":"FE","g":true,"pg":4,"d":null,"n":null,"v":[null,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50]},{"c":"Ladder Life","p":"FX","t":null,"g":false,"pg":4,"d":null,"n":null,"v":[null,120,115,110,105,100,95,90,85,80,75,70,65,60,50,50,50]},{"c":"NLG","p":"Indexed Universal Life","t":"IUL","g":false,"pg":4,"d":null,"n":"The comp guide prints this as \u201cUniversal Life\u201d. It is NLG\u2019s IUL.","v":[null,110,105,100,95,90,85,80,75,70,65,60,55,50,45,40,40]},{"c":"Mutual of Omaha","p":"Term Life Express","t":"TERM","g":false,"pg":5,"d":null,"n":null,"v":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65]},{"c":"Mutual of Omaha","p":"Final Expense","t":"FE","g":false,"pg":5,"d":null,"n":null,"v":[125,125,120,115,110,105,100,95,90,86,82,78,74,70,65,61,57]},{"c":"Mutual of Omaha","p":"IUL","t":"IUL","g":false,"pg":5,"d":null,"n":null,"v":[125,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55,50]},{"c":"Mutual of Omaha","p":"Children's Whole Life","t":"WL","g":false,"pg":5,"d":null,"n":null,"v":[100,100,97,95,92,90,85,80,75,70,65,60,55,50,45,40,35]},{"c":"Mutual of Omaha","p":"IULE","t":"IUL","g":false,"pg":5,"d":null,"n":null,"v":[130,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55]},{"c":"Mutual of Omaha","p":"Term Life Answers","t":"TERM","g":false,"pg":5,"d":null,"n":null,"v":[110,110,105,100,95,90,85,80,75,70,65,60,55,50,45,40,35]},{"c":"Mutual of Omaha","p":"Accidental Death","t":"ADB","g":false,"pg":5,"d":null,"n":null,"v":[130,130,125,120,115,110,105,100,95,90,85,80,75,70,65,60,55]},{"c":"Royal Neighbors","p":"Term","t":"TERM","g":false,"pg":5,"d":null,"n":null,"v":[null,120,115,110,100,100,100,95,90,85,80,75,50,50,50,50,50]},{"c":"Royal Neighbors","p":"Royal Legacy SPWL","t":"SPWL","g":false,"pg":5,"d":null,"n":null,"v":[null,16,15,14,13,13,13,13,12,11,10,9,7,7,7,7,7]},{"c":"Royal Neighbors","p":"Secure Life IUL","t":"IUL","g":false,"pg":5,"d":null,"n":null,"v":[null,125,120,112,105,105,105,100,95,90,85,80,50,50,50,50,50]},{"c":"Royal Neighbors","p":"SI Whole Life","t":"FE","g":false,"pg":5,"d":null,"n":null,"v":[null,125,120,110,100,100,100,95,90,85,80,75,45,45,45,45,45]},{"c":"Transamerica","p":"FE","t":"FE","g":false,"pg":6,"d":null,"n":null,"v":[140,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,70]},{"c":"Transamerica","p":"UL","t":"UL","g":false,"pg":6,"d":null,"n":null,"v":[120,120,115,110,105,100,95,90,80,75,70,60,55,50,45,40,40]},{"c":"United Home Life","p":"FX","t":"FE","g":true,"pg":6,"d":null,"n":null,"v":[null,110,105,100,95,90,85,80,75,70,65,60,55,50,45,45,45]},{"c":"United Home Life","p":"GIWL","t":"GI","g":false,"pg":6,"d":null,"n":null,"v":[null,70,65,60,55,50,45,40,35,30,25,25,25,25,25,25,25]},{"c":"United Home Life","p":"Whole Life","t":"WL","g":false,"pg":6,"d":null,"n":null,"v":[null,120,115,110,105,100,95,90,85,80,75,70,65,60,55,55,55]},{"c":"United Home Life","p":"Accidental","t":"ADB","g":false,"pg":6,"d":null,"n":null,"v":[null,100,95,90,85,80,75,70,65,60,55,50,50,50,45,45,45]},{"c":"United Home Life","p":"Term","t":"TERM","g":false,"pg":6,"d":null,"n":null,"v":[null,110,105,100,95,90,85,80,75,70,65,60,55,50,45,45,45]}]};
 
 (function(){
   var LV = CG.levels, PR = CG.products, TY = CG.types, COL = CG.colors;
@@ -368,24 +382,56 @@ var CG = {"levels":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65
     });
     html += '</div>';
 
-    // what the next level up is worth across everything they can write
-    var idx = LV.indexOf(state.level);
-    if(idx > 0){
-      var up = LV[idx-1], now = 0, then = 0, counted = 0;
-      mine.forEach(function(p){
-        var a = rateAt(p, state.level), b = rateAt(p, up);
-        if(a===null || b===null) return;
-        now += a; then += b; counted++;
-      });
-      if(counted){
-        var gain = (then - now) / counted;
-        html += '<div class="cg-next"><b>What the next level up is worth.</b> Across the '+counted+' product'+(counted===1?'':'s')+
-          ' you can write, moving from <b>'+state.level+'</b> to <b>'+up+'</b> adds an average of <b>'+
-          (Math.round(gain*10)/10)+' points</b> &mdash; about <b>'+money(state.prem * gain/100)+
-          '</b> more on every '+money(state.prem)+' of annual premium you write.</div>';
-      }
-    }
     host.innerHTML = html;
+  }
+
+  /* ---------- promoting yourself ---------- */
+  var POLICIES_A_YEAR = 6 * 52;   // one a day, six a week, fifty-two weeks
+
+  function drawPromo(){
+    var host = document.getElementById('cgPromoWrap');
+    if(!anyPicked()){ host.innerHTML = ''; return; }
+
+    var idx = LV.indexOf(state.level);
+    var mine = PR.filter(function(p){ return picked(p.c) && rateAt(p, state.level)!==null; });
+
+    if(idx <= 0){
+      host.innerHTML = '<div class="cg-promo top"><span class="cg-promokick">Promoting yourself</span>'+
+        '<h2>You are at the top of the grid</h2>'+
+        '<p class="cg-next">145 is the highest contract on this schedule, so there is no next level to price. '+
+        'From here the raise comes from production and from the agents you build, not from the grid.</p>'+
+        '<div class="cg-promobig"><div class="cg-promonum">145</div>'+
+        '<div class="cg-promolbl">Top of the schedule<span>Every product below is already at its best rate</span></div></div></div>';
+      return;
+    }
+
+    var up = LV[idx-1], now = 0, then = 0, counted = 0;
+    mine.forEach(function(p){
+      var a = rateAt(p, state.level), b = rateAt(p, up);
+      if(a===null || b===null) return;
+      now += a; then += b; counted++;
+    });
+    if(!counted){ host.innerHTML = ''; return; }
+
+    var gain     = (then - now) / counted;               // average extra points
+    var perPolicy = state.prem * gain / 100;             // extra dollars per policy
+    var perYear   = perPolicy * POLICIES_A_YEAR;
+
+    host.innerHTML =
+      '<div class="cg-promo"><span class="cg-promokick">Promoting yourself</span>'+
+      '<h2>What your next level is worth to you</h2>'+
+      '<p class="cg-next">Across the <b>'+counted+'</b> product'+(counted===1?'':'s')+
+        ' you can write today, moving from <b>'+state.level+'</b> to <b>'+up+'</b> adds an average of <b>'+
+        (Math.round(gain*10)/10)+' points</b> \u2014 about <b>'+money(perPolicy)+
+        '</b> more on every '+money(state.prem)+' policy you write.</p>'+
+      '<div class="cg-promobig">'+
+        '<div class="cg-promonum">'+money(perYear)+'</div>'+
+        '<div class="cg-promolbl">more a year, at one policy a day'+
+          '<span>6 a week &middot; '+POLICIES_A_YEAR+' a year &middot; same clients, same effort, better contract</span></div>'+
+      '</div>'+
+      '<p class="cg-promofoot">That is the floor, not the ceiling. It is the raise on business you are already writing \u2014 '+
+      'it counts nothing for the extra production that usually comes with the promotion.</p>'+
+      '</div>';
   }
 
   /* ---------- the grid ---------- */
@@ -411,6 +457,7 @@ var CG = {"levels":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65
       cols.forEach(function(p){
         var ty = p.t ? (TY[p.t] ? TY[p.t].label : p.t) : 'unclassified';
         h += '<th class="prod">'+esc(p.p)+'<span class="ty">'+esc(ty)+'</span>'+
+          (p.n ? '<span class="note">'+esc(p.n)+'</span>' : '')+
           (p.d==='instabrain' ? '<a class="cg-detail" href="https://portal.ffloptimum.com/instabrain-comp.html">full grid &#8599;</a>' : '')+
           '</th>';
       });
@@ -433,7 +480,7 @@ var CG = {"levels":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65
     document.getElementById('cgGrids').innerHTML = out;
   }
 
-  function render(){ drawLevels(); drawChips(); drawScore(); drawGrids(); }
+  function render(){ drawLevels(); drawChips(); drawPromo(); drawScore(); drawGrids(); }
 
   /* ---------- events ---------- */
   document.getElementById('cgLvls').addEventListener('click', function(e){
@@ -459,7 +506,7 @@ var CG = {"levels":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65
   function readPrem(){
     var n = parseFloat(String(prem.value).replace(/[^0-9.]/g,''));
     if(!isFinite(n) || n <= 0) n = 1200;
-    state.prem = n; save(); drawScore();
+    state.prem = n; save(); drawPromo(); drawScore();
   }
   prem.addEventListener('change', function(){ readPrem(); prem.value = state.prem.toLocaleString('en-US'); });
   prem.addEventListener('blur',   function(){ readPrem(); prem.value = state.prem.toLocaleString('en-US'); });
