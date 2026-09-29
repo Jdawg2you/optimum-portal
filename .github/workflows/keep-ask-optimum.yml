@@ -1,0 +1,35 @@
+# Safety net: if an upload of index.html ever drops the Ask Optimum line,
+# put it back automatically within a minute of the push.
+name: Keep Ask Optimum on the portal
+on:
+  push:
+    branches: [main]
+    paths: [index.html]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Put the Ask Optimum line back if it is missing
+        run: |
+          if grep -q 'ask-optimum.js' index.html; then
+            echo "Ask Optimum line present. Nothing to do."; exit 0
+          fi
+          python3 - <<'PY'
+          p = 'index.html'
+          s = open(p, encoding='utf-8').read()
+          tag = ('<!-- ASK OPTIMUM: keep this line. It loads the Ask Optimum button, dashboard bar and chat panel. '
+                 'Removing it takes the bot off the portal for every agent. -->\n'
+                 '<script src="ask-optimum.js?v=2" defer></script>\n')
+          i = s.rfind('</body>')
+          if i < 0:
+              raise SystemExit('No </body> in index.html; not touching it.')
+          open(p, 'w', encoding='utf-8').write(s[:i] + tag + s[i:])
+          PY
+          git config user.name "Ask Optimum guard"
+          git config user.email "actions@users.noreply.github.com"
+          git commit -am "Restore the Ask Optimum line (dropped by the last index.html upload)"
+          git push
