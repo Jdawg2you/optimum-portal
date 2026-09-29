@@ -295,7 +295,7 @@ table.cg .hidecol{display:none}
   <div id="cgScoreWrap"></div>
 
   <div class="cg-head2">The whole grid</div>
-  <p class="cg-sub2">Laid out the way the PDF is, one block per page. Your level is the highlighted row; the carriers you picked are outlined inside it. Look up and down your own column &mdash; that is the ladder, and that is what moving a level is worth.</p>
+  <p class="cg-sub2">Grouped by carrier, in blocks that fit on the screen &mdash; every product a carrier writes sits together. Your level is the highlighted row; the carriers you picked are outlined inside it. Look up and down your own column &mdash; that is the ladder, and that is what moving a level is worth.</p>
   <p class="cg-legend"><span class="sw"></span> your row &nbsp;&middot;&nbsp; <b style="outline:2px solid var(--navy);outline-offset:1px;padding:0 3px">outlined</b> = a carrier you selected &nbsp;&middot;&nbsp; &ldquo;&mdash;&rdquo; = not available at that level</p>
   <div id="cgGrids"></div>
 
@@ -352,7 +352,7 @@ var CG = {"levels":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65
   });
   CARRIERS = CARRIERS.concat(ANN_ONLY);
 
-  var state = { level: 110, target: null, picks: {}, only: false, prem: 1200 };
+  var state = { level: 90, target: 100, picks: {}, only: false, prem: 1200 };
   try{
     var raw = localStorage.getItem('ffl-comp-grid');
     if(raw){ var s = JSON.parse(raw);
@@ -497,25 +497,44 @@ var CG = {"levels":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65
 
   /* ---------- the grid ---------- */
   function drawGrids(){
-    var pages = [1,2,3,4,5,6,7], out = '';
-    pages.forEach(function(pg){
-      var cols = PR.filter(function(p){ return p.pg===pg; });
-      if(state.only && anyPicked()) cols = cols.filter(function(p){ return picked(p.c); });
-      if(!cols.length) return;
+    var cols = PR.slice();
+    if(state.only && anyPicked()) cols = cols.filter(function(p){ return picked(p.c); });
+    if(!cols.length){
+      document.getElementById('cgGrids').innerHTML =
+        '<p class="cg-empty">No carriers selected, and &ldquo;show only my carriers&rdquo; is on. '+
+        'Pick a carrier above, or untick that box to see the whole grid.</p>';
+      return;
+    }
 
-      // carrier header spans, in column order
-      var spans = [], last = null;
-      cols.forEach(function(p){
-        if(last && last.c === p.c){ last.n++; } else { last = {c:p.c, n:1}; spans.push(last); }
-      });
+    // group every product under its carrier, so a carrier is never split across blocks
+    var order = [], groups = {};
+    cols.forEach(function(p){
+      if(!groups[p.c]){ groups[p.c] = []; order.push(p.c); }
+      groups[p.c].push(p);
+    });
+    order.sort(function(a,b){ return a.localeCompare(b); });
+
+    // best-fit pack into blocks that stay narrow enough to read without sliding sideways
+    var CAP = 10, blocks = [];
+    order.forEach(function(c){
+      var k = groups[c].length, placed = false;
+      for(var i = 0; i < blocks.length; i++){
+        if(blocks[i].n + k <= CAP){ blocks[i].cs.push(c); blocks[i].n += k; placed = true; break; }
+      }
+      if(!placed) blocks.push({cs:[c], n:k});
+    });
+
+    var out = blocks.map(function(bl){
+      var list = [];
+      bl.cs.forEach(function(c){ groups[c].forEach(function(p){ list.push(p); }); });
 
       var h = '<div class="cg-wrap"><table class="cg"><thead>';
       h += '<tr><th class="lvlh" rowspan="2">FFL<br>level</th>';
-      spans.forEach(function(s){
-        h += '<th class="car" colspan="'+s.n+'" style="background:'+(COL[s.c]||'#333')+'">'+esc(s.c)+'</th>';
+      bl.cs.forEach(function(c){
+        h += '<th class="car" colspan="'+groups[c].length+'" style="background:'+(COL[c]||'#333')+'">'+esc(c)+'</th>';
       });
       h += '</tr><tr>';
-      cols.forEach(function(p){
+      list.forEach(function(p){
         var ty = p.t ? (TY[p.t] ? TY[p.t].label : p.t) : 'unclassified';
         h += '<th class="prod">'+esc(p.p)+'<span class="ty">'+esc(ty)+'</span>'+
           (p.n ? '<span class="note">'+esc(p.n)+'</span>' : '')+
@@ -527,17 +546,16 @@ var CG = {"levels":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65
       LV.forEach(function(l, li){
         var me = (l === state.level);
         h += '<tr class="'+(me?'me':'')+'"><td class="lvl">'+l+'</td>';
-        cols.forEach(function(p){
+        list.forEach(function(p){
           var v = p.v[li];
           var cls = (v===null ? 'na' : '') + (me && picked(p.c) ? ' mine' : '');
           h += '<td class="'+cls.trim()+'">'+pct(v)+'</td>';
         });
         h += '</tr>';
       });
-      h += '</tbody></table></div>';
-      out += h;
-    });
-    if(!out) out = '<p class="cg-empty">No carriers selected, and &ldquo;show only my carriers&rdquo; is on. Pick a carrier above, or untick that box to see the whole grid.</p>';
+      return h + '</tbody></table></div>';
+    }).join('');
+
     document.getElementById('cgGrids').innerHTML = out;
   }
 
@@ -581,17 +599,26 @@ var CG = {"levels":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65
 
     if(byLevel.length){
       h += '<p class="cg-sub2" style="margin-top:22px"><b>Published on the contract ladder instead.</b> '+
-        'A few annuity products are quoted against the FFL level rather than a production tier. They are still annuities, '+
-        'so they are still kept out of the promotion maths.</p>';
+        'A few annuity products are quoted against the FFL level rather than a production tier. Levels that pay the same '+
+        'are banded together. They are still annuities, so they are still kept out of the promotion maths.</p>';
       h += '<div class="cg-wrap"><table class="cg"><thead><tr class="grp"><th class="lvlh" rowspan="2">FFL<br>level</th>';
       byLevel.forEach(function(a){ h += '<th class="car" style="background:'+(COL[a.c]||'#333')+'">'+esc(a.c)+'</th>'; });
       h += '</tr><tr>';
       byLevel.forEach(function(a){ h += '<th class="prod">'+esc(a.p)+'<span class="ty">Annuity</span></th>'; });
       h += '</tr></thead><tbody>';
+      // collapse runs of identical values into bands — three rows instead of seventeen
+      var key = function(li){ return byLevel.map(function(a){ return String(a.v[li]); }).join('|'); };
+      var bands = [], cur = null;
       LV.forEach(function(l, li){
-        var me = (l === state.level);
-        h += '<tr class="'+(me?'me':'')+'"><td class="lvl">'+l+'</td>';
-        byLevel.forEach(function(a){ h += '<td>'+(a.v[li]==null?'&mdash;':a.v[li]+'%')+'</td>'; });
+        var k = key(li);
+        if(cur && cur.k === k){ cur.lo = l; cur.idx.push(li); }
+        else { cur = {k:k, hi:l, lo:l, i:li, idx:[li]}; bands.push(cur); }
+      });
+      bands.forEach(function(b){
+        var label = (b.hi === b.lo) ? String(b.hi) : (b.hi + ' \u2013 ' + b.lo);
+        var me = b.idx.indexOf(LV.indexOf(state.level)) > -1;
+        h += '<tr class="'+(me?'me':'')+'"><td class="lvl">'+label+'</td>';
+        byLevel.forEach(function(a){ h += '<td>'+(a.v[b.i]==null?'&mdash;':a.v[b.i]+'%')+'</td>'; });
         h += '</tr>';
       });
       h += '</tbody></table></div>';
