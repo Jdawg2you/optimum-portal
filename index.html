@@ -4799,6 +4799,7 @@ try{
       var COMP=[
         ['General Compensation','https://drive.google.com/file/d/1w4ZNu10uKH44yC1GrD1FdjguYJLCA7Mx/view'],
         ['Compensation by Product','https://portal.ffloptimum.com/comp-by-product.pdf'],
+        ['InstaBrain \u2014 full commission grid','https://portal.ffloptimum.com/instabrain-comp.html'],
         ['Annuity & IUL Compensation','https://drive.google.com/file/d/1xVpb9OhZfa5RskUW1ib6iNiH5LGFHwPF/view'],
         ['Producer Bonus','https://drive.google.com/file/d/1QMbjz2HpePURBVBD432q9m49zG0coSGW/view'],
         ['VP Bonus','https://docs.google.com/document/d/1A7sNIR98B9WGF6sUNwAStIbYBAvj2yFckOmq0ZToPcw/edit']
@@ -4806,7 +4807,7 @@ try{
       var compRows=COMP.map(function(c){return '<a class="m5-comprow" href="'+c[1]+'" target="_blank" rel="noopener"><span class="m5-cdot" data-ico="dollar"></span><span class="m5-clbl">'+c[0]+'</span><span class="m5-carr">↗</span></a>';}).join('');
       var comp='<div class="m5-expand" id="m5-comp">'+
         '<div class="m5-exhead" onclick="m5ToggleExpand(this)"><span class="m5-exchip" data-ico="dollar"></span>'+
-          '<span class="m5-extext"><span class="m5-exname">Compensation documents</span><span class="m5-exsub">General, by product, IUL/annuity, producer &amp; VP bonus — tap to open.</span></span>'+
+          '<span class="m5-extext"><span class="m5-exname">Compensation documents</span><span class="m5-exsub">General, by product, InstaBrain, IUL/annuity, producer &amp; VP bonus — tap to open.</span></span>'+
           '<span class="m5-exchev">›</span></div>'+
         '<div class="m5-exbody"><div class="m5-complist">'+compRows+'</div></div></div>';
       var PORTAL=m5MyRegLink();
@@ -8071,7 +8072,5 @@ window.goatcounter = {
 };
 </script>
 <script data-goatcounter="https://ffloptimum.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
-<!-- ASK OPTIMUM: keep this line. It loads the Ask Optimum button, dashboard bar and chat panel. Removing it takes the bot off the portal for every agent. -->
-<script src="ask-optimum.js?v=2" defer></script>
 </body>
 </html>
