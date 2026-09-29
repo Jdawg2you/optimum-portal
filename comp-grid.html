@@ -141,7 +141,9 @@ h1{font-size:clamp(30px,4.5vw,44px);margin-bottom:6px}
 .cg-prow:last-child{border-bottom:0}
 .cg-prow .rank{font:800 12px var(--sans);color:var(--ink-soft);min-width:18px}
 .cg-prow .who{flex:1;min-width:0}
-.cg-prow .car{display:block;font-size:12px;color:var(--ink-soft)}
+.cg-prow .car{display:flex;align-items:center;gap:6px;font:700 12px var(--sans);color:var(--fg);opacity:.78;margin-bottom:2px;letter-spacing:.01em}
+.cg-prow .cdot{width:8px;height:8px;border-radius:2px;flex:none}
+.cg-prow .pname{display:block;font-weight:600}
 .cg-prow .pct{font:800 16px var(--sans);white-space:nowrap}
 .cg-prow .amt{font:600 12.5px var(--sans);color:var(--ink-soft);white-space:nowrap;min-width:64px;text-align:right}
 .cg-prow.top{background:var(--gold-soft)}
@@ -432,7 +434,10 @@ var CG = {"levels":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65
         var r = rateAt(p, state.level);
         html += '<div class="cg-prow'+(i===0?' top':'')+'">'+
           '<span class="rank">'+(i+1)+'</span>'+
-          '<span class="who">'+esc(p.p)+'<span class="car">'+esc(p.c)+'</span></span>'+
+          '<span class="who">'+
+            '<span class="car"><span class="cdot" style="background:'+(COL[p.c]||'#888')+'"></span>'+esc(p.c)+'</span>'+
+            '<span class="pname">'+esc(p.p)+'</span>'+
+          '</span>'+
           '<span class="pct">'+r+'%</span>'+
           '<span class="amt">'+money(state.prem * r/100)+'</span></div>';
       });
