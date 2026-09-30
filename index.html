@@ -1835,8 +1835,27 @@ function previewAs(s){ m5CurrentUser={first:(s==="lic"?"Megan":(s==="pre"?"Kane"
 function routeTo(status,first,last){
   function _capture(){ if(typeof m5CurrentUser!=='undefined'){ if(m5CurrentUser.email) store.data.email=(m5CurrentUser.email||'').trim().toLowerCase(); if(m5CurrentUser.phone) store.data.phone=(''+m5CurrentUser.phone).trim(); } try{ store.data.t_lastLogin=(new Date()).toISOString(); }catch(e){} }
   if(status==="lic"){store.data.status="licensed";store.data.first=first||"Agent";store.data.last=last||"";_capture();store.save();startApp();}
-  else if(status==="pre"){store.data.status="unlicensed";store.data.first=first||"there";store.data.last=last||"";_capture();try{store.save();}catch(e){}showPre(first||"there");}
+  else if(status==="pre"){store.data.status="unlicensed";store.data.first=first||"there";store.data.last=last||"";_capture();try{store.save();}catch(e){}showPre(first||"there");m5PreRestore();}
   else{showNotReg();}
+}
+/* An unlicensed agent's ticks go up to the sheet on every save, but until now they were
+   only ever read back on the licensed side of the portal. Anyone who registered on a
+   laptop and then opened the portal on their phone met an empty checklist and had to
+   re-tick work they had already done. Pull their progress in the background -- the page
+   is already on screen, so a slow backend costs them nothing -- and repaint when it
+   lands. Seeding glMig first means the sheet's copy of the migration bookkeeping can
+   never overwrite this device's, whichever way the race falls. */
+function m5PreRestore(){
+  try{
+    if(typeof m5BackendLoad!=='function') return;
+    if(!store.data.glMig) store.data.glMig={};
+    m5BackendLoad(function(){
+      try{
+        if(typeof m5MigrateChecks==='function') m5MigrateChecks();
+        if(typeof renderPrePath==='function') renderPrePath();
+      }catch(e){}
+    });
+  }catch(e){}
 }
 function m5HideAll(){["login","app","m5-prelic","m5-notreg"].forEach(function(id){var el=document.getElementById(id);if(el)el.classList.add("hidden");});}
 function m5BackToLogin(){m5HideAll();document.getElementById("login").classList.remove("hidden");window.scrollTo(0,0);}
@@ -7352,12 +7371,24 @@ function m5GlDays(iso){ var t=Date.parse(iso+'T12:00:00'); return isNaN(t)?null:
    steps keeps a finished page. Nobody's progress moves because we changed the model. */
 function m5GlMigrate(){
   try{
-    if(store.data.glMigrated) return;
     var c=store.data.checks||(store.data.checks={});
     var map={pre_1:'gl_plug',pre_2:'gl_book',pre_3:'gl_enroll',pre_4:'gl_half',pre_5:'gl_pass',pre_6:'gl_apply'};
     var all=true, k;
+    /* Which legacy ticks have already been carried across, tracked per key rather than
+       with one flag. Per key, so ticks that turn up later -- a restore from the sheet on
+       a second device -- still convert, and so a step the agent deliberately un-ticked
+       is never quietly re-ticked behind them. */
+    var seen=store.data.glMig;
+    if(!seen){
+      seen=store.data.glMig={};
+      /* Already migrated under the old one-shot flag: whatever it held is carried. */
+      if(store.data.glMigrated){ for(k in map) if(c[k]) seen[k]=1; }
+    }
+    var fresh=[];
+    for(k in map){ if(c[k] && !seen[k]) fresh.push(k); }
+    if(!fresh.length && store.data.glMigrated) return;
     for(k in map){ if(!c[k]) all=false; }
-    for(k in map){ if(c[k] && !c[map[k]]) c[map[k]]=c[k]; }
+    for(var _i=0;_i<fresh.length;_i++){ var _f=fresh[_i]; if(!c[map[_f]]) c[map[_f]]=c[_f]; seen[_f]=1; }
     if(c.pre_2 && !store.data.examDate) store.data.examLegacy=1;
     if(all){
       if(!c.gl_coursedone) c.gl_coursedone=c.pre_5;
