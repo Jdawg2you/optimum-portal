@@ -6798,6 +6798,30 @@ function m5RcSave(){ try{ if(typeof store.save==='function') store.save(); }catc
 function m5RcRepaint(){ try{ if(typeof currentView==='function'&&currentView()==='dashboard'&&typeof render==='function') render('dashboard'); }catch(e){} }
 function m5RcEsc(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function m5RcNorm(s){ return String(s==null?'':s).trim().toLowerCase().replace(/\s+/g,' '); }
+/* Who brought this person in, seen from the viewer's chair. Recruiter EMAIL is the only
+   key that cannot drift; the name is the fallback while the backend has not been
+   redeployed with recruiterEmail. When we know neither, treat them as the viewer's own --
+   claiming an upline relationship we cannot name would print "I work with" and then
+   nothing. One function so the card footer and the upline message can never disagree
+   about who owns a recruit. */
+function m5RcUpline(a){
+  var me=((store.data&&store.data.email)||'').trim().toLowerCase();
+  var myNm=m5RcNorm((store.data.name||'')||((store.data.first||'')+' '+(store.data.last||'')));
+  var rEm=String(a.recruiterEmail||'').trim().toLowerCase();
+  var rNm=m5RcNorm((a.recruiterFirst||'')+' '+(a.recruiterLast||''));
+  var direct = rEm ? (rEm===me) : (rNm ? (rNm===myNm) : true);
+  return { direct:direct,
+           under:((a.recruiterFirst||'')+' '+(a.recruiterLast||'')).trim(),
+           recFirst:String(a.recruiterFirst||'').trim() };
+}
+/* The viewer, for signing a message. Falls back to splitting the full name so the
+   sign-off is never blank while the greeting has a name in it. */
+function m5RcMe(){
+  var d=(typeof store!=='undefined'&&store.data)?store.data:{};
+  var f=String(d.first||'').trim(), l=String(d.last||'').trim();
+  var full=String(d.name||'').trim()||((f+' '+l).trim());
+  return { full:full, first:f||String(full).split(/\s+/)[0]||'' };
+}
 function m5RcFirst(a){ var n=String(a.name||'').trim().split(/\s+/)[0]; return n||'They'; }
 function m5RcDays(iso){ var t=iso?Date.parse(iso):NaN; if(isNaN(t)) return null; return Math.floor((Date.now()-t)/864e5); }
 function m5RcAgo(d){ if(d===null) return ''; if(d<=0) return 'today'; if(d===1) return 'yesterday'; if(d<30) return d+' days ago'; var m=Math.round(d/30); return m<=1?'a month ago':m+' months ago'; }
@@ -6807,9 +6831,15 @@ function m5RcAgo(d){ if(d===null) return ''; if(d<=0) return 'today'; if(d===1) 
 function m5RcLong(iso){ var d=new Date(iso); if(isNaN(d.getTime())) return ''; return d.toLocaleDateString('en-US',{month:'long',day:'numeric',year:'numeric'}); }
 
 /* ---- messages (names swap in) ---- */
-function m5RcMsg(kind,n,d){
+function m5RcMsg(kind,n,d,x){
   d=(typeof d==='number'&&d>0)?d:0;
+  x=x||{};
   var M={
+  /* The upline note. Not a replacement for the recruiter's own first-steps message --
+     that one still goes out from the person who signed them up. This is the layer above
+     saying hello, so the new agent knows the wider team is there. It names their actual
+     recruiter, not whoever happens to be reading the card. */
+  up1:"Hey "+n+" — This is "+(x.me||'')+", I work with "+(x.rec||'')+", we are happy you have joined Optimum and Family First Life. If I can ever help, please never hesitate to reach out.\n-"+(x.meFirst||''),
   u1:"Hey "+n+" — really glad you're on board.\n\nQuick recap so nothing slips: first job is getting licensed, and we aim for your exam within two weeks.\n\nTwo things this week:\n1. Register for your pre-licensing course\n2. Put your exam date on the calendar and text me the date\n\nIt's all laid out in the portal — check each step off as you go so I can see where you're at and jump in if you get stuck.\n\nWhat questions do you have?",
   u3:"Hey "+n+" — I noticed the course registration and exam date aren't checked off in the portal yet.\n\nNot chasing you — I just want to make sure nothing's in the way.\n\nAre you still on track for the exam? If something's come up, tell me and we may be able to work around it.\n\nWhere are you at?",
   u4:"Hey "+n+" — it's been "+(d?d+" days":"a couple of weeks")+" since you came on, and two weeks was the window we talked about for your exam.\n\nWhere are you with it?\n\nIf you're close, let's get the date locked in. If it's stalled out, let's figure out what's in the way — that part's fixable. I'd rather know than guess.",
@@ -6848,6 +6878,15 @@ function m5RcPace(a,days){
 function m5RcSteps(a,days,c){
   var st=(a.steps&&typeof a.steps==='object')?a.steps:{};
   var n=m5RcFirst(a), S=[];
+  /* An alternate message for the layer above the recruiter, offered alongside the
+     recruiter's own -- never instead of it. It only makes sense when somebody else on
+     the team signed this person up, and only when we can name both them and ourselves;
+     a half-filled introduction is worse than none. Everyone on this card list is already
+     somewhere under the viewer, so this reaches the whole organization, not just the
+     front line. */
+  var _up=m5RcUpline(a), _me=m5RcMe();
+  var upMsg=(!_up.direct && _up.recFirst && _me.full) ? 'up1' : '';
+  var upCtx={me:_me.full, meFirst:_me.first, rec:_up.recFirst};
   if(!a.licensed){
     /* "Started working the steps" also falls out of the Get-Licensed percentage: anything
        above zero means they have ticked at least one pre-licensing step. Using that as a
@@ -6857,7 +6896,7 @@ function m5RcSteps(a,days,c){
     if(isNaN(_gp)) _gp=0;
     var started=!!a.loggedIn&&(!!(st.pre_1||st.pre_2||st.pre_3||st.pre_4||st.pre_5||st.pre_6)||_gp>0);
     S.push({k:'s1',you:true,done:!!c.s1,t:'Confirm first steps with '+n+' within 24 hours',
-      d:'Re-welcome them, reset the expectation, and point at their next two steps. Some of this likely happened already — this is making sure it landed.',msg:'u1'});
+      d:'Re-welcome them, reset the expectation, and point at their next two steps. Some of this likely happened already — this is making sure it landed.',msg:'u1',msg2:upMsg,msgCtx:upCtx});
     S.push({k:'s2',you:false,done:started,t:n+' has logged in and started working the steps',
       d:'Not just registered — registering is how they got here. This is whether they have come back and checked anything off.'});
     S.push({k:'s3',you:false,done:!!(st.pre_2&&st.pre_3),t:n+' is enrolled in pre-licensing with an exam date set',
@@ -6879,7 +6918,7 @@ function m5RcSteps(a,days,c){
     if(just) S.push({k:'cg',you:true,done:!!c.cg,t:'Congratulate '+n+' \u2014 they just passed and got licensed',
       d:'Thirty seconds, and it is the moment they will remember. Then point them at Fast Start.',msg:'n1'});
     S.push({k:'s1',you:true,done:!!c.s1,t:'Confirm first steps with '+n+' within 24 hours',
-      d:just?'They can produce now — everything shifts to Fast Start and contracting.':'They can produce right away, so speed is everything. Get them pointed at Fast Start today.',msg:just?'':'l1'});
+      d:just?'They can produce now — everything shifts to Fast Start and contracting.':'They can produce right away, so speed is everything. Get them pointed at Fast Start today.',msg:just?'':'l1',msg2:upMsg,msgCtx:upCtx});
     /* Their contracting cannot start until the recruiter adds them on FFL National's
        system (HCMS). Only the recruiter can do it, so it is a "you" box -- and ticking it
        opens the steps rather than just flipping a checkmark. */
@@ -6948,11 +6987,8 @@ window.m5RcCards=function(){
        ever ticked their own box. The unlicensed card cannot reach it without the licence. */
     /* Direct vs indirect. Prefer recruiter EMAIL — the one key that cannot drift. Falls
        back to name only while the backend has not been redeployed with recruiterEmail. */
-    var myEm=me, myNm=m5RcNorm((store.data.name||'')||((store.data.first||'')+' '+(store.data.last||'')));
-    var rEm=String(a.recruiterEmail||'').trim().toLowerCase();
-    var rNm=m5RcNorm((a.recruiterFirst||'')+' '+(a.recruiterLast||''));
-    var direct = rEm ? (rEm===myEm) : (rNm? (rNm===myNm) : true);
-    var under=((a.recruiterFirst||'')+' '+(a.recruiterLast||'')).trim();
+    var _upl=m5RcUpline(a);
+    var direct=_upl.direct, under=_upl.under;
     /* Someone whose signup long predates their portal start is NOT a new face, and the
        recruiter needs to know that before they open with "welcome aboard". Three weeks of
        gap is the threshold — below that it is just paperwork lag, not a different person. */
@@ -7117,8 +7153,8 @@ window.m5RcCopy=function(btn,id){
 window.m5RcShowAll=function(){ window.m5RcAll=true; m5RcRepaint(); };
 
 /* ---- render ---- */
-function m5RcMsgBlock(id,kind,n,label,days){
-  var txt=m5RcMsg(kind,n,days); if(!txt) return '';
+function m5RcMsgBlock(id,kind,n,label,days,ctx){
+  var txt=m5RcMsg(kind,n,days,ctx); if(!txt) return '';
   return '<button class="nr-msgbtn" onclick="m5RcMsgOpen(this,\''+id+'\')"><span>▸</span> '+(label||'View &amp; copy message')+'</button>'
     + '<div class="nr-msg" id="'+id+'" style="display:none"><p id="'+id+'-t">'+m5RcEsc(txt)+'</p>'
     + '<div class="nr-msgfoot"><button class="nr-copy" onclick="m5RcCopy(this,\''+id+'\')">Copy</button>'
@@ -7237,7 +7273,8 @@ h+='<div class="nr-prog"><div class="nr-bar"><i style="width:'+pct+'%"></i></div
     h+='<li class="nr-step'+(s.done?' done':'')+'">'+box+'<div class="nr-body"><div class="nr-t">'+m5RcEsc(s.t)+tag+'</div>'
       +'<div class="nr-d">'+m5RcEsc(s.d)+'</div>'
       +(s.hcms?'<button type="button" class="nr-hcbtn" onclick="m5HcOpen(\''+m.em+'\')">'+(s.done?'View the enrollment steps':'Show me how \u2192')+'</button>':'')
-      +(s.msg?m5RcMsgBlock('nrm'+idx+'-'+i,s.msg,n,'View &amp; copy message',m.days):'')+'</div></li>';
+      +(s.msg?m5RcMsgBlock('nrm'+idx+'-'+i,s.msg,n,'View &amp; copy message',m.days):'')
+      +(s.msg2?m5RcMsgBlock('nru'+idx+'-'+i,s.msg2,n,'View &amp; copy upline message',m.days,s.msgCtx):'')+'</div></li>';
   }
   h+='</ul>';
   h+='<div class="nr-foot">'
