@@ -7695,8 +7695,9 @@ function m5ExamAI(){
   m5ExamAIClose();
   var steps=[
     ['Take your practice test.','Screenshot every question you got wrong &mdash; plus any you got right by guessing. Each shot needs the question, the answer choices, your answer, the correct answer, and the explanation.'],
-    ['Open a new chat.','ChatGPT, Claude, Gemini &mdash; any of them. Paste the prompt below as your first message.'],
-    ['Upload your screenshots.','Five to ten per message. It confirms each batch and waits for the next.'],
+    ['Open a new chat.','ChatGPT, Claude, Gemini &mdash; any of them. Start a fresh chat, not one you have been using for something else.'],
+    ['Copy the prompt below and paste it in first.','Hit <b>Copy the prompt</b> at the bottom of this box, paste it in as your very first message, and send it. It will answer <b>&ldquo;Ready&rdquo;</b> &mdash; that is how you know it is set up. Do not send anything else before this.'],
+    ['Then upload your screenshots.','Only after the prompt is in. Five to ten per message. It confirms each batch and waits for the next.'],
     ['Type DONE by itself.','Just the word DONE and nothing else &mdash; that is what starts the quizzing. It drills each question until you get it right twice in a row, then retires it.'],
     ['Go retake the practice test.','When the drill is clean it sends you back to the course simulator. That is what actually measures you, and it mixes in questions you have not seen.'],
     ['Bring the new misses back.','Same chat if you can &mdash; it keeps your history and tells you which misses are repeats. Those repeats are the ones really costing you.']
@@ -7712,7 +7713,7 @@ function m5ExamAI(){
         '<h4>How it works</h4><ol class="m5xam-steps">'+list+'</ol>'+
         '<h4>The prompt — copy this</h4>'+
         '<div class="m5xam-copyrow"><button type="button" class="m5-lnk go" onclick="m5ExamAICopy()">⧉ Copy the prompt</button>'+
-          '<span class="m5xam-stat" id="m5xam-stat">Paste it as your first message in the chat.</span></div>'+
+          '<span class="m5xam-stat" id="m5xam-stat">Paste this in first, before any screenshots.</span></div>'+
         '<textarea class="m5xam-src" id="m5xam-src" readonly spellcheck="false" onclick="this.select()">'+M5_XAM_PROMPT_HTML+'</textarea>'+
         '<p class="m5xam-fine">Tip: keep that chat open all the way to exam day and keep cycling &mdash; drill here, retake in the simulator, bring back what you missed. This does not replace the practice test; it is what you do between attempts.</p>'+
       '</div></div></div>';
