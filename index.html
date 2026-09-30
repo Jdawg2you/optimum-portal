@@ -3196,9 +3196,9 @@ const ACAD_LMS=[
       "url": ""
      },
      {
-      "label": "Tuesday Winning System call link",
+      "label": "Save the Tuesday call to your calendar — downloads a file, open it to add",
       "type": "link",
-      "url": ""
+      "url": "js:m5AddWinSystem"
      },
      {
       "label": "Join GOATLeads page (no cost to join)",
@@ -3221,7 +3221,7 @@ const ACAD_LMS=[
      "It's taught LIVE every Tuesday at 12pm ET — attend it. The video is the full presentation; the live call is where current numbers and ratios get worked."
     ],
     "doNext": [
-     "Add the Tuesday Winning System call to your calendar.",
+     "Add the Tuesday Winning System call to your calendar — tap the button above. It downloads a small calendar file; open that download and the weekly 12pm ET call saves itself, with a reminder ten minutes before.",
      "Once you've finished this, head to the Leads page to join GOAT, register where you buy leads, and pick your strategy."
     ],
     "status": "coming_soon",
@@ -5417,6 +5417,23 @@ var M5_VTZ=['BEGIN:VTIMEZONE','TZID:America/New_York','BEGIN:DAYLIGHT','TZOFFSET
 function m5download(fn,text){try{var b=new Blob([text],{type:'text/calendar;charset=utf-8'});var url=URL.createObjectURL(b);var a=document.createElement('a');a.href=url;a.download=fn;document.body.appendChild(a);a.click();setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},120);}catch(e){}}
 function m5calReg(e,day){if(e.allday||e.sessions)return -1;var byday;if(e.days&&e.days.length){byday=e.days.map(function(d){return M5_BYDAY[d];}).join(',');}else if(day!=null){byday=M5_BYDAY[day];}else{return -1;}var rrule=e.recur||('FREQ=WEEKLY;BYDAY='+byday);var dur=e.dur||(/reading|huddle/i.test(e.n)?30:60);var fd=(e.days&&e.days.length)?e.days[0]:day;window.m5CAL.push({n:e.n,s:e.s,dur:dur,link:e.link,rrule:rrule,day:fd});return window.m5CAL.length-1;}
 window.m5AddCal=function(i){var c=window.m5CAL[i];if(!c)return;var d=m5nextDOW(c.day);var st=m5fmtLocal(d,c.s);var en=m5fmtLocal(d,c.s+c.dur);var uid=c.n.replace(/[^a-z0-9]/gi,'').toLowerCase()+'-'+c.day+'@ffloptimum';var L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Optimum Portal//Calls//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH'].concat(M5_VTZ,['BEGIN:VEVENT','UID:'+uid,'DTSTAMP:'+m5nowStamp(),'DTSTART;TZID=America/New_York:'+st,'DTEND;TZID=America/New_York:'+en,'RRULE:'+c.rrule,'SUMMARY:'+m5icsEsc(c.n),'DESCRIPTION:'+m5icsEsc('Optimum team call. Join: '+c.link),'LOCATION:'+m5icsEsc(c.link),'URL:'+c.link,'BEGIN:VALARM','TRIGGER:-PT10M','ACTION:DISPLAY','DESCRIPTION:'+m5icsEsc('Reminder: '+c.n),'END:VALARM','END:VEVENT','END:VCALENDAR']);m5download(c.n.replace(/[^a-z0-9]+/gi,'-').toLowerCase()+'.ics',L.join('\r\n'));if(typeof toast==='function')toast('Calendar invite downloaded ✓');};
+/* The Tuesday Winning System call, savable from the Academy lesson as well as the
+   Calls page. Self-contained rather than an index into m5CAL, because that array is
+   only filled once the Calls page has rendered -- and an agent reaching this from the
+   lesson may never have opened it. Same helpers, so the file is identical in kind. */
+window.m5AddWinSystem=function(){
+  var name='The Winning System', link='https://zoom.fflall.com', day=2, start=720, dur=60;
+  var d=m5nextDOW(day), st=m5fmtLocal(d,start), en=m5fmtLocal(d,start+dur);
+  var L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Optimum Portal//Calls//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH']
+    .concat(M5_VTZ,['BEGIN:VEVENT','UID:winningsystem-2@ffloptimum','DTSTAMP:'+m5nowStamp(),
+      'DTSTART;TZID=America/New_York:'+st,'DTEND;TZID=America/New_York:'+en,
+      'RRULE:FREQ=WEEKLY;BYDAY=TU','SUMMARY:'+m5icsEsc(name),
+      'DESCRIPTION:'+m5icsEsc('Optimum team call \u2014 the Winning System, taught live every Tuesday at 12pm ET. Join: '+link),
+      'LOCATION:'+m5icsEsc(link),'URL:'+link,
+      'BEGIN:VALARM','TRIGGER:-PT10M','ACTION:DISPLAY','DESCRIPTION:'+m5icsEsc('Reminder: '+name),'END:VALARM',
+      'END:VEVENT','END:VCALENDAR']);
+  m5download('winning-system-tuesday.ics', L.join('\r\n'));
+};
 window.m5AddIgnyte=function(){var L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Optimum Portal//Events//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH','BEGIN:VEVENT','UID:ignyte-fall-2026@ffloptimum','DTSTAMP:'+m5nowStamp(),'DTSTART;VALUE=DATE:20260910','DTEND;VALUE=DATE:20260911','SUMMARY:'+m5icsEsc('Ignyte Fall 2026 Sales Conference'),'DESCRIPTION:'+m5icsEsc('FFL Optimum — Ignyte Fall 2026 Sales Conference. Register: https://www.eventbrite.com/e/ignyte-fall-2026-sales-conference-tickets-1990889795973'),'LOCATION:TBC','URL:https://www.eventbrite.com/e/ignyte-fall-2026-sales-conference-tickets-1990889795973','BEGIN:VALARM','TRIGGER:-P1D','ACTION:DISPLAY','DESCRIPTION:Ignyte is tomorrow','END:VALARM','END:VEVENT','END:VCALENDAR'];m5download('ignyte-fall-2026.ics',L.join('\r\n'));if(typeof toast==='function')toast('Calendar invite downloaded ✓');};
 window.m5AddConvention=function(){var L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Optimum Portal//Events//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH','BEGIN:VEVENT','UID:ffl-annual-convention-2027@ffloptimum','DTSTAMP:'+m5nowStamp(),'DTSTART;VALUE=DATE:20270127','DTEND;VALUE=DATE:20270131','SUMMARY:'+m5icsEsc('2027 FFL Annual Convention'),'DESCRIPTION:'+m5icsEsc('Family First Life Annual Convention — Irving, Texas. Register: https://familyfirstlife.com/annualconvention/'),'LOCATION:'+m5icsEsc('Irving, Texas'),'URL:https://familyfirstlife.com/annualconvention/','BEGIN:VALARM','TRIGGER:-P1W','ACTION:DISPLAY','DESCRIPTION:FFL Annual Convention next week','END:VALARM','END:VEVENT','END:VCALENDAR'];m5download('ffl-annual-convention-2027.ics',L.join('\r\n'));if(typeof toast==='function')toast('Calendar invite downloaded ✓');};
 window.m5IgnyteTarget=new Date(2026,8,10,0,0,0);
