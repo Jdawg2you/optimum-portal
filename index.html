@@ -1054,7 +1054,7 @@ const RES_TILES=[
   {k:'payments',i:'💳',t:'Who takes Direct Express / Chime / Cash App?',s:'Carriers by payment method',items:[]},
   {k:'products',i:'📚',t:'Product Training',s:'IUL · Mortgage Protection · Annuities',items:[]},
   {k:'scripts',i:'📝',t:'Scripts',s:'Script Navigator + legacy scripts',reuse:'scripts'},
-  {k:'cheats',i:'🎯',t:'Objection & Sales Cheat Sheets',s:'Opening/closing objections + policy benefits',items:[['Opening Objections Cheat Sheet','The first 30 seconds — the 7 script objections + word tracks.','https://portal.ffloptimum.com/opening-objections.html'],['Closing Objections Cheat Sheet','The money stalls and how to re-close.','https://portal.ffloptimum.com/closing-objections.html'],['Policy Benefits — Plain-English Guide','Term vs. Whole Life vs. IUL — general education.','https://portal.ffloptimum.com/policy-benefits.html']]},
+  {k:'cheats',i:'🎯',t:'Objection & Sales Cheat Sheets',s:'Objections by script — veteran, IUL, mortgage',items:[['Veteran Objections Cheat Sheet — opening &amp; closing','The veteran / final expense call — the first 30 seconds and the money stalls, in one sheet.','https://script.ffloptimum.com/vet/objections/'],['IUL Objections Cheat Sheet — opening &amp; closing','The IUL call — opening and closing objections, in one sheet.','https://script.ffloptimum.com/iul/objections/'],['Mortgage Protection Objections Cheat Sheet — opening &amp; closing','The mortgage protection call — opening and closing objections, in one sheet.','https://script.ffloptimum.com/mortgage/objections/'],['Policy Benefits — Plain-English Guide','Term vs. Whole Life vs. IUL — general education.','https://portal.ffloptimum.com/policy-benefits.html']]},
     {k:'chargebacks',i:'\u26A0\uFE0F',t:'Chargebacks, Explained',s:'Advances, lapses and how not to get hurt',link:'https://tools.ffloptimum.com/chargebacks/'},
   {k:'cleared',i:'✅',t:'Cleared to Dial — New-Agent Checklist',s:'Everything you need before your first call',link:'https://portal.ffloptimum.com/cleared-to-dial-checklist.pdf'},
   {k:'guides',i:'📄',t:'How-tos & admin',s:'Phone registration, state licenses, leaderboard',items:[['Register your phone number to reduce spam','Step-by-step guide.','https://docs.google.com/document/d/1Wu5M_mymae8s7S7SO-KrL3pWePNrRj6WjtERPUPCUmM/edit?usp=sharing'],['How to add other state licenses','Loom walkthrough.','https://www.loom.com/share/5c9253a5d2ef4f3c82079d0c75bc4a2c?sid=45c3dbb0-5484-4b03-8ba6-3ab04c2a6a49'],['Emoji Leaderboard How-To','','https://docs.google.com/document/d/1rl5YRBlO0d2yrt93Vig2Wmc02wWkipqe0c40N48hVEA/edit?usp=sharing']]},
@@ -2545,9 +2545,9 @@ const ACAD_LMS=[
       "url": "https://script.ffloptimum.com/?script=veteran"
      },
      {
-      "label": "Opening Objections Cheat Sheet",
+      "label": "Veteran Objections Cheat Sheet — opening & closing",
       "type": "link",
-      "url": "https://portal.ffloptimum.com/opening-objections.html"
+      "url": "https://script.ffloptimum.com/vet/objections/"
      }
     ],
     "keyTakeaways": [
@@ -2899,9 +2899,9 @@ const ACAD_LMS=[
     "videoEmbedUrl": "https://youtu.be/2BlKBZvubzI",
     "assets": [
      {
-      "label": "Closing Objections Cheat Sheet",
+      "label": "Veteran Objections Cheat Sheet — opening & closing",
       "type": "link",
-      "url": "https://portal.ffloptimum.com/closing-objections.html"
+      "url": "https://script.ffloptimum.com/vet/objections/"
      }
     ],
     "keyTakeaways": [
@@ -2911,7 +2911,7 @@ const ACAD_LMS=[
      "Stay in the one-call close. No callbacks to \"think about it.\""
     ],
     "doNext": [
-     "Review the Closing Objections Cheat Sheet attached above."
+     "Review the Veteran Objections Cheat Sheet attached above — the closing half, the money stalls."
     ],
     "status": "published",
     "poster": "posters/2-7-2.jpg"
@@ -2924,9 +2924,9 @@ const ACAD_LMS=[
     "videoEmbedUrl": "https://youtu.be/_LFl4QyfPyg",
     "assets": [
      {
-      "label": "Closing Objections Cheat Sheet",
+      "label": "Veteran Objections Cheat Sheet — opening & closing",
       "type": "link",
-      "url": "https://portal.ffloptimum.com/closing-objections.html"
+      "url": "https://script.ffloptimum.com/vet/objections/"
      }
     ],
     "keyTakeaways": [
@@ -2935,7 +2935,7 @@ const ACAD_LMS=[
      "\"In writing first\" is a stall. Sending an email breaks the close. Never take an email before the close."
     ],
     "doNext": [
-     "Review and practice the closing objections using the Closing Objections Cheat Sheet above."
+     "Review and practice the closing objections using the Veteran Objections Cheat Sheet above."
     ],
     "status": "published",
     "poster": "posters/2-7-3.jpg"
@@ -3376,7 +3376,13 @@ const ACAD_LMS=[
     "title": "Product Track Intro: Mortgage Protection (Placeholder)",
     "videoTargetSeconds": 90,
     "videoEmbedUrl": "",
-    "assets": [],
+    "assets": [
+     {
+      "label": "Mortgage Protection Objections Cheat Sheet — opening & closing",
+      "type": "link",
+      "url": "https://script.ffloptimum.com/mortgage/objections/"
+     }
+    ],
     "keyTakeaways": [
      "Placeholder / orientation only — full script and videos come later.",
      "When: after you've mastered Veteran's Final Expense. High-conversion next product.",
@@ -3415,7 +3421,13 @@ const ACAD_LMS=[
     "title": "Product Track Intro: IUL (Later Track)",
     "videoTargetSeconds": 90,
     "videoEmbedUrl": "",
-    "assets": [],
+    "assets": [
+     {
+      "label": "IUL Objections Cheat Sheet — opening & closing",
+      "type": "link",
+      "url": "https://script.ffloptimum.com/iul/objections/"
+     }
+    ],
     "keyTakeaways": [
      "Later track — pursue after VFE mastery. Full IUL training is its own track.",
      "What it is: the wealth-building product — tax-free growth, living benefits, \"be your own bank.\"",
