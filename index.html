@@ -2175,8 +2175,7 @@ document.addEventListener('click', function(e){
       - cal  : that manager's Calendly (or booking) link
    ========================================================================= */
 const MANAGERS=[
-  {name:"Jesse Stamm", cal:"https://calendly.com/jessestamm/45"},
-  {name:"Adam Ellis", cal:"https://calendly.com/adamellisreviews/30min"}
+  {name:"Jesse Stamm", cal:"https://calendly.com/jessestamm/45"}
 ];
 function m5ManagerPicker(){
   var opts='<option value="">— Select your manager —</option>'+MANAGERS.map(function(m,i){return '<option value="'+i+'">'+m.name+'</option>';}).join('');
