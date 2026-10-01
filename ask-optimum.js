@@ -82,7 +82,7 @@
         if (d.stateAb) lines.push('State: ' + plain(d.stateAb) + '.');
       } else if (status === 'licensed') {
         if (typeof progress === 'function') { var p = progress(); lines.push('Fast Start: ' + p.done + ' of ' + p.total + ' steps done (' + p.pct + '%).'); }
-        if (typeof acadCourseProgress === 'function') { var a = acadCourseProgress(); if (a && a.total) lines.push('Academy: ' + a.pct + '% done.'); }
+        if (typeof acadCourseProgress === 'function') { var a = acadCourseProgress(); if (a && a.total) lines.push('Optimum Academy: ' + a.pct + '% done.'); }
         if (typeof FAST !== 'undefined') {
           var todo = [];
           FAST.forEach(function (m) { (m.items || []).forEach(function (i) { if (!i.info && !checked(i.id) && todo.length < 3) todo.push(plain(m.t) + ' → ' + plain(i.l)); }); });
