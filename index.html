@@ -5501,8 +5501,23 @@ window.m5ProductPanel=function(){
     + lk('Quintessential MP Overview — John Wetmore','','https://www.youtube.com/watch?v=egJ-vjY1vnw')
     + lk('Mortgage Protection Script','','https://docs.google.com/document/d/1A1Ne23k4X-FdGi99Ks_LMmh0wj1MVWaqDZNVK0u6xi0/edit?tab=t.0');
 
+  /* Annuity cases are the ones a new agent is most likely to freeze on, and the
+     training link alone leaves them with nowhere to go. Same pre-filled pattern as
+     the health contracting block: their name is already in it, and the prompts ask
+     for the three things that otherwise cost a round trip. */
+  var _aNm=(((store.data.first||'')+' '+(store.data.last||'')).trim())||'(your name)';
+  var _aTo='wealthbuildersgroupllc@gmail.com';
+  var _aSu=encodeURIComponent('Annuity help');
+  var _aBo=encodeURIComponent('Hey Jesse \u2014 I could use a hand with an annuity.\n\nName: '+_aNm+
+    '\n\n>>> BEFORE YOU SEND, FILL THESE IN <<<\n\nWHAT I NEED HELP WITH:\n\n'+
+    'THE CLIENT SITUATION (age, amount, where the money is now):\n\nCARRIER, IF I HAVE ONE IN MIND:\n');
+  var _aMail='mailto:'+_aTo+'?subject='+_aSu+'&body='+_aBo;
+  var _aGm='https://mail.google.com/mail/?view=cm&fs=1&to='+_aTo+'&su='+_aSu+'&body='+_aBo;
+  var _aOl='https://outlook.office.com/mail/deeplink/compose?to='+_aTo+'&subject='+_aSu+'&body='+_aBo;
   var ann=''
     + lk('Learn Annuities from the GOAT','Integrity Annuity Training Program.','https://integrityannuitytrainingprogram.com/')
+    + lk('Stuck on an annuity case? Email Jesse','He will work through it with you \u2014 the message comes pre-filled, just add the details.',_aMail)
+    + nt('Mail app did not open? Use <a href="'+_aGm+'" target="_blank" rel="noopener">Gmail</a> or <a href="'+_aOl+'" target="_blank" rel="noopener">Outlook</a> instead.')
     + sh('Contracting')
     + nt('<b>Athene (our main FIA carrier):</b> email '+MAIL+' and CC '+CC+', and ask to contract with Athene.');
 
