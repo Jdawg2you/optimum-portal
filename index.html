@@ -3768,11 +3768,30 @@ function acadLessonView(a,b){var m=acadFindMod(a);if(!m)return acadHomeView();va
   .pipe-card .pipe-head,.pipe-row{grid-template-columns:1fr 26px 78px 54px}
   .pipe-head span:nth-child(2),.pipe-bar{display:none}
 }
+/* The roster is the one card here that genuinely needs the width: twelve columns
+   against a ~1000px content column meant a sideways scroll on every screen. It
+   breaks out of the content column to the full width of the main area and stays
+   centred on it. --agmain is MEASURED in JS rather than taken from 100vw, because
+   vw counts the scrollbar and ignores the 238px sidebar; getting either wrong puts
+   the whole page into horizontal scroll, which is the thing being fixed. */
+.ag-widecard{--agw:min(calc(var(--agmain,100vw) - 36px),1800px);width:var(--agw);margin-left:calc(50% - var(--agw) / 2)}
+@media(max-width:768px){.ag-widecard{width:auto;margin-left:0}}
 .ag-tablewrap{overflow-x:auto}
 .ag-table{width:100%;border-collapse:collapse;font-size:13px}
 .ag-table th{text-align:left;background:#16233f;color:#fff;padding:10px 10px;font-size:11.5px;font-weight:700;cursor:pointer;white-space:nowrap}
 .ag-table th:hover{background:#1f2c4e}
 .ag-table td{padding:9px 10px;border-bottom:1px solid #eef2f8;color:#16233f;white-space:nowrap}
+/* Names are the only genuinely variable-length cells, so they are the only ones
+   allowed to wrap. Everything else is short and reads worse broken across lines. */
+.ag-table td.ag-tdn{white-space:normal;min-width:104px;max-width:190px;line-height:1.35}
+/* Compression, not truncation: tighten the type and the gaps as the window narrows so
+   the same twelve columns keep fitting. These must sit AFTER the base .ag-table rules
+   above - at equal specificity the later rule wins, and putting them earlier silently
+   does nothing. The overflow-x wrapper remains the floor: on a phone a twelve-column
+   table has to scroll, and scrolling beats unreadable. */
+@media(max-width:1440px){.ag-table{font-size:12.5px}.ag-table th,.ag-table td{padding:8px 7px}.ag-mini{width:46px;margin-right:5px}}
+@media(max-width:1200px){.ag-table{font-size:12px}.ag-table th,.ag-table td{padding:7px 6px}.ag-mini{width:38px;margin-right:4px}}
+@media(max-width:1040px){.ag-table{font-size:11.5px}.ag-table th,.ag-table td{padding:6px 5px}.ag-mini{width:30px;margin-right:4px}.ag-table td.ag-tdn{min-width:92px}}
 .ag-table tr:hover td{background:#f9fbfe}
 .ag-pill{display:inline-block;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:800}
 .ag-pill.lic{background:#e6f2ea;color:#1f7a44}
@@ -5775,6 +5794,25 @@ function m5AgSyncLabel(){
   var h=Math.floor(m/60); return 'Updated '+h+(h===1?' hr ago':' hrs ago');
 }
 window.m5AgSet=function(f){ m5Ag.filter=f; if(typeof render==='function') render('agency'); };
+/* The roster's break-out width. Measured off <main> rather than the viewport: the
+   sidebar takes 238px and the scrollbar takes more, and a vw-based guess that is a
+   few pixels too generous reintroduces the sideways scroll on the whole page.
+   Re-measured on resize and whenever the dashboard renders; a no-op everywhere else. */
+function m5AgMeasure(){
+  try{
+    var m=document.querySelector('#app > main');
+    if(!m||!m.clientWidth) return;
+    document.documentElement.style.setProperty('--agmain', m.clientWidth+'px');
+  }catch(e){}
+}
+window.m5AgMeasure=m5AgMeasure;
+(function(){
+  try{
+    var t=null;
+    window.addEventListener('resize',function(){ clearTimeout(t); t=setTimeout(m5AgMeasure,80); });
+    window.addEventListener('orientationchange',function(){ setTimeout(m5AgMeasure,120); });
+  }catch(e){}
+})();
 window.m5AgSort=function(k){ if(m5Ag.sortKey===k){ m5Ag.sortDir*=-1; } else { m5Ag.sortKey=k; m5Ag.sortDir=1; } if(typeof render==='function') render('agency'); };
 function m5AgDays(iso){ if(!iso)return null; var d=new Date(iso); if(isNaN(d.getTime()))return null; return Math.floor((Date.now()-d.getTime())/864e5); }
 function m5AgDiff(a,b){ if(!a||!b)return null; var d1=new Date(a),d2=new Date(b); if(isNaN(d1.getTime())||isNaN(d2.getTime()))return null; return Math.round((d2.getTime()-d1.getTime())/864e5); }
@@ -5806,7 +5844,7 @@ function m5AgRows(){
        tagged Manual. Now it distinguishes where each identity actually came from — and
        "Both" doubles as the migration progress bar. */
     var srcCell= a.source==='Manual' ? 'Manual' : (a.registeredOn? (a.joined?'Both':'Portal') : 'Form');
-    return '<tr><td><button type="button" class="ag-namebtn" onclick="m5AgCard(\''+m5AgKey(a).replace(/'/g,"\\'")+'\')">'+m5AgEsc(a.name)+'</button></td><td>'+recCell+'</td><td><span class="ag-pill '+(lic?'lic':'unl')+'">'+(lic?'Licensed':'Unlicensed')+'</span></td><td>'+m5AgCommitCell(a)+'</td><td>'+m5AgDate(a.joined)+'</td><td>'+portCell+'</td><td>'+srcCell+'</td><td>'+licCell+'</td><td>'+fsCell+'</td><td>'+acCell+'</td><td>'+last+'</td><td>'+(a.gcCards||0)+'</td></tr>';
+    return '<tr><td class="ag-tdn"><button type="button" class="ag-namebtn" onclick="m5AgCard(\''+m5AgKey(a).replace(/'/g,"\\'")+'\')">'+m5AgEsc(a.name)+'</button></td><td class="ag-tdn">'+recCell+'</td><td><span class="ag-pill '+(lic?'lic':'unl')+'">'+(lic?'Licensed':'Unlicensed')+'</span></td><td>'+m5AgCommitCell(a)+'</td><td>'+m5AgDate(a.joined)+'</td><td>'+portCell+'</td><td>'+srcCell+'</td><td>'+licCell+'</td><td>'+fsCell+'</td><td>'+acCell+'</td><td>'+last+'</td><td>'+(a.gcCards||0)+'</td></tr>';
   }).join('');
 }
 function m5AgEsc(s){ return String(s==null?'':s).replace(/[&<>]/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;'})[c];}); }
@@ -6580,7 +6618,7 @@ function m5AgTable(){
   var reclist='<datalist id="m5ag-reclist">'+Object.keys(recs).sort().map(function(r){ return '<option value="'+m5AgEsc(r)+'">'; }).join('')+'</datalist>';
   var seg='<div class="ag-seg" role="group" aria-label="Search by"><button type="button" class="'+(mode==='agent'?'on':'')+'" onclick="m5AgMode(\'agent\')">Agent</button><button type="button" class="'+(mode==='recruiter'?'on':'')+'" onclick="m5AgMode(\'recruiter\')">Recruiter</button></div>';
   var search='<div class="ag-searchwrap">'+seg+'<input id="m5ag-search" type="search"'+(mode==='recruiter'?' list="m5ag-reclist"':'')+' placeholder="\u{1F50E} '+(mode==='recruiter'?'Search recruiter\u2026':'Search agent name\u2026')+'" value="'+m5AgEsc(m5Ag.q||'')+'" oninput="m5AgSearch(this.value)" style="padding:9px 13px;border:1px solid #dbe2ee;border-radius:10px;font-size:13.5px;min-width:200px;font-family:inherit;outline:none;background:#fff">'+reclist+'</div>';
-  return '<div class="ag-card" style="padding:0;overflow:hidden"><div style="padding:16px 20px 10px"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h3 style="margin:0">'+(m5AgIsAdmin()?'Agent roster':'Your team')+'</h3>'+search+'</div><p class="sub" style="margin:6px 0 0">'+(m5AgIsAdmin()?'Every agent':'Everyone you have recruited')+', all three tracks side by side. Click any column to sort. Showing <span id="m5ag-count">'+n+'</span>.</p></div><div class="ag-tablewrap"><table class="ag-table"><thead><tr>'+head+'</tr></thead><tbody id="m5ag-tbody">'+m5AgRows()+'</tbody></table></div></div>';
+  return '<div class="ag-card ag-widecard" style="padding:0;overflow:hidden"><div style="padding:16px 20px 10px"><div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><h3 style="margin:0">'+(m5AgIsAdmin()?'Agent roster':'Your team')+'</h3>'+search+'</div><p class="sub" style="margin:6px 0 0">'+(m5AgIsAdmin()?'Every agent':'Everyone you have recruited')+', all three tracks side by side. Click any column to sort. Showing <span id="m5ag-count">'+n+'</span>.</p></div><div class="ag-tablewrap"><table class="ag-table"><thead><tr>'+head+'</tr></thead><tbody id="m5ag-tbody">'+m5AgRows()+'</tbody></table></div></div>';
 }
 /* ---- Onboarding pipelines --------------------------------------------------
    Two funnels: the pre-licensing path and the licensed path. For each gate we
@@ -6940,6 +6978,8 @@ function m5AgRender(){
   h+='</div>';
   h+=m5AgPopular();
   h+=m5AgTable();
+  /* measure after this html is in the document, not while it is still a string */
+  try{ setTimeout(m5AgMeasure,0); }catch(e){}
   h+='</div>';
   return h;
 }
