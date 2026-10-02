@@ -3684,6 +3684,23 @@ function acadLessonView(a,b){var m=acadFindMod(a);if(!m)return acadHomeView();va
 .agm-exam.none{color:var(--ink-soft)}
 .agm-examwho{color:var(--ink-soft);font-weight:400}
 .agm-keep{font-size:11.5px;color:#8a93a5;background:#f7f9fc;border:1px solid #eaeff7;border-radius:9px;padding:7px 10px;margin:0 0 12px;line-height:1.4}
+/* Paste-a-write-up panel. Deliberately looks like a staging area, not like the
+   form: it is the one place on this card that has not committed to anything. */
+.agm-pasteb{display:inline-flex;align-items:center;gap:6px;background:none;border:0;font:inherit;font-size:12.5px;font-weight:800;color:#c9971f;cursor:pointer;padding:0;margin:0 0 10px}
+.agm-paste{background:#fbfcfe;border:1px dashed #cdd7e6;border-radius:12px;padding:13px 14px;margin:0 0 14px}
+.agm-ph{font-size:12px;color:#5a6678;line-height:1.55;margin:0 0 9px}
+.agm-ptpl{background:#eef2fa;border:1px solid #dbe3f0;border-radius:8px;color:#16233f;font:inherit;font-size:11.5px;font-weight:700;padding:6px 11px;cursor:pointer;margin:0 0 9px}
+.agm-paste textarea{width:100%;box-sizing:border-box;min-height:150px;padding:10px 11px;border:1px solid var(--line);border-radius:9px;font:inherit;font-size:13px;line-height:1.5;resize:vertical}
+.agm-pcheck{width:100%;padding:10px;border:0;border-radius:10px;background:#16233f;color:#fff;font:inherit;font-weight:800;font-size:13px;cursor:pointer;margin-top:9px}
+.agm-pcount{font-size:12px;font-weight:800;color:#0e2244;margin:12px 0 8px}
+.agm-prow{background:#fff;border:1px solid var(--line);border-radius:9px;padding:9px 11px;margin:0 0 7px}
+.agm-pf{font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#8a93a5;margin-bottom:4px}
+.agm-pwas{font-size:12px;color:#a7b0c0;text-decoration:line-through;margin-bottom:3px;white-space:pre-wrap}
+.agm-pnew{font-size:13px;color:#16233f;line-height:1.5;white-space:pre-wrap}
+.agm-papply{width:100%;padding:11px;border:0;border-radius:10px;background:#c9a227;color:#3d2c05;font:inherit;font-weight:800;font-size:13.5px;cursor:pointer;margin-top:6px}
+.agm-pwarn{font-size:12px;color:#8a5a00;background:#fdf6e6;border:1px solid #f0e0b8;border-radius:9px;padding:9px 11px;margin:10px 0 0;line-height:1.5}
+.agm-pok{font-size:12.5px;color:#15603f;background:#eaf7f0;border:1px solid #c6e8d6;border-radius:9px;padding:10px 12px;margin:10px 0 0;line-height:1.55}
+.agm-filled{background:#fffbea!important;border-color:#e8d08a!important}
 .agm-histb{appearance:none;border:0;background:transparent;font:inherit;font-size:11.5px;font-weight:700;color:#2f5fd0;cursor:pointer;padding:5px 0 0}
 .agm-histb:hover{text-decoration:underline}
 .agm-hist{border-left:2px solid #e6ecf6;margin:6px 0 2px;padding:2px 0 2px 10px}
@@ -5892,6 +5909,153 @@ var M5_COACH_FIELDS=[
   {f:'nextDate', l:'By when', t:'date'},
   {f:'examDate', l:'Exam date', t:'date'}
 ];
+/* ---- Paste a call write-up into the card -----------------------------------
+   Typing nine fields out of a transcript by hand is the reason the card sits
+   empty. This takes a labelled block, shows you exactly what it would change
+   against what is already on file, and fills the FORM. It never saves: the log
+   is append-only, so a wrong row can never be taken back, and the only hand on
+   that trigger is yours. ---------------------------------------------------*/
+var M5_PASTE_ALIAS=(function(){
+  var m={}, add=function(f,names){ names.forEach(function(n){ m[n]=f; }); };
+  add('why',      ['why','their why','their why in their words','why in their words']);
+  add('commit',   ['commit','commitment','full-time or part-time','full time or part time','fulltime or parttime','ft or pt']);
+  add('schedule', ['schedule','committed schedule','their schedule','hours']);
+  add('goal',     ['goal','income goal','income goal and what it is for','income goal & what it is for','income goal and what it s for','target']);
+  add('leads',    ['leads','lead budget','lead budget and source','lead budget & source','lead spend']);
+  add('obstacle', ['obstacle','biggest obstacle','biggest obstacle right now','blocker']);
+  /* NB 'commitment' alone belongs to the full-time/part-time field, which is
+     literally named commit. Registering it here too silently stole it, because
+     the later add() wins. Next-step aliases must stay explicit. */
+  add('next',     ['next','next step','next commitment','next commitment they made','their next step']);
+  add('nextDate', ['nextdate','by when','due','due by','next date','follow up by','follow-up by']);
+  add('examDate', ['examdate','exam date','exam','state exam','state exam date']);
+  add('note',     ['note','notes','call note','call notes','summary','what happened']);
+  add('source',   ['source','from','recording','transcript']);
+  return m;
+})();
+function m5PasteKey(s){
+  return String(s||'').toLowerCase()
+    .replace(/[\u2019']/g,'').replace(/&amp;/g,'&')
+    .replace(/[^a-z0-9& ]+/g,' ').replace(/\s+/g,' ').trim();
+}
+/* a date we can actually put in a type=date input, or '' */
+function m5PasteDate(v){
+  v=String(v||'').trim();
+  var iso=v.match(/(\d{4})-(\d{2})-(\d{2})/); if(iso) return iso[0];
+  var us=v.match(/\b(\d{1,2})\/(\d{1,2})\/(\d{2,4})\b/);
+  if(us){ var y=us[3].length===2?('20'+us[3]):us[3];
+    return y+'-'+('0'+us[1]).slice(-2)+'-'+('0'+us[2]).slice(-2); }
+  var t=Date.parse(v);
+  if(!isNaN(t)){ var d=new Date(t);
+    return d.getFullYear()+'-'+('0'+(d.getMonth()+1)).slice(-2)+'-'+('0'+d.getDate()).slice(-2); }
+  return '';
+}
+function m5PasteCommit(v){
+  var s=String(v||'').toLowerCase();
+  if(/full/.test(s)) return 'Full-time';
+  if(/part/.test(s)) return 'Part-time';
+  if(/undecided|unsure|not sure|unknown|tbd/.test(s)) return 'Undecided';
+  return '';
+}
+/* Values run until the next recognised label at the start of a line, so a note
+   or a why can be as many paragraphs as it needs to be. */
+function m5CoachParse(text){
+  var out={fields:{},note:'',source:'',bad:[]};
+  var lines=String(text||'').replace(/\r/g,'').split('\n');
+  var curF='', buf=[];
+  var flush=function(){
+    if(!curF) return;
+    var v=buf.join('\n').replace(/\n{3,}/g,'\n\n').trim();
+    if(curF==='note') out.note=v; else if(curF==='source') out.source=v; else out.fields[curF]=v;
+    buf=[];
+  };
+  lines.forEach(function(raw){
+    var line=raw.replace(/^\s*[>#*\u2022\-\u2013]+\s*/,'');      /* markdown decoration */
+    var mm=line.match(/^\s*\**\s*([A-Za-z][A-Za-z0-9 &'\u2019/._-]{1,46}?)\s*\**\s*:\s*([\s\S]*)$/);
+    if(mm){
+      var f=M5_PASTE_ALIAS[m5PasteKey(mm[1])];
+      if(f){ flush(); curF=f; if(mm[2].trim()) buf.push(mm[2]); return; }
+    }
+    if(curF) buf.push(raw);
+  });
+  flush();
+  /* the two fields that cannot take free text */
+  if(out.fields.commit!=null){
+    var c=m5PasteCommit(out.fields.commit);
+    if(!c){ out.bad.push('Full-time or part-time: could not read "'+out.fields.commit+'" \u2014 it must say full-time, part-time or undecided'); delete out.fields.commit; }
+    else out.fields.commit=c;
+  }
+  ['nextDate','examDate'].forEach(function(f){
+    if(out.fields[f]==null) return;
+    if(!String(out.fields[f]).trim()){ delete out.fields[f]; return; }
+    var d=m5PasteDate(out.fields[f]);
+    if(!d){ out.bad.push((f==='nextDate'?'By when':'Exam date')+': could not read "'+out.fields[f]+'" as a date'); delete out.fields[f]; }
+    else out.fields[f]=d;
+  });
+  Object.keys(out.fields).forEach(function(f){ if(!String(out.fields[f]).trim()) delete out.fields[f]; });
+  return out;
+}
+window.m5CoachParse=m5CoachParse;
+window.m5PasteToggle=function(){
+  var p=document.getElementById('agm-paste'); if(!p) return;
+  var open=p.style.display!=='none';
+  p.style.display=open?'none':'block';
+  var b=document.getElementById('agm-pasteb'); if(b) b.textContent=(open?'\u25b8':'\u25be')+' Paste a call write-up';
+  if(!open){ var ta=document.getElementById('agm-pastein'); if(ta) ta.focus(); }
+};
+window.m5PasteTemplate=function(){
+  var t=M5_COACH_FIELDS.map(function(d){
+    return d.l.replace(/&amp;/g,'&').replace(/ \u2014 in their words/,'')+': ';
+  }).join('\n')+'\nNote: \nSource: ';
+  var b=document.getElementById('agm-pastetpl');
+  var ok=function(){ if(b){ b.textContent='Template copied \u2713'; setTimeout(function(){ b.textContent='Copy the template'; },1800); } };
+  try{ if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(ok,ok); else ok(); }catch(e){ ok(); }
+};
+window.m5PastePreview=function(k){
+  var ta=document.getElementById('agm-pastein'), box=document.getElementById('agm-pasteout');
+  if(!ta||!box) return;
+  var txt=String(ta.value||'').trim();
+  if(!txt){ box.innerHTML='<div class="agm-pwarn">Paste the write-up first.</div>'; return; }
+  var p=m5CoachParse(txt), cur=m5CoachNow(k), rows=[], n=0;
+  M5_COACH_FIELDS.forEach(function(d){
+    if(p.fields[d.f]==null) return;
+    var was=(cur[d.f]&&cur[d.f].value!=null)?String(cur[d.f].value):'';
+    var nv=String(p.fields[d.f]);
+    if(nv===was) return;
+    n++;
+    rows.push('<div class="agm-prow"><div class="agm-pf">'+d.l+'</div>'+
+      (was?'<div class="agm-pwas">was: '+m5AgEsc(was)+'</div>':'')+
+      '<div class="agm-pnew">'+m5AgEsc(nv)+'</div></div>');
+  });
+  if(p.note) rows.push('<div class="agm-prow"><div class="agm-pf">Note (goes to the note box)</div><div class="agm-pnew">'+m5AgEsc(p.note.slice(0,400))+(p.note.length>400?'\u2026':'')+'</div></div>');
+  if(p.source) rows.push('<div class="agm-prow"><div class="agm-pf">Source</div><div class="agm-pnew">'+m5AgEsc(p.source)+'</div></div>');
+  var bad=p.bad.length?('<div class="agm-pwarn">'+p.bad.map(m5AgEsc).join('<br>')+'</div>'):'';
+  if(!rows.length){ box.innerHTML=bad+'<div class="agm-pwarn">Nothing to change \u2014 either no labels were recognised, or every value already matches what is on file. '+
+    'Labels must start a line and end with a colon, e.g. <b>Biggest obstacle:</b></div>'; return; }
+  box.innerHTML=bad+'<div class="agm-pcount">'+n+' field'+(n===1?'':'s')+' would change'+(p.note?', plus a note':'')+'. Nothing is saved yet.</div>'+
+    rows.join('')+
+    '<button type="button" class="agm-papply" onclick="m5PasteApply(\''+String(k).replace(/'/g,"\\'")+'\')">Fill the form below \u2193</button>';
+};
+window.m5PasteApply=function(k){
+  var ta=document.getElementById('agm-pastein'); if(!ta) return;
+  var p=m5CoachParse(ta.value), n=0;
+  M5_COACH_FIELDS.forEach(function(d){
+    if(p.fields[d.f]==null) return;
+    var el=document.getElementById('agm-'+d.f); if(!el) return;
+    el.value=p.fields[d.f]; n++;
+    try{ el.classList.add('agm-filled'); }catch(e){}
+  });
+  var note=p.note;
+  if(note&&p.source) note=note+'\n\n\u2014 '+p.source;
+  if(note){ var nt=document.getElementById('agm-note');
+    if(nt){ nt.value=(String(nt.value||'').trim()? (nt.value.replace(/\s+$/,'')+'\n\n') : '')+note;
+            try{ nt.classList.add('agm-filled'); }catch(e){} } }
+  var box=document.getElementById('agm-pasteout');
+  if(box) box.innerHTML='<div class="agm-pok">Filled in '+n+' field'+(n===1?'':'s')+(note?' and the note':'')+'. '+
+    'Read them, fix anything that is off, then press <b>Save coaching notes</b>'+(note?' and <b>Add note</b>':'')+' \u2014 nothing is on record until you do.</div>';
+  var first=document.getElementById('agm-'+(Object.keys(p.fields)[0]||''));
+  if(first&&first.scrollIntoView){ try{ first.scrollIntoView({behavior:'smooth',block:'center'}); }catch(e){} }
+};
 /* entries pending on this device, appended but not yet accepted by the sheet */
 function m5CoachPending(){ try{ return (store.data.coachLog=store.data.coachLog||[]); }catch(e){ return []; } }
 /* the full log for one agent: whatever the sheet returned, plus anything still
@@ -6348,6 +6512,16 @@ function m5AgCard(k){
         })()+
         '<div class="agm-sec" style="margin-top:18px">Coaching notes</div>'+
         '<div class="agm-keep">Nothing here is overwritten. Saving adds a new entry \u2014 every earlier answer stays, dated.</div>'+
+        '<button type="button" class="agm-pasteb" id="agm-pasteb" onclick="m5PasteToggle()">\u25b8 Paste a call write-up</button>'+
+        '<div class="agm-paste" id="agm-paste" style="display:none">'+
+          '<p class="agm-ph">Paste a labelled write-up of the call and it fills the form below. '+
+            'One label per line, ending in a colon \u2014 a value runs until the next label, so a note can be as long as it needs to be. '+
+            'It shows you what would change before anything moves, and <b>it never saves</b>.</p>'+
+          '<button type="button" class="agm-ptpl" id="agm-pastetpl" onclick="m5PasteTemplate()">Copy the template</button>'+
+          '<textarea id="agm-pastein" placeholder="Their why: &#10;Full-time or part-time: Full-time&#10;Committed schedule: &#10;Income goal: &#10;Lead budget: &#10;Biggest obstacle: &#10;Next commitment: &#10;By when: 2026-10-05&#10;Note: &#10;Source: "></textarea>'+
+          '<button type="button" class="agm-pcheck" onclick="m5PastePreview(\''+String(k).replace(/'/g,"\\'")+'\')">Check what this would change</button>'+
+          '<div id="agm-pasteout"></div>'+
+        '</div>'+
         fld(M5_COACH_FIELDS[0])+
         '<div class="agm-two">'+fld(M5_COACH_FIELDS[1])+fld(M5_COACH_FIELDS[2])+'</div>'+
         '<div class="agm-two">'+fld(M5_COACH_FIELDS[3])+fld(M5_COACH_FIELDS[4])+'</div>'+
