@@ -3777,6 +3777,13 @@ function acadLessonView(a,b){var m=acadFindMod(a);if(!m)return acadHomeView();va
 .ag-pill{display:inline-block;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:800}
 .ag-pill.lic{background:#e6f2ea;color:#1f7a44}
 .ag-pill.unl{background:#fdeee7;color:#b5561f}
+/* Commitment pill. 'Not asked' is deliberately quiet and not a colour: it is an
+   absence of information, not a status, and must not read as a third answer. */
+.ag-ct{display:inline-block;padding:3px 9px;border-radius:999px;font-size:11px;font-weight:800;white-space:nowrap}
+.ag-ct.ft{background:#e7eefb;color:#1b4ea8}
+.ag-ct.pt{background:#fdf3e0;color:#8a5a00}
+.ag-ct.un{background:#eef0f4;color:#5a6678}
+.ag-ct.none{background:none;color:#b7bfce;font-weight:600;padding-left:0}
 .ag-mini{display:inline-block;width:56px;height:7px;background:#eef2f8;border-radius:5px;overflow:hidden;vertical-align:middle;margin-right:6px}
 .ag-mini > span{display:block;height:100%;border-radius:5px}
 .ag-eng{display:flex;align-items:center;gap:11px;margin:11px 0}
@@ -5775,14 +5782,14 @@ function m5AgNum(v){ if(v===''||v==null)return null; var n=Number(v); return isN
 function m5AgFilt(){ var q=(m5Ag.q||'').trim().toLowerCase(); var byRec=(m5Ag.qmode==='recruiter');
   /* Search matches the AGENT's name by default; flip the toggle and it matches the
      RECRUITER instead, so "how many has this person brought in?" is one search. */
-  return (m5Ag.agents||[]).filter(function(a){ if(q){ var hay=byRec?m5AgRecruiter(a):(a.name||''); if(String(hay).toLowerCase().indexOf(q)<0) return false; } if(m5Ag.filter==='lic')return a.licensed; if(m5Ag.filter==='unl')return !a.licensed; if(m5Ag.filter==='active'){var d=m5AgDays(a.lastLogin);return d!=null&&d<=7;} return true; }); }
+  return (m5Ag.agents||[]).filter(function(a){ if(q){ var hay=byRec?m5AgRecruiter(a):(a.name||''); if(String(hay).toLowerCase().indexOf(q)<0) return false; } if(m5Ag.filter==='lic')return a.licensed; if(m5Ag.filter==='unl')return !a.licensed; if(m5Ag.filter==='active'){var d=m5AgDays(a.lastLogin);return d!=null&&d<=7;} if(m5Ag.filter==='ft')return m5AgCommit(a)==='Full-time'; if(m5Ag.filter==='pt')return m5AgCommit(a)==='Part-time'; return true; }); }
 window.m5AgMode=function(m){ if((m5Ag.qmode||'agent')===m) return; m5Ag.qmode=m; if(m==='recruiter'&&m5Ag.sortKey==='name'){ m5Ag.sortKey='recruiter'; } if(m==='agent'&&m5Ag.sortKey==='recruiter'){ m5Ag.sortKey='name'; } if(typeof render==='function') render('agency'); };
 window.m5AgSearch=function(v){ m5Ag.q=v; var tb=document.getElementById('m5ag-tbody'); if(tb) tb.innerHTML=m5AgRows(); var c=document.getElementById('m5ag-count'); if(c) c.textContent=m5AgFilt().length; };
 function m5AgRows(){
   var A=m5AgFilt().slice();
   var k=m5Ag.sortKey, dir=m5Ag.sortDir;
   A.sort(function(a,b){ var va=m5AgSortVal(a,k), vb=m5AgSortVal(b,k); if(va<vb)return -1*dir; if(va>vb)return 1*dir; return 0; });
-  if(!A.length) return '<tr><td colspan="11" style="text-align:center;padding:22px;color:#8a93a9">No agents match that search.</td></tr>';
+  if(!A.length) return '<tr><td colspan="12" style="text-align:center;padding:22px;color:#8a93a9">No agents match that search.</td></tr>';
   return A.map(function(a){
     var lic=a.licensed;
     var licCell= lic? '<span style="color:#1f7a44;font-weight:800">✓</span>' : m5AgMiniBar(m5AgNum(a.gylPct),'#2f6df0');
@@ -5799,7 +5806,7 @@ function m5AgRows(){
        tagged Manual. Now it distinguishes where each identity actually came from — and
        "Both" doubles as the migration progress bar. */
     var srcCell= a.source==='Manual' ? 'Manual' : (a.registeredOn? (a.joined?'Both':'Portal') : 'Form');
-    return '<tr><td><button type="button" class="ag-namebtn" onclick="m5AgCard(\''+m5AgKey(a).replace(/'/g,"\\'")+'\')">'+m5AgEsc(a.name)+'</button></td><td>'+recCell+'</td><td><span class="ag-pill '+(lic?'lic':'unl')+'">'+(lic?'Licensed':'Unlicensed')+'</span></td><td>'+m5AgDate(a.joined)+'</td><td>'+portCell+'</td><td>'+srcCell+'</td><td>'+licCell+'</td><td>'+fsCell+'</td><td>'+acCell+'</td><td>'+last+'</td><td>'+(a.gcCards||0)+'</td></tr>';
+    return '<tr><td><button type="button" class="ag-namebtn" onclick="m5AgCard(\''+m5AgKey(a).replace(/'/g,"\\'")+'\')">'+m5AgEsc(a.name)+'</button></td><td>'+recCell+'</td><td><span class="ag-pill '+(lic?'lic':'unl')+'">'+(lic?'Licensed':'Unlicensed')+'</span></td><td>'+m5AgCommitCell(a)+'</td><td>'+m5AgDate(a.joined)+'</td><td>'+portCell+'</td><td>'+srcCell+'</td><td>'+licCell+'</td><td>'+fsCell+'</td><td>'+acCell+'</td><td>'+last+'</td><td>'+(a.gcCards||0)+'</td></tr>';
   }).join('');
 }
 function m5AgEsc(s){ return String(s==null?'':s).replace(/[&<>]/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;'})[c];}); }
@@ -5849,7 +5856,32 @@ function m5AgPopular(){
   else { body=arr.map(function(r){ return '<div class="ag-poprow"><div class="ag-poplab">'+m5AgEsc(m5AgNavLabel(r[0]))+'</div><div class="ag-popbar"><span style="width:'+Math.round(r[1]/max*100)+'%"></span></div><div class="ag-popval">'+r[1]+'</div></div>'; }).join(''); }
   return '<div class="ag-card" style="margin-bottom:18px"><h3>What\'s popular</h3><p class="sub">Which portal sections agents open most — what\'s landing, and what to promote.</p>'+body+'</div>';
 }
+/* ---- Commitment on the roster ----------------------------------------------
+   Full-time or part-time is written on the coaching card, in the append-only
+   log, so the roster has to read the latest entry rather than a field on the
+   agent. It is never inferred: an agent nobody has asked shows as not asked,
+   which is a different thing from undecided and worth seeing. ---------------*/
+function m5AgCommit(a){
+  try{ var e=(m5CoachNow(m5AgKey(a))||{}).commit;
+       var v=(e&&e.value!=null)?String(e.value).trim():'';
+       return (v==='Full-time'||v==='Part-time'||v==='Undecided')?v:''; }
+  catch(e2){ return ''; }
+}
+/* Rank so the FIRST click on the column puts the full-timers on top — that is
+   the question this column exists to answer. Unasked sorts last, not first. */
+function m5AgCommitRank(a){
+  var v=m5AgCommit(a);
+  return v==='Full-time'?0:(v==='Part-time'?1:(v==='Undecided'?2:3));
+}
+function m5AgCommitCell(a){
+  var v=m5AgCommit(a);
+  if(!v) return '<span class="ag-ct none" title="No one has recorded this yet — ask on your next call">Not asked</span>';
+  var cls=v==='Full-time'?'ft':(v==='Part-time'?'pt':'un');
+  var lab=v==='Full-time'?'Full-time':(v==='Part-time'?'Part-time':'Undecided');
+  return '<span class="ag-ct '+cls+'">'+lab+'</span>';
+}
 function m5AgSortVal(a,k){
+  if(k==='commitV')return m5AgCommitRank(a);
   if(k==='statusS')return a.licensed?1:0;
   if(k==='licV')return a.licensed?101:(m5AgNum(a.gylPct)||0);
   if(k==='fsV')return m5AgNum(a.fsPct)||0;
@@ -6540,7 +6572,7 @@ function m5AgCard(k){
 window.m5AgCard=m5AgCard; window.m5AgClose=m5AgClose; window.m5CoachSave=m5CoachSave;
 function m5AgTable(){
   var k=m5Ag.sortKey, dir=m5Ag.sortDir;
-  var cols=[['name','Agent'],['recruiter','Recruiter'],['statusS','Status'],['joined','Joined'],['portal','In portal'],['source','Source'],['licV','① License'],['fsV','② Fast Start'],['acV','③ Optimum Academy'],['lastV','Last active'],['gcCards','Goal cards']];
+  var cols=[['name','Agent'],['recruiter','Recruiter'],['statusS','Status'],['commitV','Commitment'],['joined','Joined'],['portal','In portal'],['source','Source'],['licV','① License'],['fsV','② Fast Start'],['acV','③ Optimum Academy'],['lastV','Last active'],['gcCards','Goal cards']];
   var head=cols.map(function(c){ var arrow=(k===c[0])?(dir>0?' ▲':' ▼'):''; return '<th onclick="m5AgSort(\''+c[0]+'\')">'+c[1]+arrow+'</th>'; }).join('');
   var n=m5AgFilt().length;
   var mode=(m5Ag.qmode==='recruiter')?'recruiter':'agent';
@@ -6879,7 +6911,7 @@ function m5AgRender(){
   var gcCards30=A.reduce(function(s,a){return s+(a.gcCards30||0);},0);
   var h='<div class="ag-wrap">';
   h+='<div class="ag-head"><div><h1 class="page" style="margin:0"><span data-ico="dash" style="vertical-align:-3px"></span> Agency Dashboard</h1><p class="sub" style="margin:4px 0 0">Your whole team\'s progress, live from your sheet · '+total+' agents on the roster.</p></div><div class="ag-headr"><button id="m5ag-refresh" class="ag-refresh" onclick="m5AgRefresh()"'+(m5Ag.refreshing?' disabled':'')+'>'+(m5Ag.refreshing?'<span class="ag-spin"></span> Refreshing…':'↻ Refresh')+'</button>'+(m5AgSyncLabel()?'<span class="ag-synced">'+m5AgSyncLabel()+'</span>':'')+'</div></div>';
-  h+='<div class="ag-filters">'+m5AgFB('all','All agents')+m5AgFB('lic','Licensed')+m5AgFB('unl','Unlicensed')+m5AgFB('active','Active (7d)')+'</div>';
+  h+='<div class="ag-filters">'+m5AgFB('all','All agents')+m5AgFB('lic','Licensed')+m5AgFB('unl','Unlicensed')+m5AgFB('active','Active (7d)')+m5AgFB('ft','Full-time')+m5AgFB('pt','Part-time')+'</div>';
   h+='<div class="ag-stats">'
     +m5AgStat('Total agents',total,'on the roster')
     +m5AgStat('Logged in',loggedIn,total?Math.round(loggedIn/total*100)+'% of roster':'')
