@@ -1,18 +1,9 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>State Licensing Requirements</title>
-<meta name="description" content="What a new agent has to do in their own state, in order: the license, the exam, the course hours and every fee. All 51.">
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Optimum">
-<meta property="og:url" content="https://portal.ffloptimum.com/state-requirements.html">
-<meta property="og:title" content="State Licensing Requirements">
-<meta property="og:description" content="What a new agent has to do in their own state, in order: the license, the exam, the course hours and every fee. All 51.">
-<meta property="og:image" content="https://portal.ffloptimum.com/state-requirements-og.png?v=1">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="State licensing requirements for all 51: which license, booking the exam, every fee">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="State Licensing Requirements">
-<meta name="twitter:description" content="What a new agent has to do in their own state, in order: the license, the exam, the course hours and every fee. All 51.">
-<meta name="twitter:image" content="https://portal.ffloptimum.com/state-requirements-og.png?v=1">
 <style>
 :root{
   --bg:#f5f7fa; --card:#ffffff; --ink:#12203a; --mute:#5b6b85; --line:#e2e8f0;
@@ -63,6 +54,18 @@ dd.loa{font-weight:700;color:var(--navy);font-size:14.5px}
 .quirk{margin:12px 0 0;font-size:12.5px;color:var(--mute);border-top:1px dashed var(--line);padding-top:10px}
 a{color:var(--navy)}
 .count{color:var(--mute);font-size:13px;margin:0 0 14px}
+.moretools{display:inline-flex;align-items:center;gap:7px;margin:0 0 14px;padding:9px 16px;border-radius:999px;
+  border:1px solid var(--line);background:var(--card);color:var(--ink);font-size:13.5px;font-weight:800;text-decoration:none}
+.moretools:hover{border-color:var(--navy);background:var(--navy);color:var(--bg)}
+.sorts{margin-top:10px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.sortlbl{font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--mute)}
+/* The fee only appears while the page is ordered by it - in A-Z the card is
+   exactly as it was, and in fee order the number is there so the order reads. */
+.feebadge{display:none;margin-left:auto;align-self:center;font-size:12.5px;font-weight:800;
+  background:#EFEADD;color:#6B5A2A;border-radius:999px;padding:3px 10px;white-space:nowrap}
+.grid.byfee .feebadge{display:inline-block}
+.feenote{display:none;color:var(--mute);font-size:11.5px;margin:-2px 0 8px}
+.grid.byfee .feenote{display:block}
 .note{font-size:12.5px;color:var(--mute);margin-top:28px;border-top:1px solid var(--line);padding-top:13px;max-width:78ch}
 
 :root{--ogblue:#2C4A7C;--ogsans:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;--ogserif:Georgia,'Times New Roman',serif;}
@@ -165,11 +168,17 @@ a{color:var(--navy)}
 </div>
 <div class="recstrip" data-noprint>Free for every agent, period.<button type="button" class="recopen" aria-haspopup="dialog">Not a Family First Life agent?</button></div>
 <div class="wrap">
+<a class="moretools" href="https://tools.ffloptimum.com/" target="_blank" rel="noopener" data-noprint>&#8592; More free tools for agents</a>
 <h1>State Licensing Requirements</h1>
 <p class="sub">What a new agent has to do in their own state, in order: which licence to take, whether they can book the exam today, how many course hours the state owes them, and every fee along the way. Built from the Xcel state requirement pages, with the exam-booking rule on each card confirmed against the testing vendor's own state handbook.</p>
 
 <div class="tools">
   <input type="search" id="q" placeholder="Type a state…" autocomplete="off">
+  <div class="sorts">
+    <span class="sortlbl">Order</span>
+    <button class="chip" data-sort="az" aria-pressed="true">A&ndash;Z</button>
+    <button class="chip" data-sort="fee" aria-pressed="false">Cheapest licence fee first</button>
+  </div>
   <div class="chips">
     <button class="chip" data-f="all" aria-pressed="true">All 51</button>
     <button class="chip" data-f="none" aria-pressed="false">Book now (39)</button>
@@ -182,8 +191,8 @@ a{color:var(--navy)}
 
 <p class="count" id="count"></p>
 <div class="grid" id="grid">
-<article class="card" data-s="alabama al" data-gate="none" data-ple="n">
-<header><h2>Alabama</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="alabama al" data-gate="none" data-ple="n" data-fee="80" data-feelbl="$80">
+<header><h2>Alabama</h2><span class="feebadge" aria-hidden="true">$80</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
@@ -196,8 +205,8 @@ a{color:var(--navy)}
 <p class="quirk">Fingerprints taken after passing the exam and at least one day before applying. Proof of citizenship required per the Beason-Hammon Taxpayer and Citizen Protection Act. Separate LTC, Flood (NFIP) and Annuity product training.</p>
 <p class="quirk">Passing score 70%</p>
 </article>
-<article class="card" data-s="alaska ak" data-gate="none" data-ple="n">
-<header><h2>Alaska</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="alaska ak" data-gate="none" data-ple="n" data-fee="75" data-feelbl="$75">
+<header><h2>Alaska</h2><span class="feebadge" aria-hidden="true">$75</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa"><span class="na">This state licenses Life and Accident &amp; Health separately — two exams, two lines.</span></dd>
@@ -210,8 +219,8 @@ a{color:var(--navy)}
 <p class="quirk">All resident candidates taking an insurance examination for the first time must be fingerprinted.</p>
 <p class="quirk">Passing score 70%. Life/Health/Property/Casualty 110 questions, 2 hrs 15 min; Personal Lines 140 questions, 2 hrs 30 min</p>
 </article>
-<article class="card" data-s="arizona az" data-gate="none" data-ple="n">
-<header><h2>Arizona</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="arizona az" data-gate="none" data-ple="n" data-fee="120" data-feelbl="$120">
+<header><h2>Arizona</h2><span class="feebadge" aria-hidden="true">$120</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident, and Health</dd>
@@ -224,8 +233,8 @@ a{color:var(--navy)}
 <p class="quirk">All resident candidates taking an exam for the first time must be fingerprinted. Licenses renew every 4 years by the last day of the birth month; 48 hours CE (6 ethics) for major lines.</p>
 <p class="quirk">Passing score 70%</p>
 </article>
-<article class="card" data-s="arkansas ar" data-gate="sit_cert" data-ple="y">
-<header><h2>Arkansas</h2><span class="pill g-ok">Book now, bring your certificate</span></header>
+<article class="card" data-s="arkansas ar" data-gate="sit_cert" data-ple="y" data-fee="15" data-feelbl="$15+">
+<header><h2>Arkansas</h2><span class="feebadge" aria-hidden="true">$15+</span><span class="pill g-ok">Book now, bring your certificate</span></header>
 <p class="gate">You can reserve a date today, but you must have your course certificate in hand on exam day. <em>Certificate of Completion must be presented when you take your exam.</em></p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life &amp; Health</dd>
@@ -237,8 +246,8 @@ a{color:var(--navy)}
 </dl>
 <p class="quirk">Forced progression (locked) state: student must review each lesson and pass each chapter quiz with a minimum score of 70% before moving to the next chapter. Mandatory final exam plus an electronic affidavit of active participation. Certificate of Completion valid for two years.</p>
 </article>
-<article class="card" data-s="california ca" data-gate="none" data-ple="y">
-<header><h2>California</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="california ca" data-gate="none" data-ple="y" data-fee="188" data-feelbl="$188">
+<header><h2>California</h2><span class="feebadge" aria-hidden="true">$188</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident &amp; Health</dd>
@@ -251,8 +260,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state requiring the student to review each lesson before moving to the next section/chapter. Periodic identity authentication throughout the course. Certificate valid 3 years. Fingerprints submitted after the license application is received by the Department.</p>
 <p class="quirk">Passing score 60%. Name must match government photo ID exactly at exam registration and license application</p>
 </article>
-<article class="card" data-s="colorado co" data-gate="book_course" data-ple="y">
-<header><h2>Colorado</h2><span class="pill g-stop">Finish the course first</span></header>
+<article class="card" data-s="colorado co" data-gate="book_course" data-ple="y" data-fee="88" data-feelbl="$88" data-feenote="$44 per line x 2">
+<header><h2>Colorado</h2><span class="feebadge" aria-hidden="true">$88</span><span class="pill g-stop">Finish the course first</span></header><p class="feenote">Licence application: $44 per line x 2</p>
 <p class="gate">You cannot reserve an exam seat until your prelicensing course is complete. <em>Prior to making an exam reservation, the applicant must complete any required pre-licensing training. (Pearson VUE CO handbook)</em></p>
 <dl>
 <dt>Take this licence</dt><dd class="loa"><span class="na">This state licenses Life and Accident &amp; Health separately — two exams, two lines.</span></dd>
@@ -265,8 +274,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state requiring the student to review each lesson and pass each chapter quiz before moving on. The course final examination must be monitored by a proctor, with an affidavit. Self-study exams are closed book and require a monitor/proctor. Applicant must provide proof of legal residency.</p>
 <p class="quirk">There are no limitations on retaking the exam at a test center. Passing score 70%. 120 minutes for Life/Health/Casualty/Property, 215 minutes for Personal Lines. Spanish exams available. School code required at registration</p>
 </article>
-<article class="card" data-s="connecticut ct" data-gate="sit_cert" data-ple="y">
-<header><h2>Connecticut</h2><span class="pill g-ok">Book now, bring your certificate</span></header>
+<article class="card" data-s="connecticut ct" data-gate="sit_cert" data-ple="y" data-fee="140" data-feelbl="$140+">
+<header><h2>Connecticut</h2><span class="feebadge" aria-hidden="true">$140+</span><span class="pill g-ok">Book now, bring your certificate</span></header>
 <p class="gate">You can reserve a date today, but you must have your course certificate in hand on exam day. <em>Candidates must present a pre-licence education certificate or a waiver letter to sit the exam. (Pearson VUE CT handbook)</em></p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
@@ -279,8 +288,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state requiring the student to review each lesson and pass each chapter quiz before moving on; assessments must be passed with a minimum score of 70%. The course final examination must be monitored by a proctor. Certificates are valid for 1 year.</p>
 <p class="quirk">There are no limitations on retaking the exam. School code required at registration. On the day of testing you must present two forms of identification bearing your signature, one a valid government issued photo ID, and the certificate of completion</p>
 </article>
-<article class="card" data-s="delaware de" data-gate="none" data-ple="n">
-<header><h2>Delaware</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="delaware de" data-gate="none" data-ple="n" data-fee="125" data-feelbl="$125+">
+<header><h2>Delaware</h2><span class="feebadge" aria-hidden="true">$125+</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa"><span class="na">This state licenses Life and Accident &amp; Health separately — two exams, two lines.</span></dd>
@@ -293,8 +302,8 @@ a{color:var(--navy)}
 <p class="quirk">State and FBI criminal history background report required. Biennial renewal by the last day of February in even-numbered years; 24 hours CE (3 ethics) per renewal period.</p>
 <p class="quirk">Spanish exams available. NIPR does not verify exams prior to allowing submission of an application</p>
 </article>
-<article class="card" data-s="district of columbia dc" data-gate="none" data-ple="n">
-<header><h2>District of Columbia</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="district of columbia dc" data-gate="none" data-ple="n" data-fee="100" data-feelbl="$100+">
+<header><h2>District of Columbia</h2><span class="feebadge" aria-hidden="true">$100+</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa"><span class="na">This state licenses Life and Accident &amp; Health separately — two exams, two lines.</span></dd>
@@ -307,8 +316,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state requiring a minimum score of 70% on chapter quizzes before advancing.</p>
 <p class="quirk">There are no limits on exam retakes</p>
 </article>
-<article class="card" data-s="florida fl" data-gate="none" data-ple="y">
-<header><h2>Florida</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="florida fl" data-gate="none" data-ple="y" data-fee="55" data-feelbl="$55" data-feenote="$50 application + $5 state ID">
+<header><h2>Florida</h2><span class="feebadge" aria-hidden="true">$55</span><span class="pill g-ok">Book the exam now</span></header><p class="feenote">Licence application: $50 application + $5 state ID</p>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
@@ -320,8 +329,8 @@ a{color:var(--navy)}
 </dl>
 <p class="quirk">Forced progression (locked) state requiring the student to review each lesson and pass each chapter quiz before moving on. Fingerprint results from other vendors or states are not accepted. Course certificates valid 4 years. Florida licenses are perpetual and do not need formal renewal, but CE is required every 2 years.</p>
 </article>
-<article class="card" data-s="georgia ga" data-gate="none" data-ple="y">
-<header><h2>Georgia</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="georgia ga" data-gate="none" data-ple="y" data-fee="120" data-feelbl="$120" data-feenote="$100 application + $20 processing">
+<header><h2>Georgia</h2><span class="feebadge" aria-hidden="true">$120</span><span class="pill g-ok">Book the exam now</span></header><p class="feenote">Licence application: $100 application + $20 processing</p>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
@@ -334,8 +343,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) course: each lesson must be reviewed and each chapter quiz passed at 70% before moving on. Final exam requires 70%. Certificates valid 12 months. Citizen Affidavit Form (GID-276-EN) must be completed and notarized.</p>
 <p class="quirk">OnVUE online remote proctored exams are not available. The school code is the education provider&#x27;s code and is only requested &#x27;if applicable&#x27; — it does not block registration. Test-centre admission needs two forms of signature ID, not a certificate.</p>
 </article>
-<article class="card" data-s="hawaii hi" data-gate="none" data-ple="n">
-<header><h2>Hawaii</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="hawaii hi" data-gate="none" data-ple="n" data-fee="150" data-feelbl="$150">
+<header><h2>Hawaii</h2><span class="feebadge" aria-hidden="true">$150</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa"><span class="na">This state licenses Life and Accident &amp; Health separately — two exams, two lines.</span></dd>
@@ -348,8 +357,8 @@ a{color:var(--navy)}
 <p class="quirk">Insurance Division address: 335 Merchant Street, Room 123, Honolulu, HI 96813.</p>
 <p class="quirk">Candidates may take up to two examinations during one exam session. Must wait at least 24 hours between retakes; OnVUE retests require a 2-week wait for the first retest and 4-week waits thereafter. If your computer is not compatible with the online software you must schedule at a Pearson test center.</p>
 </article>
-<article class="card" data-s="idaho id" data-gate="none" data-ple="n">
-<header><h2>Idaho</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="idaho id" data-gate="none" data-ple="n" data-fee="80" data-feelbl="$80">
+<header><h2>Idaho</h2><span class="feebadge" aria-hidden="true">$80</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa"><span class="na">This state licenses Life and Accident &amp; Health separately — two exams, two lines.</span></dd>
@@ -362,8 +371,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) course: each lesson must be reviewed and each chapter quiz passed before moving to the next chapter. Fingerprints valid 6 months. At the test center you must present two forms of identification bearing your signature, one a valid government issued photo ID.</p>
 <p class="quirk">Two exams per line are required: a general knowledge exam and a state-designated exam. Both parts must be passed within 180 days (6 months) of passing one part. Check computer compatibility before registering for the online proctored option.</p>
 </article>
-<article class="card" data-s="illinois il" data-gate="sit_cert" data-ple="y">
-<header><h2>Illinois</h2><span class="pill g-ok">Book now, bring your certificate</span></header>
+<article class="card" data-s="illinois il" data-gate="sit_cert" data-ple="y" data-fee="215" data-feelbl="$215" data-feenote="per application">
+<header><h2>Illinois</h2><span class="feebadge" aria-hidden="true">$215</span><span class="pill g-ok">Book now, bring your certificate</span></header><p class="feenote">Licence application: per application</p>
 <p class="gate">You can reserve a date today, but you must have your course certificate in hand on exam day. <em>Before taking an exam, you must complete all pre-licensing education. Test within 1 year of course completion, and obtain the licence within that year. (Pearson VUE IL handbook)</em></p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life and Health Producer</dd>
@@ -376,8 +385,8 @@ a{color:var(--navy)}
 <p class="quirk">Course completion requires passing the online self-study final exam with at least 70%, attending the entire 7.5-hour webinar, and completing the course completion affidavit. Certificates download from the Transcript tile on the user dashboard. Fingerprinting is not mentioned on the page.</p>
 <p class="quirk">Two state examinations are required for each line of authority: the general knowledge exam and the state-designated exam, and both must be passed within 90 days of each other. Exams may be taken at Pearson Professional Assessments locations. Spanish exams available.</p>
 </article>
-<article class="card" data-s="indiana in" data-gate="sit_cert" data-ple="y">
-<header><h2>Indiana</h2><span class="pill g-ok">Book now, bring your certificate</span></header>
+<article class="card" data-s="indiana in" data-gate="sit_cert" data-ple="y" data-fee="40" data-feelbl="$40">
+<header><h2>Indiana</h2><span class="feebadge" aria-hidden="true">$40</span><span class="pill g-ok">Book now, bring your certificate</span></header>
 <p class="gate">You can reserve a date today, but you must have your course certificate in hand on exam day. <em>Testing must be completed within six (6) months of the Course Completion Date on the certificate. (Pearson VUE IN handbook)</em></p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
@@ -390,8 +399,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) course: each lesson must be reviewed and each chapter quiz passed before moving to the next chapter. Mandatory course final exam with a minimum 70% score. Licenses renew every two years by the last day of the birth month. Fingerprinting is not mentioned on the page.</p>
 <p class="quirk">Check computer compatibility before registering for OnVUE. Spanish exams are available at test centers only and are not available through OnVUE.</p>
 </article>
-<article class="card" data-s="iowa ia" data-gate="none" data-ple="n">
-<header><h2>Iowa</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="iowa ia" data-gate="none" data-ple="n" data-fee="50" data-feelbl="$50">
+<header><h2>Iowa</h2><span class="feebadge" aria-hidden="true">$50</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa"><span class="na">This state licenses Life and Accident &amp; Health separately — two exams, two lines.</span></dd>
@@ -404,8 +413,8 @@ a{color:var(--navy)}
 <p class="quirk">Fingerprinting required effective 06/02/2025; the department emails instructions to schedule through Fieldprint AFTER you apply for your license through NIPR. Name change documentation required if applicable.</p>
 <p class="quirk">If your computer is not compatible with the online software you will need to schedule your examination at a Pearson Professional Assessments test center.</p>
 </article>
-<article class="card" data-s="kansas ks" data-gate="none" data-ple="n">
-<header><h2>Kansas</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="kansas ks" data-gate="none" data-ple="n" data-fee="10" data-feelbl="$10" data-feenote="fingerprints billed separately">
+<header><h2>Kansas</h2><span class="feebadge" aria-hidden="true">$10</span><span class="pill g-ok">Book the exam now</span></header><p class="feenote">Licence application: fingerprints billed separately</p>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life/Accident and Health</dd>
@@ -418,8 +427,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) course: the student must review each lesson and pass each chapter quiz.</p>
 <p class="quirk">Online proctored exams are offered through OnVUE; test at a Pearson center if your computer is not compatible. At the test center you must present two forms of identification bearing your signature, one a valid government issued photo ID.</p>
 </article>
-<article class="card" data-s="kentucky ky" data-gate="book_apply" data-ple="y">
-<header><h2>Kentucky</h2><span class="pill g-wait">File the application first</span></header>
+<article class="card" data-s="kentucky ky" data-gate="book_apply" data-ple="y" data-fee="120" data-feelbl="$120" data-feenote="$40 + $40 per line x 2">
+<header><h2>Kentucky</h2><span class="feebadge" aria-hidden="true">$120</span><span class="pill g-wait">File the application first</span></header><p class="feenote">Licence application: $40 + $40 per line x 2</p>
 <p class="gate">You cannot reserve an exam seat until your licence application is filed and processed. <em>The exam is scheduled through the DOI eServices account only after the DOI processes the application, background report and prelicensing certification.</em></p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
@@ -432,8 +441,8 @@ a{color:var(--navy)}
 <p class="quirk">Application comes BEFORE the exam: submit the application via NIPR, allow up to 5 business days for the DOI to process the application, background check and prelicensing certification, then schedule the exam via an eServices account. Forced progression (locked) course. The page describes a criminal background report rather than fingerprinting.</p>
 <p class="quirk">The exam is scheduled only after notification that the license application has been processed. On the day of testing you must present a valid government issued photo ID and the certificate(s) of completion.</p>
 </article>
-<article class="card" data-s="louisiana la" data-gate="none" data-ple="n">
-<header><h2>Louisiana</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="louisiana la" data-gate="none" data-ple="n" data-fee="75" data-feelbl="$75">
+<header><h2>Louisiana</h2><span class="feebadge" aria-hidden="true">$75</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident &amp; Health</dd>
@@ -446,8 +455,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) course: each lesson must be reviewed and each chapter quiz passed before moving to the next chapter; chapter assessments require a minimum 70% score.</p>
 <p class="quirk">As of July 8, 2024, PSI no longer offers remote proctored exams. A valid government-issued photo ID is required on exam day.</p>
 </article>
-<article class="card" data-s="maine me" data-gate="none" data-ple="n">
-<header><h2>Maine</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="maine me" data-gate="none" data-ple="n" data-fee="25" data-feelbl="$25">
+<header><h2>Maine</h2><span class="feebadge" aria-hidden="true">$25</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa"><span class="na">This state licenses Life and Accident &amp; Health separately — two exams, two lines.</span></dd>
@@ -460,8 +469,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) course: each lesson must be reviewed and each chapter quiz passed before moving to the next chapter. Fingerprinting is not mentioned on the page.</p>
 <p class="quirk">OnVUE online remote proctored exams are not available.</p>
 </article>
-<article class="card" data-s="maryland md" data-gate="none" data-ple="n">
-<header><h2>Maryland</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="maryland md" data-gate="none" data-ple="n" data-fee="54" data-feelbl="$54">
+<header><h2>Maryland</h2><span class="feebadge" aria-hidden="true">$54</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident &amp; Health</dd>
@@ -474,8 +483,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state: student must review each lesson and pass each chapter quiz before moving to the next section. Valid government-issued photo ID required on test day.</p>
 <p class="quirk">4-day waiting period to schedule a retake exam; no limitations on retaking the exam. Spanish exams available. Online remote proctored requires computer compatibility check at https://rpcandidate.prometric.com/</p>
 </article>
-<article class="card" data-s="massachusetts ma" data-gate="none" data-ple="n">
-<header><h2>Massachusetts</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="massachusetts ma" data-gate="none" data-ple="n" data-fee="225" data-feelbl="$225+">
+<header><h2>Massachusetts</h2><span class="feebadge" aria-hidden="true">$225+</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident &amp; Health</dd>
@@ -488,8 +497,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state; chapter assessments must be passed with a minimum score of 70%. Producer applicants applying for Casualty, Property, and/or Personal Lines are charged an additional $75 lead paint surcharge fee. Fingerprints are completed at Prometric after passing the exam.</p>
 <p class="quirk">No limits on exam retakes. Exam vendor changes from Prometric to Pearson Professional Assessments on July 6, 2026.</p>
 </article>
-<article class="card" data-s="michigan mi" data-gate="none" data-ple="y">
-<header><h2>Michigan</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="michigan mi" data-gate="none" data-ple="y" data-fee="20" data-feelbl="$20" data-feenote="$10 per line x 2">
+<header><h2>Michigan</h2><span class="feebadge" aria-hidden="true">$20</span><span class="pill g-ok">Book the exam now</span></header><p class="feenote">Licence application: $10 per line x 2</p>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
@@ -502,8 +511,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state: student must review each lesson and pass each chapter quiz before moving to the next section. Course completion certificates are valid for 12 months. Course completion rosters reported to the Department of Insurance within two business days.</p>
 <p class="quirk">There are no limitations on retaking the exam. Two forms of identification bearing your signature required, one a valid government-issued photo ID.</p>
 </article>
-<article class="card" data-s="minnesota mn" data-gate="sit_cert" data-ple="y">
-<header><h2>Minnesota</h2><span class="pill g-ok">Book now, bring your certificate</span></header>
+<article class="card" data-s="minnesota mn" data-gate="sit_cert" data-ple="y" data-fee="50" data-feelbl="$50">
+<header><h2>Minnesota</h2><span class="feebadge" aria-hidden="true">$50</span><span class="pill g-ok">Book now, bring your certificate</span></header>
 <p class="gate">You can reserve a date today, but you must have your course certificate in hand on exam day. <em>If you take the examination before you have completed pre-license education requirements, your exam results will be invalid.</em></p>
 <dl>
 <dt>Take this licence</dt><dd class="loa"><span class="na">This state licenses Life and Accident &amp; Health separately — two exams, two lines.</span></dd>
@@ -516,8 +525,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state. The final examination must be monitored by a proctor. Chapter assessments must be passed with a minimum score of 70%. Course times out after ten minutes of inactivity, and identity must be authenticated periodically throughout the course. Fingerprints can be done at any MN PSI test site and are highly recommended on the day of examination.</p>
 <p class="quirk">There is no limit to the number of attempts a candidate can make on the same exam. Computer compatibility must be checked before registering for an online exam; if incompatible, schedule through PSI or by calling (866) 395-1006.</p>
 </article>
-<article class="card" data-s="mississippi ms" data-gate="none" data-ple="y">
-<header><h2>Mississippi</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="mississippi ms" data-gate="none" data-ple="y" data-fee="100" data-feelbl="$100">
+<header><h2>Mississippi</h2><span class="feebadge" aria-hidden="true">$100</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
@@ -530,8 +539,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state. Chapter assessments must be passed with a minimum score of 70%. Certificates are valid for 1 year and course completion rosters are reported to SIRCON within two business days. Roster fee $4.75 collected upon enrollment.</p>
 <p class="quirk">Passing scores: Life/Health 65; Casualty/Property 70; Personal Lines 70. School code from the certificate of completion must be entered during exam registration.</p>
 </article>
-<article class="card" data-s="missouri mo" data-gate="none" data-ple="n">
-<header><h2>Missouri</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="missouri mo" data-gate="none" data-ple="n" data-fee="120" data-feelbl="$120" data-feenote="$100 application + $20 processing">
+<header><h2>Missouri</h2><span class="feebadge" aria-hidden="true">$120</span><span class="pill g-ok">Book the exam now</span></header><p class="feenote">Licence application: $100 application + $20 processing</p>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
@@ -544,8 +553,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state: student must review each lesson and pass each chapter quiz before moving to the next section/chapter.</p>
 <p class="quirk">OnVUE online remote proctored exams are not available. There are no limitations on retaking the exam. Two forms of identification bearing your signature required, one a valid government-issued photo ID.</p>
 </article>
-<article class="card" data-s="montana mt" data-gate="none" data-ple="n">
-<header><h2>Montana</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="montana mt" data-gate="none" data-ple="n" data-fee="0" data-feelbl="$0" data-feenote="no application fee">
+<header><h2>Montana</h2><span class="feebadge" aria-hidden="true">$0</span><span class="pill g-ok">Book the exam now</span></header><p class="feenote">Licence application: no application fee</p>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa"><span class="na">This state licenses Life and Accident &amp; Health separately — two exams, two lines.</span></dd>
@@ -558,8 +567,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state. Fingerprinting requires submitting a completed Applicant Rights and Consent to Fingerprints form to the department by email.</p>
 <p class="quirk">Passing score 70%; 120 minutes allowed per exam. Computer compatibility must be checked before registering for an online exam.</p>
 </article>
-<article class="card" data-s="nebraska ne" data-gate="none" data-ple="n">
-<header><h2>Nebraska</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="nebraska ne" data-gate="none" data-ple="n" data-fee="50" data-feelbl="$50+">
+<header><h2>Nebraska</h2><span class="feebadge" aria-hidden="true">$50+</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident &amp; Health</dd>
@@ -572,8 +581,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state. Candidates must wait two business days after passing the state exam to apply.</p>
 <p class="quirk">Effective March 16, 2026: Remote proctored exams are no longer available. Candidates must wait two business days after passing the state exam to apply.</p>
 </article>
-<article class="card" data-s="nevada nv" data-gate="none" data-ple="n">
-<header><h2>Nevada</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="nevada nv" data-gate="none" data-ple="n" data-fee="185" data-feelbl="$185">
+<header><h2>Nevada</h2><span class="feebadge" aria-hidden="true">$185</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
@@ -586,8 +595,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state. Chapter assessments must be passed with a minimum score of 70% before moving to the next chapter. You will not be able to review course content once the final examination has begun. Certificates are valid for 1 year. Fingerprint reservation must be scheduled through an approved vendor.</p>
 <p class="quirk">Candidates must wait twenty-four (24) hours before making a subsequent reservation. If your computer is not compatible with the online software you must schedule at a test center.</p>
 </article>
-<article class="card" data-s="new hampshire nh" data-gate="none" data-ple="n">
-<header><h2>New Hampshire</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="new hampshire nh" data-gate="none" data-ple="n" data-fee="210" data-feelbl="$210+">
+<header><h2>New Hampshire</h2><span class="feebadge" aria-hidden="true">$210+</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident &amp; Health</dd>
@@ -600,8 +609,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state. NIPR verifies exams prior to allowing submission of an application.</p>
 <p class="quirk">You must check the compatibility of your computer before registering for the exam; if incompatible you must schedule at the PSI test center.</p>
 </article>
-<article class="card" data-s="new jersey nj" data-gate="sit_cert" data-ple="y">
-<header><h2>New Jersey</h2><span class="pill g-ok">Book now, bring your certificate</span></header>
+<article class="card" data-s="new jersey nj" data-gate="sit_cert" data-ple="y" data-fee="170" data-feelbl="$170">
+<header><h2>New Jersey</h2><span class="feebadge" aria-hidden="true">$170</span><span class="pill g-ok">Book now, bring your certificate</span></header>
 <p class="gate">You can reserve a date today, but you must have your course certificate in hand on exam day. <em>Certificate of completion required on the day of testing.</em></p>
 <dl>
 <dt>Take this licence</dt><dd class="loa"><span class="na">This state licenses Life and Accident &amp; Health separately — two exams, two lines.</span></dd>
@@ -614,8 +623,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state - must review each lesson and pass each chapter quiz before moving on; chapter assessments require 70% minimum; passing score 70%; certificates are valid for a lifetime; license application completed at the PSI test-site kiosk through NIPR.</p>
 <p class="quirk">Spanish exams available. &quot;There are no limitations on retaking the exam.&quot; If computer is not compatible with the online software, schedule at a PSI test center.</p>
 </article>
-<article class="card" data-s="new mexico nm" data-gate="none" data-ple="n">
-<header><h2>New Mexico</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="new mexico nm" data-gate="none" data-ple="n" data-fee="30" data-feelbl="$30+">
+<header><h2>New Mexico</h2><span class="feebadge" aria-hidden="true">$30+</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life/Accident &amp; Health</dd>
@@ -628,8 +637,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) course - student must review each lesson and pass each chapter quiz. IdentoGo service code 2BH27J (https://nm.state.identogo.com/).</p>
 <p class="quirk">Computer compatibility must be checked before registering for the online-proctored exam. Spanish exams available; valid government-issued photo ID required on test day.</p>
 </article>
-<article class="card" data-s="new york ny" data-gate="none" data-ple="y">
-<header><h2>New York</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="new york ny" data-gate="none" data-ple="y" data-fee="80" data-feelbl="$80" data-feenote="full fee; half fee $40 mid-cycle">
+<header><h2>New York</h2><span class="feebadge" aria-hidden="true">$80</span><span class="pill g-ok">Book the exam now</span></header><p class="feenote">Licence application: full fee; half fee $40 mid-cycle</p>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
@@ -642,8 +651,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state - must review each lesson and pass each chapter quiz before moving onto the next section/chapter. Course completion rosters are reported to the state weekly; the certificate is submitted with the license application, not for exam registration. Page states no fingerprint requirement.</p>
 <p class="quirk">&quot;There are no limitations on retaking the exam.&quot; Computer compatibility must be checked before registering; if not compatible, schedule at a PSI test center. Day of testing requires identification bearing your signature, one of which must be a valid government issued photo id.</p>
 </article>
-<article class="card" data-s="north carolina nc" data-gate="book_apply" data-ple="n">
-<header><h2>North Carolina</h2><span class="pill g-wait">File the application first</span></header>
+<article class="card" data-s="north carolina nc" data-gate="book_apply" data-ple="n" data-fee="144" data-feelbl="$144" data-feenote="$44 processing + $50 per line x 2">
+<header><h2>North Carolina</h2><span class="feebadge" aria-hidden="true">$144</span><span class="pill g-wait">File the application first</span></header><p class="feenote">Licence application: $44 processing + $50 per line x 2</p>
 <p class="gate">You cannot reserve an exam seat until your licence application is filed and processed. <em>Candidates cannot make the exam reservation until they receive an email from Pearson VUE with their reserved NPN. (Pearson VUE NC handbook)</em></p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident and Disability</dd>
@@ -656,8 +665,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state requiring review of each lesson and instructional review before moving on; course content cannot be reviewed once the final examination has begun; palm scan required at testing. Producer Licensing Checklist order is unusual: 1 complete prelicensing course, 2 apply for license, 3 submit fingerprints, 4 register for exam, 5 pass exam.</p>
 <p class="quirk">Page does not state whether an online-proctored option exists. Candidates will be required to have their palm scanned. Minimum passing score 70%.</p>
 </article>
-<article class="card" data-s="north dakota nd" data-gate="none" data-ple="n">
-<header><h2>North Dakota</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="north dakota nd" data-gate="none" data-ple="n" data-fee="100" data-feelbl="$100+">
+<header><h2>North Dakota</h2><span class="feebadge" aria-hidden="true">$100+</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident &amp; Health</dd>
@@ -670,8 +679,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression course requiring the student to review each lesson and pass each chapter quiz with a minimum score of 70%. Department address: 600 E Boulevard Ave., Bismarck, ND 58505-0320.</p>
 <p class="quirk">&quot;Remote proctored exams are no longer an option.&quot; Passing score 70 of 110 questions; 150 minutes allowed.</p>
 </article>
-<article class="card" data-s="ohio oh" data-gate="sit_cert" data-ple="y">
-<header><h2>Ohio</h2><span class="pill g-ok">Book now, bring your certificate</span></header>
+<article class="card" data-s="ohio oh" data-gate="sit_cert" data-ple="y" data-fee="20" data-feelbl="$20" data-feenote="$10 per line x 2">
+<header><h2>Ohio</h2><span class="feebadge" aria-hidden="true">$20</span><span class="pill g-ok">Book now, bring your certificate</span></header><p class="feenote">Licence application: $10 per line x 2</p>
 <p class="gate">You can reserve a date today, but you must have your course certificate in hand on exam day. <em>Valid original certificate(s) of completion required on the day of testing.</em></p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
@@ -684,8 +693,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state. Mandatory final exam; certificate requires completion of the course, pre-final exam and the Ohio Certification Exam(s), plus a Pre-licensing Affidavit. &quot;Certificates are valid for 180 days&quot; and &quot;You must pass that state exam during the eligibility period of 180 days otherwise you must retake the prelicensing course.&quot; Course completion rosters reported to the state within seven business days.</p>
 <p class="quirk">&quot;Effective March 10, 2026: Remote examinations are no longer available.&quot; Day of testing requires two forms of identification, valid original hard-copy Certificate(s) of completion signed by provider and student, and a reservation confirmation number.</p>
 </article>
-<article class="card" data-s="oklahoma ok" data-gate="none" data-ple="n">
-<header><h2>Oklahoma</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="oklahoma ok" data-gate="none" data-ple="n" data-fee="60" data-feelbl="$60+">
+<header><h2>Oklahoma</h2><span class="feebadge" aria-hidden="true">$60+</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident &amp; Health</dd>
@@ -698,8 +707,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state - student must review each lesson and pass each chapter quiz before moving onto the next section/chapter. Page is silent on fingerprinting.</p>
 <p class="quirk">&quot;If your computer is not compatible with the online software, you will need to schedule your examination at the Prometric test center.&quot;</p>
 </article>
-<article class="card" data-s="oregon or" data-gate="sit_cert" data-ple="y">
-<header><h2>Oregon</h2><span class="pill g-ok">Book now, bring your certificate</span></header>
+<article class="card" data-s="oregon or" data-gate="sit_cert" data-ple="y" data-fee="150" data-feelbl="$150" data-feenote="$75 per line x 2">
+<header><h2>Oregon</h2><span class="feebadge" aria-hidden="true">$150</span><span class="pill g-ok">Book now, bring your certificate</span></header><p class="feenote">Licence application: $75 per line x 2</p>
 <p class="gate">You can reserve a date today, but you must have your course certificate in hand on exam day. <em>Valid original certificate(s) of completion required on the day of testing.</em></p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
@@ -712,8 +721,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state; mandatory final exam (70% minimum). &quot;You must pass that state exam within the eligibility period of 1 year otherwise you must retake the prelicensing course.&quot; Certificates are valid for 1 year. Fingerprints are submitted at a PSI location on the day of testing. NIPR verifies exams prior to allowing submission of an application, and applying for a second license before the original is issued causes the second application to fail.</p>
 <p class="quirk">&quot;There are no limitations on retaking the exam.&quot; Day of testing requires two forms of identification bearing your signature, one a valid government issued photo id, plus valid original hard-copy Certificate(s) of completion displaying the school code.</p>
 </article>
-<article class="card" data-s="pennsylvania pa" data-gate="none" data-ple="n">
-<header><h2>Pennsylvania</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="pennsylvania pa" data-gate="none" data-ple="n" data-fee="55" data-feelbl="$55">
+<header><h2>Pennsylvania</h2><span class="feebadge" aria-hidden="true">$55</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
@@ -726,8 +735,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state; chapter assessments require 70% minimum. Certificate of completion on exam day is &quot;no longer required as of 04/29/2025&quot;. &quot;Individuals should not register for a fingerprinting appointment and submit their fingerprints until after they have passed any examination requirements and applied for licensure.&quot; IdentoGO service code 1KGBGJ, 844-321-2101.</p>
 <p class="quirk">&quot;There are no limitations on retaking the exam.&quot; Computer compatibility check required; if not compatible, schedule at the Prometric test center. 120 minutes for single lines, 150 minutes for combination exams; passing score 70%.</p>
 </article>
-<article class="card" data-s="rhode island ri" data-gate="none" data-ple="n">
-<header><h2>Rhode Island</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="rhode island ri" data-gate="none" data-ple="n" data-fee="120" data-feelbl="$120">
+<header><h2>Rhode Island</h2><span class="feebadge" aria-hidden="true">$120</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa"><span class="na">This state licenses Life and Accident &amp; Health separately — two exams, two lines.</span></dd>
@@ -740,8 +749,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state - must review each lesson and pass each chapter quiz before moving on. No fingerprint requirement stated; instead &quot;Candidates must provide a background report (BCI) from the Rhode Island Attorney General&#x27;s office. 401-274-4400 opt 2 Fee: State background check $5.00&quot;. Phone number shown for the agency on the page (207-624-8475) is as published.</p>
 <p class="quirk">&quot;There are no limits on exam retakes.&quot; No online-proctored option described on the page. First time candidates for P&amp;C must register for both the Property Producer and Casualty Producer exam.</p>
 </article>
-<article class="card" data-s="south carolina sc" data-gate="none" data-ple="n">
-<header><h2>South Carolina</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="south carolina sc" data-gate="none" data-ple="n" data-fee="25" data-feelbl="$25">
+<header><h2>South Carolina</h2><span class="feebadge" aria-hidden="true">$25</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident and Health Insurance Producer</dd>
@@ -753,8 +762,8 @@ a{color:var(--navy)}
 </dl>
 <p class="quirk">Forced progression (locked) state: student must review each lesson and pass each chapter quiz. Fingerprint info (ORI number/service code) is sent by the department after it receives the application. Exam limited to six attempts per one-year period.</p>
 </article>
-<article class="card" data-s="south dakota sd" data-gate="none" data-ple="n">
-<header><h2>South Dakota</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="south dakota sd" data-gate="none" data-ple="n" data-fee="25" data-feelbl="$25">
+<header><h2>South Dakota</h2><span class="feebadge" aria-hidden="true">$25</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life/Accident/Health</dd>
@@ -767,8 +776,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state; chapters must be completed sequentially with a minimum 70% score before advancing. Page does not mention a fingerprint requirement.</p>
 <p class="quirk">Same fees apply to OnVUE online-proctored delivery</p>
 </article>
-<article class="card" data-s="tennessee tn" data-gate="none" data-ple="n">
-<header><h2>Tennessee</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="tennessee tn" data-gate="none" data-ple="n" data-fee="50" data-feelbl="$50">
+<header><h2>Tennessee</h2><span class="feebadge" aria-hidden="true">$50</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life and Accident &amp; Health</dd>
@@ -781,8 +790,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state. Must wait 48 hours after taking the examination before submitting the license application electronically. Combination exam fee exists although no combined course line is listed.</p>
 <p class="quirk">10-day minimum wait to reschedule; 30-day wait after subsequent attempts</p>
 </article>
-<article class="card" data-s="texas tx" data-gate="none" data-ple="n">
-<header><h2>Texas</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="texas tx" data-gate="none" data-ple="n" data-fee="50" data-feelbl="$50+">
+<header><h2>Texas</h2><span class="feebadge" aria-hidden="true">$50+</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident &amp; Health</dd>
@@ -795,8 +804,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state that requires the student to review each lesson and pass each chapter quiz before moving to the next chapter. No online-proctored exam option.</p>
 <p class="quirk">OnVUE online remote proctored exams are not available</p>
 </article>
-<article class="card" data-s="utah ut" data-gate="none" data-ple="n">
-<header><h2>Utah</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="utah ut" data-gate="none" data-ple="n" data-fee="75" data-feelbl="$75+">
+<header><h2>Utah</h2><span class="feebadge" aria-hidden="true">$75+</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident &amp; Health</dd>
@@ -808,8 +817,8 @@ a{color:var(--navy)}
 </dl>
 <p class="quirk">Forced progression (locked) state; chapter assessments must be passed with a minimum 70% before progressing. License application must be submitted within 90 days of passing the exam.</p>
 </article>
-<article class="card" data-s="vermont vt" data-gate="none" data-ple="n">
-<header><h2>Vermont</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="vermont vt" data-gate="none" data-ple="n" data-fee="60" data-feelbl="$60+">
+<header><h2>Vermont</h2><span class="feebadge" aria-hidden="true">$60+</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident &amp; Health</dd>
@@ -822,8 +831,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state requiring each lesson to be reviewed and each chapter quiz passed before advancing. License and fingerprints are completed at Prometric AFTER passing the exam.</p>
 <p class="quirk">Computer compatibility check at https://rpcandidate.prometric.com/ required for online proctoring</p>
 </article>
-<article class="card" data-s="virginia va" data-gate="none" data-ple="n">
-<header><h2>Virginia</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="virginia va" data-gate="none" data-ple="n" data-fee="15" data-feelbl="$15+">
+<header><h2>Virginia</h2><span class="feebadge" aria-hidden="true">$15+</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident &amp; Health</dd>
@@ -836,8 +845,8 @@ a{color:var(--navy)}
 <p class="quirk">Forced progression (locked) state. Fingerprint results are valid for 90 days. 30-calendar-day waiting period after a third failed exam attempt.</p>
 <p class="quirk">24-hour waiting period between retakes; after a third failure Virginia law requires a 30-calendar-day wait</p>
 </article>
-<article class="card" data-s="washington wa" data-gate="none" data-ple="n">
-<header><h2>Washington</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="washington wa" data-gate="none" data-ple="n" data-fee="60" data-feelbl="$60">
+<header><h2>Washington</h2><span class="feebadge" aria-hidden="true">$60</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life and Disability (Health)</dd>
@@ -850,8 +859,8 @@ a{color:var(--navy)}
 <p class="quirk">Prelicensing requirement eliminated and the education roster is explicitly not required to schedule the exam. Forced progression (locked) course. All application requirements must be submitted within 180 days of passing the exam or the exam must be retaken.</p>
 <p class="quirk">In-person scheduling also available by phone at (855) 205-5825</p>
 </article>
-<article class="card" data-s="west virginia wv" data-gate="none" data-ple="y">
-<header><h2>West Virginia</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="west virginia wv" data-gate="none" data-ple="y" data-fee="50" data-feelbl="$50">
+<header><h2>West Virginia</h2><span class="feebadge" aria-hidden="true">$50</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident and Health</dd>
@@ -864,8 +873,8 @@ a{color:var(--navy)}
 <p class="quirk">Prelicensing education is required. Forced progression (locked) state and the final examination must be monitored by a proctor (minimum score 70%). Course completion certificates are valid for 6 months. Fingerprint receipt with 12-digit TCN required for the license application. Exam limited to eight attempts per line.</p>
 <p class="quirk">24-hour waiting period between exam attempts</p>
 </article>
-<article class="card" data-s="wisconsin wi" data-gate="sit_cert" data-ple="y">
-<header><h2>Wisconsin</h2><span class="pill g-ok">Book now, bring your certificate</span></header>
+<article class="card" data-s="wisconsin wi" data-gate="sit_cert" data-ple="y" data-fee="20" data-feelbl="$20" data-feenote="$10 per line x 2">
+<header><h2>Wisconsin</h2><span class="feebadge" aria-hidden="true">$20</span><span class="pill g-ok">Book now, bring your certificate</span></header><p class="feenote">Licence application: $10 per line x 2</p>
 <p class="gate">You can reserve a date today, but you must have your course certificate in hand on exam day. <em>Certificate(s) of completion required on the day of testing.</em></p>
 <dl>
 <dt>Take this licence</dt><dd class="loa"><span class="na">This state licenses Life and Accident &amp; Health separately — two exams, two lines.</span></dd>
@@ -878,8 +887,8 @@ a{color:var(--navy)}
 <p class="quirk">Prelicensing education is required. Forced progression course with assessments passed at a minimum 70% before advancing, and a mandatory proctored final exam. Certificate of completion must be presented on the day of testing; certificates are valid for 1 year and fingerprint information for 180 days.</p>
 <p class="quirk">Computer compatibility must be checked before registering for an online-proctored exam</p>
 </article>
-<article class="card" data-s="wyoming wy" data-gate="none" data-ple="n">
-<header><h2>Wyoming</h2><span class="pill g-ok">Book the exam now</span></header>
+<article class="card" data-s="wyoming wy" data-gate="none" data-ple="n" data-fee="100" data-feelbl="$100+">
+<header><h2>Wyoming</h2><span class="feebadge" aria-hidden="true">$100+</span><span class="pill g-ok">Book the exam now</span></header>
 <p class="gate">No course or application has to be finished first.</p>
 <dl>
 <dt>Take this licence</dt><dd class="loa">Life, Accident &amp; Health</dd>
@@ -897,7 +906,27 @@ a{color:var(--navy)}
 </div>
 <script>
 var grid=document.getElementById('grid'), q=document.getElementById('q'), cnt=document.getElementById('count');
-var chips=[].slice.call(document.querySelectorAll('.chip')), filter='all';
+var chips=[].slice.call(document.querySelectorAll('.chip[data-f]')), filter='all';
+var sortBtns=[].slice.call(document.querySelectorAll('.chip[data-sort]')), order='az';
+/* The A-Z order is the order the cards are written in the file, so it is kept
+   rather than recomputed - that way "A-Z" always restores the page exactly. */
+var AZ=[].slice.call(grid.children).filter(function(c){ return c.dataset && c.dataset.gate; });
+function feeOf(c){ var v=parseFloat(c.dataset.fee); return isNaN(v)? Infinity : v; }
+function nameOf(c){ var h=c.querySelector('h2'); return h? h.textContent.trim() : ''; }
+function reorder(){
+  var list=AZ.slice();
+  if(order==='fee'){
+    /* cheapest first; equal fees fall back to A-Z so the order is never random.
+       A state with no parsed fee sorts last rather than pretending to be free. */
+    list.sort(function(a,b){
+      var d=feeOf(a)-feeOf(b);
+      if(d) return d;
+      return nameOf(a)<nameOf(b)? -1 : 1;
+    });
+  }
+  grid.classList.toggle('byfee', order==='fee');
+  list.forEach(function(c){ grid.appendChild(c); });
+}
 function apply(){
   var t=q.value.trim().toLowerCase(), n=0;
   [].forEach.call(grid.children,function(c){
@@ -906,11 +935,15 @@ function apply(){
     var okF=(filter==='all')||(filter==='ple'?c.dataset.ple==='y':c.dataset.gate===filter);
     var show=okT&&okF; c.hidden=!show; if(show)n++;
   });
-  cnt.textContent=n+(n===1?' state':' states');
+  cnt.textContent=n+(n===1?' state':' states')+(order==='fee'?' \u00b7 cheapest licence fee first':'');
 }
 chips.forEach(function(b){b.addEventListener('click',function(){
   chips.forEach(function(x){x.setAttribute('aria-pressed', x===b?'true':'false');});
   filter=b.dataset.f; apply();
+});});
+sortBtns.forEach(function(b){b.addEventListener('click',function(){
+  sortBtns.forEach(function(x){x.setAttribute('aria-pressed', x===b?'true':'false');});
+  order=b.dataset.sort; reorder(); apply();
 });});
 q.addEventListener('input',apply);
 apply();
