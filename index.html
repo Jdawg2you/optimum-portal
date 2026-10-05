@@ -1057,6 +1057,7 @@ const RES_TILES=[
   {k:'cheats',i:'🎯',t:'Objection & Sales Cheat Sheets',s:'Objections by script — veteran, IUL, mortgage',items:[['Veteran Objections Cheat Sheet — opening &amp; closing','The veteran / final expense call — the first 30 seconds and the money stalls, in one sheet.','https://script.ffloptimum.com/vet/objections/'],['IUL Objections Cheat Sheet — opening &amp; closing','The IUL call — opening and closing objections, in one sheet.','https://script.ffloptimum.com/iul/objections/'],['Mortgage Protection Objections Cheat Sheet — opening &amp; closing','The mortgage protection call — opening and closing objections, in one sheet.','https://script.ffloptimum.com/mortgage/objections/'],['Policy Benefits — Plain-English Guide','Term vs. Whole Life vs. IUL — general education.','https://portal.ffloptimum.com/policy-benefits.html']]},
     {k:'chargebacks',i:'\u26A0\uFE0F',t:'Chargebacks, Explained',s:'Advances, lapses and how not to get hurt',link:'https://tools.ffloptimum.com/chargebacks/'},
     {k:'addcarriers',i:'\uD83D\uDCE8',t:'Contracting with Additional Carriers',s:'Foresters &amp; Instabrain \u2014 request them by email',items:[]},
+    {k:'backdrops',i:'\uD83C\uDFA5',t:'Zoom Backdrops',s:'Optimum-branded virtual backgrounds for live dials &amp; meetings',items:[]},
   {k:'cleared',i:'✅',t:'Cleared to Dial — New-Agent Checklist',s:'Everything you need before your first call',link:'https://portal.ffloptimum.com/cleared-to-dial-checklist.pdf'},
   {k:'guides',i:'📄',t:'How-tos & admin',s:'Phone registration, state licenses, leaderboard',items:[['Register your phone number to reduce spam','Step-by-step guide.','https://docs.google.com/document/d/1Wu5M_mymae8s7S7SO-KrL3pWePNrRj6WjtERPUPCUmM/edit?usp=sharing'],['How to add other state licenses','Loom walkthrough.','https://www.loom.com/share/5c9253a5d2ef4f3c82079d0c75bc4a2c?sid=45c3dbb0-5484-4b03-8ba6-3ab04c2a6a49'],['Emoji Leaderboard How-To','','https://docs.google.com/document/d/1rl5YRBlO0d2yrt93Vig2Wmc02wWkipqe0c40N48hVEA/edit?usp=sharing']]},
   {k:'va',i:'🎖️',t:'VA Benefits',s:'Burial · VALife · VGLI',items:[['VA Burial Benefits','','https://www.benefits.va.gov/compensation/claims-special-burial.asp'],['VALife Overview','','https://www.va.gov/life-insurance/options-eligibility/valife/'],['VGLI Overview','','https://www.va.gov/life-insurance/options-eligibility/vgli/']]},
@@ -1617,6 +1618,7 @@ function resPanelFor(t){
   if(t.k==='payments'&&typeof m5PaymentsPanel==='function')return m5PaymentsPanel();
   if(t.k==='products'&&typeof m5ProductPanel==='function')return m5ProductPanel();
   if(t.k==='addcarriers'&&typeof m5AddCarrierPanel==='function')return m5AddCarrierPanel();
+  if(t.k==='backdrops'&&typeof m5BackdropPanel==='function')return m5BackdropPanel();
   if(M5_SALES_KEYS[t.k]&&typeof salesPanel==='function')return salesPanel(t.k);
   var rows=t.reuse==='scripts'?SCRIPTS_L:(t.items||[]);
   return listPanel(t.i+' '+t.t,t.blurb||'',rows);
@@ -3803,6 +3805,22 @@ function acadLessonView(a,b){var m=acadFindMod(a);if(!m)return acadHomeView();va
 .ag-ct.pt{background:#fdf3e0;color:#8a5a00}
 .ag-ct.un{background:#eef0f4;color:#5a6678}
 .ag-ct.none{background:none;color:#b7bfce;font-weight:600;padding-left:0}
+/* Zoom backdrops. The grid drops to one column on a phone rather than squeezing
+   three 16:9 thumbnails into 390px, where nobody could tell them apart. */
+.m5-zbgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:14px 0 4px}
+@media(max-width:860px){.m5-zbgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){.m5-zbgrid{grid-template-columns:1fr}}
+.m5-zb{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(20,35,63,.05);display:flex;flex-direction:column}
+.m5-zbimg{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;background:#eef2f8}
+.m5-zbb{padding:11px 13px 13px;display:flex;flex-direction:column;flex:1}
+.m5-zbt{font-size:14px;font-weight:800;color:#0e2244}
+.m5-zbd{font-size:12px;color:#5a6678;line-height:1.5;margin:4px 0 11px;flex:1}
+.m5-zbdl{display:inline-flex;align-items:center;justify-content:center;gap:7px;background:#0e2244;color:#fff;
+  text-decoration:none;border-radius:9px;padding:10px 14px;font-size:12.5px;font-weight:700;min-height:42px;box-sizing:border-box}
+.m5-zbdl:hover{filter:brightness(1.15)}
+.m5-zbsteps{font-size:13px;color:#3d4657;line-height:1.6}
+.m5-zbsteps ol{margin:4px 0 0;padding-left:20px}
+.m5-zbsteps li{margin:0 0 5px}
 .ag-mini{display:inline-block;width:56px;height:7px;background:#eef2f8;border-radius:5px;overflow:hidden;vertical-align:middle;margin-right:6px}
 .ag-mini > span{display:block;height:100%;border-radius:5px}
 .ag-eng{display:flex;align-items:center;gap:11px;margin:11px 0}
@@ -5609,6 +5627,50 @@ window.m5ProductPanel=function(){
    The whole process is one email; the only way it goes wrong is Jesse not being
    copied, so the CC is baked into the mailto AND into both webmail fallbacks.
    Nothing here states a timeline, a fee or a prerequisite - none was given to us. */
+/* Zoom backdrops. The files sit next to this page, so a plain <a download> is
+   enough - no blob, no fetch, no CORS. Thumbnails are separate small files so
+   opening the panel does not pull 1.4MB down a phone connection.
+   The mirroring note is there because it is the one thing that makes an agent
+   think the image is broken: Zoom mirrors YOUR OWN view, so the logo reads
+   backwards to you and correctly to everyone else. */
+var M5_BACKDROPS=[
+  {f:'optimum-backdrop-logo-wall', t:'Logo wall', d:'Straight-on behind the desk. The cleanest one — the logo sits beside your head rather than behind it.'},
+  {f:'optimum-backdrop-desk',      t:'Desk & skyline', d:'Window light on the left, logo on the right. Good if you sit slightly off-centre.'},
+  {f:'optimum-backdrop-office',    t:'Full office',    d:'The wide room. Busier — best on a bigger screen, or when you want the space to read as an office.'}
+];
+window.m5BackdropPanel=function(){
+  function sh(t){ return '<div style="font-size:11.5px;font-weight:800;color:#a9861d;text-transform:uppercase;letter-spacing:.04em;margin:18px 0 6px 2px">'+t+'</div>'; }
+  function nt(html){ return '<div style="font-size:12.5px;color:#55617d;line-height:1.55;margin:6px 0;padding:10px 12px;background:#f7f9fc;border-left:3px solid #dbe3f0;border-radius:8px">'+html+'</div>'; }
+  var cards=M5_BACKDROPS.map(function(b){
+    return '<div class="m5-zb">'+
+      '<img class="m5-zbimg" src="'+b.f+'-thumb.jpg" alt="'+m5AgEsc(b.t)+' Zoom backdrop" loading="lazy" width="480" height="270">'+
+      '<div class="m5-zbb">'+
+        '<div class="m5-zbt">'+m5AgEsc(b.t)+'</div>'+
+        '<div class="m5-zbd">'+m5AgEsc(b.d)+'</div>'+
+        '<a class="m5-zbdl" href="'+b.f+'.jpg" download="'+b.f+'.jpg">Download</a>'+
+      '</div></div>';
+  }).join('');
+  return '<div class="listcard" style="margin-top:16px"><h3>🎥 Zoom Backdrops</h3>'
+    + '<div class="lc-sub">Optimum-branded virtual backgrounds for live dials, strategy calls and client meetings. Tap Download, then set it in Zoom — steps below.</div>'
+    + '<div class="m5-zbgrid">'+cards+'</div>'
+    + sh('Set it on your computer')
+    + '<div class="m5-zbsteps"><ol>'
+      + '<li>Download the one you want. It lands in your <b>Downloads</b> folder.</li>'
+      + '<li>Open Zoom and go to <b>Settings</b> (the gear, top right) → <b>Background &amp; Effects</b>.</li>'
+      + '<li>Click the <b>+</b> above the thumbnails and choose <b>Add Image</b>.</li>'
+      + '<li>Pick the file you just downloaded. It applies straight away and Zoom remembers it.</li>'
+    + '</ol></div>'
+    + sh('Set it on your phone')
+    + '<div class="m5-zbsteps"><ol>'
+      + '<li>Download the image — on a phone it saves to your <b>Photos</b>.</li>'
+      + '<li>Join or start a meeting, tap <b>More</b> (the three dots), then <b>Background &amp; Effects</b>.</li>'
+      + '<li>Tap <b>+</b> and pick the image from your photos.</li>'
+    + '</ol></div>'
+    + sh('Two things worth knowing')
+    + nt('<b>If the logo looks backwards to you, nothing is wrong.</b> Zoom mirrors your own self-view — everyone else sees it the right way round. To check, turn off <i>Mirror my video</i> in Background &amp; Effects.')
+    + nt('<b>These work best with a plain wall behind you and light on your face.</b> A window or a lamp in front of you, not behind. Without a green screen Zoom guesses where you end and the room begins, and a busy real background is what makes the edges go strange.')
+    + '</div>';
+};
 window.m5AddCarrierPanel=function(){
   function lk(l,d,url){ return '<a class="m5-row" href="'+url+'" target="_blank" rel="noopener"><span class="ri"></span><span class="m5-rtext"><span class="rl">'+l+'</span>'+(d?'<span class="rd">'+d+'</span>':'')+'</span><span class="ra">↗</span></a>'; }
   function sh(t){ return '<div style="font-size:11.5px;font-weight:800;color:#a9861d;text-transform:uppercase;letter-spacing:.04em;margin:16px 0 6px 2px">'+t+'</div>'; }
