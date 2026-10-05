@@ -6032,6 +6032,11 @@ function m5AgFind(k){
 }
 var M5_COACH_FIELDS=[
   {f:'why',      l:'Their why \u2014 in their words', t:'area', p:'What did they actually say when you asked why they are doing this?'},
+  /* Family sits next to the why on purpose: it is usually the thing the why is
+     really about, and a name you can use on the next call is worth more than a
+     tick box. Free text rather than fields for spouse/kids, because real answers
+     are "married, wife Dana, two boys 7 and 4" and not a form. */
+  {f:'family',   l:'Family', t:'area', p:'Spouse or partner and their name, kids and ages, who they are really doing this for'},
   {f:'commit',   l:'Full-time or part-time', t:'sel', o:['','Full-time','Part-time','Undecided']},
   {f:'schedule', l:'Committed schedule',     t:'txt', p:'e.g. Mon\u2013Thu 5\u20139pm'},
   {f:'goal',     l:'Income goal &amp; what it is for', t:'txt', p:'e.g. $6k/mo \u2014 off the night shift'},
@@ -6050,6 +6055,7 @@ var M5_COACH_FIELDS=[
 var M5_PASTE_ALIAS=(function(){
   var m={}, add=function(f,names){ names.forEach(function(n){ m[n]=f; }); };
   add('why',      ['why','their why','their why in their words','why in their words']);
+  add('family',   ['family','family life','spouse','partner','married','kids','children','spouse name','family situation']);
   add('commit',   ['commit','commitment','full-time or part-time','full time or part time','fulltime or parttime','ft or pt']);
   add('schedule', ['schedule','committed schedule','their schedule','hours']);
   add('goal',     ['goal','income goal','income goal and what it is for','income goal & what it is for','income goal and what it s for','target']);
