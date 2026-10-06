@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>A quick check-in · Optimum</title>
+<meta name="description" content="Two minutes, so we can help you plan what's next for you. No login needed.">
+
+<!-- What people see when this is texted to them. Without these the phone falls
+     back to whatever it can scrape, and the portal's own card says "AGENT PORTAL
+     - Onboarding, Training, Sales Tools", which reads like "go and log in" and is
+     exactly the wrong first impression for a two-minute form. Hence its own
+     title, its own words, and its own image. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Optimum · Family First Life">
+<meta property="og:title" content="A quick check-in">
+<meta property="og:description" content="Two minutes, so we can help you plan what's next for you. No login needed.">
+<meta property="og:image" content="https://portal.ffloptimum.com/og-checkin.png">
+<meta property="og:image:secure_url" content="https://portal.ffloptimum.com/og-checkin.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="A quick check-in — two minutes, no login needed">
+<meta property="og:url" content="https://portal.ffloptimum.com/checkin.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="A quick check-in">
+<meta name="twitter:description" content="Two minutes, so we can help you plan what's next for you. No login needed.">
+<meta name="twitter:image" content="https://portal.ffloptimum.com/og-checkin.png">
+<link rel="icon" href="favicon.ico">
+<style>
+:root{
+  --navy:#16233f; --navy-d:#0b1a34; --gold:#C9A24E; --gold-l:#e8c879;
+  --cream:#F5F1E8; --line:#E3DFD4; --ink:#1B1B1B; --muted:#6b7688;
+  --ok:#3F7A56; --okbg:#EDF4EF;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--cream);color:var(--ink);
+  font:16px/1.55 Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  -webkit-text-size-adjust:100%}
+.wrap{max-width:620px;margin:0 auto;padding:26px 18px 60px}
+
+.brand{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+.brand b{font:800 16px/1 Inter,sans-serif;color:var(--navy);letter-spacing:.01em}
+.brand i{width:30px;height:30px;border-radius:8px;background:var(--navy);display:inline-flex;
+  align-items:center;justify-content:center;color:var(--gold);font-style:normal;font-weight:800;font-size:15px}
+
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px 22px;
+  box-shadow:0 2px 10px rgba(20,35,63,.05);margin-bottom:14px}
+h1{font-size:23px;line-height:1.2;font-weight:800;color:var(--navy);margin:0 0 10px}
+h2{font-size:17px;font-weight:800;color:var(--navy);margin:0 0 4px}
+.lede{color:var(--muted);font-size:14.5px;margin:0 0 4px}
+.blurb p{font-size:14.5px;line-height:1.6;color:#3d4657;margin:0 0 11px}
+.blurb p:last-child{margin-bottom:0}
+
+label.q{display:block;font-weight:800;font-size:15.5px;color:var(--navy);margin:0 0 3px}
+.help{font-size:13px;color:var(--muted);margin:0 0 10px;line-height:1.5}
+.qblock{padding:18px 0;border-top:1px solid var(--line)}
+.qblock:first-of-type{border-top:0;padding-top:4px}
+.qnum{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.07em;color:#a08a4e;
+  text-transform:uppercase;margin-bottom:5px}
+
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:flex;align-items:flex-start;gap:10px;border:1px solid var(--line);border-radius:11px;
+  padding:12px 13px;cursor:pointer;background:#fff;transition:.12s;min-height:46px}
+.opt:hover{border-color:#c9d3e4;background:#fbfcfe}
+.opt input{margin:2px 0 0;accent-color:var(--navy);width:17px;height:17px;flex:0 0 auto}
+.opt span{font-size:14.5px;line-height:1.4}
+.opt.on{border-color:var(--navy);background:#f6f9ff;box-shadow:inset 0 0 0 1px var(--navy)}
+
+input[type=text],input[type=tel],input[type=email],textarea{
+  width:100%;border:1px solid var(--line);border-radius:10px;padding:12px 13px;font:inherit;
+  font-size:16px;background:#fff;color:var(--ink)}
+textarea{min-height:92px;resize:vertical;line-height:1.5}
+input:focus,textarea:focus{outline:2px solid var(--navy);outline-offset:1px;border-color:var(--navy)}
+.fieldrow{margin-bottom:13px}
+.fieldrow label{display:block;font-weight:700;font-size:13.5px;color:var(--navy);margin-bottom:5px}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:11px;
+  background:var(--navy);color:#fff;font:800 15px/1 Inter,sans-serif;padding:0 24px;min-height:50px;
+  cursor:pointer;font-family:inherit;width:100%}
+.btn:hover{filter:brightness(1.14)}
+.btn[disabled]{opacity:.55;cursor:default;filter:none}
+.btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line);font-weight:700}
+.btnrow{display:flex;gap:10px;margin-top:6px}
+.btnrow .btn{width:auto;flex:1}
+
+.note{background:#fbfcfe;border:1px solid var(--line);border-left:3px solid var(--gold);
+  border-radius:0 10px 10px 0;padding:12px 14px;font-size:13.5px;color:#3d4657;line-height:1.55;margin:14px 0 0}
+.err{background:#fdf1ef;border:1px solid #f0cdc6;color:#95331f;border-radius:10px;
+  padding:12px 14px;font-size:14px;margin:12px 0 0;line-height:1.5}
+.ok{background:var(--okbg);border:1px solid #cfe3d6;color:#2c5c40;border-radius:10px;
+  padding:12px 14px;font-size:14px;margin:12px 0 0;line-height:1.5}
+
+.who{display:flex;align-items:center;gap:12px;background:#f6f9ff;border:1px solid #d9e3f5;
+  border-radius:12px;padding:13px 15px;margin-bottom:4px}
+.who b{display:block;font-size:16px;color:var(--navy)}
+.who small{display:block;font-size:12.5px;color:var(--muted);margin-top:1px}
+.who button{margin-left:auto;background:none;border:0;color:var(--navy);font:700 13px Inter,sans-serif;
+  text-decoration:underline;cursor:pointer;padding:6px;font-family:inherit;flex:0 0 auto}
+
+.prog{height:5px;background:#e8ecf4;border-radius:99px;overflow:hidden;margin:0 0 16px}
+.prog i{display:block;height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-l));
+  width:0;transition:width .35s ease}
+
+.recap{border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:14px 0 0}
+.recap div{display:flex;gap:12px;padding:11px 14px;border-top:1px solid var(--line);font-size:14px}
+.recap div:first-child{border-top:0}
+.recap b{flex:0 0 42%;color:var(--muted);font-weight:700;font-size:13px}
+.recap span{flex:1;color:var(--navy);font-weight:600}
+
+.hidden{display:none !important}
+.foot{text-align:center;font-size:12.5px;color:var(--muted);margin-top:18px}
+@media(max-width:420px){ .wrap{padding:18px 14px 50px} h1{font-size:20px} .card{padding:19px 16px} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="brand"><i>O</i><b>Optimum</b></div>
+
+  <!-- ============ STEP 1 — who are you ============ -->
+  <section id="s-id">
+    <div class="card">
+      <h1>Quick check-in</h1>
+      <p class="lede">Two minutes. Straight answers.</p>
+      <div class="blurb" style="margin-top:14px">
+        <p>This went out to the whole team — people who started last week and people who've
+        been here a year.</p>
+        <p>It's not a test and there's no wrong answer. Some of you are going hard right now.
+        Some of you are fitting this around a job or a family. Both are fine — this business
+        runs at whatever pace you run it at.</p>
+        <p>What we can't do is guess from the outside. The help is there for everyone, but
+        there are only so many hours in a week, and we'd rather spend them on the people who
+        want them right now.</p>
+        <p>If you want to push this last quarter, say so and we'll get behind you. If this
+        isn't your season, say that too — it costs you nothing, and it tells us more than
+        silence does.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>First, who's filling this in?</h2>
+      <p class="help">So your answers end up on your record and not somebody else's.</p>
+      <div class="fieldrow"><label for="f-name">Your name</label>
+        <input id="f-name" type="text" autocomplete="name" placeholder="First and last"></div>
+      <div class="fieldrow"><label for="f-phone">Mobile number</label>
+        <input id="f-phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="(555) 123-4567"></div>
+      <div class="fieldrow"><label for="f-email">Email</label>
+        <input id="f-email" type="email" autocomplete="email" inputmode="email" placeholder="you@email.com"></div>
+      <button class="btn" id="b-id">Continue</button>
+      <div id="id-msg"></div>
+      <div class="note">We match on your phone <em>or</em> your email — whichever we have on
+      file. Give us both and it will find you either way.</div>
+    </div>
+  </section>
+
+  <!-- ============ STEP 2 — confirm it's them ============ -->
+  <section id="s-confirm" class="hidden">
+    <div class="card">
+      <h2>Is this you?</h2>
+      <p class="help">Just checking before your answers go on this record.</p>
+      <div class="who" id="who-box"></div>
+      <div class="btnrow" style="margin-top:14px">
+        <button class="btn ghost" id="b-notme">No, that's not me</button>
+        <button class="btn" id="b-yes">Yes — let's go</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STEP 3 — the questions ============ -->
+  <section id="s-q" class="hidden">
+    <div class="prog"><i id="prog-i"></i></div>
+    <div class="card" id="q-host"></div>
+    <button class="btn" id="b-submit">Send my answers</button>
+    <div id="q-msg"></div>
+  </section>
+
+  <!-- ============ STEP 4 — playback ============ -->
+  <section id="s-done" class="hidden">
+    <div class="card">
+      <h1 id="done-h">Got it — thank you.</h1>
+      <p class="lede" id="done-sub"></p>
+      <div class="recap" id="done-recap"></div>
+      <div class="note" id="done-note"></div>
+    </div>
+  </section>
+
+  <div class="foot">Optimum · Family First Life</div>
+</div>
+
+<script>
+/* ============================================================================
+   Optimum quick check-in.
+
+   One link for everybody. The agent identifies themselves on screen 1; we match
+   against the roster through the portal's existing `lookup` action, which takes
+   an email and a phone and returns {found, first, last, licensed, ...}.
+
+   Deliberate choices, so they are not re-litigated later:
+
+   - Name AND phone AND email, matched on whichever hits. Phone alone is one
+     shot: a typo or a second number orphans the answers with nothing to
+     reattach them to. Jesse's own record, for instance, has no phone stored at
+     all — so a phone-only design would have failed for him on day one.
+   - The match is confirmed back to the agent ("Is this you?") before they
+     answer anything. That is what catches their own typo.
+   - A response is NEVER discarded for failing to match. Someone who answered
+     and then vanished into nothing is the worst outcome here, and it is
+     invisible when it happens. No match means we still take the answers and
+     flag them for manual assignment.
+   - Licensed vs unlicensed comes from the matched record. With no record we
+     ask one extra question rather than refusing them.
+   ========================================================================== */
+
+var BACKEND_URL='https://script.google.com/macros/s/AKfycbzf1JRBpWwXO0IfRPbvFCsI8T7rptmc9dllbUlt6nVbpu0t9tnQ7dm3P-gQnpgZtdSk/exec';
+
+var S = { id:null, matched:null, licensed:null, answers:{}, started:new Date() };
+
+var $  = function(id){ return document.getElementById(id); };
+var esc = function(s){ return String(s==null?'':s)
+  .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
+
+/* The commitment date is computed, never chosen. A free date field invites
+   "sometime in January", which never surfaces as anything. */
+function commitDate(){
+  var d = new Date(S.started.getTime());
+  d.setDate(d.getDate() + 14);
+  return d;
+}
+function isoDate(d){
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function prettyDate(d){
+  return d.toLocaleDateString(undefined,{weekday:'long', month:'long', day:'numeric'});
+}
+
+/* ---------------------------------------------------------------- questions */
+function LICENSED(){ return [
+ {k:'commit', f:'commit', q:'How are you working this?', t:'radio',
+  o:['Full-time, this is my job','Part-time, I’ve got something else','Still deciding']},
+
+ {k:'quarter', f:'quarter', q:'Do you want to make this last quarter count?', t:'radio',
+  o:['All in','In, but with limits','Not this quarter']},
+
+ {k:'dialing', f:'dialing', q:'Right now, how much are you actually dialing?', t:'radio',
+  o:['Not dialing yet','Here and there','Most days','Every day, full sessions']},
+
+ {k:'why', f:'why', q:'In one sentence, why did you start this business?', t:'text',
+  h:'Think about your why — what matters most to you, and why it makes sense for you to spend your time and energy on this.'},
+
+ {k:'goal', f:'goal', q:'What do you want to be earning per month by Dec 31 — and what’s it for?', t:'text',
+  h:'A number and what it pays for. Both halves matter.'},
+
+ {k:'expect', f:'expect', q:'Is this going how you thought it would?', t:'radio',
+  o:['Better than I expected','About right','Slower than I expected']},
+
+ {k:'gaps', f:'gaps', q:'What are you missing or unsure about?', t:'check',
+  h:'Tick anything — missing it, or just not confident about it.',
+  excl:'Nothing at the moment',
+  o:['Carriers and/or writing numbers','Money for leads',
+     'Knowing what to say on a call','Product knowledge','Where to start',
+     'Nothing at the moment']},
+
+ {k:'clarity', f:'clarity', q:'Straight answer — are you clear on what to do each day?', t:'radio',
+  o:['Clear','Mostly','I’m guessing','I’m honestly lost']},
+
+ {k:'obstacle', f:'obstacle', q:'What’s the biggest thing in your way right now?', t:'text'},
+ {k:'help', f:'help', q:'Do you want help with it?', t:'radio',
+  o:['Yes, call me','Yes, just point me at it','No, I’ve got it']},
+
+ {k:'next', f:'next', q:'Name one thing you know you can do to make progress or move yourself forward.', t:'text'},
+ {k:'commitBy', f:'nextDate', q:'Are you committed to doing that over the next two weeks? (by ' + prettyDate(commitDate()) + ')', t:'radio',
+  o:['Yes','No']}
+]; }
+
+function UNLICENSED(){ return [
+ {k:'course', f:'gaps', q:'How’s the course going?', t:'radio',
+  o:['Haven’t started','Just started','About halfway','Nearly done','Done, waiting to test','Exam booked']},
+ {k:'still', f:'', q:'Do you still want to do this?', t:'radio',
+  o:['Yes — I’m getting licensed','I want to, but I’m stuck','Not right now']},
+ {k:'examDate', f:'examDate', q:'When’s your exam?', t:'date',
+  h:'A real date, even a rough one. This is the bit that makes it count.', showIf:{k:'still', is:'Yes — I’m getting licensed'}},
+ {k:'stuck', f:'obstacle', q:'What’s the holdup?', t:'radio',
+  o:['Cost','No time','Haven’t started','Nervous about the test','Something personal','Other'],
+  showIf:{k:'still', is:'I want to, but I’m stuck'}},
+ {k:'help', f:'help', q:'Want help with it?', t:'radio', o:['Yes, call me','Yes, just point me at it','No, I’ve got it'],
+  showIf:{k:'still', not:'Not right now'}},
+ {k:'anything', f:'', q:'Anything you want us to know?', t:'text', optional:true,
+  showIf:{k:'still', is:'Not right now'}}
+]; }
+
+/* The one extra question for anybody we could not match. */
+var ASK_LICENSED = {k:'isLic', f:'', q:'Are you licensed yet?', t:'radio', o:['Yes, I’m licensed','Not yet']};
+
+/* ------------------------------------------------------------------ step 1 */
+function digits(s){ return String(s||'').replace(/\D/g,''); }
+
+$('b-id').onclick = function(){
+  var name  = $('f-name').value.trim();
+  var phone = $('f-phone').value.trim();
+  var email = $('f-email').value.trim();
+  var msg   = $('id-msg');
+  msg.innerHTML = '';
+
+  if(!name){ msg.innerHTML = '<div class="err">Pop your name in first.</div>'; $('f-name').focus(); return; }
+  if(!phone && !email){
+    msg.innerHTML = '<div class="err">We need a phone number or an email so your answers reach your record.</div>';
+    $('f-phone').focus(); return;
+  }
+  S.id = { name:name, phone:phone, email:email, digits:digits(phone) };
+
+  var btn = this; btn.disabled = true; btn.textContent = 'Finding you…';
+  lookup(email, phone, function(match){
+    btn.disabled = false; btn.textContent = 'Continue';
+    if(match && match.found){
+      S.matched = match;
+      S.licensed = !!match.licensed;
+      var full = ((match.first||'') + ' ' + (match.last||'')).trim() || name;
+      $('who-box').innerHTML =
+        '<div><b>' + esc(full) + '</b><small>' + esc(match.email || phone) + '</small></div>' +
+        '<button type="button" id="who-no">Not you?</button>';
+      $('who-no').onclick = notMe;
+      show('s-confirm');
+    } else {
+      /* No match. We do not turn them away — we take the answers and flag them. */
+      S.matched = null; S.licensed = null;
+      startQuestions();
+    }
+  });
+};
+
+function notMe(){
+  S.matched = null;
+  show('s-id');
+  $('id-msg').innerHTML = '<div class="note">No problem — check the number and email and try again, ' +
+    'or just carry on and we’ll sort it at our end.</div>';
+}
+$('b-notme').onclick = notMe;
+$('b-yes').onclick   = startQuestions;
+
+function lookup(email, phone, cb){
+  var done = false;
+  var finish = function(m){ if(done) return; done = true; cb(m); };
+  var t = setTimeout(function(){ finish(null); }, 12000);
+  try{
+    fetch(BACKEND_URL, {method:'POST', body: JSON.stringify({
+      action:'lookup', email:String(email||'').trim().toLowerCase(), phone:String(phone||'')
+    })})
+    .then(function(r){ return r.json(); })
+    .then(function(j){ clearTimeout(t); finish(j && j.ok ? (j.match || {found:false}) : null); })
+    .catch(function(){ clearTimeout(t); finish(null); });
+  }catch(e){ clearTimeout(t); finish(null); }
+}
+
+/* ------------------------------------------------------------------ step 3 */
+function questionSet(){
+  if(S.licensed === true)  return LICENSED();
+  if(S.licensed === false) return UNLICENSED();
+  return [ASK_LICENSED];            /* unmatched: ask, then branch */
+}
+
+function startQuestions(){
+  S.answers = {};
+  renderQuestions();
+  show('s-q');
+  window.scrollTo(0,0);
+}
+
+function visible(list){
+  return list.filter(function(q){
+    if(!q.showIf) return true;
+    var v = S.answers[q.showIf.k];
+    if(q.showIf.is)  return v === q.showIf.is;
+    if(q.showIf.not) return v && v !== q.showIf.not;
+    return true;
+  });
+}
+
+function renderQuestions(){
+  var list = visible(questionSet()), h = '', n = 0;
+  list.forEach(function(q){
+    n++;
+    h += '<div class="qblock">';
+    h += '<span class="qnum">Question ' + n + '</span>';
+    h += '<label class="q" for="qf-' + q.k + '">' + q.q + (q.optional ? ' <span style="font-weight:600;color:#8a93a5">(optional)</span>' : '') + '</label>';
+    if(q.h) h += '<p class="help">' + q.h + '</p>';
+
+    if(q.t === 'radio' || q.t === 'check'){
+      h += '<div class="opts" data-k="' + q.k + '" data-t="' + q.t + '"' +
+           (q.excl ? ' data-excl="' + esc(q.excl) + '"' : '') + '>';
+      q.o.forEach(function(o,i){
+        var sel = q.t === 'check'
+          ? ((S.answers[q.k]||[]).indexOf(o) >= 0)
+          : (S.answers[q.k] === o);
+        h += '<label class="opt' + (sel?' on':'') + '">' +
+             '<input type="' + (q.t==='check'?'checkbox':'radio') + '" name="n-' + q.k + '" value="' + esc(o) + '"' +
+             (sel?' checked':'') + '><span>' + esc(o) + '</span></label>';
+      });
+      h += '</div>';
+    } else if(q.t === 'date'){
+      h += '<input id="qf-' + q.k + '" type="date" data-k="' + q.k + '" value="' + esc(S.answers[q.k]||'') + '">';
+    } else {
+      h += '<textarea id="qf-' + q.k + '" data-k="' + q.k + '" rows="3">' + esc(S.answers[q.k]||'') + '</textarea>';
+    }
+    h += '</div>';
+  });
+  $('q-host').innerHTML = h;
+  wireInputs();
+  updateProgress();
+}
+
+function wireInputs(){
+  var host = $('q-host');
+  host.querySelectorAll('.opts').forEach(function(box){
+    var k = box.getAttribute('data-k'), multi = box.getAttribute('data-t') === 'check';
+    box.querySelectorAll('input').forEach(function(inp){
+      inp.onchange = function(){
+        if(multi){
+          /* "Nothing at the moment" is a none-of-the-above: ticking it clears the
+             real gaps, and ticking a real gap clears it. Without this an agent can
+             submit "nothing is missing, and also I need money for leads", which is
+             not a thing anyone means and is a nuisance to read back later. */
+          var ex = box.getAttribute('data-excl');
+          if(ex && inp.checked){
+            if(inp.value === ex){
+              box.querySelectorAll('input').forEach(function(c){ if(c.value !== ex) c.checked = false; });
+            } else {
+              box.querySelectorAll('input').forEach(function(c){ if(c.value === ex) c.checked = false; });
+            }
+          }
+          var picked = [];
+          box.querySelectorAll('input:checked').forEach(function(c){ picked.push(c.value); });
+          S.answers[k] = picked;
+        } else {
+          S.answers[k] = inp.value;
+        }
+        box.querySelectorAll('.opt').forEach(function(l){
+          l.classList.toggle('on', !!l.querySelector('input').checked);
+        });
+        /* An answer can reveal or hide later questions, so re-render — but only
+           for the branching set, or we would steal focus mid-typing. */
+        if(S.licensed === null || S.licensed === false) { reRenderKeepingScroll(); }
+        else updateProgress();
+      };
+    });
+  });
+  host.querySelectorAll('textarea,input[type=date]').forEach(function(el){
+    el.oninput = function(){ S.answers[el.getAttribute('data-k')] = el.value; updateProgress(); };
+  });
+}
+
+function reRenderKeepingScroll(){
+  var y = window.scrollY;
+  /* an unmatched agent telling us whether they are licensed picks the real set */
+  if(S.licensed === null && S.answers.isLic){
+    S.licensed = (S.answers.isLic === 'Yes, I’m licensed');
+    var keep = S.answers.isLic;
+    S.answers = {}; S.answers.isLic = keep;
+  }
+  renderQuestions();
+  window.scrollTo(0,y);
+}
+
+function answered(q){
+  var v = S.answers[q.k];
+  if(q.t === 'check') return !!(v && v.length);
+  return !!(v && String(v).trim());
+}
+function updateProgress(){
+  var list = visible(questionSet()).filter(function(q){ return !q.optional; });
+  var got  = list.filter(answered).length;
+  $('prog-i').style.width = (list.length ? Math.round(got/list.length*100) : 0) + '%';
+}
+
+/* ------------------------------------------------------------------ submit */
+$('b-submit').onclick = function(){
+  var list = visible(questionSet());
+  var required = list.filter(function(q){ return !q.optional; });
+  var missing  = required.filter(function(q){ return !answered(q); });
+  var msg = $('q-msg');
+  if(missing.length){
+    msg.innerHTML = '<div class="err">' + missing.length + ' still to go — ' +
+      'the one about “' + esc(missing[0].q.replace(/\?$/,'')) + '” is the first.</div>';
+    return;
+  }
+  msg.innerHTML = '';
+  var btn = this; btn.disabled = true; btn.textContent = 'Sending…';
+
+  var entries = buildEntries(list);
+  send(entries, function(ok){
+    btn.disabled = false; btn.textContent = 'Send my answers';
+    finish(ok, entries);
+  });
+};
+
+/* Map answers onto the coaching-card fields, in the exact shape the portal's
+   own coachAppend uses: {t, target, field, value, by}. */
+function buildEntries(list){
+  var now = new Date().toISOString();
+  var who = (S.matched && S.matched.email) || S.id.email || S.id.name;
+  var target = String(who).trim().toLowerCase();
+  var by = 'check-in form';            /* provenance: the agent, not the upline */
+  var out = [];
+
+  list.forEach(function(q){
+    if(!q.f) return;
+    var v = S.answers[q.k];
+    if(v == null || (Array.isArray(v) && !v.length) || String(v).trim() === '') return;
+    if(Array.isArray(v)) v = v.join(', ');
+
+    /* the two that need shaping rather than passing through */
+    if(q.k === 'commitBy'){
+      if(v !== 'Yes') return;                       /* a "No" is recorded in the note, not as a date */
+      v = isoDate(commitDate());
+    }
+    if(q.k === 'commit' && S.licensed === true){
+      v = /^Full-time/.test(v) ? 'Full-time' : (/^Part-time/.test(v) ? 'Part-time' : 'Undecided');
+    }
+    out.push({ t:now, target:target, field:q.f, value:String(v), by:by });
+  });
+
+  /* Everything that has no field of its own goes in one dated note, so nothing
+     an agent told us is thrown away just because there is nowhere tidy for it. */
+  var extras = [];
+  list.forEach(function(q){
+    var v = S.answers[q.k];
+    if(v == null || (Array.isArray(v) && !v.length) || String(v).trim()==='') return;
+    if(Array.isArray(v)) v = v.join(', ');
+    extras.push(q.q + ' — ' + v);
+  });
+  var head = 'Check-in form, ' + new Date().toLocaleDateString() + '.';
+  if(!S.matched) head += ' NO ROSTER MATCH — typed: ' + S.id.name + ' / ' + (S.id.phone||'no phone') + ' / ' + (S.id.email||'no email') + '.';
+  if(S.answers.commitBy === 'No') head += ' Named a step but would NOT commit to a fortnight.';
+  out.push({ t:now, target:target, field:'note', value: head + '\n' + extras.join('\n'), by:by });
+  return out;
+}
+
+function send(entries, cb){
+  var done = false;
+  var finishOnce = function(ok){ if(done) return; done = true; cb(ok); };
+  var t = setTimeout(function(){ finishOnce(false); }, 15000);
+  try{
+    fetch(BACKEND_URL, {method:'POST', body: JSON.stringify({
+      action:'coachAppend',
+      email: (S.matched && S.matched.email) || S.id.email || '',
+      target: entries[0].target,
+      entries: entries
+    })})
+    .then(function(r){ return r.json(); })
+    .then(function(j){ clearTimeout(t); finishOnce(!!(j && j.ok)); })
+    .catch(function(){ clearTimeout(t); finishOnce(false); });
+  }catch(e){ clearTimeout(t); finishOnce(false); }
+}
+
+/* ------------------------------------------------------------------ step 4 */
+function finish(ok, entries){
+  var list = visible(questionSet());
+  var rows = '';
+  ['commit','quarter','goal','next','still','examDate'].forEach(function(k){
+    var q = list.filter(function(x){ return x.k === k; })[0];
+    if(!q) return;
+    var v = S.answers[k];
+    if(v == null || String(v).trim()==='') return;
+    if(Array.isArray(v)) v = v.join(', ');
+    rows += '<div><b>' + esc(q.q.replace(/\?$/,'')) + '</b><span>' + esc(v) + '</span></div>';
+  });
+  $('done-recap').innerHTML = rows;
+
+  if(S.answers.commitBy === 'Yes' && S.answers.next){
+    $('done-h').textContent = 'Here’s what you committed to.';
+    $('done-sub').textContent = 'By ' + prettyDate(commitDate()) + '. Jesse will check in then.';
+  } else if(S.answers.still === 'Not right now'){
+    $('done-h').textContent = 'No problem at all.';
+    $('done-sub').textContent = 'Your account stays right here. If that changes, text Jesse.';
+  } else {
+    $('done-h').textContent = 'Got it — thank you.';
+    $('done-sub').textContent = 'That’s everything we needed.';
+  }
+
+  var n = $('done-note');
+  if(ok){
+    n.className = 'ok';
+    n.textContent = S.matched
+      ? 'Saved to your record.'
+      : 'Saved. We couldn’t match you to an account automatically, so Jesse will link it up by hand — nothing is lost.';
+  } else {
+    n.className = 'err';
+    n.innerHTML = 'Your answers didn’t reach us — most likely a patchy signal. ' +
+      '<b>Please don’t close this page.</b> <button class="btn" style="margin-top:10px" id="b-retry">Try sending again</button>';
+    setTimeout(function(){
+      var r = $('b-retry'); if(!r) return;
+      r.onclick = function(){ r.disabled = true; r.textContent = 'Sending…';
+        send(entries, function(ok2){ finish(ok2, entries); }); };
+    }, 0);
+  }
+  show('s-done');
+  window.scrollTo(0,0);
+}
+
+function show(id){
+  ['s-id','s-confirm','s-q','s-done'].forEach(function(s){
+    $(s).classList.toggle('hidden', s !== id);
+  });
+}
+</script>
+</body>
+</html>
