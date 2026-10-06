@@ -1452,7 +1452,7 @@ function vDash(){
       <button class="btn gold" style="margin-top:16px;width:auto;padding:11px 20px" onclick="go('faststart')">${p.pct>0?'Continue':'Start'} Fast Start →</button>
     </div>
     <div class="panel"><h3>Today's Calls <span class="todaypill">${DAYNAMES[day]}</span></h3>
-      ${todays.map(e=>`<div class="evt"><div><div class="name">${e.n}</div><div class="time">${e.t}</div></div><button class="joinbtn" onclick="window.open('${e.link}','_blank')">Join</button></div>`).join('')}
+      ${todays.map(e=>`<div class="evt"><div><div class="name">${e.n}${window.m5PriStar?window.m5PriStar(e.n):''}</div><div class="time">${e.t}</div></div><button class="joinbtn" onclick="window.open('${e.link}','_blank')">Join</button></div>`).join('')}
       <div style="margin-top:12px"><a onclick="go('virtual')" style="font-weight:700;font-size:13px;cursor:pointer">Full schedule &amp; recordings →</a></div>
     </div>
   </div>
@@ -3953,6 +3953,26 @@ nav.side{padding:9px 10px}
 .m5-crtag.BIZ{background:#eaf0fd;color:#2f5fd0}
 .m5-crtag.LIFE{background:#eef5ff;color:#1f4fa8}
 .m5-crtag.HEALTH{background:#e7f4f1;color:#177a68}
+/* Priority star on a call name. Deliberately inline-flex with a vertical-align
+   nudge rather than making .m5-crname a flexbox: .m5-crtag already relies on
+   inline-block + vertical-align, and switching the parent to flex would change
+   how the tag sits and how long names wrap. This way nothing existing moves. */
+.m5-pristar{position:relative;display:inline-flex;align-items:center;justify-content:center;
+  width:25px;height:25px;margin:-5px 0 -5px 7px;vertical-align:middle;flex:0 0 auto}
+/* The negative top/bottom margins are load-bearing, not tidying. .m5-crname is
+   14px/1.25, so a 25px atomic inline would grow every starred row by ~11px and
+   the list would sit unevenly. Margins count toward an inline-flex's line-box
+   contribution, so -5px each side brings it back to the text's own height while
+   the star still draws at full size. vertical-align:middle rather than a pixel
+   nudge, because a downward nudge re-grows the line box by exactly the nudge.
+   Measured: row height unchanged, star centred on the name to within 1px.
+   Gate G5 measures this. */
+.m5-pristar svg{position:absolute;inset:0;width:25px;height:25px;fill:var(--m5gold);
+  stroke:#a8832f;stroke-width:1.1;stroke-linejoin:round}
+.m5-pristar b{position:relative;font-size:11px;font-weight:800;color:#1b2a49;
+  line-height:1;transform:translateY(1px)}
+@media(max-width:420px){.m5-pristar{width:22px;height:22px;margin:-4px 0 -4px 5px}
+  .m5-pristar svg{width:22px;height:22px}.m5-pristar b{font-size:10px}}
 .m5-crjoin{flex-shrink:0;background:var(--m5gold);color:#1b2a49;font-weight:800;font-size:12px;padding:8px 17px;border-radius:8px}
 .m5-callrow:hover .m5-crjoin{filter:brightness(1.06)}
 .m5-daygrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
@@ -5004,13 +5024,32 @@ try{
   if(typeof DAILY!=='undefined'&&typeof WEEK!=='undefined'){
     /* compact=true inside the seven weekly day cards, where the column is narrow:
        those get the micro description (e.dm). Everywhere else gets the fuller one. */
+    /* Which calls matter most, if an agent can only make one or two.
+       Jesse's order, 6 Oct 2026. Keyed by the call's exact name in WEEK — a
+       gate (priority/GATES.md G4) fails loudly if a name drifts, because a
+       silently vanishing star is the failure mode here. Keep this short: the
+       ranking only means anything while most calls are unmarked. */
+    window.M5_CALL_PRIORITY = window.M5_CALL_PRIORITY || {
+      'Millionaire Maker w/ Shawn Meaike': 1,
+      'Weekly Team Sales Call':            2,
+      'FFL Base Shop Builders Call':       3,
+      'Simple Retirement Solutions Call':  4
+    };
+    window.m5PriStar = window.m5PriStar || function(name){
+      var p = window.M5_CALL_PRIORITY[name];
+      if(!p) return '';
+      var lbl = 'Priority ' + p + ' of 4 \u2014 if you can only make a few calls, make this one';
+      return '<span class="m5-pristar" title="'+lbl+'" aria-label="'+lbl+'" role="img">'+
+        '<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 1.9l3.1 6.3 6.9 1-5 4.9 '+
+        '1.2 6.9L12 17.7 5.8 21l1.2-6.9-5-4.9 6.9-1z"/></svg><b>'+p+'</b></span>';
+    };
     var m5vcall=function(e,day,compact){
       var _idx=m5calReg(e,(day==null?null:day));
       var _cal=_idx>=0?'<button class="m5-crcal" onclick="m5AddCal('+_idx+')">＋ Calendar</button>':'';
       var _tag=e.tag?'<span class="m5-crtag '+e.tag+'">'+e.tag+'</span>':'';
       var _desc=compact?(e.dm||''):(e.d||'');
       return '<div class="m5-callrow"><span class="m5-crchip">'+m5icon(m5CallIcon(e.n))+'</span>'+
-        '<span class="m5-crtext"><span class="m5-crname">'+e.n+_tag+'</span>'+
+        '<span class="m5-crtext"><span class="m5-crname">'+e.n+_tag+window.m5PriStar(e.n)+'</span>'+
         '<span class="m5-crtime">'+e.t+(e.note?' · '+e.note:'')+'</span>'+
         (_desc?'<span class="m5-crdesc">'+_desc+'</span>':'')+'</span>'+
         '<span class="m5-crbtns"><button class="m5-crjoin" onclick="window.open(\''+e.link+'\',\'_blank\')">Join</button>'+_cal+'</span></div>';
