@@ -343,7 +343,7 @@ $('b-yes').onclick   = startQuestions;
 function lookup(email, phone, cb){
   var done = false;
   var finish = function(m){ if(done) return; done = true; cb(m); };
-  var t = setTimeout(function(){ finish(null); }, 12000);
+  var t = setTimeout(function(){ finish(null); }, 20000);   /* match the portal's own lookup allowance */
   try{
     fetch(BACKEND_URL, {method:'POST', body: JSON.stringify({
       action:'lookup', email:String(email||'').trim().toLowerCase(), phone:String(phone||'')
@@ -489,6 +489,7 @@ $('b-submit').onclick = function(){
   var btn = this; btn.disabled = true; btn.textContent = 'Sending…';
 
   var entries = buildEntries(list);
+  stash(entries);                       /* on the device before it leaves it */
   send(entries, function(ok){
     btn.disabled = false; btn.textContent = 'Send my answers';
     finish(ok, entries);
@@ -537,10 +538,43 @@ function buildEntries(list){
   return out;
 }
 
+/* Hold the payload on the device the moment they press send, and only clear it
+   once the sheet has it. Before this, a failed send left the answers alive only
+   in a tab the agent had been told not to close — one accidental swipe and ten
+   minutes of their thinking was gone, with no trace it ever happened. */
+var STASH = 'optimum.checkin.unsent';
+function stash(entries){
+  try{ localStorage.setItem(STASH, JSON.stringify({
+    at: new Date().toISOString(), entries: entries,
+    who: S.id, answers: S.answers, licensed: S.licensed })); }catch(e){}
+}
+function unstash(){ try{ localStorage.removeItem(STASH); }catch(e){} }
+function peekStash(){
+  try{ var r = localStorage.getItem(STASH); return r ? JSON.parse(r) : null; }catch(e){ return null; }
+}
+/* A plain-text version they can copy into a text message if sending keeps
+   failing. The point is that the agent always has a way out that does not
+   depend on the thing that is broken. */
+function asText(st){
+  var lines = ['Optimum check-in — ' + (st.who && st.who.name || '') +
+               ' (' + (st.who && (st.who.phone || st.who.email) || '') + ')'];
+  (st.entries || []).forEach(function(e){
+    if(e.field === 'note') return;
+    lines.push(e.field + ': ' + e.value);
+  });
+  var note = (st.entries || []).filter(function(e){ return e.field === 'note'; })[0];
+  if(note) lines.push('', note.value);
+  return lines.join('\n');
+}
+
 function send(entries, cb){
   var done = false;
   var finishOnce = function(ok){ if(done) return; done = true; cb(ok); };
-  var t = setTimeout(function(){ finishOnce(false); }, 15000);
+  /* 35s, not 15. A cold Apps Script can take well over fifteen seconds to wake,
+     and a timeout here is indistinguishable to the agent from a real refusal —
+     they just see "didn't reach us" and may give up on a send that would have
+     landed. The portal's own lookup already allows 20s for the same reason. */
+  var t = setTimeout(function(){ finishOnce('timeout'); }, 35000);
   try{
     fetch(BACKEND_URL, {method:'POST', body: JSON.stringify({
       action:'coachAppend',
@@ -548,10 +582,16 @@ function send(entries, cb){
       target: entries[0].target,
       entries: entries
     })})
-    .then(function(r){ return r.json(); })
-    .then(function(j){ clearTimeout(t); finishOnce(!!(j && j.ok)); })
-    .catch(function(){ clearTimeout(t); finishOnce(false); });
-  }catch(e){ clearTimeout(t); finishOnce(false); }
+    .then(function(r){ return r.json().catch(function(){ return null; }); })
+    .then(function(j){ clearTimeout(t);
+      if(j && j.ok) return finishOnce(true);
+      /* distinguish "the backend answered and said no" from "we never got an
+         answer" — they need completely different fixes and the agent's screen
+         should not blame the signal for a refusal */
+      finishOnce(j ? ('refused' + (j.error ? ': ' + j.error : '')) : 'badreply');
+    })
+    .catch(function(){ clearTimeout(t); finishOnce('network'); });
+  }catch(e){ clearTimeout(t); finishOnce('network'); }
 }
 
 /* ------------------------------------------------------------------ step 4 */
@@ -580,24 +620,75 @@ function finish(ok, entries){
   }
 
   var n = $('done-note');
-  if(ok){
+  if(ok === true){
+    unstash();                          /* the sheet has it; stop holding a copy */
     n.className = 'ok';
     n.textContent = S.matched
       ? 'Saved to your record.'
       : 'Saved. We couldn’t match you to an account automatically, so Jesse will link it up by hand — nothing is lost.';
   } else {
     n.className = 'err';
-    n.innerHTML = 'Your answers didn’t reach us — most likely a patchy signal. ' +
-      '<b>Please don’t close this page.</b> <button class="btn" style="margin-top:10px" id="b-retry">Try sending again</button>';
+    /* Say which kind of failure it was. "Patchy signal" is a guess, and it is the
+       wrong guess when the backend answered and refused — the agent then retries
+       forever against something that will never accept it. */
+    var why = (ok === 'timeout') ? 'That took too long to go through.'
+            : (ok === 'network') ? 'We couldn’t reach the server — that is usually signal.'
+            : (typeof ok === 'string' && ok.indexOf('refused') === 0)
+                ? 'The server answered but wouldn’t accept it. Retrying probably won’t help — use Copy and send them to Jesse.'
+            : 'Something went wrong sending that.';
+    n.innerHTML = '<b>Your answers haven’t reached us yet.</b> ' + why +
+      '<br><br>They are saved on this phone, so you can close this and come back — ' +
+      'we’ll offer to send them again.' +
+      '<div style="display:flex;gap:9px;margin-top:12px;flex-wrap:wrap">' +
+      '<button class="btn" style="flex:1;min-width:150px" id="b-retry">Try sending again</button>' +
+      '<button class="btn ghost" style="flex:1;min-width:150px" id="b-copy">Copy my answers</button></div>';
     setTimeout(function(){
-      var r = $('b-retry'); if(!r) return;
-      r.onclick = function(){ r.disabled = true; r.textContent = 'Sending…';
+      var r = $('b-retry');
+      if(r) r.onclick = function(){ r.disabled = true; r.textContent = 'Sending…';
         send(entries, function(ok2){ finish(ok2, entries); }); };
+      var c = $('b-copy');
+      if(c) c.onclick = function(){ copyOut(c, asText(peekStash() || {who:S.id, entries:entries})); };
     }, 0);
   }
   show('s-done');
   window.scrollTo(0,0);
 }
+
+function copyOut(btn, txt){
+  var done = function(){ btn.textContent = 'Copied ✓'; };
+  try{
+    if(navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done, done);
+    else { var ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta);
+           ta.select(); try{document.execCommand('copy');}catch(e){} ta.remove(); done(); }
+  }catch(e){ done(); }
+}
+
+/* If they come back with something unsent, say so before anything else, rather
+   than letting them fill the whole thing in a second time. */
+(function offerStashed(){
+  var st = peekStash();
+  if(!st || !st.entries || !st.entries.length) return;
+  var box = document.createElement('div');
+  box.className = 'card';
+  box.innerHTML = '<h2>You have answers that didn’t send</h2>' +
+    '<p class="help">From ' + new Date(st.at).toLocaleString() +
+    '. They’re still saved on this phone.</p>' +
+    '<div style="display:flex;gap:9px;flex-wrap:wrap">' +
+    '<button class="btn" style="flex:1;min-width:150px" id="b-resend">Send them now</button>' +
+    '<button class="btn ghost" style="flex:1;min-width:150px" id="b-scopy">Copy them</button></div>' +
+    '<div id="resend-msg"></div>';
+  var host = $('s-id');
+  host.insertBefore(box, host.firstChild);
+  $('b-resend').onclick = function(){
+    var b = this; b.disabled = true; b.textContent = 'Sending…';
+    send(st.entries, function(ok){
+      if(ok === true){ unstash(); box.innerHTML = '<div class="ok">Sent — thank you. Nothing else to do.</div>'; }
+      else { b.disabled = false; b.textContent = 'Try again';
+             $('resend-msg').innerHTML = '<div class="err">Still not going through. Use Copy and text them to Jesse.</div>'; }
+    });
+  };
+  $('b-scopy').onclick = function(){ copyOut(this, asText(st)); };
+})();
 
 function show(id){
   ['s-id','s-confirm','s-q','s-done'].forEach(function(s){
