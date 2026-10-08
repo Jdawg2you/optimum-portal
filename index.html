@@ -1079,7 +1079,11 @@ const CE_L=[['RegEd','','https://www.reged.com/'],['SuranceBay CE & Training','A
 const PRES_L=[['Client Profile / Needs Analysis Sheet','','https://drive.google.com/file/d/1zl8_QVAnbFmIk1ybZnUF7oHp2h8cyhBH/view?usp=sharing']];
 // Core carriers — tap to expand portal / training / guides / brochures
 const CARRIERS=[
-  {name:'Americo',tags:['FEX','IUL','MP','Term'],phone:'800-231-0801 &middot; New business submit@americo.com &middot; Agent services agent.services@americo.com &middot; Marketing marketing.support@americo.com',links:[['★ Americo FFL Agent Hub — all tools & brochures','https://ffl.americo.com/'],['Agent Portal','https://portal.americoagent.com/'],['Training Portal (FFL)','https://americotraining.com/'],['IUL Training','https://americoiul.com/'],['Agent Portal (login)','https://account.americoagent.com/']]},
+  /* smsFix: a carrier's text-message opt-in. When a client stops getting the
+     carrier's texts it is almost always because an earlier one went to spam or
+     they replied STOP once; texting the keyword back re-opens the channel.
+     Add the same field to any other carrier once we have their number. */
+  {name:'Americo',smsFix:{number:'877-638-1181',word:'START'},tags:['FEX','IUL','MP','Term'],phone:'800-231-0801 &middot; New business submit@americo.com &middot; Agent services agent.services@americo.com &middot; Marketing marketing.support@americo.com',links:[['★ Americo FFL Agent Hub — all tools & brochures','https://ffl.americo.com/'],['Agent Portal','https://portal.americoagent.com/'],['Training Portal (FFL)','https://americotraining.com/'],['IUL Training','https://americoiul.com/'],['Agent Portal (login)','https://account.americoagent.com/']]},
   {name:'Mutual of Omaha',tags:['FEX','Term','IUL','Annuity'],phone:'800-775-7896 (broker new business) &middot; Producer management 800-867-6873 &middot; Producer tech support 800-228-7669 &middot; New business fax 402-997-1800',links:[['Producer Portal','https://producer.mutualofomaha.com/'],['All Products (browse)','https://producer2.mutualofomaha.com/products'],['Quote Tool','https://www3.mutualofomaha.com/mobile-quotes/#/home'],['Agent e-App','https://accounts.mutualofomaha.com/']],note:'When listing individual products, skip dental (hospital indemnity is fine)'},
   {name:'Athene',tags:['Annuity'],phone:'Sales desk 855-428-4363 (855-4-ATHENE) &middot; General 888-266-8489 (888-ANNUITY)',links:[['Producer Login (Athene Connect)','https://www.athene.com/producer/login'],['Producer Site','https://www.athene.com/producer']]},
   {name:'F&G (Fidelity & Guaranty)',tags:['IUL','Annuity'],phone:'888-513-8797 &middot; Agent hotline 800-445-6758 &middot; agentcare@fglife.com',links:[['Agent Portal','https://www.fglife.com/'],['Agent Portal (SalesLink)','https://saleslink.fglife.com/']]},
@@ -1522,6 +1526,7 @@ function carrierCard(c){
     ${c.phone?`<div class="li"><div class="lt">☎ Contact</div><div class="ld">${c.phone}</div></div>`:''}
     ${c.links.map(l=>`<div class="li"><div class="lt">${l[0]}</div><button class="openbtn" onclick="event.stopPropagation();window.open('${l[1]}','_blank')">Open</button></div>`).join('')}
     <div class="li"><div class="ld">➕ Product brochures &amp; per-product underwriting guides — drop links here</div></div>
+    ${c.smsFix?`<div class="li"><div class="lt">📱 Client not getting ${c.name} texts?</div><button class="openbtn" onclick="event.stopPropagation();m5SmsFix('${c.name}')">Fix it</button></div>`:''}
     ${c.note?`<div class="li"><div class="ld">⚠ ${c.note}</div></div>`:''}</div>`;}
   return `<div class="ccard ${open?'open':''}" onclick="openCarrier('${c.name}')"><div class="cch">${c.name}</div>${c.tags.length?`<div class="ctags">${c.tags.map(t=>`<span class="ctag">${t}</span>`).join('')}</div>`:''}<div class="cinfo">${c.links.length} link${c.links.length===1?'':'s'} · tap to ${open?'close':'open'}</div>${det}</div>`;
 }
@@ -3627,6 +3632,31 @@ function acadLessonView(a,b){var m=acadFindMod(a);if(!m)return acadHomeView();va
 .ag-namebtn{appearance:none;border:0;background:transparent;font:inherit;font-weight:800;color:#16233f;cursor:pointer;padding:0;text-align:left;border-bottom:1px dotted #b9c3d4}
 .ag-namebtn:hover{color:#2f5fd0;border-bottom-color:#2f5fd0}
 .agm-back{position:fixed;inset:0;background:rgba(12,22,44,.55);z-index:9998;display:flex;align-items:flex-start;justify-content:center;padding:26px 16px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+/* Carrier text-message fix popup. Its own class names rather than reusing
+   .agm-*: those belong to the agency card and a shared class would mean a
+   change there silently restyling this. */
+.m5-smsback{position:fixed;inset:0;background:rgba(12,22,44,.55);z-index:9999;display:flex;
+  align-items:center;justify-content:center;padding:18px}
+.m5-smsbox{background:#fff;border-radius:16px;max-width:460px;width:100%;max-height:88vh;overflow:auto;
+  box-shadow:0 18px 50px rgba(10,20,40,.3)}
+.m5-smshd{padding:19px 21px 13px;border-bottom:1px solid var(--line)}
+.m5-smshd h3{margin:0;font-size:17.5px;font-weight:800;color:#16233f}
+.m5-smshd p{margin:5px 0 0;font-size:13px;color:#6b7688;line-height:1.5}
+.m5-smsbd{padding:17px 21px 21px}
+.m5-smsstep{display:flex;gap:11px;margin-bottom:13px;font-size:14.5px;line-height:1.5;color:#2c3545}
+.m5-smsnum{flex:0 0 auto;width:23px;height:23px;border-radius:50%;background:#16233f;color:#fff;
+  font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-top:1px}
+.m5-smsbig{text-align:center;background:#f6f9ff;border:1px solid #d9e3f5;border-radius:12px;padding:15px;margin:4px 0 14px}
+.m5-smsbig b{display:block;font-size:24px;font-weight:800;color:#16233f;letter-spacing:.01em}
+.m5-smsbig span{display:block;font-size:12.5px;color:#6b7688;margin-top:3px}
+.m5-smsbig em{display:block;font-size:19px;font-weight:800;color:#a0761a;font-style:normal;margin-top:9px;letter-spacing:.12em}
+.m5-smsbtns{display:flex;gap:9px;flex-wrap:wrap;margin-top:4px}
+.m5-smsbtns button{flex:1;min-width:140px;min-height:46px;border-radius:10px;border:0;cursor:pointer;
+  font:800 14px inherit;font-family:inherit;background:#16233f;color:#fff}
+.m5-smsbtns button.alt{background:#fff;color:#16233f;border:1px solid var(--line)}
+.m5-smsbtns button:hover{filter:brightness(1.12)}
+.m5-smsnote{margin-top:14px;font-size:12.5px;color:#6b7688;line-height:1.55;
+  border-left:3px solid var(--m5gold);padding-left:11px}
 .agm{background:#fff;border-radius:18px;width:100%;max-width:560px;box-shadow:0 22px 60px rgba(10,20,40,.35);overflow:hidden;animation:agmin .16s ease-out}
 @keyframes agmin{from{transform:translateY(8px);opacity:.6}to{transform:none;opacity:1}}
 .agm-h{background:#16233f;color:#fff;padding:18px 20px;display:flex;align-items:flex-start;gap:12px}
@@ -6172,6 +6202,52 @@ function m5CoachParse(text){
   Object.keys(out.fields).forEach(function(f){ if(!String(out.fields[f]).trim()) delete out.fields[f]; });
   return out;
 }
+window.m5SmsFix=function(name){
+  var CA=(typeof CARRIERS!=='undefined')?CARRIERS:[];
+  var c=null; for(var i=0;i<CA.length;i++){ if(CA[i].name===name){ c=CA[i]; break; } }
+  if(!c||!c.smsFix) return;
+  var num=c.smsFix.number, word=c.smsFix.word;
+  var digits=String(num).replace(/\D/g,'');
+  /* What the AGENT sends their client. The client is the one who has to text,
+     so the useful thing is a message ready to forward, not just the number. */
+  var msg='Quick fix so you get texts from '+c.name+': text the word '+word+' to '+num+'. '+
+          'That turns their messages back on \u2014 an earlier one likely went to spam.';
+  var esc=function(t){ return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); };
+  var back=document.createElement('div');
+  back.className='m5-smsback'; back.id='m5-smsback';
+  back.onclick=function(e){ if(e.target===back) m5SmsClose(); };
+  back.innerHTML=
+    '<div class="m5-smsbox" onclick="event.stopPropagation()">'+
+      '<div class="m5-smshd"><h3>'+esc(c.name)+' texts not arriving?</h3>'+
+      '<p>Almost always the client replied STOP once, or an earlier message landed in spam. '+
+      'They can switch it back on themselves in about ten seconds.</p></div>'+
+      '<div class="m5-smsbd">'+
+        '<div class="m5-smsstep"><span class="m5-smsnum">1</span><span>Ask <b>the client</b> to open their text messages \u2014 it has to come from their phone, not yours.</span></div>'+
+        '<div class="m5-smsstep"><span class="m5-smsnum">2</span><span>They text this word to this number:</span></div>'+
+        '<div class="m5-smsbig"><b>'+esc(num)+'</b><span>'+esc(c.name)+' message line</span><em>'+esc(word)+'</em></div>'+
+        '<div class="m5-smsstep"><span class="m5-smsnum">3</span><span>That is it. '+esc(c.name)+' texts start coming through again.</span></div>'+
+        '<div class="m5-smsbtns">'+
+          '<button onclick="m5SmsCopy(this)" data-msg="'+esc(msg)+'">Copy a message to send them</button>'+
+          '<button class="alt" onclick="window.open(\'sms:'+digits+'?&body='+encodeURIComponent(word)+'\',\'_blank\')">Open it on my phone</button>'+
+        '</div>'+
+        '<div class="m5-smsnote">The second button only helps if <b>you</b> are on the phone the client uses. '+
+        'In every other case, copy the message and send it to them.</div>'+
+      '</div>'+
+    '</div>';
+  document.body.appendChild(back);
+};
+window.m5SmsClose=function(){
+  var b=document.getElementById('m5-smsback'); if(b&&b.parentNode) b.parentNode.removeChild(b);
+};
+window.m5SmsCopy=function(btn){
+  var t=btn.getAttribute('data-msg');
+  var done=function(){ btn.textContent='Copied \u2713'; setTimeout(function(){ btn.textContent='Copy a message to send them'; },2200); };
+  try{
+    if(navigator.clipboard&&navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(done,done);
+    else { var ta=document.createElement('textarea'); ta.value=t; document.body.appendChild(ta); ta.select();
+           try{document.execCommand('copy');}catch(e){} ta.remove(); done(); }
+  }catch(e){ done(); }
+};
 window.m5CoachParse=m5CoachParse;
 window.m5PasteToggle=function(){
   var p=document.getElementById('agm-paste'); if(!p) return;
