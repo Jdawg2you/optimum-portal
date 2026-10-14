@@ -1083,11 +1083,17 @@ const CARRIERS=[
      carrier's texts it is almost always because an earlier one went to spam or
      they replied STOP once; texting the keyword back re-opens the channel.
      Add the same field to any other carrier once we have their number.
-     Optional `products`: some carriers run the opt-in per product line rather
-     than per company. Transamerica's number covers FE Express and IUL only, so
-     an agent holding a different Transamerica policy would be sent to the wrong
-     number if we implied it covered everything. Leave it off when the number
-     genuinely covers the whole carrier, as Americo's does. */
+     Optional `products`: the product lines a number is CONFIRMED for, not the
+     ones it is limited to. Transamerica's reached us for FE Express and IUL and
+     may well cover more; nobody has checked, and their SMS terms are not public.
+     The wording downstream says "confirmed for", never "only" — we are reporting
+     what we were told, not a restriction we verified. Leave the field off when a
+     number is known to cover the whole carrier, as Americo's is.
+     Why state a scope at all under uncertainty: the two ways to be wrong are not
+     equal. Over-state the scope and an agent with another product makes one
+     unnecessary phone call. Under-state it and that agent tells a real client to
+     text a number that does nothing — which is the exact failure this feature
+     exists to prevent. So scope stands, and the copy sends them to try it anyway. */
   {name:'Americo',smsFix:{number:'877-638-1181',word:'START'},tags:['FEX','IUL','MP','Term'],phone:'800-231-0801 &middot; New business submit@americo.com &middot; Agent services agent.services@americo.com &middot; Marketing marketing.support@americo.com',links:[['★ Americo FFL Agent Hub — all tools & brochures','https://ffl.americo.com/'],['Agent Portal','https://portal.americoagent.com/'],['Training Portal (FFL)','https://americotraining.com/'],['IUL Training','https://americoiul.com/'],['Agent Portal (login)','https://account.americoagent.com/']]},
   {name:'Mutual of Omaha',tags:['FEX','Term','IUL','Annuity'],phone:'800-775-7896 (broker new business) &middot; Producer management 800-867-6873 &middot; Producer tech support 800-228-7669 &middot; New business fax 402-997-1800',links:[['Producer Portal','https://producer.mutualofomaha.com/'],['All Products (browse)','https://producer2.mutualofomaha.com/products'],['Quote Tool','https://www3.mutualofomaha.com/mobile-quotes/#/home'],['Agent e-App','https://accounts.mutualofomaha.com/']],note:'When listing individual products, skip dental (hospital indemnity is fine)'},
   {name:'Athene',tags:['Annuity'],phone:'Sales desk 855-428-4363 (855-4-ATHENE) &middot; General 888-266-8489 (888-ANNUITY)',links:[['Producer Login (Athene Connect)','https://www.athene.com/producer/login'],['Producer Site','https://www.athene.com/producer']]},
@@ -1531,7 +1537,7 @@ function carrierCard(c){
     ${c.phone?`<div class="li"><div class="lt">☎ Contact</div><div class="ld">${c.phone}</div></div>`:''}
     ${c.links.map(l=>`<div class="li"><div class="lt">${l[0]}</div><button class="openbtn" onclick="event.stopPropagation();window.open('${l[1]}','_blank')">Open</button></div>`).join('')}
     <div class="li"><div class="ld">➕ Product brochures &amp; per-product underwriting guides — drop links here</div></div>
-    ${c.smsFix?`<div class="li"><div class="lt">📱 Client not getting ${c.name} texts?${c.smsFix.products?`<span class="m5-smsprod">${c.smsFix.products}</span>`:''}</div><button class="openbtn" onclick="event.stopPropagation();m5SmsFix('${c.name}')">Fix it</button></div>`:''}
+    ${c.smsFix?`<div class="li"><div class="lt">📱 Client not getting ${c.name} texts?${c.smsFix.products?`<span class="m5-smsprod">Confirmed for ${c.smsFix.products}</span>`:''}</div><button class="openbtn" onclick="event.stopPropagation();m5SmsFix('${c.name}')">Fix it</button></div>`:''}
     ${c.note?`<div class="li"><div class="ld">⚠ ${c.note}</div></div>`:''}</div>`;}
   return `<div class="ccard ${open?'open':''}" onclick="openCarrier('${c.name}')"><div class="cch">${c.name}</div>${c.tags.length?`<div class="ctags">${c.tags.map(t=>`<span class="ctag">${t}</span>`).join('')}</div>`:''}<div class="cinfo">${c.links.length} link${c.links.length===1?'':'s'} · tap to ${open?'close':'open'}</div>${det}</div>`;
 }
@@ -6239,9 +6245,10 @@ window.m5SmsFix=function(name){
       '<p>Almost always the client replied STOP once, or an earlier message landed in spam. '+
       'They can switch it back on themselves in about ten seconds.</p></div>'+
       '<div class="m5-smsbd">'+
-        (prod?'<div class="m5-smsscope">This number is '+esc(c.name)+'\u2019s line for <b>'+esc(prod)+'</b> only. '+
-             'If the policy is a different '+esc(c.name)+' product, this keyword will not switch anything on \u2014 '+
-             (mainTel?'call them on <b>'+esc(mainTel)+'</b> instead.':'call the carrier instead.')+'</div>':'')+
+        (prod?'<div class="m5-smsscope">We were given this number for <b>'+esc(prod)+'</b>. '+
+             'It may work for other '+esc(c.name)+' products too \u2014 that part is not confirmed. '+
+             'Have the client try it either way; if nothing comes through, '+
+             (mainTel?'call '+esc(c.name)+' on <b>'+esc(mainTel)+'</b>.':'call the carrier.')+'</div>':'')+
         '<div class="m5-smsstep"><span class="m5-smsnum">1</span><span>Ask <b>the client</b> to open their text messages \u2014 it has to come from their phone, not yours.</span></div>'+
         '<div class="m5-smsstep"><span class="m5-smsnum">2</span><span>They text this word to this number:</span></div>'+
         '<div class="m5-smsbig"><b>'+esc(num)+'</b><span>'+esc(c.name)+' message line</span><em>'+esc(word)+'</em></div>'+
