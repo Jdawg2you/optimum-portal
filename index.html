@@ -1082,12 +1082,17 @@ const CARRIERS=[
   /* smsFix: a carrier's text-message opt-in. When a client stops getting the
      carrier's texts it is almost always because an earlier one went to spam or
      they replied STOP once; texting the keyword back re-opens the channel.
-     Add the same field to any other carrier once we have their number. */
+     Add the same field to any other carrier once we have their number.
+     Optional `products`: some carriers run the opt-in per product line rather
+     than per company. Transamerica's number covers FE Express and IUL only, so
+     an agent holding a different Transamerica policy would be sent to the wrong
+     number if we implied it covered everything. Leave it off when the number
+     genuinely covers the whole carrier, as Americo's does. */
   {name:'Americo',smsFix:{number:'877-638-1181',word:'START'},tags:['FEX','IUL','MP','Term'],phone:'800-231-0801 &middot; New business submit@americo.com &middot; Agent services agent.services@americo.com &middot; Marketing marketing.support@americo.com',links:[['★ Americo FFL Agent Hub — all tools & brochures','https://ffl.americo.com/'],['Agent Portal','https://portal.americoagent.com/'],['Training Portal (FFL)','https://americotraining.com/'],['IUL Training','https://americoiul.com/'],['Agent Portal (login)','https://account.americoagent.com/']]},
   {name:'Mutual of Omaha',tags:['FEX','Term','IUL','Annuity'],phone:'800-775-7896 (broker new business) &middot; Producer management 800-867-6873 &middot; Producer tech support 800-228-7669 &middot; New business fax 402-997-1800',links:[['Producer Portal','https://producer.mutualofomaha.com/'],['All Products (browse)','https://producer2.mutualofomaha.com/products'],['Quote Tool','https://www3.mutualofomaha.com/mobile-quotes/#/home'],['Agent e-App','https://accounts.mutualofomaha.com/']],note:'When listing individual products, skip dental (hospital indemnity is fine)'},
   {name:'Athene',tags:['Annuity'],phone:'Sales desk 855-428-4363 (855-4-ATHENE) &middot; General 888-266-8489 (888-ANNUITY)',links:[['Producer Login (Athene Connect)','https://www.athene.com/producer/login'],['Producer Site','https://www.athene.com/producer']]},
   {name:'F&G (Fidelity & Guaranty)',tags:['IUL','Annuity'],phone:'888-513-8797 &middot; Agent hotline 800-445-6758 &middot; agentcare@fglife.com',links:[['Agent Portal','https://www.fglife.com/'],['Agent Portal (SalesLink)','https://saleslink.fglife.com/']]},
-  {name:'Transamerica',tags:['IUL','Term','FEX'],phone:'877-234-4848 &middot; New business fax 866-834-0437',links:[['Advisor Experience (Portal + E-app)','https://secure.transamerica.com/login/sign-in/login.html'],['FFIUL Express (IUL)','https://www.transamerica.com/ffiul2-express'],['IUL Application Video','https://cdn.bfldr.com/86JM1UOD/as/thxtf3v44wmz2n66p8kjcwqn/Transamerica_IULX_Application'],['Quote Tool (TransWare)','https://mytranswarequote.transamerica.com/Wl3.html']]},
+  {name:'Transamerica',smsFix:{number:'469-484-7817',word:'START',products:'FE Express and IUL'},tags:['IUL','Term','FEX'],phone:'877-234-4848 &middot; New business fax 866-834-0437',links:[['Advisor Experience (Portal + E-app)','https://secure.transamerica.com/login/sign-in/login.html'],['FFIUL Express (IUL)','https://www.transamerica.com/ffiul2-express'],['IUL Application Video','https://cdn.bfldr.com/86JM1UOD/as/thxtf3v44wmz2n66p8kjcwqn/Transamerica_IULX_Application'],['Quote Tool (TransWare)','https://mytranswarequote.transamerica.com/Wl3.html']]},
   {name:'Combined / Chubb',tags:['Supplemental'],phone:'801-658-9911',links:[['Agent Portal','https://chubb.insuranceadmin.com/']]},
   {name:'Instabrain',tags:[],phone:'800-806-9714',links:[['Agent Portal','https://portal.instabrain.io/Account/Login']]},
   {name:'National Life Group (NLG)',tags:['IUL'],phone:'800-906-3310 (pre-sale, contracting, commissions) &middot; Customer service 800-732-8939 &middot; Tech help desk 877-654-3499 &middot; agentservices@nationallife.com',links:[['Agent Login','https://www.nationallife.com/agent/auth/login'],['Agent Site','https://www.nationallife.com/'],['FlexLife Illustration — Max DB','https://www.loom.com/share/8385237c46e14910b1ff9b47f11a85bc'],['FlexLife Illustration — Max Cash','https://www.loom.com/share/b90a23619484438f84e4fa438112f3a5'],['Quote / Financial Calculators','https://www.nationallife.com/Resource-center/Financial-Calculators']]},
@@ -1526,7 +1531,7 @@ function carrierCard(c){
     ${c.phone?`<div class="li"><div class="lt">☎ Contact</div><div class="ld">${c.phone}</div></div>`:''}
     ${c.links.map(l=>`<div class="li"><div class="lt">${l[0]}</div><button class="openbtn" onclick="event.stopPropagation();window.open('${l[1]}','_blank')">Open</button></div>`).join('')}
     <div class="li"><div class="ld">➕ Product brochures &amp; per-product underwriting guides — drop links here</div></div>
-    ${c.smsFix?`<div class="li"><div class="lt">📱 Client not getting ${c.name} texts?</div><button class="openbtn" onclick="event.stopPropagation();m5SmsFix('${c.name}')">Fix it</button></div>`:''}
+    ${c.smsFix?`<div class="li"><div class="lt">📱 Client not getting ${c.name} texts?${c.smsFix.products?`<span class="m5-smsprod">${c.smsFix.products}</span>`:''}</div><button class="openbtn" onclick="event.stopPropagation();m5SmsFix('${c.name}')">Fix it</button></div>`:''}
     ${c.note?`<div class="li"><div class="ld">⚠ ${c.note}</div></div>`:''}</div>`;}
   return `<div class="ccard ${open?'open':''}" onclick="openCarrier('${c.name}')"><div class="cch">${c.name}</div>${c.tags.length?`<div class="ctags">${c.tags.map(t=>`<span class="ctag">${t}</span>`).join('')}</div>`:''}<div class="cinfo">${c.links.length} link${c.links.length===1?'':'s'} · tap to ${open?'close':'open'}</div>${det}</div>`;
 }
@@ -3655,6 +3660,13 @@ function acadLessonView(a,b){var m=acadFindMod(a);if(!m)return acadHomeView();va
   font:800 14px inherit;font-family:inherit;background:#16233f;color:#fff}
 .m5-smsbtns button.alt{background:#fff;color:#16233f;border:1px solid var(--line)}
 .m5-smsbtns button:hover{filter:brightness(1.12)}
+/* The product scope sits on its own line under the row label rather than inline,
+   because "Client not getting Transamerica texts? FE Express and IUL" reads as one
+   sentence and the agent skims past the qualifier — which is the whole point of it. */
+.m5-smsprod{display:block;margin-top:2px;font-size:11.5px;font-weight:700;color:#a0761a;
+  text-transform:uppercase;letter-spacing:.04em}
+.m5-smsscope{margin:0 0 13px;padding:9px 12px;background:#fff8e8;border:1px solid #f0dcae;
+  border-radius:9px;font-size:13px;line-height:1.5;color:#6b5420}
 .m5-smsnote{margin-top:14px;font-size:12.5px;color:#6b7688;line-height:1.55;
   border-left:3px solid var(--m5gold);padding-left:11px}
 .agm{background:#fff;border-radius:18px;width:100%;max-width:560px;box-shadow:0 22px 60px rgba(10,20,40,.35);overflow:hidden;animation:agmin .16s ease-out}
@@ -6206,8 +6218,13 @@ window.m5SmsFix=function(name){
   var CA=(typeof CARRIERS!=='undefined')?CARRIERS:[];
   var c=null; for(var i=0;i<CA.length;i++){ if(CA[i].name===name){ c=CA[i]; break; } }
   if(!c||!c.smsFix) return;
-  var num=c.smsFix.number, word=c.smsFix.word;
+  var num=c.smsFix.number, word=c.smsFix.word, prod=c.smsFix.products||'';
   var digits=String(num).replace(/\D/g,'');
+  /* For a product-scoped line, "call them on the number above" is a bad instruction:
+     once this popup is open the carrier card is behind it, so there is no "above".
+     Lift the carrier's own first phone number out of its contact string instead —
+     first match only, because `phone` often continues "...New business fax 866-...". */
+  var mainTel=(function(){ var m=/(\d{3}-\d{3}-\d{4})/.exec(String(c.phone||'')); return m?m[1]:''; })();
   /* What the AGENT sends their client. The client is the one who has to text,
      so the useful thing is a message ready to forward, not just the number. */
   var msg='Quick fix so you get texts from '+c.name+': text the word '+word+' to '+num+'. '+
@@ -6222,6 +6239,9 @@ window.m5SmsFix=function(name){
       '<p>Almost always the client replied STOP once, or an earlier message landed in spam. '+
       'They can switch it back on themselves in about ten seconds.</p></div>'+
       '<div class="m5-smsbd">'+
+        (prod?'<div class="m5-smsscope">This number is '+esc(c.name)+'\u2019s line for <b>'+esc(prod)+'</b> only. '+
+             'If the policy is a different '+esc(c.name)+' product, this keyword will not switch anything on \u2014 '+
+             (mainTel?'call them on <b>'+esc(mainTel)+'</b> instead.':'call the carrier instead.')+'</div>':'')+
         '<div class="m5-smsstep"><span class="m5-smsnum">1</span><span>Ask <b>the client</b> to open their text messages \u2014 it has to come from their phone, not yours.</span></div>'+
         '<div class="m5-smsstep"><span class="m5-smsnum">2</span><span>They text this word to this number:</span></div>'+
         '<div class="m5-smsbig"><b>'+esc(num)+'</b><span>'+esc(c.name)+' message line</span><em>'+esc(word)+'</em></div>'+
