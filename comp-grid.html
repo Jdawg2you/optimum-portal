@@ -132,6 +132,30 @@ h1{font-size:clamp(30px,4.5vw,44px);margin-bottom:6px}
 .cg-head2{font-family:var(--serif);font-size:26px;margin:36px 0 2px}
 .cg-sub2{color:var(--ink-soft);font-size:14.5px;margin:0 0 12px;max-width:72ch}
 
+
+/* 100% bonusable. A gold rule under the carrier's colour band, not a gold
+   OUTLINE: on this page an outline already means "a carrier you selected" and
+   the gold swatch already means "your row", so a third use of either would
+   collide with both. The key names it in words. */
+table.cg th.car.b100{box-shadow:inset 0 -5px 0 var(--gold)}
+table.cg th.car.b100::after{content:"100% BONUSABLE";display:block;font:800 8px var(--sans);
+  letter-spacing:.09em;color:var(--gold);margin-top:3px}
+.cg-b100key{display:inline-flex;align-items:center;gap:7px}
+.cg-b100key i{display:inline-block;width:22px;height:12px;border-radius:2px;
+  background:var(--navy);box-shadow:inset 0 -4px 0 var(--gold)}
+
+.cg-bz h3{font-family:var(--serif);font-size:19px;margin:20px 0 6px}
+.cg-bz h3:first-of-type{margin-top:4px}
+.cg-bz table{width:100%;border-collapse:collapse;font-size:13px}
+.cg-bz th,.cg-bz td{border:1px solid var(--line);padding:6px 9px;text-align:left}
+.cg-bz th{background:var(--navy);color:#F3EEDF;font:700 11px var(--sans);
+  letter-spacing:.05em;text-transform:uppercase}
+.cg-bz td.n{text-align:right;font-variant-numeric:tabular-nums}
+.cg-bz tr.g100 td{background:#FBF6E8;font-weight:700}
+.cg-bz .cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.cg-bz .fine{font-size:11.5px;color:var(--ink-soft);margin-top:14px;line-height:1.55}
+@media(max-width:700px){ .cg-bz .cols{grid-template-columns:1fr} }
+
 /* scorecard */
 .cg-score{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px;margin-top:6px}
 .cg-bucket{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
@@ -253,6 +277,15 @@ table.cg .hidecol{display:none}
   </div>
 </div></div>
 <div class="ffl-bar"><div class="ffl-inner"><span>Free for every agent, period.</span><button type="button" id="ffl-open">Not a Family First Life agent?</button></div></div>
+
+<div class="modal" id="cg-bz-modal" role="dialog" aria-modal="true" aria-labelledby="cg-bz-title">
+  <div class="modal-card cg-bz">
+    <button type="button" class="modal-x" id="cg-bz-close" aria-label="Close">&#10005;</button>
+    <h2 id="cg-bz-title">Monthly producer bonus</h2>
+    <p>Paid on your monthly <b>issued paid</b> life volume, by calendar month.</p>
+    <div id="cg-bz-body"></div>
+  </div>
+</div>
 <div class="modal" id="ffl-modal" role="dialog" aria-modal="true" aria-labelledby="ffl-title">
   <div class="modal-card">
     <button type="button" class="modal-x" id="ffl-close" aria-label="Close">✕</button>
@@ -298,7 +331,7 @@ table.cg .hidecol{display:none}
     </div>
 
     <div style="margin-top:20px;padding-top:18px;border-top:1px solid var(--line);display:flex;align-items:center;gap:14px;flex-wrap:wrap">
-      <button type="button" class="cg-jump" id="cgAnnJump">See annuity comp <span class="ar">&#8595;</span></button>
+      <button type="button" class="cg-jump" id="cgAnnJump">See annuity comp <span class="ar">&#8595;</span></button> <button type="button" class="cg-jump" id="cgBzOpen">Producer bonuses</button>
       <span style="font-size:13.5px;color:var(--ink-soft);flex:1;min-width:240px">Annuities are paid differently than standard life insurance contract levels &mdash; paid on production tiers (the more you sell the more you make). They sit at the bottom, on their own.</span>
     </div>
   </div>
@@ -309,7 +342,7 @@ table.cg .hidecol{display:none}
 
   <div class="cg-head2">The whole grid</div>
   <p class="cg-sub2">Grouped by carrier, in blocks that fit on the screen &mdash; every product a carrier writes sits together. Your level is the highlighted row; the carriers you picked are outlined inside it. Look up and down your own column &mdash; that is the ladder, and that is what moving a level is worth.</p>
-  <p class="cg-legend"><span class="sw"></span> your row &nbsp;&middot;&nbsp; <b style="outline:2px solid var(--navy);outline-offset:1px;padding:0 3px">outlined</b> = a carrier you selected &nbsp;&middot;&nbsp; &ldquo;&mdash;&rdquo; = not available at that level</p>
+  <p class="cg-legend"><span class="sw"></span> your row &nbsp;&middot;&nbsp; <b style="outline:2px solid var(--navy);outline-offset:1px;padding:0 3px">outlined</b> = a carrier you selected &nbsp;&middot;&nbsp; <span class="cg-b100key"><i></i> = 100% bonusable</span> &nbsp;&middot;&nbsp; &ldquo;&mdash;&rdquo; = not available at that level</p>
   <div id="cgGrids"></div>
 
   <div id="cgAnn"></div>
@@ -515,7 +548,68 @@ var CG = {"levels":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65
   }
 
   /* ---------- the grid ---------- */
-  function drawGrids(){
+  
+/* ---- Monthly Producer Bonus ------------------------------------------------
+   From the FFL chart Jesse supplied 2026-10-17. Foresters reads 25% on that
+   image; he confirmed it is now 100%, so the correction is carried here and the
+   stale printed figure is not. Carrier names are mapped to this grid's own
+   spelling - the bonus chart says "AM AM", "Trans Am", "Mutual". */
+var BONUS100 = ['American Amicable','Americo','Corebridge','Mutual of Omaha',
+                'Transamerica','Ethos','Foresters'];
+function is100(c){ return BONUS100.indexOf(c) >= 0; }
+var BONUS_TIERS = [[20000,650],[30000,1200],[40000,1600],[50000,2000],[75000,4000],
+                   [100000,8000],[125000,10000],[150000,15000],[200000,20000]];
+var BONUS_PCT = [['American Amicable','100%','\u2014'],['Americo','100%','100%'],
+  ['Corebridge','100%','\u2014'],['Mutual of Omaha','100%','100%'],
+  ['Transamerica','100%','\u2014'],['North American','50%','50%'],
+  ['F&G','25%','75%'],['National Life','25%','75%'],['Simplified IUL','\u2014','100%'],
+  ['ANICO','\u2014','50%'],['Columbus','\u2014','50%'],['Columbian','25%','\u2014'],
+  ['Ethos','100%','100%'],['Foresters','100%','\u2014'],['Occidental','25%','\u2014'],
+  ['Royal Neighbors','25%','\u2014'],['Annuity','2.5%','\u2014']];
+var BONUS_PERS = [['\u2265 90%','100%'],['< 90%','95%'],['< 85%','85%'],['< 80%','75%'],
+                  ['< 75%','65%'],['< 70%','50%'],['< 50%','0%']];
+var BONUS_WRITERS = [[1,'$20,000','$500'],[3,'$40,000','$750'],[5,'$75,000','$1,000']];
+function bzMoney(n){ return '$'+n.toLocaleString('en-US'); }
+
+function drawBonus(){
+  var b = document.getElementById('cg-bz-body'); if(!b) return;
+  var tiers = BONUS_TIERS.map(function(t){
+    return '<tr><td class="n">'+bzMoney(t[0])+'</td><td class="n">'+bzMoney(t[1])+'</td></tr>'; }).join('');
+  var pct = BONUS_PCT.map(function(r){
+    return '<tr'+(r[1]==='100%'||r[2]==='100%' ? ' class="g100"':'')+'>'
+      + '<td>'+r[0]+'</td><td class="n">'+r[1]+'</td><td class="n">'+r[2]+'</td></tr>'; }).join('');
+  var pers = BONUS_PERS.map(function(r){
+    return '<tr><td>'+r[0]+'</td><td class="n">'+r[1]+'</td></tr>'; }).join('');
+  var wri = BONUS_WRITERS.map(function(r){
+    return '<tr><td class="n">'+r[0]+'</td><td class="n">'+r[1]+'</td><td class="n">'+r[2]+'</td></tr>'; }).join('');
+  b.innerHTML =
+      '<h3>What it pays</h3>'
+    + '<table><thead><tr><th>Life volume in a month</th><th>Bonus</th></tr></thead><tbody>'+tiers+'</tbody></table>'
+    + '<h3>Bonusable premium by carrier</h3>'
+    + '<table><thead><tr><th>Carrier</th><th>Life</th><th>IUL</th></tr></thead><tbody>'+pct+'</tbody></table>'
+    + '<div class="cols">'
+    +   '<div><h3>Persistency</h3><table><thead><tr><th>Carrier persistency</th><th>Qualified BP</th></tr></thead>'
+    +     '<tbody>'+pers+'</tbody></table></div>'
+    +   '<div><h3>Writer increase bonus</h3><table><thead><tr><th>Writers</th><th>Team BP</th><th>Bonus</th></tr></thead>'
+    +     '<tbody>'+wri+'</tbody></table></div>'
+    + '</div>'
+    + '<p class="fine">The minimum payable bonus is $650. A producer must be in good standing '
+    + 'with FFL, which may garnish lead debt, carrier debt, licensing fees or any outstanding '
+    + 'balance rolled to FFL. The writer increase bonus applies to the personal producer only, '
+    + 'not their upline. Highlighted carriers are 100% bonusable.</p>';
+}
+function wireBonus(){
+  var m = document.getElementById('cg-bz-modal'),
+      open = document.getElementById('cgBzOpen'),
+      shut = document.getElementById('cg-bz-close');
+  if(!m || !open) return;
+  open.addEventListener('click', function(){ drawBonus(); m.classList.add('show'); });
+  if(shut) shut.addEventListener('click', function(){ m.classList.remove('show'); });
+  m.addEventListener('click', function(e){ if(e.target === m) m.classList.remove('show'); });
+  document.addEventListener('keydown', function(e){ if(e.key === 'Escape') m.classList.remove('show'); });
+}
+
+function drawGrids(){
     var cols = PR.slice();
     if(state.only && anyPicked()) cols = cols.filter(function(p){ return picked(p.c); });
     if(!cols.length){
@@ -550,7 +644,7 @@ var CG = {"levels":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65
       var h = '<div class="cg-wrap"><table class="cg"><thead>';
       h += '<tr><th class="lvlh" rowspan="2">FFL<br>level</th>';
       bl.cs.forEach(function(c){
-        h += '<th class="car" colspan="'+groups[c].length+'" style="background:'+(COL[c]||'#333')+'">'+esc(c)+'</th>';
+        h += '<th class="car'+(is100(c)?' b100':'')+'" colspan="'+groups[c].length+'" style="background:'+(COL[c]||'#333')+'">'+esc(c)+'</th>';
       });
       h += '</tr><tr>';
       list.forEach(function(p){
@@ -691,6 +785,7 @@ var CG = {"levels":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65
 
   window.CG_STATE = state;
   render();
+wireBonus();   /* the producer bonus sheet, wired once at boot */
 })();
 </script>
 <script data-goatcounter="https://ffloptimum.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
