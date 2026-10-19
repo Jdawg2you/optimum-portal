@@ -164,6 +164,18 @@ table.cg th.car.b100::after{content:"100% BONUSABLE";display:block;font:800 8px 
   border-bottom:3px solid var(--gold);padding-bottom:1px;vertical-align:1px;white-space:nowrap}
 @media(max-width:600px){ .cg-prow .car.b100 .b100tag{display:block;margin:2px 0 0} }
 
+
+/* 100% bonusable, told the same way everywhere: a gold ring.
+   Jesse settled the collision - the row HIGHLIGHT stays "your row", and a gold
+   ring on the bubble means 100% bonusable. So at your own level the only thing
+   that changes for a bonusable carrier is the ring colour: navy becomes gold. */
+.cg-chip.b100{box-shadow:0 0 0 2px var(--gold)}
+.cg-b100note{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink-soft);
+  white-space:nowrap}
+.cg-b100note i{display:inline-block;width:26px;height:15px;border-radius:999px;
+  background:var(--card);box-shadow:0 0 0 2px var(--gold)}
+table.cg tr.me td.mine.mineb100{outline-color:var(--gold)}
+
 /* scorecard */
 .cg-score{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px;margin-top:6px}
 .cg-bucket{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
@@ -326,6 +338,7 @@ table.cg .hidecol{display:none}
       <button type="button" class="cg-mini" id="cgAll">Select all</button>
       <button type="button" class="cg-mini" id="cgNone">Clear</button>
       <label class="cg-toggle"><input type="checkbox" id="cgOnly"> Show only my carriers in the grid</label>
+      <span class="cg-b100note"><i></i> 100% bonusable carrier</span>
     </div>
 
     <p class="cg-lab" style="margin-top:20px">3 &middot; Optional &mdash; turn the percentages into dollars</p>
@@ -350,7 +363,7 @@ table.cg .hidecol{display:none}
 
   <div class="cg-head2">The whole grid</div>
   <p class="cg-sub2">Grouped by carrier, in blocks that fit on the screen &mdash; every product a carrier writes sits together. Your level is the highlighted row; the carriers you picked are outlined inside it. Look up and down your own column &mdash; that is the ladder, and that is what moving a level is worth.</p>
-  <p class="cg-legend"><span class="sw"></span> your row &nbsp;&middot;&nbsp; <b style="outline:2px solid var(--navy);outline-offset:1px;padding:0 3px">outlined</b> = a carrier you selected &nbsp;&middot;&nbsp; <span class="cg-b100key"><i></i> = 100% bonusable</span> &nbsp;&middot;&nbsp; &ldquo;&mdash;&rdquo; = not available at that level</p>
+  <p class="cg-legend"><span class="sw"></span> your row &nbsp;&middot;&nbsp; <b style="outline:2px solid var(--navy);outline-offset:1px;padding:0 3px">outlined</b> = a carrier you selected &nbsp;&middot;&nbsp; <b style="outline:2px solid var(--gold);outline-offset:1px;padding:0 3px">gold</b> = 100% bonusable &nbsp;&middot;&nbsp; &ldquo;&mdash;&rdquo; = not available at that level</p>
   <div id="cgGrids"></div>
 
   <div id="cgAnn"></div>
@@ -439,7 +452,7 @@ var CG = {"levels":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65
   function drawChips(){
     document.getElementById('cgChips').innerHTML = CARRIERS.map(function(c){
       var annOnly = ANN_ONLY.indexOf(c) > -1;
-      return '<button type="button" class="cg-chip'+(annOnly?' ann':'')+'" data-c="'+esc(c)+'" aria-pressed="'+picked(c)+'"'+
+      return '<button type="button" class="cg-chip'+(annOnly?' ann':'')+(is100(c)?' b100':'')+'" data-c="'+esc(c)+'" aria-pressed="'+picked(c)+'"'+
         (annOnly?' title="Annuities only \u2014 shows in the annuity section at the bottom"':'')+'>'+
         '<span class="dot" style="background:'+(COL[c]||'#888')+'"></span>'+esc(c)+
         (annOnly?'<span class="anntag">annuity</span>':'')+'</button>';
@@ -670,7 +683,8 @@ function drawGrids(){
         h += '<tr class="'+(me?'me':'')+'"><td class="lvl">'+l+'</td>';
         list.forEach(function(p){
           var v = p.v[li];
-          var cls = (v===null ? 'na' : '') + (me && picked(p.c) ? ' mine' : '');
+          var cls = (v===null ? 'na' : '') + (me && picked(p.c) ? ' mine' : '')
+                 + (me && picked(p.c) && is100(p.c) ? ' mineb100' : '');
           h += '<td class="'+cls.trim()+'">'+pct(v)+'</td>';
         });
         h += '</tr>';
