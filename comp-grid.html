@@ -156,6 +156,14 @@ table.cg th.car.b100::after{content:"100% BONUSABLE";display:block;font:800 8px 
 .cg-bz .fine{font-size:11.5px;color:var(--ink-soft);margin-top:14px;line-height:1.55}
 @media(max-width:700px){ .cg-bz .cols{grid-template-columns:1fr} }
 
+
+/* the same gold marker in the snapshot, so a carrier reads the same in both places */
+.cg-prow .car.b100{position:relative}
+.cg-prow .car.b100 .b100tag{display:inline-block;margin-left:7px;font:800 8.5px var(--sans);
+  letter-spacing:.07em;text-transform:uppercase;color:var(--gold);
+  border-bottom:3px solid var(--gold);padding-bottom:1px;vertical-align:1px;white-space:nowrap}
+@media(max-width:600px){ .cg-prow .car.b100 .b100tag{display:block;margin:2px 0 0} }
+
 /* scorecard */
 .cg-score{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:14px;margin-top:6px}
 .cg-bucket{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
@@ -468,7 +476,8 @@ var CG = {"levels":[145,140,135,130,125,120,115,110,105,100,95,90,85,80,75,70,65
         html += '<div class="cg-prow'+(i===0?' top':'')+'">'+
           '<span class="rank">'+(i+1)+'</span>'+
           '<span class="who">'+
-            '<span class="car"><span class="cdot" style="background:'+(COL[p.c]||'#888')+'"></span>'+esc(p.c)+'</span>'+
+            '<span class="car'+(is100(p.c)?' b100':'')+'"><span class="cdot" style="background:'+(COL[p.c]||'#888')+'"></span>'+esc(p.c)
+          + (is100(p.c)?'<span class="b100tag">100% bonusable</span>':'')+'</span>'+
             '<span class="pname">'+esc(p.p)+'</span>'+
           '</span>'+
           '<span class="pct">'+r+'%</span>'+
