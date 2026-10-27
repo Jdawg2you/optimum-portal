@@ -1145,6 +1145,8 @@ const WEEK={
  1:[{n:'FFL Base Shop Builders Call',t:'12:00 PM ET',link:'http://fflbuilderscall.com/',s:720,tag:'BIZ',
      d:'Base shop owners on building and leading an agency.',dm:'Agency building'},
     HUDDLE,
+    {n:'HealthFirst Monday Team Call',t:'3:00 PM ET',link:'https://HealthFirstVBO.com',s:900,tag:'HEALTH',
+     d:'Health team call \u2014 updates, carrier news and coaching.',dm:'Health team call'},
     {n:'Weekly Team Sales Call',t:'6:00 PM ET',link:'https://zoom.fflall.com',s:1080,tag:'LIFE',
      d:'The team sales call \u2014 what is working in the field right now.',dm:'What\u2019s working now'},
     {n:'HealthFirst FEX Training w/ Big Mike',t:'7:00 PM ET',link:'https://HealthFirstVBO.com',s:1140,tag:'HEALTH',
@@ -1152,8 +1154,6 @@ const WEEK={
  2:[{n:'The Winning System',t:'12:00 PM ET',link:'https://zoom.fflall.com',s:720,tag:'LIFE',
      d:'The repeatable system behind a consistent week of production.',dm:'The system'},
     HUDDLE,
-    {n:'HealthFirst Tuesday Team Call',t:'2:00 PM ET',link:'https://HealthFirstVBO.com',s:840,tag:'HEALTH',
-     d:'Health team call \u2014 updates, carrier news and coaching.',dm:'Health team call'},
     {n:'Manhattan Life Product Training',t:'3:00 PM ET',link:'https://ww3.familyfirstlife.com/login',s:900,tag:'HEALTH',note:'Agent Portal \u2192 Training Schedule',
      d:'Carrier product training on Manhattan Life.',dm:'Product training'},
     {n:'POP Stories Sell',t:'7:00 PM ET',link:'https://HealthFirstVBO.com',s:1140,tag:'HEALTH',
@@ -5130,16 +5130,16 @@ try{
         if(_liveDials){ h+=m5vcall(_liveDials,null); }
       }
       h+='</div>';
-      // 2) NEXT EVENT — Ignyte hero
-      var _ig=(typeof imgData==='function'&&imgData('ignyte'))?imgData('ignyte'):'';
+      // 2) NEXT EVENT — Annual Convention hero
+      var _cv=(typeof imgData==='function'&&imgData('convention'))?imgData('convention'):'';
       h+='<div class="m5-evseclabel">Next Event</div>';
-      h+='<div class="m5-evhero"'+(_ig?' style="background-image:url('+_ig+')"':'')+'><div class="m5-evhero-in">'+
-        '<span class="m5-evbadge">Upcoming Event</span>'+
-        '<div class="m5-evtitle">Ignyte Fall 2026 Sales Conference</div>'+
-        '<div class="m5-evmeta">Thursday, September 10, 2026</div>'+
-        '<div class="m5-cd" id="m5-cd-ignyte"></div>'+
-        '<div class="m5-evbtns"><button class="m5-evbtn reg" onclick="window.open(\'https://www.eventbrite.com/e/ignyte-fall-2026-sales-conference-tickets-1990889795973\',\'_blank\')">🎟 Register Now</button>'+
-        '<button class="m5-evbtn cal" onclick="m5AddIgnyte()">📅 Add to Calendar</button></div>'+
+      h+='<div class="m5-evhero conv"'+(_cv?' style="background-image:url('+_cv+')"':'')+'><div class="m5-evhero-in">'+
+        '<span class="m5-evbadge gold">Save the Date</span>'+
+        '<div class="m5-evtitle">2027 FFL Annual Convention</div>'+
+        '<div class="m5-evmeta">January 27–30, 2027 · Irving, Texas</div>'+
+        '<div class="m5-cd" id="m5-cd-conv"></div>'+
+        '<div class="m5-evbtns"><button class="m5-evbtn reg" onclick="window.open(\'https://familyfirstlife.com/annualconvention/\',\'_blank\')">🎟 Register Now</button>'+
+        '<button class="m5-evbtn cal" onclick="m5AddConvention()">📅 Add to Calendar</button></div>'+
         '</div></div>';
       // 3) EVERY DAY
       h+='<div class="m5-callsec"><div class="m5-callsec-h">Every Day</div>'+DAILY.map(function(e){return m5vcall(e,null);}).join('')+'</div>';
@@ -5153,25 +5153,14 @@ try{
         h+='<div class="m5-daycard'+(d===today?' today':'')+'"><div class="m5-daycard-h">'+DAYNAMES[d]+(d===today?'<span class="m5-todaypill">Today</span>':'')+'</div>'+body+'</div>';
       });
       h+='</div>';
-      // 5) ANNUAL CONVENTION hero
-      var _cv=(typeof imgData==='function'&&imgData('convention'))?imgData('convention'):'';
-      h+='<div class="m5-evseclabel">Annual Convention</div>';
-      h+='<div class="m5-evhero conv"'+(_cv?' style="background-image:url('+_cv+')"':'')+'><div class="m5-evhero-in">'+
-        '<span class="m5-evbadge gold">Save the Date</span>'+
-        '<div class="m5-evtitle">2027 FFL Annual Convention</div>'+
-        '<div class="m5-evmeta">January 27–30, 2027 · Irving, Texas</div>'+
-        '<div class="m5-cd" id="m5-cd-conv"></div>'+
-        '<div class="m5-evbtns"><button class="m5-evbtn reg" onclick="window.open(\'https://familyfirstlife.com/annualconvention/\',\'_blank\')">🎟 Register Now</button>'+
-        '<button class="m5-evbtn cal" onclick="m5AddConvention()">📅 Add to Calendar</button></div>'+
-        '</div></div>';
-      // 6) SCHEDULE SNAPSHOT
+      // 5) SCHEDULE SNAPSHOT
       if(typeof imgData==='function'&&imgData('schedule')){
         h+='<div class="m5-callsec-h" style="padding-left:2px;margin-top:6px">Weekly schedule — save it &amp; keep it handy</div>';
         h+='<div class="listcard" style="text-align:center"><img src="'+imgData('schedule')+'" style="width:100%;border-radius:12px;border:1px solid var(--line);box-shadow:var(--shadow);display:block" alt="Optimum Weekly Training Schedule"><div style="margin-top:10px"><button class="openbtn" onclick="dlImg(\'schedule\',\'optimum-weekly-training-schedule.jpg\')">⬇ Download the schedule</button></div></div>';
       }
-      // 7) RECORDINGS
+      // 6) RECORDINGS
       h+='<div class="m5-callsec" style="margin-top:18px"><div class="m5-callsec-h">Call Recordings &amp; Repository</div>'+m5RowList(m5PairRows(REC))+'</div>';
-      // 8) FLYER WALL — every recurring call as a share-ready graphic
+      // 7) FLYER WALL — every recurring call as a share-ready graphic
       /* Each card is the call's own flyer: tap Share to hand it off on a phone
          (falls back to a download), or Download to save it. Shawn's card keeps
          its sign-up button to the site on top of the download. */
@@ -5632,7 +5621,7 @@ window.m5AddConvention=function(){var L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID
 window.m5IgnyteTarget=new Date(2026,8,10,0,0,0);
 window.m5ConvTarget=new Date(2027,0,27,0,0,0);
 window.m5cdRender=function(el,target){var ms=target-new Date();if(ms<=0){el.innerHTML='<div class="u"><div class="n">Now</div><div class="l">Live</div></div>';return;}var s=Math.floor(ms/1000),d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60),ss=s%60;function u(n,l){return '<div class="u"><div class="n">'+n+'</div><div class="l">'+l+'</div></div>';}el.innerHTML=u(d,'Days')+u(m5pad2(h),'Hrs')+u(m5pad2(m),'Min')+u(m5pad2(ss),'Sec');};
-window.m5EvTick=function(){var a=document.getElementById('m5-cd-ignyte');if(a)window.m5cdRender(a,window.m5IgnyteTarget);var b=document.getElementById('m5-cd-conv');if(b)window.m5cdRender(b,window.m5ConvTarget);};
+window.m5EvTick=function(){var b=document.getElementById('m5-cd-conv');if(b)window.m5cdRender(b,window.m5ConvTarget);};
 if(!window.m5EvInt){window.m5EvInt=setInterval(function(){window.m5EvTick();},1000);}
 
 /* ================= AGENCY DASHBOARD (scoped to your downline) ================= */
