@@ -612,7 +612,31 @@
   .acad-lescheck.done{background:#e3f2ea;color:#1c7c54}
   .acad-lescheck.cs{background:#fff4e0;color:#c9962a}
   .acad-cspill{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;color:#b9822a;background:#fff4e0;border:1px solid #f2dfb4;border-radius:20px;padding:2px 9px;margin-left:9px;vertical-align:middle;white-space:nowrap}
+    /* Track badge on a lesson row. Clear to Dial is the gate, so it carries the
+     colour; the library reads as the quieter of the two on purpose. */
+  .acad-trk{display:inline-block;font-size:10px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;border-radius:20px;padding:2px 8px;margin-left:8px;vertical-align:1px;white-space:nowrap}
+  .acad-trk.ctd{color:#6b4d05;background:#fdf1d4;border:1px solid #e8cf92}
+  .acad-trk.wd{color:#44536e;background:#eef1f6;border:1px solid #d7deea}
+  .acad-callout{margin:0 2px 14px;padding:11px 15px;border-left:3px solid #e0a83d;background:#fffaf0;border-radius:0 10px 10px 0;color:#6b5420;font-size:13px;font-weight:650;line-height:1.5}
+  .acad-ctdprog{margin:0 2px 14px;padding:15px 17px;background:#fff;border:1px solid #e6e8ee;border-radius:14px;box-shadow:0 2px 8px rgba(20,35,63,.05)}
+  .acad-ctdprog .acad-cp-lab{font-size:14px;font-weight:800;color:#16233f;margin-bottom:9px}
+  .acad-ctd-bar{height:14px;border-radius:20px;background:#edf0f5;overflow:hidden}
+  .acad-ctd-bar>span{display:block;height:100%;border-radius:20px;background:linear-gradient(90deg,#e0a83d,#c88f22)}
+  .acad-ctdnote{margin-top:9px;font-size:12.5px;font-weight:650;color:#6b5420}
+  .acad-path{margin:18px 2px 0;padding:16px 17px;background:#fff;border:1px solid #e6e8ee;border-radius:14px}
+  .acad-pathhead{font-size:15px;font-weight:800;color:#16233f}
+  .acad-pathsub{font-size:12.5px;color:#5c6a85;margin:4px 0 12px}
+  .acad-pathrow{display:flex;align-items:center;gap:11px;padding:8px 6px;border-radius:9px;cursor:pointer}
+  .acad-pathrow:hover{background:#f5f7fb}
+  .acad-pathnum{flex:0 0 24px;width:24px;height:24px;border-radius:50%;background:#eef1f6;color:#5c6a85;font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center}
+  .acad-pathnum.done{background:#e3f2ea;color:#1b4d33}
+  .acad-pathtitle{flex:1;font-size:13.5px;font-weight:650;color:#26324c;line-height:1.4}
+  .acad-pathend{margin-top:12px;padding-top:11px;border-top:1px solid #eef1f6;font-size:12.5px;color:#5c6a85;line-height:1.55}
   .acad-newpill{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#1b4d33;background:#e3f2ea;border:1px solid #9fd3b6;border-radius:20px;padding:2px 9px;margin-left:9px;vertical-align:1px}
+  /* "Updated" is a quieter claim than "New" -- same video, rewritten page -- so it reads quieter. */
+  .acad-newpill.upd{color:#5a4a16;background:#fdf4de;border-color:#e4cf96}
+  .acad-newsbox .grp{font-size:13px;color:#42506a;line-height:1.55;margin:0 0 10px}
+  .acad-newsbox .grp b{color:#16233f}
   .acad-newsbox{background:#fff;border:1px solid #e6e8ee;border-left:4px solid #e0a83d;border-radius:12px;padding:15px 17px;margin:0 0 16px;box-shadow:0 2px 8px rgba(20,35,63,.05)}
   .acad-newsbox .t{font-size:15px;font-weight:800;color:#16233f;margin-bottom:6px}
   .acad-newsbox p{font-size:13px;color:#42506a;line-height:1.55;margin:0 0 11px}
@@ -621,6 +645,8 @@
   .acad-newslist button:hover{background:#eef4fd;border-color:#c9d4e8}
   .acad-modcs{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.03em;text-transform:uppercase;color:#b9822a;background:#fff4e0;border:1px solid #f2dfb4;border-radius:20px;padding:3px 11px;margin-top:6px;white-space:nowrap}
   .acad-comingbox{width:100%;border:1px dashed #e0c98f;background:#fffaf0;border-radius:14px;padding:16px 18px;margin:14px 0 4px;color:#8a6d2f;font-size:13.5px;font-weight:600;line-height:1.55}
+  /* A lesson whose video still uses wording we have since changed. Says so right under the player, so nobody thinks they are watching the wrong lesson. */
+  .acad-vidnote{width:100%;border:1px solid #d7deea;border-left:3px solid #8a9ab5;background:#f7f9fc;border-radius:12px;padding:12px 15px;margin:12px 0 4px;color:#44536e;font-size:13px;font-weight:500;line-height:1.55}
   .acad-markbtn.cs{background:#f0ead9;color:#a98b45;cursor:default;box-shadow:none}
   .acad-lestitle{flex:1;font-weight:700;font-size:14.5px;color:#16233f}
   .acad-leslen{font-size:12px;color:#8a93a5;white-space:nowrap}
@@ -983,7 +1009,7 @@ const FAST=[
     {id:'c_surelc',l:'Complete your SureLC profile & AML training <span class="m5-donepill">check this box once complete</span>',d:'<div class="m5-detbody"><b>⚠️ Must be done on a computer (not a phone).</b> Set up SureLC, do the free AML training, and upload your docs.<div class="m5-btnrow"><a class="m5-lnk go" href="https://accounts.surancebay.com/oauth/authorize?redirect_uri=https:%2F%2Fsurelc.surancebay.com%2Fproducer%2Foauth%3FreturnUrl%3D%252Fprofile%253FgaId%253D689%2526gaId%253D689%2526branch%253DFFL%252520National%2526branchVisible%253Dtrue%2526branchEditable%253Dfalse%2526branchRequired%253Dfalse%2526autoAdd%253Dfalse%2526requestMethod%253DGET&gaId=689&client_id=surecrmweb&response_type=code" target="_blank" rel="noopener">🔗 Log in to SureLC</a></div><ul><li><b>New agents:</b> click "Register" under the login box to create an account, then fill out all your information.</li><li><b>Have a previous SureLC account</b> from another IMO? Access SureLC through HCMS to be sure you are in the correct account. If unclear, ask your business mentor.</li></ul><b>Complete the FREE AML training (inside SureLC)</b><ol><li>Click <b>CE & Training</b></li><li>Click <b>Start Training</b></li><li>Click <b>Surancebay LLC FREE</b></li><li>Click the drop-down — a new window opens to read or download the material</li><li>Click <b>Start Test</b> — 10 questions, 15 minutes, open book. Retake if needed.</li><li>Download a copy of your completed <b>AML certificate</b> — you need it in the next step.</li></ol><b>Upload your documents to SureLC:</b> your E&O certificate, and your AML certificate (goes under the CE & Training section).<div class="m5-callout"><b>Voided check / bank form:</b> no starter checks — full banking info must be printed on the check. A bank letter must be signed by a bank representative and include your routing number, account number, and personal info on bank letterhead. These are the only two options for direct deposit. Many banks also let you download a virtual deposit slip in account settings that works for this step.</div></div>'},
   ]},
   {id:'contract2',mn:'g',icon:'3',t:'Get Contracted · Part 2 — Submit Your Contracting',noteBottom:'<div class="m5-tips"><b>💡 Helpful tips</b> — <b>Background issues?</b> If anything in your background needs explanation, write a Letter of Explanation with ALL copies of court/support documents and upload them to SuranceBay directly. <b>Need help?</b> After you have first attempted contracting on your own, email <a href="mailto:support@fflnational.com">support@fflnational.com</a>.</div>',items:[
-    {id:'c_nlc',l:'Complete NLC contracting for your carriers <span class="m5-donepill">check this box once complete</span>',d:'<div class="m5-detbody">You will get an email from our contracting team, subject <b>"Getting Started with Family First Life"</b> — that is just FYI; all the steps you need are right here.<div class="m5-btnrow"><a class="m5-lnk nv" href="https://www.loom.com/share/995fb6baa9c846ec931b5328412e85ad?sid=200b8012-2830-46ab-a8a1-fede915d6182" target="_blank" rel="noopener">▶ Watch the how-to</a><a class="m5-lnk go" href="https://nlc.chims.uppatop.com/login" target="_blank" rel="noopener">🔗 Log in to NLC</a></div><b>Once in NLC:</b><ol><li>On the left-hand side, use the tabs (Training, Bank Info, etc.) to upload your documents — AML, E&O, voided check/bank letter.</li><li>Double-check that all requirements are submitted before creating any requests.</li><li>Find the blue <b>+</b> sign on the Dashboard.</li><li>Click <b>New Contracting</b> → select each carrier: <b>Americo, American Amicable, Mutual of Omaha, Transamerica &amp; CoreBridge ONLY</b>.</li><li>Go through the steps hitting "Next" until you <b>Sign &amp; Submit</b>.</li><li>Your request should appear in <b>Requests → Submitted</b>. If it is sitting in "Drafts," something is missing — go back and check.</li></ol><p class="m5-fine"><b>Want Foresters or Instabrain?</b> They are not in that list — you ask for those two separately, by email. <a data-go="res:addcarriers" style="cursor:pointer;text-decoration:underline">How to contract with additional carriers →</a></p></div>'},
+    {id:'c_nlc',l:'Complete NLC contracting for your carriers <span class="m5-donepill">check this box once complete</span>',d:'<div class="m5-detbody">You will get an email from our contracting team, subject <b>"Getting Started with Family First Life"</b> — that is just FYI; all the steps you need are right here.<div class="m5-btnrow"><a class="m5-lnk nv" href="https://www.loom.com/share/995fb6baa9c846ec931b5328412e85ad?sid=200b8012-2830-46ab-a8a1-fede915d6182" target="_blank" rel="noopener">▶ Watch the how-to</a><a class="m5-lnk go" href="https://nlc.chims.uppatop.com/login" target="_blank" rel="noopener">🔗 Log in to NLC</a></div><div class="m5-readfirst"><b>Heads up:</b> this video shows a "My Website" button. Ignore it. Optimum agents use the free website, digital business card and calendar that come with GOAT. All you need from this video is how to add your carriers in Next Level Contracting.</div><b>Once in NLC:</b><ol><li>On the left-hand side, use the tabs (Training, Bank Info, etc.) to upload your documents — AML, E&O, voided check/bank letter.</li><li>Double-check that all requirements are submitted before creating any requests.</li><li>Find the blue <b>+</b> sign on the Dashboard.</li><li>Click <b>New Contracting</b> → select each carrier: <b>Americo, American Amicable, Mutual of Omaha, Transamerica &amp; CoreBridge ONLY</b>.</li><li>Go through the steps hitting "Next" until you <b>Sign &amp; Submit</b>.</li><li>Your request should appear in <b>Requests → Submitted</b>. If it is sitting in "Drafts," something is missing — go back and check.</li></ol><p class="m5-fine"><b>Want Foresters or Instabrain?</b> They are not in that list — you ask for those two separately, by email. <a data-go="res:addcarriers" style="cursor:pointer;text-decoration:underline">How to contract with additional carriers →</a></p></div>'},
     {id:'c_followup',l:'Follow up with your carriers <span class="m5-donepill">check this box once complete</span>',d:'<div class="m5-detbody">3–5 business days after completing contracting, call each carrier to confirm they received your info and processing is underway. The <b>Carriers</b> section has every carrier phone number — open it below. If a carrier does not have your info yet, that does not necessarily mean something is wrong — there could be a delay; either way, let your recruiter know so they can check. Most carriers process in <b>5–7 business days</b>. You will receive your <b>writing numbers</b> by email.<div class="m5-btnrow"><a class="m5-lnk go" data-go="sales:carriers" style="cursor:pointer"><span class="m5-bico" data-ico="briefcase"></span> Go to Carriers (phone numbers)</a><a class="m5-lnk nv" href="https://docs.google.com/spreadsheets/d/10vZpuLbrUO9xebjnM2Ro1tJwTjDa8TFKk0ukrXqKUTk/edit?gid=0#gid=0" target="_blank" rel="noopener">🔗 Download the Carrier Log</a></div><p class="m5-fine">Keep all your writing numbers, usernames, and passwords in one place with the Carrier Log.</p></div>'},
     {id:'c_gw',l:'Get familiar with the Gateway portal <span class="m5-donepill">check this box once complete</span>',d:'<div class="m5-detbody">This is the main portal to most FFL tools including HCMS, Reporting, and more — you can reach many places directly through it.<div class="m5-btnrow"><a class="m5-lnk go" href="https://ww3.familyfirstlife.com/login" target="_blank" rel="noopener">🔗 Access Gateway</a><a class="m5-lnk nv" href="https://www.youtube.com/watch?v=GG81-ZSKnoY" target="_blank" rel="noopener">▶ How to navigate Gateway</a></div></div>'},
   ]},
@@ -994,6 +1020,7 @@ const FAST=[
     {id:'s_call',l:'I completed my strategy call with my manager, and I\'m clear on next steps'},
   ]},
   {id:'golive',mn:'g',icon:'6',t:'Cleared to Dial',items:[
+    {id:'gl_tools',l:'Bookmark your call tools <span class="m5-donepill">check this box once complete</span>',d:'<div class="m5-detbody">Two tabs you will live in once you are dialing \u2014 open them now so you are not hunting for them mid-call.<div class="m5-btnrow"><a class="m5-lnk go" href="https://script.ffloptimum.com" target="_blank" rel="noopener">\ud83d\udd17 Script Navigator</a><a class="m5-lnk nv" href="https://wizard.ffloptimum.com" target="_blank" rel="noopener">\ud83d\udd17 Product Wizard</a></div>The Script Navigator walks the VET call card by card. The Product Wizard ranks the carriers likely to approve each client, so you are not memorising carrier fit.</div>'},
     {id:'gl_gate',l:'Passed the go-live gate in Optimum Academy',d:'You have finished <b>Shadow &amp; Go Live</b> — full script + core objections, unaided. That is your green light.'},
     {id:'gl_ready',l:'Final pre-dial check',d:'<ul class="m5-ckbul"><li>Carrier log handy</li><li>E-app guide bookmarked</li><li>My schedule is set, and I have clear goals</li><li>I\'ve let my manager know the exact day and time I\'m going to start dialing.</li></ul>'},
     {id:'gl_goal',l:'I have my goal card handy (or activity tracker)',d:'Set your daily goal, plan your blocks, and log your dials right in the portal — it tracks your trends day over day. Prefer paper? Print a copy from the same page.<div class="m5-btnrow"><a class="m5-lnk go" data-go="goalcard" style="cursor:pointer"><span class="m5-bico" data-ico="target"></span> Open your Goal Card</a></div>'},
@@ -1386,6 +1413,12 @@ function isDone(id){return !!store.data.checks[id];}
    keeps credit for both, so nobody gets knocked back off 100%. */
 function m5MigrateChecks(){try{var c=store.data.checks||{};
   if(c['f_goat']&&typeof c['f_goat_promo']==='undefined'){c['f_goat_promo']=c['f_goat'];store.data.checks=c;}
+  /* v3.6 rewrote the do-next steps on 2.6.1, 3.1 and 4.3, so those lessons moved to
+     a new key space (dnRev 2). One step survived the rewrite word for word: 4.3's
+     "head to the Leads page to join GOAT" slid from position 1 to position 3. Carry
+     that tick over so nobody is asked to redo it. Everything else starts unticked
+     because the instruction itself changed. Additive -- no key is removed. */
+  if(c['acaddo_4-3_1']&&typeof c['acaddo_4-3v2_3']==='undefined'){c['acaddo_4-3v2_3']=c['acaddo_4-3_1'];store.data.checks=c;}
 }catch(e){}}
 function toggle(id,unlock){
   store.data.checks[id]=store.data.checks[id]?false:(new Date()).toISOString(); store.save();
@@ -2256,19 +2289,92 @@ const ACAD_LMS=[
      "If you're not licensed yet: submit your application and book fingerprints, then keep going through the training."
     ],
     "status": "published",
-    "poster": "posters/0-0.jpg"
+    "poster": "posters/0-0.jpg",
+    "track": "clear_to_dial"
    }
   ]
  },
  {
-  "id": "foundation",
+  "id": "clear-to-dial-attitude",
   "order": 2,
-  "title": "Foundation",
-  "summary": "The decision and the opportunity — build belief.",
+  "title": "Clear to Dial — Attitude",
+  "summary": "",
   "lessons": [
    {
-    "id": "0-1",
+    "id": "a-1",
     "order": 1,
+    "title": "ASA: Our Model of Success",
+    "status": "published",
+    "track": "clear_to_dial",
+    "keyTakeaways": [
+     "ASA = Attitude (how you choose to show up) · Schedule (your calendar, and you showing up, is your office) · Activity (the numbers your planner gives you).",
+     "No talent required. Different starts, same three habits.",
+     "One agent went 37 days without a sale and kept showing up; another did $50,000 in his first month. Both did ASA.",
+     "\"If you do ASA in a big way, you will win. I just can't tell you when.\""
+    ],
+    "doNext": [
+     "Write A / S / A on an index card, with one sentence each for how you'll show up this week.",
+     "Keep the card where you dial."
+    ],
+    "assets": [],
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://www.youtube.com/embed/fdH9p35SEN0",
+    "poster": "posters/a-1.jpg"
+   },
+   {
+    "id": "a-2",
+    "order": 2,
+    "title": "Attitude Is a Choice",
+    "status": "published",
+    "track": "clear_to_dial",
+    "keyTakeaways": [
+     "Mindset is what shows up; attitude is what you choose to do with it. You control the next move.",
+     "Our attitude: gratitude, optimism, a servant's heart. We know who's in charge.",
+     "The quiet voice never says \"quit.\" It says \"can you do this forever? Then why does today matter?\" Answer it with the next dial.",
+     "Attitude is contagious, both ways."
+    ],
+    "doNext": [
+     "Join tomorrow's 8:30 ET Morning Kickoff.",
+     "Before your first dial, write three things you're grateful for.",
+     "The next time the quiet voice talks, make a dial before you think about it."
+    ],
+    "assets": [
+     {
+      "label": "Morning Kickoff (8:30 ET) link (file/link to attach)",
+      "type": "link",
+      "url": ""
+     }
+    ],
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://www.youtube.com/embed/NO8V4O7izn8",
+    "poster": "posters/a-2.jpg"
+   },
+   {
+    "id": "a-3",
+    "order": 3,
+    "title": "Hot Mess Express vs. Perfect Prep",
+    "status": "published",
+    "track": "clear_to_dial",
+    "keyTakeaways": [
+     "Two extremes: the Hot Mess Express (all action, no prep) and Perfect Prep (all prep, no action). Live in the middle.",
+     "No amount of preparation prepares you for your first real dial. One hour of practical beats forty hours of conceptual.",
+     "Prepared enough = the open plus the five opening objections, cold.",
+     "The five: \"I don't remember filling that out\" · \"I already have coverage\" · \"I don't have time\" · \"I can't afford it\" · \"I can't qualify.\"",
+     "Ego in the back seat. We're not doing heart surgery; we're helping Miss Betty protect her family.",
+     "Most of your questions are about things you'll only learn by starting. Nobody can tell you what happens after your fifth dial until you've made five."
+    ],
+    "doNext": [
+     "Drill the five opening objections (Lesson 2.4.2) until you can answer without thinking.",
+     "Get in the live dial room today, even if all you do is listen."
+    ],
+    "assets": [],
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://www.youtube.com/embed/T93ynamNgDo",
+    "poster": "posters/a-3.jpg"
+   },
+   {
+    "id": "0-1",
+    "order": 4,
     "title": "The Real Job (Set Expectations Hard)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/YEYRlcB-f2o",
@@ -2287,11 +2393,12 @@ const ACAD_LMS=[
      "Say it out loud: \"Success is a decision.\" Own it before day one."
     ],
     "status": "published",
-    "poster": "posters/0-1.jpg"
+    "poster": "posters/0-1.jpg",
+    "track": "clear_to_dial"
    },
    {
     "id": "0-2",
-    "order": 2,
+    "order": 5,
     "title": "The Opportunity & The Math (Why This Business)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/X65PnF2Jx5s",
@@ -2314,15 +2421,261 @@ const ACAD_LMS=[
      "Use the Income Calculator above to see your numbers. In the future, do this with your mentor too to build a plan for hitting your goals."
     ],
     "status": "published",
-    "poster": "posters/0-2.jpg"
+    "poster": "posters/0-2.jpg",
+    "track": "clear_to_dial"
    }
   ]
  },
  {
-  "id": "setup",
+  "id": "clear-to-dial-schedule",
   "order": 3,
-  "title": "Setup",
-  "summary": "Stand up your tools; contracting runs in parallel.",
+  "title": "Clear to Dial — Schedule",
+  "summary": "",
+  "lessons": [
+   {
+    "id": "s-1",
+    "order": 1,
+    "title": "The Winning Day",
+    "status": "published",
+    "track": "clear_to_dial",
+    "keyTakeaways": [
+     "8:00 ET: virtual office opens (Zoom on).",
+     "8:30–9:00 ET, Mon–Sat: Morning Kickoff (Greatest Salesman reading, top-10 goals, coaching).",
+     "9:00: dials start (8:00 Central; vets are up early). Go for a sale before lunch.",
+     "12:00 on most weekdays: live training (Mon Builder's, Tue Winning System for your first week or two, Thu SRS, Fri Shawn).",
+     "2:00 PM, Mon–Fri: Nuts & Bolts. Bring the morning's objections and app snags.",
+     "Afternoon into evening: dial block; many clients are home after 5.",
+     "Night: a five-minute recap (what worked, where you got stuck), then Goal Card (your 40 points), lock down today's sales, set tomorrow's #1.",
+     "Question mid-block? Write it down, keep dialing, bring it to Nuts & Bolts.",
+     "Rules: the 30-second rule, and prime dial hours are for dialing only (recruiting calls go early, at lunch, or after work)."
+    ],
+    "doNext": [
+     "Block tomorrow in your calendar exactly like this.",
+     "Set your Goal Card where you'll see it tonight."
+    ],
+    "assets": [
+     {
+      "label": "The Winning Day (one-page schedule) (file/link to attach)",
+      "type": "link",
+      "url": ""
+     }
+    ],
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://www.youtube.com/embed/Pn60afYc85w",
+    "poster": "posters/s-1.jpg"
+   },
+   {
+    "id": "s-2",
+    "order": 2,
+    "title": "The Winning Week",
+    "status": "published",
+    "track": "clear_to_dial",
+    "keyTakeaways": [
+     "Six days a week; Sunday is church and family. Long days early in the week, shorter Friday and Saturday.",
+     "Plan the life blocks (date night, the kid's concert) like dial blocks. Planned breaks protect the work blocks.",
+     "Before day one: fill out the Wants & Needs / Give Up sheet with your family (or on your own), then walk them through your schedule.",
+     "Weekly anchors: Kickoff 8:30 ET Mon–Sat · Mon 12pm Builder's + Monday evening agency sales call · Tue 12pm Winning System (once or twice, to learn leads) · Thu 12pm SRS (IULs and annuities) · Fri 12pm Shawn (the most important call of the week) · Sat New Agent Orientation (new agents).",
+     "Compare it to owning a business, not a 40-hour job. Big hours while you're new; you earn your time back."
+    ],
+    "doNext": [
+     "Fill out the Wants & Needs / Give Up sheet (with your family, or on your own) and walk them through your week.",
+     "Block your full Winning Week in your calendar: calls, dial blocks, family time.",
+     "Screenshot it and send it to your manager or mentor."
+    ],
+    "assets": [
+     {
+      "label": "Wants & Needs / Give Up sheet (file/link to attach)",
+      "type": "link",
+      "url": ""
+     },
+     {
+      "label": "Weekly calls calendar (file/link to attach)",
+      "type": "link",
+      "url": ""
+     }
+    ],
+    "videoTargetSeconds": 180,
+    "videoEmbedUrl": "https://www.youtube.com/embed/iUbShy1yuYc",
+    "poster": "posters/s-2.jpg"
+   }
+  ]
+ },
+ {
+  "id": "clear-to-dial-activity",
+  "order": 4,
+  "title": "Clear to Dial — Activity",
+  "summary": "",
+  "lessons": [
+   {
+    "id": "ac-1",
+    "order": 1,
+    "title": "From Your Number to Your Day",
+    "status": "published",
+    "track": "clear_to_dial",
+    "keyTakeaways": [
+     "Number → production → day. Agent Success Plan first, then the Optimum Activity Planner, then the Goal Card (Lesson AC.3).",
+     "Worked example: $15K/month take-home ≈ $33K monthly production ≈ 22–27 sales ≈ about 6 a week ≈ one sale a day.",
+     "The planner uses your real ratios (dials → contacts → presentations → sales), so you don't need anyone else's.",
+     "Your planner sets your daily dial number; 350 dials a day is our floor.",
+     "Your why is who this is really for, not \"more money.\""
+    ],
+    "doNext": [
+     "Build your Agent Success Plan in Agent Tools.",
+     "Screenshot the planner.",
+     "Bring your number, the screenshot, and your why to your strategy call."
+    ],
+    "assets": [
+     {
+      "label": "Agent Tools (Agent Success Plan + Optimum Activity Planner) (file/link to attach)",
+      "type": "link",
+      "url": ""
+     },
+     {
+      "label": "Goal Card (file/link to attach)",
+      "type": "link",
+      "url": ""
+     }
+    ],
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://www.youtube.com/embed/NacVQcf2jss",
+    "poster": "posters/ac-1.jpg"
+   },
+   {
+    "id": "ac-3",
+    "order": 2,
+    "title": "Your Goal Card: 40 Points a Day",
+    "status": "published",
+    "track": "clear_to_dial",
+    "keyTakeaways": [
+     "The Goal Card tracks your day in two-hour blocks. Dials are your base input; they're tracked but earn no points.",
+     "Points: Contact 1 · Appointment 2 · Presentation 3 · Sale 5. One person can be worth up to 11 points.",
+     "40 points a day is the target, and hitting it consistently is how agents get wildly successful here.",
+     "Many ways to 40. Example: 22 contacts + 4 presentations + 1 appointment + 1 sale = 41.",
+     "Save the card every night. It compares day, week and month, and with your premium and hours it shows what each dial and hour is worth.",
+     "Be your own boss. If you're not tracking, nobody can coach you, and most people overestimate what they did.",
+     "Separate yourself from the result. Get your 40 points; the sales follow. Points are the Activity in ASA."
+    ],
+    "doNext": [
+     "Open the Goal Card and set your daily point goal to 40.",
+     "Check the two-hour blocks you're working today.",
+     "Log your contacts, appointments, presentations and sales after every block, and save the card tonight."
+    ],
+    "assets": [
+     {
+      "label": "Goal Card (link)",
+      "type": "link",
+      "url": ""
+     },
+     {
+      "label": "40 Points cheat sheet (file/link to attach)",
+      "type": "link",
+      "url": ""
+     }
+    ],
+    "videoTargetSeconds": 210,
+    "videoEmbedUrl": "https://www.youtube.com/embed/7AofXl2exX4",
+    "poster": "posters/ac-3.jpg"
+   },
+   {
+    "id": "2-2-2",
+    "order": 3,
+    "title": "\"You Don't Need to Know More. You Need to Dial.\"",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/I6qSMpypx20",
+    "assets": [],
+    "keyTakeaways": [
+     "The excuse to kill: \"I need to learn the products before I dial.\" It feels responsible; it's actually avoidance.",
+     "Whole life — answer the health questions honestly, the quoter gives a price, that price holds for life, face amount is the face amount.",
+     "Term — set number of years, level premium, then it increases; the policy document shows the client exactly what to expect.",
+     "IUL is the only product with real depth — and it's a later track. It is not what's stopping you today.",
+     "You're not uncomfortable from lack of knowledge — you're uncomfortable because you haven't dialed. Clients aren't interrogating you.",
+     "\"Let me get my underwriter on the line\" is a trust builder, not a weakness. It says you cared enough to get it right. Use the dial room.",
+     "The study that matters: why do good people die with no coverage? Because agents didn't do their job. Belief in the product beats product knowledge."
+    ],
+    "doNext": [
+     "Write this line down and post it where you make your calls, so you always have it: \"I'm going to place you on a very brief soft hold while I speak to one of our senior underwriters to make sure we get you the best coverage for the best price. I'll be right back.\"",
+     "Get in the dial room today. Learn the product from live calls, not from a PDF."
+    ],
+    "status": "published",
+    "poster": "posters/2-2-2.jpg",
+    "track": "clear_to_dial"
+   },
+   {
+    "id": "4-2",
+    "order": 4,
+    "title": "The Standard: A Sale a Day",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/J3pGuEkMFDQ",
+    "assets": [
+     {
+      "label": "Goal Card",
+      "type": "link",
+      "url": "app:goalcard"
+     }
+    ],
+    "keyTakeaways": [
+     "The ramp: Month 1 → $10K, Month 2 → $20K, Month 3 → $30K in AP.",
+     "A sale a day is the non-negotiable under the monthly target.",
+     "Land the first sale early to kill end-of-day pressure and play loose.",
+     "Kyle: \"Don't get comfortable after one — go get five.\"",
+     "Reframes: \"you just haven't found your buyer yet\" and swap \"I missed my goal\" for \"I got better and I'm closer.\"",
+     "Early-days scoreboard: \"did I get better today,\" not just the number."
+    ],
+    "doNext": [],
+    "status": "published",
+    "poster": "posters/4-2.jpg",
+    "track": "clear_to_dial"
+   },
+   {
+    "id": "4-3",
+    "order": 5,
+    "title": "The Winning System",
+    "videoTargetSeconds": 0,
+    "videoEmbedUrl": "https://www.youtube.com/embed/AksfsmuKQiM",
+    "assets": [
+     {
+      "label": "Save the Tuesday call to your calendar — downloads a file, open it to add",
+      "type": "link",
+      "url": "js:m5AddWinSystem"
+     },
+     {
+      "label": "Join GOATLeads page (no cost to join)",
+      "type": "link",
+      "url": "https://goatleads.com/registration/new?affiliate_id=66c4aa379e0123651ad2f0e6"
+     },
+     {
+      "label": "Leads landing page",
+      "type": "link",
+      "url": "app:leads"
+     }
+    ],
+    "keyTakeaways": [
+     "Lead types: aged/$1 (where you start), fresh/real-time (higher intent), plus direct mail, telemarketed, Facebook/internet, referrals, and your own warm market.",
+     "You manage all your leads in GoatLeads.",
+     "Leads are PERISHABLE — work fresh leads fast, triple-dialing across the first 24 hours. Sitting on a lead is money thrown away.",
+     "The ramp skeleton: Month 1 — $500/week on aged ($1) leads; Month 2 — $500 aged + $500 fresh; Month 3 — $500 aged + $1,000 fresh → $30K.",
+     "Keep scaling by reinvesting while holding comfortable close and show ratios.",
+     "Your only two metrics: CPA (cost per acquisition) and what you keep.",
+     "It's taught live every Tuesday at 12pm ET. Come once or twice with your numbers; the live call is where current numbers and ratios get worked."
+    ],
+    "doNext": [
+     "Learn your lead types in GoatLeads.",
+     "Work every fresh lead within 24 hours.",
+     "Come to the Tuesday 12pm Winning System call once or twice, with your Activity Planner screenshot and your CPA number. Tap the calendar button above to save it.",
+     "Then head to the Leads page to join GOAT, register where you buy leads, and pick your strategy."
+    ],
+    "status": "published",
+    "poster": "posters/4-3.jpg",
+    "track": "clear_to_dial",
+    "dnRev": 2
+   }
+  ]
+ },
+ {
+  "id": "clear-to-dial-call-ready",
+  "order": 5,
+  "title": "Clear to Dial — Call-Ready",
+  "summary": "",
   "lessons": [
    {
     "id": "1-3",
@@ -2348,52 +2701,44 @@ const ACAD_LMS=[
      "Set up Goat Leads and bookmark the Product Wizard."
     ],
     "status": "published",
-    "poster": "posters/1-3.jpg"
-   }
-  ]
- },
- {
-  "id": "boot-camp-inner-game",
-  "order": 4,
-  "title": "Boot Camp — The Inner Game & Product",
-  "summary": "Mindset, the VFE product, and tonality.",
-  "lessons": [
+    "poster": "posters/1-3.jpg",
+    "track": "clear_to_dial"
+   },
    {
-    "id": "2-1",
-    "order": 1,
-    "title": "Mindset Foundations: \"It's a Skill Issue, Not a Lead Issue\"",
-    "videoTargetSeconds": 120,
-    "videoEmbedUrl": "https://youtu.be/QT-kE9jooXs",
-    "assets": [
-     {
-      "label": "The Greatest Salesman in the World (Og Mandino) — download on the Self Development page",
-      "type": "link",
-      "url": "app:selfdev"
-     },
-     {
-      "label": "Daily 8am ET reading — on your Dashboard",
-      "type": "link",
-      "url": "app:dashboard"
-     }
-    ],
+    "id": "t-1",
+    "order": 2,
+    "title": "Your Call Toolkit: Script Navigator + Product Wizard",
+    "status": "coming_soon",
+    "track": "clear_to_dial",
     "keyTakeaways": [
-     "Core belief to install: results come from skill + decision, not from leads.",
-     "The watch parable: if the value's obvious and the decision's made, you sell anything. Every lead is the watch.",
-     "Lie–Cheat–Steal (daily): Lie awake on goals; Cheat time from distractions; Steal (study) every good word track.",
-     "Work behind the work: a thousand reps at practice → ten closes at game time.",
-     "The 8am reading is rep #1 of your day. Read Greatest Salesman daily; Think and Grow Rich, etc."
+     "Script Navigator = your script + client profile. It prompts the follow-ups (e.g., metformin → diabetes? A1C?).",
+     "One button pushes the profile into the Product Wizard, which ranks carriers likely to approve, by best fit for the client.",
+     "Turn off carriers you aren't contracted with yet.",
+     "Quote in the carrier's portal → numbers back into the Navigator → present Maximum Coverage / Recommended / Basic → copy and paste into the app.",
+     "Fallback, any time: the soft hold to the dial room's senior underwriter."
     ],
     "doNext": [
-     "Join tomorrow's 8am ET reading.",
-     "Start The Greatest Salesman in the World today.",
-     "Write your #1 goal on a card/post-it/anything physical. Read it every morning and every night."
+     "Bookmark the Script Navigator and the Product Wizard.",
+     "Run one practice client through both tools, start to finish.",
+     "In the Wizard, turn off any carriers you aren't contracted with yet."
     ],
-    "status": "published",
-    "poster": "posters/2-1.jpg"
+    "assets": [
+     {
+      "label": "Script Navigator — https\\://script.ffloptimum.com",
+      "type": "link",
+      "url": ""
+     },
+     {
+      "label": "Product Wizard — https\\://wizard.ffloptimum.com",
+      "type": "link",
+      "url": ""
+     }
+    ],
+    "videoTargetSeconds": 150
    },
    {
     "id": "2-2",
-    "order": 2,
+    "order": 3,
     "title": "What You're Actually Selling: Veteran's Final Expense",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/anCs-X_YUeI",
@@ -2409,91 +2754,20 @@ const ACAD_LMS=[
      "The 3 types (for contrast on the call): Accidental-only / Term / Whole Life. Plus a 4th \"healthy\" permanent option = IUL bridge (later track).",
      "Not everyone gets level: graded / guaranteed issue is still a win (GI = 110% return of premium if natural death in first 2 yrs).",
      "Carriers: Americo, Mutual of Omaha, American Amicable, Transamerica, Chubb/Combined, Instabrain, National Life Group. Fit depends on health/age/bank.",
-     "ALWAYS: sell what they can KEEP. A lapsed policy comes off your book."
+     "ALWAYS: sell what they can KEEP. A lapsed policy comes off your book.",
+     "You don't memorize carrier fit: the Product Wizard ranks the carriers likely to approve each client."
     ],
     "doNext": [
-     "Get good at saying the benefits of whole life: permanent, locked-in, cash value, day-one."
+     "Get good at saying the benefits of whole life: permanent, locked-in, cash value, day-one.",
+     "Open the Product Wizard and run one practice client."
     ],
     "status": "published",
-    "poster": "posters/2-2.jpg"
+    "poster": "posters/2-2.jpg",
+    "track": "clear_to_dial"
    },
-   {
-    "id": "2-2-1",
-    "order": 3,
-    "title": "The Product Landscape (So You Can Speak to Anything)",
-    "videoTargetSeconds": 120,
-    "videoEmbedUrl": "https://youtu.be/fXzI-xhpRH0",
-    "assets": [],
-    "keyTakeaways": [
-     "You SELL VFE first — this lesson is so you can speak to anything and place clients correctly.",
-     "Term — temporary, cheapest per dollar; income/mortgage protection.",
-     "Whole life — permanent, fixed premium, guaranteed cash value; the base of final expense.",
-     "Universal life — permanent but flexible premium; needs monitoring — we don't really sell this.",
-     "IUL — cash value follows an index with a floor and a cap; tax-free retirement. Never oversell the illustration.",
-     "Final expense — small whole life ($10–25K) for burial = your VFE.",
-     "Mortgage protection — life policy protecting the family; doesn't necessarily pay off the house.",
-     "Living benefits / accelerated death benefit riders — access the death benefit while alive (critical/chronic/terminal). The modern differentiator."
-    ],
-    "doNext": [
-     "Get comfortable saying each of the product types in one sentence, out loud."
-    ],
-    "status": "published",
-    "poster": "posters/2-2-1.jpg"
-   },
-   {
-    "id": "2-2-2",
-    "order": 4,
-    "title": "\"You Don't Need to Know More. You Need to Dial.\"",
-    "videoTargetSeconds": 120,
-    "videoEmbedUrl": "https://youtu.be/I6qSMpypx20",
-    "assets": [],
-    "keyTakeaways": [
-     "The excuse to kill: \"I need to learn the products before I dial.\" It feels responsible; it's actually avoidance.",
-     "Whole life — answer the health questions honestly, the quoter gives a price, that price holds for life, face amount is the face amount.",
-     "Term — set number of years, level premium, then it increases; the policy document shows the client exactly what to expect.",
-     "IUL is the only product with real depth — and it's a later track. It is not what's stopping you today.",
-     "You're not uncomfortable from lack of knowledge — you're uncomfortable because you haven't dialed. Clients aren't interrogating you.",
-     "\"Let me get my underwriter on the line\" is a trust builder, not a weakness. It says you cared enough to get it right. Use the dial room.",
-     "The study that matters: why do good people die with no coverage? Because agents didn't do their job. Belief in the product beats product knowledge."
-    ],
-    "doNext": [
-     "Write this phrase down and post it clearly where you make your calls, so you feel confident finding the right product for your client. Then say: “Hold on one second — let me get my senior underwriter on the line so I can confirm we’re getting you the best rates possible. Please hold for one moment; I’ll be right back.”",
-     "Get in the dial room today. Learn the product from live calls, not from a PDF."
-    ],
-    "status": "published",
-    "poster": "posters/2-2-2.jpg"
-   },
-   {
-    "id": "2-3",
-    "order": 5,
-    "title": "Tonality & Energy: \"It's Not What You Say\"",
-    "videoTargetSeconds": 120,
-    "videoEmbedUrl": "https://youtu.be/Wew7V68qvEM",
-    "assets": [],
-    "keyTakeaways": [
-     "Tone beats words. Same script, different energy = different result.",
-     "The 3 E's: Excitement, Emotion, Enthusiasm — you set the emotional temperature (but it's gotta be right; live dials and your mentor can help).",
-     "Match the moment: energy up on protection/benefits; slow and sincere on death/beneficiary questions.",
-     "Preparation = confidence. Know the script cold so your attention is on them.",
-     "\"Don't limp in all shy and cute on the call.\" Say your name with authority — you're the assigned Veteran Underwriter."
-    ],
-    "doNext": [
-     "Record yourself reading the script open twice — once flat, once with the 3 E's. Hear the difference."
-    ],
-    "status": "published",
-    "poster": "posters/2-3.jpg"
-   }
-  ]
- },
- {
-  "id": "boot-camp-vet-script",
-  "order": 5,
-  "title": "Boot Camp — The VET Script (The Call)",
-  "summary": "The full call, section by section.",
-  "lessons": [
    {
     "id": "2-4-0",
-    "order": 1,
+    "order": 4,
     "title": "To Script or Not to Script (Why You Start With the Script)",
     "videoTargetSeconds": 150,
     "videoEmbedUrl": "https://youtu.be/mtzrFI2goak",
@@ -2513,9 +2787,11 @@ const ACAD_LMS=[
      "The two camps, both half-right: \"must use a script\" (you're new, no idea what to say) vs. \"never script\" (feels fake). Robotic reading loses — but \"speak from the heart\" with no words loses harder.",
      "The resolution: script FIRST, then freedom. Structure now; your own voice is earned with reps.",
      "Even Shawn (famous for \"no-script\") prescribes this: take the script, learn it, be in charge, ask a question when in doubt — start scripted and graduate off it. \"If a script's working, don't fix it.\"",
-     "Proof: Jordan Hill — $50K first month just following the script; McKenzie — $10K first week copying a closer's script, then layering her own; Elizabeth — \"I just copy and paste\"; Edmond — your leader's word track is your \"$5M movie script.\"",
+     "Proof: one agent did $50K his first month just following the script; another did $10K her first week copying a closer's script, then layering in her own; Elizabeth — \"I just copy and paste\"; Edmond — your leader's word track is your \"$5M movie script.\"",
      "When other trainers trash scripts: they're right for them, after thousands of reps. That's their destination, not their starting line — don't copy their freedom before you earn it.",
-     "The script is training wheels: read it → know it → own it → it disappears. A confused mind does nothing; structure gives you confidence."
+     "The script is training wheels: read it → know it → own it → it disappears. A confused mind does nothing; structure gives you confidence.",
+     "No one said you have to follow it word for word, but it feels weird at first because you've never done it. Run it 27 more times before you change it.",
+     "Read the script until you're writing $40–50K a month. Then make it yours."
     ],
     "doNext": [
      "Commit to running the VET script exactly as written for your first few weeks — no ad-libbing yet.",
@@ -2523,11 +2799,12 @@ const ACAD_LMS=[
      "Read the script out loud today and daily until the words start to feel like yours."
     ],
     "status": "published",
-    "poster": "posters/2-4-0.jpg"
+    "poster": "posters/2-4-0.jpg",
+    "track": "clear_to_dial"
    },
    {
     "id": "2-4-1",
-    "order": 2,
+    "order": 5,
     "title": "The Open: The First 90 Seconds (VET script §1)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/fiVaotmdVZg",
@@ -2546,14 +2823,15 @@ const ACAD_LMS=[
     ],
     "doNext": [
      "Read the open aloud 25x.",
-     "Keep the VET script open and bookmarked."
+     "Keep the Script Navigator open and bookmarked."
     ],
     "status": "published",
-    "poster": "posters/2-4-1.jpg"
+    "poster": "posters/2-4-1.jpg",
+    "track": "clear_to_dial"
    },
    {
     "id": "2-4-2",
-    "order": 3,
+    "order": 6,
     "title": "Powering Through Opening Objections (The First 30 Seconds)",
     "videoTargetSeconds": 150,
     "videoEmbedUrl": "https://youtu.be/KftCnJHWeAU",
@@ -2576,18 +2854,322 @@ const ACAD_LMS=[
      "Verbatim rebuttals exist for: \"What is this for?\", \"I already have coverage,\" \"I'm not interested,\" \"I can't qualify,\" \"I can't afford it\" (before any price), \"I don't remember filling this out,\" and \"Call me back\" (only if genuinely busy).",
      "Every rebuttal ends by getting the DOB or the burial/cremation/mortgage question — get them talking, get them forward.",
      "\"I'm busy\" is usually a brush-off — power through it. Only reschedule (next lesson) if they're genuinely busy. Don't reschedule a resister.",
-     "Drill until automatic: the only thing that beats a reflex is a reflex. You'll get these every call."
+     "Drill until automatic: the only thing that beats a reflex is a reflex. You'll get these every call.",
+     "Clear to Dial minimum, the core five: \"I don't remember filling that out\" · \"I already have coverage\" · \"I don't have time\" · \"I can't afford it\" · \"I can't qualify.\""
     ],
     "doNext": [
      "Memorize the rebuttal to all seven opening objections until you can fire back without thinking.",
      "Practice live with a partner: have them say each opening objection out loud and you fire back your rebuttal — no hesitation, flat out."
     ],
     "status": "published",
-    "poster": "posters/2-4-2.jpg"
+    "poster": "posters/2-4-2.jpg",
+    "track": "clear_to_dial"
+   },
+   {
+    "id": "2-6-1",
+    "order": 7,
+    "title": "Plan Education & Get Your Price",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://www.youtube.com/embed/4RTmvcqZZIY",
+    "assets": [
+     {
+      "label": "Policy Benefits — Plain-English Guide",
+      "type": "link",
+      "url": "https://portal.ffloptimum.com/policy-benefits.html"
+     },
+     {
+      "label": "Script Navigator",
+      "type": "link",
+      "url": "https://script.ffloptimum.com"
+     },
+     {
+      "label": "Product Wizard",
+      "type": "link",
+      "url": "https://wizard.ffloptimum.com"
+     }
+    ],
+    "keyTakeaways": [
+     "Educate by contrast: Accidental only (accidents only) · Term (10–30 years, then it expires; usually for healthy, younger clients) · Whole life (permanent, locked-in, builds value).",
+     "For healthy clients, a 4th option: more affordable permanent coverage, your future IUL bridge.",
+     "They already have a policy? Never call it bad. \"That was a good option when you got it… let's see what's best for you today.\" Compare, don't criticize.",
+     "They write down the five benefits: Permanent · Locked-In Rate · Living Benefits · Tax-Free · Cash Value.",
+     "Get the price: Script Navigator → Product Wizard → carrier quote → back into the Navigator.",
+     "Or soft-hold to the dial room's senior underwriter. It builds trust."
+    ],
+    "doNext": [
+     "Memorize the soft-hold line word for word.",
+     "Run one practice quote through the Navigator → Wizard → carrier portal flow."
+    ],
+    "status": "published",
+    "poster": "posters/2-6-1.jpg",
+    "track": "clear_to_dial",
+    "dnRev": 2
+   },
+   {
+    "id": "3-1",
+    "order": 8,
+    "title": "Live Dials & the Release Ladder",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://www.youtube.com/embed/q9b9yumMtpw",
+    "assets": [
+     {
+      "label": "Cleared to Dial — New-Agent Checklist",
+      "type": "download",
+      "url": "https://portal.ffloptimum.com/cleared-to-dial-checklist.pdf"
+     },
+     {
+      "label": "Cleared to Dial — New-Agent Checklist",
+      "type": "download",
+      "url": "https://portal.ffloptimum.com/cleared-to-dial-checklist.pdf"
+     }
+    ],
+    "keyTakeaways": [
+     "The live dial room runs all day, every day. It's your classroom and your backup. Join today.",
+     "Off mute on live calls: you ask, the room helps. I can't help you if I can't hear you.",
+     "You'll hear the closers get told no. Nobody closes everyone.",
+     "Coaching comes from your recorded calls: send one or two to your manager or mentor (the open and where it went sideways).",
+     "The Release Ladder: (1) Listen · (2) Shadow + take notes (bring your objection tally to 2pm Nuts & Bolts) · (3) Practice: answer each objection in your head as if you were the agent · (4) Supervised calls on your first aged leads · (5) Solo.",
+     "The solo gate is behavioral: the full script plus the core objections, unaided. Until then, you dial in the dial room, off mute."
+    ],
+    "doNext": [
+     "Join today's live dials with the Script Navigator open.",
+     "Start your objection tally: the first five you hear and how the closer handled each."
+    ],
+    "status": "published",
+    "poster": "posters/3-1.jpg",
+    "track": "clear_to_dial",
+    "dnRev": 2
+   }
+  ],
+  "asaCallout": "Activity: You don't need to know more. You need to dial. (2.2.2)"
+ },
+ {
+  "id": "attitude-deeper",
+  "order": 6,
+  "title": "Attitude, Deeper",
+  "summary": "",
+  "lessons": [
+   {
+    "id": "a-4",
+    "order": 1,
+    "title": "It Just Is: Same Event, Different Story",
+    "status": "published",
+    "track": "while_dialing",
+    "keyTakeaways": [
+     "A policy falling off is the same event whether it's your 1st or your 10th. Only the story changes. It just is.",
+     "\"That's lesson #728.\" Every lesson is paid for once.",
+     "The mirror: not \"they got lucky,\" but \"what did they do differently, and what can I do better?\"",
+     "Comparison is the thief of all joy, and it leads you to make excuses for yourself. Same talent, different skill.",
+     "After a hang-up: \"Were they my client anyway?\" Some will, some won't, so what, next.",
+     "Leads come in runs. Live in the middle: nobody should be able to tell from your mood whether you made four sales or none.",
+     "Fall in love with the process; detach from the result of any single call (Stan Smith)."
+    ],
+    "doNext": [
+     "After every \"no\" today, say \"next\" out loud and dial.",
+     "Pick one teammate who had a great day this week and ask what they did differently."
+    ],
+    "assets": [],
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://www.youtube.com/embed/QvuQHW0En6w",
+    "poster": "posters/a-4.jpg"
+   },
+   {
+    "id": "a-5",
+    "order": 2,
+    "title": "Would You Last the 37 Days?",
+    "status": "published",
+    "track": "while_dialing",
+    "keyTakeaways": [
+     "The dip is normal. Knowing it's coming is how people get through it.",
+     "One agent went 37 days without a sale and now leads one of the biggest organizations in the company.",
+     "My first 5 months: about $20K total after a 20-year corporate career. First in, last out, and I refused to quit.",
+     "The business works: 200 years old, millions underinsured, endless leads. If it isn't working yet, the fix is in you, and you can fix you.",
+     "Today's activity shows up in weeks, not hours. \"Time either promotes you or exposes you.\""
+    ],
+    "doNext": [
+     "Write down what you'll do on the day you want to quit.",
+     "Send it to your manager or mentor so someone else is holding it too."
+    ],
+    "assets": [],
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://www.youtube.com/embed/uv7Zi6_qzOY",
+    "poster": "posters/a-5.jpg"
+   },
+   {
+    "id": "a-6",
+    "order": 3,
+    "title": "Preach It, Act It, Become It",
+    "status": "published",
+    "track": "while_dialing",
+    "keyTakeaways": [
+     "Preach it: say who you're becoming, out loud, everywhere, starting with yourself. Kickoff goal-writing is preaching.",
+     "Act it: show up like it's already true, even in small steps.",
+     "Become it: repeated long enough, it's just who you are.",
+     "Slumps start when you stop preaching.",
+     "Changing a habit? Give it twice as long as you spent on the old one (\"double it\"). (Stan Smith)"
+    ],
+    "doNext": [
+     "Write one sentence: \"I'm the one who…\"",
+     "Post it in the team chat today.",
+     "Say it out loud before your first dial every day this week."
+    ],
+    "assets": [],
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://www.youtube.com/embed/3IL2QF2toMU",
+    "poster": "posters/a-6.jpg"
+   },
+   {
+    "id": "2-1",
+    "order": 4,
+    "title": "Mindset Foundations: \"It's a Skill Issue, Not a Lead Issue\"",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/QT-kE9jooXs",
+    "assets": [
+     {
+      "label": "The Greatest Salesman in the World (Og Mandino) — download on the Self Development page",
+      "type": "link",
+      "url": "app:selfdev"
+     },
+     {
+      "label": "Morning Kickoff (8:30 ET) — on your Dashboard",
+      "type": "link",
+      "url": "app:dashboard"
+     }
+    ],
+    "keyTakeaways": [
+     "Core belief to install: results come from skill + decision, not from leads.",
+     "The watch parable: if the value's obvious and the decision's made, you sell anything. Every lead is the watch.",
+     "Lie–Cheat–Steal (daily): Lie awake on goals; Cheat time from distractions; Steal (study) every good word track.",
+     "Work behind the work: a thousand reps at practice → ten closes at game time.",
+     "The 8:30 ET Morning Kickoff is rep #1 of your day: the Greatest Salesman reading plus your top-10 goals. Think and Grow Rich next."
+    ],
+    "doNext": [
+     "Join tomorrow's 8:30 ET Morning Kickoff.",
+     "Start The Greatest Salesman in the World today.",
+     "Write your #1 goal on a card/post-it/anything physical. Read it every morning and every night."
+    ],
+    "status": "published",
+    "poster": "posters/2-1.jpg",
+    "track": "while_dialing"
+   },
+   {
+    "id": "5-3",
+    "order": 5,
+    "title": "Identity & Longevity",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtube.com/shorts/pmMw3_Ve5uM",
+    "assets": [],
+    "keyTakeaways": [
+     "Work from identity, not toward things: Provider, Protector, Leader.",
+     "Set 2–5 year expectations, not 90 days. This is compound interest — most quit right before it pays.",
+     "Guard your environment: take problems to producers, not complainers. \"Successful people won't validate your feelings; negative people will.\"",
+     "Profitability over volume — it's about what you keep, not what you write.",
+     "Self-reliance. Own your outcomes.",
+     "Identity ladder: employee → entrepreneur → empire builder. \"Become more to do more.\"",
+     "Changing a habit? Give it twice as long as you spent on the old one: \"double it\" (Stan Smith). See A.6."
+    ],
+    "doNext": [
+     "Write your 3-year number and tape it where you dial.",
+     "Name one producer you'll take problems to — and one complainer you'll stop venting to."
+    ],
+    "status": "published",
+    "poster": "posters/5-3.jpg",
+    "portrait": true,
+    "track": "while_dialing"
+   }
+  ]
+ },
+ {
+  "id": "activity-deeper",
+  "order": 7,
+  "title": "Activity, Deeper",
+  "summary": "",
+  "lessons": [
+   {
+    "id": "ac-2",
+    "order": 1,
+    "title": "The Reverse Reality Check",
+    "status": "published",
+    "track": "while_dialing",
+    "keyTakeaways": [
+     "Reverse reality check: dials ÷ hours worked. 100 dials in 10 hours = about 10 minutes of real work per hour.",
+     "A no-answer dial takes 5–6 seconds; about 3 dials a minute is realistic.",
+     "Do the hard thing first: dial by hand, then add GOAT CRM with auto-dialing once you're hitting your number.",
+     "Tools speed up a working process; they don't create one.",
+     "The script feels weird because it's new, not because it's wrong. Run it 27 more times."
+    ],
+    "doNext": [
+     "Tonight, divide your dials by your hours and write the number on your Goal Card.",
+     "Tomorrow, hit your 40 points on the Goal Card (Lesson AC.3 shows how points work)."
+    ],
+    "assets": [
+     {
+      "label": "Goal Card (file/link to attach)",
+      "type": "link",
+      "url": ""
+     }
+    ],
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://www.youtube.com/embed/h_5pXnF8p_k",
+    "poster": "posters/ac-2.jpg"
+   }
+  ]
+ },
+ {
+  "id": "product-the-full-call",
+  "order": 8,
+  "title": "Product & the Full Call",
+  "summary": "",
+  "lessons": [
+   {
+    "id": "2-2-1",
+    "order": 1,
+    "title": "The Product Landscape (So You Can Speak to Anything)",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/fXzI-xhpRH0",
+    "assets": [],
+    "keyTakeaways": [
+     "You SELL VFE first — this lesson is so you can speak to anything and place clients correctly.",
+     "Term — temporary, cheapest per dollar; income/mortgage protection.",
+     "Whole life — permanent, fixed premium, guaranteed cash value; the base of final expense.",
+     "Universal life — permanent but flexible premium; needs monitoring — we don't really sell this.",
+     "IUL — cash value follows an index with a floor and a cap; tax-free retirement. Never oversell the illustration.",
+     "Final expense — small whole life ($10–25K) for burial = your VFE.",
+     "Mortgage protection — life policy protecting the family; doesn't necessarily pay off the house.",
+     "Living benefits / accelerated death benefit riders — access the death benefit while alive (critical/chronic/terminal). The modern differentiator."
+    ],
+    "doNext": [
+     "Get comfortable saying each of the product types in one sentence, out loud."
+    ],
+    "status": "published",
+    "poster": "posters/2-2-1.jpg",
+    "track": "while_dialing"
+   },
+   {
+    "id": "2-3",
+    "order": 2,
+    "title": "Tonality & Energy: \"It's Not What You Say\"",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/Wew7V68qvEM",
+    "assets": [],
+    "keyTakeaways": [
+     "Tone beats words. Same script, different energy = different result.",
+     "The 3 E's: Excitement, Emotion, Enthusiasm — you set the emotional temperature (but it's gotta be right; live dials and your mentor can help).",
+     "Match the moment: energy up on protection/benefits; slow and sincere on death/beneficiary questions.",
+     "Preparation = confidence. Know the script cold so your attention is on them.",
+     "\"Don't limp in all shy and cute on the call.\" Say your name with authority — you're the assigned Veteran Underwriter.",
+     "Confident, not needy: \"Whether you buy this or not, I'm not going to retire or quit. I'm looking for the people who filled this out and want to protect their family today. Does that sound like you?\""
+    ],
+    "doNext": [
+     "Record yourself reading the script open twice — once flat, once with the 3 E's. Hear the difference."
+    ],
+    "status": "published",
+    "poster": "posters/2-3.jpg",
+    "track": "while_dialing"
    },
    {
     "id": "2-4-3",
-    "order": 4,
+    "order": 3,
     "title": "When They're Busy: Reschedule, Don't Lose Them (VET script §2)",
     "videoTargetSeconds": 90,
     "videoEmbedUrl": "https://youtu.be/sC5dpouZSjE",
@@ -2610,11 +3192,12 @@ const ACAD_LMS=[
      "Set up your free agent site too, so you can send it whenever it's needed."
     ],
     "status": "published",
-    "poster": "posters/2-4-3.jpg"
+    "poster": "posters/2-4-3.jpg",
+    "track": "while_dialing"
    },
    {
     "id": "2-4-4",
-    "order": 5,
+    "order": 4,
     "title": "Trust & Licensing: Your Credentials (VET script §3)",
     "videoTargetSeconds": 90,
     "videoEmbedUrl": "https://youtu.be/6uQN2nP6yC8",
@@ -2634,11 +3217,12 @@ const ACAD_LMS=[
      "Have your NPN and a credentials text ready to send in one tap."
     ],
     "status": "published",
-    "poster": "posters/2-4-4.jpg"
+    "poster": "posters/2-4-4.jpg",
+    "track": "while_dialing"
    },
    {
     "id": "2-4-5",
-    "order": 6,
+    "order": 5,
     "title": "Frame Your Role & Get Permission to Lead (VET script §4)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/XBNBxBYdcuk",
@@ -2657,11 +3241,12 @@ const ACAD_LMS=[
     ],
     "doNext": [],
     "status": "published",
-    "poster": "posters/2-4-5.jpg"
+    "poster": "posters/2-4-5.jpg",
+    "track": "while_dialing"
    },
    {
     "id": "2-5-1",
-    "order": 7,
+    "order": 6,
     "title": "Discover the Why (VET script §5)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/Xam5MzoQOdE",
@@ -2678,11 +3263,12 @@ const ACAD_LMS=[
      "Next time you role-play the script, ask at least three of these discovery questions so you practice getting to the real root of why they want coverage."
     ],
     "status": "published",
-    "poster": "posters/2-5-1.jpg"
+    "poster": "posters/2-5-1.jpg",
+    "track": "while_dialing"
    },
    {
     "id": "2-5-2",
-    "order": 8,
+    "order": 7,
     "title": "Burial, Cremation & the Beneficiary (VET script §6)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/g7I3BwuiM48",
@@ -2699,19 +3285,20 @@ const ACAD_LMS=[
      "Role-play walking a client through burial vs. cremation costs and naming their beneficiary, until it feels natural and caring — not scripted."
     ],
     "status": "published",
-    "poster": "posters/2-5-2.jpg"
+    "poster": "posters/2-5-2.jpg",
+    "track": "while_dialing"
    },
    {
     "id": "2-5-3",
-    "order": 9,
+    "order": 8,
     "title": "Budget & Discount Qualifiers (VET script §7)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/kcj2_MRbxT0",
     "assets": [
      {
-      "label": "Client profile / financial inventory sheet",
-      "type": "download",
-      "url": "https://drive.google.com/file/d/1zl8_QVAnbFmIk1ybZnUF7oHp2h8cyhBH/view?usp=sharing"
+      "label": "Script Navigator (builds the client profile)",
+      "type": "link",
+      "url": "https://script.ffloptimum.com"
      }
     ],
     "keyTakeaways": [
@@ -2727,11 +3314,12 @@ const ACAD_LMS=[
      "Flag any Chime/GoBank-type account on the spot and coach the client toward a draftable account."
     ],
     "status": "published",
-    "poster": "posters/2-5-3.jpg"
+    "poster": "posters/2-5-3.jpg",
+    "track": "while_dialing"
    },
    {
     "id": "2-5-4",
-    "order": 10,
+    "order": 9,
     "title": "The Health Snapshot (VET script §8)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/y9RTbNAh00Y",
@@ -2747,50 +3335,22 @@ const ACAD_LMS=[
     "doNext": [
      "Get super comfortable asking the full health list smoothly.",
      "Get comfortable with the MIB transition — it's your bridge into the close.",
-     "Get comfortable writing down medications and health issues on the client file and in the dialer — and notice how the top-selling agents dig into these questions."
+     "Enter every condition and med in the Script Navigator; it prompts the follow-ups (e.g., metformin → A1C) and pushes to the Product Wizard. Notice how the top-selling agents dig into these questions."
     ],
     "status": "published",
-    "poster": "posters/2-5-4.jpg"
-   },
-   {
-    "id": "2-6-1",
-    "order": 11,
-    "title": "Plan Education & How to Get Your Price (VET script §9)",
-    "videoTargetSeconds": 120,
-    "videoEmbedUrl": "https://youtu.be/rf28BtvB7E0",
-    "assets": [
-     {
-      "label": "Policy Benefits — Plain-English Guide",
-      "type": "link",
-      "url": "https://portal.ffloptimum.com/policy-benefits.html"
-     }
-    ],
-    "keyTakeaways": [
-     "Educate by contrast, not lecture. Three types side by side make whole life the obvious winner.",
-     "The 3 types: Accidental only (freak accidents), Term (expires worthless), Whole life (permanent, locked, builds value).",
-     "4th option for healthy clients: affordable permanent coverage — the IUL bridge.",
-     "Write down the Policy Benefits: Permanent, Locked-In Rate, Living Benefits, Tax-Free, Cash Value.",
-     "Get the price two ways: (1) In the room — soft hold + ask your Senior Underwriter. (2) Off-hours — run the case through the Product Wizard.",
-     "The soft-hold line is a positioning move: you're their advocate hunting for the best deal, not a salesperson stalling.",
-     "Dial-Room Quick-Reference + the Product Wizard for the carrier call."
-    ],
-    "doNext": [
-     "Practice the soft-hold part of the script — this is where you let your client know you're placing them on a brief hold while you reach out to your senior underwriter.",
-     "Run three cases through the Product Wizard using different health conditions you've heard on live dials, so you know the path before you're live."
-    ],
-    "status": "published",
-    "poster": "posters/2-6-1.jpg"
+    "poster": "posters/2-5-4.jpg",
+    "track": "while_dialing"
    },
    {
     "id": "2-6-2",
-    "order": 12,
-    "title": "Present the Numbers: Gold, Silver, Basic (VET script §10)",
+    "order": 10,
+    "title": "Present the Numbers: Maximum Coverage, Recommended, Basic (VET script §10)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/n2pa7j7VKFk",
     "assets": [],
     "keyTakeaways": [
      "Three options only. One feels like pressure. Five feels like a puzzle. Three feels like a choice.",
-     "Anchor Silver as \"most popular.\" Gold frames it as reasonable; Basic keeps an affordable yes on the table.",
+     "Anchor Recommended as \"most popular.\" Maximum Coverage frames it as reasonable; Basic keeps an affordable yes on the table.",
      "Tie it to the beneficiary. \"What you want to leave behind for [beneficiary]\" makes it emotional, not just financial.",
      "The budget check — \"Does that feel comfortable for your monthly budget?\" — surfaces objections now, before the app.",
      "Guide, don't push. You present and go quiet. Their choice = their commitment."
@@ -2799,11 +3359,13 @@ const ACAD_LMS=[
      "Practice the pricing section and presenting the numbers three times so you get comfortable with the process."
     ],
     "status": "published",
-    "poster": "posters/2-6-2.jpg"
+    "poster": "posters/2-6-2.jpg",
+    "track": "while_dialing",
+    "videoNote": "In this video you'll hear Gold, Silver and Basic. We now call them Maximum Coverage, Recommended and Basic, the same three options the Script Navigator shows."
    },
    {
     "id": "2-6-3",
-    "order": 13,
+    "order": 11,
     "title": "Application & Banking (VET script §11)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/UJlQBhIYuiQ",
@@ -2828,11 +3390,12 @@ const ACAD_LMS=[
      "Open the E-App Completion Guide, do a quick review, and bookmark it for when you're taking your first apps."
     ],
     "status": "published",
-    "poster": "posters/2-6-3.jpg"
+    "poster": "posters/2-6-3.jpg",
+    "track": "while_dialing"
    },
    {
     "id": "2-6-4",
-    "order": 14,
+    "order": 12,
     "title": "Approval & Underwriting Outcomes (VET script §12)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/Xd6kLGx6y-I",
@@ -2848,11 +3411,12 @@ const ACAD_LMS=[
      "Practice transitioning from one product to the next when a client doesn't qualify. It will happen on a live call at some point — get comfortable with how you'll transition so you stay calm and unshaken every time."
     ],
     "status": "published",
-    "poster": "posters/2-6-4.jpg"
+    "poster": "posters/2-6-4.jpg",
+    "track": "while_dialing"
    },
    {
     "id": "2-6-5",
-    "order": 15,
+    "order": 13,
     "title": "Wrap-Up, Loyalty & Referrals (VET script §13)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/wkkppRiTHZs",
@@ -2874,22 +3438,26 @@ const ACAD_LMS=[
      "Protect them: DNC registry (freecallerregistry.com) + the free gift, Legacy Safeguard.",
      "Referral ask is warm and specific: \"who do you care about that would benefit?\" Then promise to carry the load.",
      "Have referrals TEXT first so you know who they are.",
-     "Persistency + referrals = a business, not a paycheck."
+     "Persistency + referrals = a business, not a paycheck.",
+     "Give them a picture so a name comes to mind: \"Who do you know who has grandkids they want to protect? Who just lost someone and saw what a funeral costs?\"",
+     "If they say \"no one,\" ask once more with a different picture before moving on."
     ],
     "doNext": [
      "Practice the referral ask out loud until it feels natural.",
      "Set yourself up with Legacy Safeguard so you're comfortable with that process going forward."
     ],
     "status": "published",
-    "poster": "posters/2-6-5.jpg"
+    "poster": "posters/2-6-5.jpg",
+    "track": "while_dialing"
    }
-  ]
+  ],
+  "asaCallout": "Attitude: The script feels weird because it's new, not because it's wrong. Run it 27 more times. (AC.2)"
  },
  {
-  "id": "deep-dive-objections",
-  "order": 6,
+  "id": "objections-deep-dive",
+  "order": 9,
   "title": "Deep Dive on Objections",
-  "summary": "The deeper objection game, closing stalls, and the hard drills.",
+  "summary": "",
   "lessons": [
    {
     "id": "2-7-1",
@@ -2908,7 +3476,8 @@ const ACAD_LMS=[
     ],
     "doNext": [],
     "status": "published",
-    "poster": "posters/2-7-1.jpg"
+    "poster": "posters/2-7-1.jpg",
+    "track": "while_dialing"
    },
    {
     "id": "2-7-2",
@@ -2933,7 +3502,8 @@ const ACAD_LMS=[
      "Review the Veteran Objections Cheat Sheet attached above — the closing half, the money stalls."
     ],
     "status": "published",
-    "poster": "posters/2-7-2.jpg"
+    "poster": "posters/2-7-2.jpg",
+    "track": "while_dialing"
    },
    {
     "id": "2-7-3",
@@ -2957,15 +3527,17 @@ const ACAD_LMS=[
      "Review and practice the closing objections using the Veteran Objections Cheat Sheet above."
     ],
     "status": "published",
-    "poster": "posters/2-7-3.jpg"
+    "poster": "posters/2-7-3.jpg",
+    "track": "while_dialing"
    }
-  ]
+  ],
+  "asaCallout": "Attitude: It just is. Same event, different story. (A.4)"
  },
  {
-  "id": "how-we-get-paid",
-  "order": 7,
-  "title": "How We Get Paid",
-  "summary": "Advances, chargebacks, your flat rate, and production raises.",
+  "id": "how-we-get-paid-compliance",
+  "order": 10,
+  "title": "How We Get Paid & Compliance",
+  "summary": "",
   "lessons": [
    {
     "id": "gp-1",
@@ -2978,29 +3550,31 @@ const ACAD_LMS=[
       "label": "Compensation Grid",
       "type": "link",
       "url": "https://drive.google.com/file/d/1w4ZNu10uKH44yC1GrD1FdjguYJLCA7Mx/view"
+     },
+     {
+      "label": "Chargebacks, Explained — the written version",
+      "type": "link",
+      "url": "https://tools.ffloptimum.com/chargebacks/"
      }
-    ,
-  {
-   "label": "Chargebacks, Explained \u2014 the written version",
-   "type": "link",
-   "url": "https://tools.ffloptimum.com/chargebacks/"
-  }
- ],
+    ],
     "keyTakeaways": [
      "You're paid on advance — when the policy issues and the first payment drafts, the carrier fronts most of the first-year commission upfront.",
      "The math (most carriers): advanced 75%. You get 9 of the first 12 months upfront; months 10–12 pay as-earned. Total = 100% of first-year commission, just front-loaded.",
      "The advance is essentially an unsecured loan — the company fronts you unearned money, betting the policy sticks. You \"repay\" it by the policy staying on the books.",
      "Chargeback = the unearned advance taken back if the policy lapses/cancels early. Not a punishment — the loan getting called.",
      "Persistency = % of your book that stays on the books; a good closer keeps ~80–85%. Lock-downs + serving the real why protect it.",
-     "Two rules: keep a buffer from every advance; kill chargebacks by selling policies that stick."
+     "Two rules: keep a buffer from every advance; kill chargebacks by selling policies that stick.",
+     "Run it like a business: deposits go to your business account, and lead spend is a business expense.",
+     "Pay yourself the minimum you need, not the maximum you want, until the business has a cushion."
     ],
     "doNext": [
      "Keep a buffer from your advances — don't spend it all as if it's earned.",
      "Review your own persistency monthly; treat every chargeback as a lesson in what didn't stick.",
-     "Attend New Agent Orientation if you haven't yet — <a href=\"http://newagent.fflall.com/\" target=\"_blank\" rel=\"noopener\">newagent.fflall.com<\/a> (Saturdays 10 AM EST)"
+     "Attend New Agent Orientation if you haven't yet — <a href=\"http://newagent.fflall.com/\" target=\"_blank\" rel=\"noopener\">newagent.fflall.com</a> (Saturdays 10 AM EST)"
     ],
     "status": "published",
-    "poster": "posters/gp-1.jpg"
+    "poster": "posters/gp-1.jpg",
+    "track": "while_dialing"
    },
    {
     "id": "gp-2",
@@ -3048,7 +3622,8 @@ const ACAD_LMS=[
      "Plan out your income with the Income Calculator above to see how many policies you'll want to write per week."
     ],
     "status": "published",
-    "poster": "posters/gp-2.jpg"
+    "poster": "posters/gp-2.jpg",
+    "track": "while_dialing"
    },
    {
     "id": "gp-3",
@@ -3073,19 +3648,12 @@ const ACAD_LMS=[
      "Bring your comp questions to New Agent Orientation."
     ],
     "status": "published",
-    "poster": "posters/gp-3.jpg"
-   }
-  ]
- },
- {
-  "id": "compliance-ethics",
-  "order": 8,
-  "title": "Compliance & Ethics",
-  "summary": "The rules that protect your license and the client.",
-  "lessons": [
+    "poster": "posters/gp-3.jpg",
+    "track": "while_dialing"
+   },
    {
     "id": "ce-1",
-    "order": 1,
+    "order": 4,
     "title": "Compliance & Ethics: Protect the Client and Yourself",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/AJsKL8eUy_M",
@@ -3096,159 +3664,27 @@ const ACAD_LMS=[
      "DNC: respect Do Not Call; text codes only to the client's own matching phone number.",
      "Illustrations (esp. IUL): never oversell projected returns; show conservative, explain floor/cap.",
      "Never misrepresent, forge, or rush a client.",
-     "Red flags (from our leaders): 40K first month gets audited; don't buy pre-closed leads from DMs; text codes only to the matching number."
+     "Red flags (from our leaders): a big first month (think $40K+) can trigger a carrier audit. That's fine; just make sure every app is clean and every client is real. Don't buy pre-closed leads from DMs, and text codes only to the matching number."
     ],
     "doNext": [
      "On every sale, always ask yourself: is this the right solution for this client, and do I feel confident they can afford it and will keep it?"
     ],
     "status": "published",
-    "poster": "posters/ce-1.jpg"
+    "poster": "posters/ce-1.jpg",
+    "track": "while_dialing"
    }
-  ]
+  ],
+  "asaCallout": "Activity: Take the minimum you need, not the maximum you want. Keep the business funded. (GP.1)"
  },
  {
-  "id": "shadow-go-live",
-  "order": 9,
-  "title": "Shadow & Go Live",
-  "summary": "Learn in the live dial room; earn your way to solo.",
+  "id": "build-your-future",
+  "order": 11,
+  "title": "Build Your Future",
+  "summary": "Social, recruiting-as-referral, and identity.",
   "lessons": [
-   {
-    "id": "3-1",
-    "order": 1,
-    "title": "Shadowing via Live Dials + the Release Ladder",
-    "videoTargetSeconds": 120,
-    "videoEmbedUrl": "https://youtu.be/QRiNakQ6wf0",
-    "assets": [
-     {
-      "label": "Cleared to Dial — New-Agent Checklist",
-      "type": "download",
-      "url": "https://portal.ffloptimum.com/cleared-to-dial-checklist.pdf"
-     }
-    ],
-    "keyTakeaways": [
-     "Live dials run all day, every day — treat the room as your primary training ground.",
-     "Word track from the script: \"you should always dial and be off mute when on a call.\"",
-     "The Release Ladder: (1) Listen (days 1–3), (2) Shadow + mark up (days 3–5), (3) Off mute once contracted, (4) Supervised first calls, (5) Released to solo.",
-     "Objection windows are at 1pm and 8pm — bring 5–10 real examples.",
-     "The solo gate is behavioral, not calendar-based: full script + core objections, unaided."
-    ],
-    "doNext": [
-     "Join today's dial session off mute, script in hand.",
-     "Write down the objections you hear clients give during live dials and presentations, then later practice how you'd have handled each one using the script and what you're learning as you listen."
-    ],
-    "status": "published",
-    "poster": "posters/3-1.jpg"
-   }
-  ]
- },
- {
-  "id": "daily-machine",
-  "order": 10,
-  "title": "The Daily Machine",
-  "summary": "Schedule, the standard, the Winning System, referrals.",
-  "lessons": [
-   {
-    "id": "4-1",
-    "order": 1,
-    "title": "The Daily Schedule (Your Self-Built Office)",
-    "videoTargetSeconds": 120,
-    "videoEmbedUrl": "https://youtu.be/pLfyfXMGL-0",
-    "assets": [
-     {
-      "label": "Goal Card section",
-      "type": "link",
-      "url": "app:goalcard"
-     },
-     {
-      "label": "Daily Dial Tracker",
-      "type": "download",
-      "url": "https://portal.ffloptimum.com/optimum-dial-tracker.pdf"
-     }
-    ],
-    "keyTakeaways": [
-     "Daily template: script practice → dial block → objection windows (1pm/8pm) → evening dial block (catch East-Coast clients after 5pm).",
-     "30-second rule: anything longer than 30 seconds that isn't dialing or a client waits for end of day.",
-     "Track every night on your dial tracker.",
-     "Weekly rhythm: Daily 8am ET reading; Mon 12pm Builder's Call; Mon 6pm Agency Call/Sales Training; Tue 12pm Winning System; Thu 12pm SRS; Fri 12pm Shawn coaching."
-    ],
-    "doNext": [
-     "Build out a schedule of when you believe you'll be able to work — then go over it with your mentor on your strategy call."
-    ],
-    "status": "published",
-    "poster": "posters/4-1.jpg"
-   },
-   {
-    "id": "4-2",
-    "order": 2,
-    "title": "The Standard: A Sale a Day",
-    "videoTargetSeconds": 120,
-    "videoEmbedUrl": "https://youtu.be/J3pGuEkMFDQ",
-    "assets": [
-     {
-      "label": "Goal Card",
-      "type": "link",
-      "url": "app:goalcard"
-     }
-    ],
-    "keyTakeaways": [
-     "The ramp: Month 1 → $10K, Month 2 → $20K, Month 3 → $30K in AP.",
-     "A sale a day is the non-negotiable under the monthly target.",
-     "Land the first sale early to kill end-of-day pressure and play loose.",
-     "Kyle: \"Don't get comfortable after one — go get five.\"",
-     "Reframes: \"you just haven't found your buyer yet\" and swap \"I missed my goal\" for \"I got better and I'm closer.\"",
-     "Early-days scoreboard: \"did I get better today,\" not just the number."
-    ],
-    "doNext": [],
-    "status": "published",
-    "poster": "posters/4-2.jpg"
-   },
-   {
-    "id": "4-3",
-    "order": 3,
-    "title": "The Winning System",
-    "videoTargetSeconds": 0,
-    "videoEmbedUrl": "",
-    "assets": [
-     {
-      "label": "Winning System presentation video",
-      "type": "link",
-      "url": ""
-     },
-     {
-      "label": "Save the Tuesday call to your calendar — downloads a file, open it to add",
-      "type": "link",
-      "url": "js:m5AddWinSystem"
-     },
-     {
-      "label": "Join GOATLeads page (no cost to join)",
-      "type": "link",
-      "url": "https://goatleads.com/registration/new?affiliate_id=66c4aa379e0123651ad2f0e6"
-     },
-     {
-      "label": "Leads landing page",
-      "type": "link",
-      "url": "app:leads"
-     }
-    ],
-    "keyTakeaways": [
-     "Lead types: aged/$1 (where you start), fresh/real-time (higher intent), plus direct mail, telemarketed, Facebook/internet, referrals, and your own warm market.",
-     "You manage all your leads in GoatLeads.",
-     "Leads are PERISHABLE — work fresh leads fast, triple-dialing across the first 48 hours. Sitting on a lead is money thrown away.",
-     "The ramp skeleton: Month 1 — $500/week on aged ($1) leads; Month 2 — $500 aged + $500 fresh; Month 3 — $500 aged + $1,000 fresh → $30K.",
-     "Keep scaling by reinvesting while holding comfortable close and show ratios.",
-     "Your only two metrics: CPA (cost per acquisition) and what you keep.",
-     "It's taught LIVE every Tuesday at 12pm ET — attend it. The video is the full presentation; the live call is where current numbers and ratios get worked."
-    ],
-    "doNext": [
-     "Add the Tuesday Winning System call to your calendar — tap the button above. It downloads a small calendar file; open that download and the weekly 12pm ET call saves itself, with a reminder ten minutes before.",
-     "Once you've finished this, head to the Leads page to join GOAT, register where you buy leads, and pick your strategy."
-    ],
-    "status": "coming_soon",
-    "poster": "posters/4-3.jpg"
-   },
    {
     "id": "4-4",
-    "order": 4,
+    "order": 1,
     "title": "Referrals That Compound",
     "videoTargetSeconds": 75,
     "videoEmbedUrl": "https://youtu.be/KtMSOUd46A4",
@@ -3260,19 +3696,12 @@ const ACAD_LMS=[
     ],
     "doNext": [],
     "status": "published",
-    "poster": "posters/4-4.jpg"
-   }
-  ]
- },
- {
-  "id": "build-your-future",
-  "order": 11,
-  "title": "Build Your Future",
-  "summary": "Social, recruiting-as-referral, and identity.",
-  "lessons": [
+    "poster": "posters/4-4.jpg",
+    "track": "while_dialing"
+   },
    {
     "id": "5-1",
-    "order": 1,
+    "order": 2,
     "title": "Social Media: Your Modern Résumé",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtube.com/shorts/CRSADN81wiA",
@@ -3282,7 +3711,10 @@ const ACAD_LMS=[
      "One post a day — value-based only: your take on the opportunity, leadership, and selling. No dances, no memes.",
      "Same discipline as dialing: show up daily, regardless of yesterday.",
      "Good-news campaign in stories: a deal, the gym, community wins. Convert the best into permanent highlights.",
-     "It compounds slowly — expect months, not weeks. Tanner started at 700 followers and just showed up."
+     "It compounds slowly — expect months, not weeks. Tanner started at 700 followers and just showed up.",
+     "Weekly standard (Ronnie Salem): 3–5 reels a week and 8–12 stories a day, half your own and half reshares of teammates' wins.",
+     "Find your message with 5 questions (Stan Smith): What did you go through? What are you going through? What do you want to go through? What will you achieve? What have you already achieved?",
+     "Not a camera person? Start with stories and reshares. Stan hired a cameraman because he hated being on camera."
     ],
     "doNext": [
      "Post your first value-based piece today.",
@@ -3290,11 +3722,12 @@ const ACAD_LMS=[
     ],
     "status": "published",
     "poster": "posters/5-1.jpg",
-    "portrait": true
+    "portrait": true,
+    "track": "while_dialing"
    },
    {
     "id": "5-2",
-    "order": 2,
+    "order": 3,
     "title": "Recruit From Day One (as a Referral)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtube.com/shorts/txcPfzVu9ao",
@@ -3314,7 +3747,10 @@ const ACAD_LMS=[
      "Cost check: a real recruiting conversation is ~5 minutes + a text. There is no schedule split — always selling, always recruiting.",
      "The priority rule (hard): on with a client + recruit calls → don't answer. On with a recruit + client calls back → answer.",
      "Building math to internalize now: 5 agents x $15K x 25% spread ≈ $17K/month passive.",
-     "Biggest regret of builders: waiting too long to refer."
+     "Biggest regret of builders: waiting too long to refer.",
+     "Start with the first 5 who come to mind: people you know are disciplined, coachable, and have good morals (Ronnie Salem).",
+     "Or throw the hook: \"I'm looking for someone who works hard and doesn't feel like they're where they need to be in life. Anyone come to mind?\"",
+     "Handing a prospect to your manager? Fact, fact, heart: \"[Prospect], meet [Manager]. [Fact]. [Fact]. [Why I trust them]. You two should talk.\" Then step back."
     ],
     "doNext": [
      "List three people who need this opportunity — today, before you feel ready.",
@@ -3324,11 +3760,12 @@ const ACAD_LMS=[
     ],
     "status": "published",
     "poster": "posters/5-2.jpg",
-    "portrait": true
+    "portrait": true,
+    "track": "while_dialing"
    },
    {
     "id": "5-2b",
-    "order": 3,
+    "order": 4,
     "title": "The Five-Minute Recruiting Conversation",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtube.com/shorts/8y65W93OYL0",
@@ -3356,35 +3793,14 @@ const ACAD_LMS=[
     ],
     "status": "published",
     "poster": "posters/5-2b.jpg",
-    "portrait": true
-   },
-   {
-    "id": "5-3",
-    "order": 4,
-    "title": "Identity & Longevity",
-    "videoTargetSeconds": 120,
-    "videoEmbedUrl": "https://youtube.com/shorts/pmMw3_Ve5uM",
-    "assets": [],
-    "keyTakeaways": [
-     "Work from identity, not toward things: Provider, Protector, Leader.",
-     "Set 2–5 year expectations, not 90 days. This is compound interest — most quit right before it pays.",
-     "Guard your environment: take problems to producers, not complainers. \"Successful people won't validate your feelings; negative people will.\"",
-     "Profitability over volume — it's about what you keep, not what you write.",
-     "Self-reliance. Own your outcomes.",
-     "Identity ladder: employee → entrepreneur → empire builder. \"Become more to do more.\""
-    ],
-    "doNext": [
-     "Write your 3-year number and tape it where you dial.",
-     "Name one producer you'll take problems to — and one complainer you'll stop venting to."
-    ],
-    "status": "published",
-    "poster": "posters/5-3.jpg",
-    "portrait": true
+    "portrait": true,
+    "track": "while_dialing"
    }
-  ]
+  ],
+  "asaCallout": "Attitude: Preach it, act it, become it. (A.6)"
  },
  {
-  "id": "product-tracks",
+  "id": "product-tracks-later",
   "order": 12,
   "title": "Product Tracks (later)",
   "summary": "Short intros to Mortgage, Inbound, and IUL. Coming soon.",
@@ -3412,7 +3828,8 @@ const ACAD_LMS=[
     "doNext": [
      "File the concept away. Keep your focus on VFE mastery — the full mortgage-protection track unlocks when you're ready."
     ],
-    "status": "coming_soon"
+    "status": "coming_soon",
+    "track": "while_dialing"
    },
    {
     "id": "6-2",
@@ -3432,7 +3849,8 @@ const ACAD_LMS=[
     "doNext": [
      "Note the difference between outbound and inbound in your own words. Keep sharpening your core VFE close — inbound rides on those same reps."
     ],
-    "status": "coming_soon"
+    "status": "coming_soon",
+    "track": "while_dialing"
    },
    {
     "id": "6-3",
@@ -3451,14 +3869,17 @@ const ACAD_LMS=[
      "Later track — pursue after VFE mastery. Full IUL training is its own track.",
      "What it is: the wealth-building product — tax-free growth, living benefits, \"be your own bank.\"",
      "Bridge is built in: the VFE script's \"4th option\" nudges healthy clients toward IUL.",
-     "The one exception to one-call close: high-dollar IUL moves to a Zoom — the IUL script's \"Path A+++.\" Everything else still closes on the call."
+     "The one exception to one-call close: high-dollar IUL moves to a Zoom — the IUL script's \"Path A+++.\" Everything else still closes on the call.",
+     "Have an IUL prospect now? Bring it to Jesse; he'll run the case with you."
     ],
     "doNext": [
      "Notice the \"4th option\" the next time you run the VFE script — that's your IUL seed. Stay locked on VFE fundamentals until the full IUL track opens."
     ],
-    "status": "coming_soon"
+    "status": "coming_soon",
+    "track": "while_dialing"
    }
-  ]
+  ],
+  "asaCallout": "Schedule: Master VFE first. The next track opens when your Winning Week is running. (S.2)"
  },
  {
   "id": "outstanding-coming-soon",
@@ -3467,7 +3888,7 @@ const ACAD_LMS=[
   "summary": "Planned sections not built yet.",
   "lessons": [
    {
-    "id": "health-insurance",
+    "id": "hi",
     "order": 1,
     "title": "Health Insurance (Group / Champ) — Coming Soon (placeholder)",
     "videoTargetSeconds": 0,
@@ -3480,7 +3901,8 @@ const ACAD_LMS=[
     "doNext": [
      "Nothing yet — this section is coming. Stay focused on VFE."
     ],
-    "status": "coming_soon"
+    "status": "coming_soon",
+    "track": "while_dialing"
    }
   ]
  }
@@ -3497,17 +3919,80 @@ function acadIsCS(l){return l&&l.status==='coming_soon';}
    videos have landed, and only the people who ticked BEFORE the release date
    get told. Every tick is stored as an ISO timestamp, so that comparison is
    free. ---------------------------------------------------------------------*/
-var ACAD_NEW={'5-1':1,'5-2':1,'5-2b':1,'5-3':1};
-var ACAD_NEW_AT='2026-09-15T00:00:00.000Z';
-function acadIsNew(id){ return !!ACAD_NEW[id]; }
+/* What changed in this release, and why each lesson changed. The kind matters:
+   an agent who ticked a lesson complete before this date saw something different
+   from what is there now, and the four kinds are different enough that one
+   sentence cannot honestly cover them.
+     new    - the lesson did not exist before
+     gained - the lesson existed with no video and now has one
+     redone - the lesson had a video and it was re-recorded
+     text   - same video, rewritten takeaways or next steps                      */
+var ACAD_NEW={'2-1':'text','2-2':'text','2-2-2':'text','2-3':'text','2-4-0':'text','2-4-1':'text','2-4-2':'text','2-5-3':'text','2-5-4':'text','2-6-1':'redone','2-6-2':'text','2-6-5':'text','3-1':'redone','4-3':'gained','5-1':'text','5-2':'text','5-3':'text','a-1':'new','a-2':'new','a-3':'new','a-4':'new','a-5':'new','a-6':'new','ac-1':'new','ac-2':'new','ac-3':'new','ce-1':'text','gp-1':'text','s-1':'new','s-2':'new'};
+var ACAD_NEW_AT='2026-10-29T00:00:00.000Z';
+function acadIsNew(id){ return ACAD_NEW[id]||''; }
+function acadNewLabel(id){ var k=ACAD_NEW[id]; return k?(k==='text'?'Updated':'New'):''; }
 function acadTickedBlind(id){
   try{ var v=(store.data.checks||{})['acad_'+id];
        return (typeof v==='string') && v < ACAD_NEW_AT; }catch(e){ return false; }
 }
+/* Lessons this agent ticked off before the change landed, grouped by what changed,
+   so the note on the Academy home page can say something true about each group. */
 function acadBlindList(){ return Object.keys(ACAD_NEW).filter(acadTickedBlind); }
+function acadBlindGroups(){
+  var g={'new':[],'gained':[],'redone':[],'text':[]};
+  acadBlindList().forEach(function(id){ (g[ACAD_NEW[id]]||[]).push(id); });
+  return g;
+}
+/* The note an agent meets on the Academy home page after a release. It only ever
+   mentions lessons THIS agent had already ticked off before the change, because
+   those are the only ones where their tick no longer means what it meant. Each
+   group gets its own sentence: a lesson that gained its first video is a
+   different story from one whose video was re-recorded under them, and that is
+   a different story again from a page whose takeaways were rewritten. The old
+   copy said "4 lessons now have their videos" for all of it, which would be
+   untrue for two thirds of this release. */
+function acadNewsBox(){
+  var g=acadBlindGroups();
+  var txt=g['text'];
+  if(!g['gained'].length && !g['redone'].length && !txt.length) return '';
+  function links(ids){ return '<div class="acad-newslist">'+ids.map(function(id){
+      var f=acadAllLessons().filter(function(x){return x.les.id===id;})[0];
+      return f?('<button type="button" onclick="acadGoLes(\''+f.mod.id+'\',\''+f.les.id+'\')">'+f.les.title+' \u203a</button>'):'';
+    }).join('')+'</div>'; }
+  var out='<div class="acad-newsbox"><div class="t">\u2728 What changed since you finished these</div>';
+  out+='<p>Your progress is untouched and your certificate stands. These are just the ones worth a second look.</p>';
+  if(g['gained'].length) out+='<div class="grp"><b>Now has its video.</b> You ticked this off while the video was still on the way.</div>'+links(g['gained']);
+  if(g['redone'].length) out+='<div class="grp"><b>Re-recorded.</b> The video you watched here has been replaced with a new one.</div>'+links(g['redone']);
+  if(txt.length) out+='<div class="grp"><b>Updated takeaways and next steps.</b> Same video, rewritten page. Any new step starts unticked \u2014 that is why, not because your progress was lost.</div>'+links(txt);
+  return out+'</div>';
+}
 function acadFindMod(id){return ACAD_LMS.find(function(m){return m.id===id;});}
 function acadModProgress(m){var pub=m.lessons.filter(function(l){return !acadIsCS(l);});var d=pub.filter(function(l){return acadDone(l.id);}).length;return {done:d,total:pub.length,pct:pub.length?Math.round(d/pub.length*100):0};}
 function acadCourseProgress(){var d=0,t=0;ACAD_LMS.forEach(function(m){m.lessons.forEach(function(l){if(acadIsCS(l))return;t++;if(acadDone(l.id))d++;});});return {done:d,total:t,pct:t?Math.round(d/t*100):0};}
+/* Clear to Dial is the gate before an agent's first live call, so it gets its own
+   number. A library percentage creeping up while the 21 required lessons sit
+   unfinished tells an agent the opposite of what they need to hear. Coming Soon
+   counts in neither, as it never has. */
+function acadTrackProgress(tr){var d=0,t=0;ACAD_LMS.forEach(function(m){m.lessons.forEach(function(l){
+  if(acadIsCS(l)||l.track!==tr)return;t++;if(acadDone(l.id))d++;});});
+  return {done:d,total:t,pct:t?Math.round(d/t*100):0};}
+function acadCTD(){return acadTrackProgress('clear_to_dial');}
+function acadLib(){return acadTrackProgress('while_dialing');}
+function acadTrackBadge(l){if(acadIsCS(l))return '';
+  return l.track==='clear_to_dial'?'<span class="acad-trk ctd">Clear to Dial</span>'
+       :(l.track==='while_dialing'?'<span class="acad-trk wd">While Dialing</span>':'');}
+/* The 21-step path, read off the lesson data so it cannot drift from the course
+   the way a hand-maintained list would. */
+function acadPathView(){var n=0;var rows=acadAllLessons().filter(function(x){return x.les.track==='clear_to_dial';})
+   .map(function(x){n++;var d=!acadIsCS(x.les)&&acadDone(x.les.id);
+     return '<div class="acad-pathrow" onclick="acadGoLes(\''+x.mod.id+'\',\''+x.les.id+'\')">'
+       +'<div class="acad-pathnum'+(d?' done':'')+'">'+(d?'\u2713':n)+'</div>'
+       +'<div class="acad-pathtitle">'+x.les.title+'</div><div class="acad-chev">\u203a</div></div>';}).join('');
+  var cp=acadCTD();
+  var _cs=acadAllLessons().filter(function(x){return x.les.track==='clear_to_dial'&&acadIsCS(x.les);}).length;
+  return '<div class="acad-path"><div class="acad-pathhead">Your Path \u2014 Clear to Dial</div>'
+    +'<p class="acad-pathsub">The lessons to finish before your first live call. '+cp.done+' of '+cp.total+' done'+(_cs?(' \u00b7 '+_cs+' still coming soon, '+(_cs===1?'it does':'they do')+' not hold you up'):'')+'.</p>'
+    +rows+'<div class="acad-pathend">Then: your Strategy Call, then the live dial room. After that, Learn While Dialing \u2014 the full library, in your first 30 days.</div></div>';}
 function acadAllLessons(){var o=[];ACAD_LMS.forEach(function(m){m.lessons.forEach(function(l){o.push({mod:m,les:l});});});return o;}
 function acadNext(a,b){var f=acadAllLessons();var i=f.findIndex(function(x){return x.mod.id===a&&x.les.id===b;});return (i>=0&&i<f.length-1)?f[i+1]:null;}
 function acadPrev(a,b){var f=acadAllLessons();var i=f.findIndex(function(x){return x.mod.id===a&&x.les.id===b;});return i>0?f[i-1]:null;}
@@ -3515,7 +4000,14 @@ function acadLen(l){if(acadIsCS(l)||!l.videoTargetSeconds)return 'Coming soon';v
 function acadGoHome(){m5acad={view:'home',mod:null,les:null};m5acadQuery='';render('academy');window.scrollTo(0,0);}
 function acadGoMod(id){m5acad={view:'module',mod:id,les:null};render('academy');window.scrollTo(0,0);}
 function acadGoLes(a,b){m5acad={view:'lesson',mod:a,les:b};store.data.acadLast={mod:a,les:b};store.save();render('academy');window.scrollTo(0,0);}
-function acadToggleDo(les,i){var k='acaddo_'+les+'_'+i;store.data.checks[k]=store.data.checks[k]?false:(new Date()).toISOString();store.save();render('academy');}
+/* Do-next ticks are keyed by position in the array, so rewriting a lesson's steps
+   would leave an old tick pointing at a new instruction and show it as done. When
+   a lesson's steps are rewritten we bump its dnRev instead, which moves it to a
+   fresh key space. No tick is ever deleted -- the old keys stay in the store,
+   untouched, and the agent simply sees the new steps unticked. Lesson completion
+   and every progress bar are keyed on acad_<id> and are not affected either way. */
+function acadDoKey(l,i){var r=(l&&l.dnRev)||1;return 'acaddo_'+(l&&l.id)+(r>1?('v'+r):'')+'_'+i;}
+function acadToggleDo(les,i){var _f=acadAllLessons().filter(function(x){return x.les.id===les;})[0];var k=acadDoKey(_f?_f.les:{id:les},i);store.data.checks[k]=store.data.checks[k]?false:(new Date()).toISOString();store.save();render('academy');}
 function acadMarkComplete(a,b){var _m=acadFindMod(a);var _l=_m&&_m.lessons.find(function(x){return x.id===b;});if(acadIsCS(_l))return;var k=acadKey(b);var was=!!store.data.checks[k];store.data.checks[k]=was?false:(new Date()).toISOString();store.save();if(!was){var m=acadFindMod(a);if(m&&acadModProgress(m).pct===100)m5Confetti();var n=acadNext(a,b);if(n){acadGoLes(n.mod.id,n.les.id);return;}}render('academy');}
 function acadDoSearch(q){m5acadQuery=q;var grid=document.getElementById('acad-modgrid'),res=document.getElementById('acad-results');if(!grid||!res)return;if(!q||!q.trim()){grid.style.display='';res.innerHTML='';return;}grid.style.display='none';var ql=q.toLowerCase();var hits=acadAllLessons().filter(function(x){return x.les.title.toLowerCase().indexOf(ql)>=0||(x.les.keyTakeaways||[]).join(' ').toLowerCase().indexOf(ql)>=0;});res.innerHTML=hits.length?hits.map(function(x){return '<div class="acad-result" onclick="acadGoLes(\''+x.mod.id+'\',\''+x.les.id+'\')"><div class="acad-result-t">'+x.les.title+(acadDone(x.les.id)?' <span class="acad-modcomplete">✓</span>':'')+'</div><div class="acad-result-m">'+x.mod.title+'</div></div>';}).join(''):'<div class="acad-empty">No lessons match that search.</div>';}
 function acadYtId(u){var m=(u||'').match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|shorts\/|embed\/))([\w-]+)/);return m?m[1]:'';}
@@ -3552,9 +4044,9 @@ function m5DrawCert(cb){
 }
 function m5CertMount(){var img=document.getElementById('m5certimg');if(!img||img.getAttribute('data-done'))return;img.setAttribute('data-done','1');m5DrawCert(function(u){img.src=u;});}
 window.m5DownloadCert=function(){function dl(u){var a=document.createElement('a');a.href=u;a.download='Optimum-Academy-Certificate.png';document.body.appendChild(a);a.click();a.remove();if(typeof toast==='function')toast('Certificate downloaded 🎉');}if(m5CertURL)dl(m5CertURL);else m5DrawCert(dl);};
-function acadHomeView(){var cp=acadCourseProgress();/* Once earned, always earned. If the Academy grows later, the percentage can dip below 100 -- the certificate does not come back off the wall. */var cert=(cp.pct>=100||store.data.t_acadDone)?'<div class="m5-certcard"><div class="m5-certtitle">🎉 Congratulations — you completed Optimum Academy!</div><div class="m5-certframe"><img id="m5certimg" class="m5-certimg" alt="Optimum Academy Certificate of Completion"></div><div style="text-align:center;margin-top:14px"><button class="m5-goldbtn" onclick="m5DownloadCert()">⬇ Download your certificate</button></div><div class="m5-certfine">Your name and completion date are already on it — save it, print it, or share your win.</div></div>':'';var _blind=acadBlindList();var newsbox=_blind.length?('<div class="acad-newsbox"><div class="t">\u2728 New: 4 lessons now have their videos</div><p>You marked '+(_blind.length===1?'one of these':'these')+' complete back when the videos were still on the way, so your progress is untouched and your certificate stands. The videos are up now \u2014 worth the ten minutes.</p><div class="acad-newslist">'+_blind.map(function(id){  var f=acadAllLessons().filter(function(x){return x.les.id===id;})[0];  return f?('<button type="button" onclick="acadGoLes(\''+f.mod.id+'\',\''+f.les.id+'\')">'+f.les.title+' \u203a</button>'):'';}).join('')+'</div></div>'):'';var last=store.data.acadLast;var resume=(last&&acadFindMod(last.mod))?'<button class="acad-resume" onclick="acadGoLes(\''+last.mod+'\',\''+last.les+'\')">▶ Resume where you left off</button>':'';var cards=ACAD_LMS.map(function(m,i){var p=acadModProgress(m);var allCS=(p.total===0);var done=(!allCS&&p.pct===100);var body=allCS?('<div class="acad-modcs">Coming Soon</div>'):('<div class="acad-modbar"><span style="width:'+p.pct+'%"></span></div><div class="acad-modmeta">'+p.done+' / '+p.total+' lessons · '+p.pct+'%</div>');return '<div class="acad-modcard" onclick="acadGoMod(\''+m.id+'\')"><div class="acad-modnum'+(done?' done':'')+'">'+(done?'✓':(i+1))+'</div><div class="acad-modbody"><div class="acad-modtitle">'+m.title+'</div><div class="acad-modsum">'+m.summary+'</div>'+body+'</div><div class="acad-chev">›</div></div>';}).join('');return '<h1 class="page">🎓 Optimum Academy</h1><p class="sub">New Agent Onboarding — your complete training course. Jump in anywhere; your progress saves as you go.</p>'+cert+'<div class="acad-topbar">'+resume+'<input id="acad-search" class="acad-search" placeholder="🔎 Search lessons…" oninput="acadDoSearch(this.value)"></div><div class="acad-course-prog"><div class="acad-cp-lab"><span>Course progress</span><span>'+cp.pct+'%</span></div><div class="acad-cp-bar"><span style="width:'+cp.pct+'%"></span></div></div><div id="acad-results"></div>'+newsbox+'<div id="acad-modgrid" class="acad-modgrid">'+cards+'</div>';}
-function acadModuleView(id){var m=acadFindMod(id);if(!m)return acadHomeView();var p=acadModProgress(m);var rows=m.lessons.map(function(l,i){var cs=acadIsCS(l);var d=!cs&&acadDone(l.id);var mark=cs?'<div class="acad-lescheck cs">'+(i+1)+'</div>':'<div class="acad-lescheck'+(d?' done':'')+'">'+(d?'✓':(i+1))+'</div>';var pill=cs?'<span class="acad-cspill">Coming Soon</span>':(acadIsNew(l.id)?'<span class="acad-newpill">New</span>':'');return '<div class="acad-lesrow" onclick="acadGoLes(\''+m.id+'\',\''+l.id+'\')">'+mark+'<div class="acad-lestitle">'+l.title+pill+'</div><div class="acad-leslen">'+acadLen(l)+'</div><div class="acad-chev">›</div></div>';}).join('');return '<div class="acad-crumb"><a onclick="acadGoHome()">🎓 Optimum Academy</a> › '+m.title+'</div><h1 class="page">'+m.title+'</h1><p class="sub">'+m.summary+'</p><div class="acad-course-prog"><div class="acad-cp-lab"><span>Module progress</span><span>'+p.pct+'%</span></div><div class="acad-cp-bar"><span style="width:'+p.pct+'%"></span></div></div><div class="acad-leslist">'+rows+'</div>';}
-function acadLessonView(a,b){var m=acadFindMod(a);if(!m)return acadHomeView();var l=m.lessons.find(function(x){return x.id===b;});if(!l)return acadModuleView(a);var cs=acadIsCS(l);var done=!cs&&acadDone(l.id);var video=l.videoEmbedUrl?acadVideoBlock(l.videoEmbedUrl,l.poster):((cs&&l.poster)?acadCSPoster(l.poster):'<div class="acad-videophldr">🎥 Video coming soon</div>');var comingNote=cs?'<div class="acad-comingbox">⏳ <strong>Coming Soon.</strong> This lesson is on the way — the video and materials will be added here. It stays visible so you can see what is ahead, and it will not hold up your course completion.</div>':'';var kt=(l.keyTakeaways&&l.keyTakeaways.length)?'<div class="acad-sec"><h3>Key Takeaways</h3><ul class="acad-kt">'+l.keyTakeaways.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul></div>':'';var assets='';if(l.assets&&l.assets.length){assets='<div class="acad-sec"><h3>Assets</h3><div class="acad-assets">'+l.assets.map(function(x){var ic=x.type==='download'?'⬇':'🔗';if(x.url&&x.url.indexOf('js:')===0){return '<a class="acad-asset" style="cursor:pointer" onclick="'+x.url.slice(3)+'()">\u27a1 '+x.label+'</a>';}if(x.url&&x.url.indexOf('app:')===0){return '<a class="acad-asset" style="cursor:pointer" onclick="go(\''+x.url.slice(4)+'\')">➡ '+x.label+'</a>';}if(x.url)return '<a class="acad-asset" href="'+x.url+'" target="_blank" rel="noopener">'+ic+' '+x.label+'</a>';return '<span class="acad-asset coming">'+ic+' '+x.label+' — coming soon</span>';}).join('')+'</div></div>';}var dn='';if(l.doNext&&l.doNext.length){dn='<div class="acad-sec"><h3>Do This Next</h3><div class="acad-donext">'+l.doNext.map(function(t,i){var c=!!store.data.checks['acaddo_'+l.id+'_'+i];return '<div class="acad-dn'+(c?' done':'')+'" onclick="acadToggleDo(\''+l.id+'\','+i+')"><div class="acad-dnbox">'+(c?'✓':'')+'</div><div class="acad-dntext">'+t+'</div></div>';}).join('')+'</div></div>';}var n=acadNext(a,b),pv=acadPrev(a,b);var nav='<div class="acad-lesnav">'+(pv?'<button class="acad-navbtn" onclick="acadGoLes(\''+pv.mod.id+'\',\''+pv.les.id+'\')">‹ Previous</button>':'<span></span>')+(cs?'<span class="acad-markbtn cs">Coming Soon</span>':'<button class="acad-markbtn'+(done?' done':'')+'" onclick="acadMarkComplete(\''+a+'\',\''+b+'\')">'+(done?'✓ Completed':'Mark Complete')+'</button>')+(n?'<button class="acad-navbtn" onclick="acadGoLes(\''+n.mod.id+'\',\''+n.les.id+'\')">Next ›</button>':'<span></span>')+'</div>';var top='<div class="acad-lestop"><div class="acad-lesleft">'+video+comingNote+'</div><div class="acad-lesright">'+(kt||'')+'</div></div>';return '<div class="acad-crumb"><a onclick="acadGoHome()">🎓 Optimum Academy</a> › <a onclick="acadGoMod(\''+m.id+'\')">'+m.title+'</a></div><div class="acad-lestag">'+m.title+'</div><h1 class="page" style="margin:2px 0 2px">'+l.title+'</h1><p class="sub">'+acadLen(l)+'</p>'+top+assets+dn+nav;}
+function acadHomeView(){var cp=acadCourseProgress();/* Once earned, always earned. If the Academy grows later, the percentage can dip below 100 -- the certificate does not come back off the wall. */var cert=(cp.pct>=100||store.data.t_acadDone)?'<div class="m5-certcard"><div class="m5-certtitle">🎉 Congratulations — you completed Optimum Academy!</div><div class="m5-certframe"><img id="m5certimg" class="m5-certimg" alt="Optimum Academy Certificate of Completion"></div><div style="text-align:center;margin-top:14px"><button class="m5-goldbtn" onclick="m5DownloadCert()">⬇ Download your certificate</button></div><div class="m5-certfine">Your name and completion date are already on it — save it, print it, or share your win.</div></div>':'';var _ctd=acadCTD(),_lib=acadLib();var newsbox=acadNewsBox();var last=store.data.acadLast;var resume=(last&&acadFindMod(last.mod))?'<button class="acad-resume" onclick="acadGoLes(\''+last.mod+'\',\''+last.les+'\')">▶ Resume where you left off</button>':'';var cards=ACAD_LMS.map(function(m,i){var p=acadModProgress(m);var allCS=(p.total===0);var done=(!allCS&&p.pct===100);var body=allCS?('<div class="acad-modcs">Coming Soon</div>'):('<div class="acad-modbar"><span style="width:'+p.pct+'%"></span></div><div class="acad-modmeta">'+p.done+' / '+p.total+' lessons · '+p.pct+'%</div>');return '<div class="acad-modcard" onclick="acadGoMod(\''+m.id+'\')"><div class="acad-modnum'+(done?' done':'')+'">'+(done?'✓':(i+1))+'</div><div class="acad-modbody"><div class="acad-modtitle">'+m.title+'</div><div class="acad-modsum">'+m.summary+'</div>'+body+'</div><div class="acad-chev">›</div></div>';}).join('');return '<h1 class="page">🎓 Optimum Academy</h1><p class="sub">New Agent Onboarding — your complete training course. Jump in anywhere; your progress saves as you go.</p>'+cert+'<div class="acad-topbar">'+resume+'<input id="acad-search" class="acad-search" placeholder="🔎 Search lessons…" oninput="acadDoSearch(this.value)"></div><div class="acad-ctdprog"><div class="acad-cp-lab"><span>Clear to Dial — before your first live call</span><span>'+_ctd.done+' / '+_ctd.total+'</span></div><div class="acad-ctd-bar"><span style="width:'+_ctd.pct+'%"></span></div><div class="acad-ctdnote">'+(_ctd.pct>=100?'✓ You are cleared to dial.':'Finish these '+(_ctd.total-_ctd.done)+' and you are cleared to dial.')+'</div></div><div class="acad-course-prog"><div class="acad-cp-lab"><span>Learn While Dialing — the library</span><span>'+_lib.pct+'%</span></div><div class="acad-cp-bar"><span style="width:'+_lib.pct+'%"></span></div></div><div id="acad-results"></div>'+newsbox+'<div id="acad-modgrid" class="acad-modgrid">'+cards+'</div>';}
+function acadModuleView(id){var m=acadFindMod(id);if(!m)return acadHomeView();var p=acadModProgress(m);var rows=m.lessons.map(function(l,i){var cs=acadIsCS(l);var d=!cs&&acadDone(l.id);var mark=cs?'<div class="acad-lescheck cs">'+(i+1)+'</div>':'<div class="acad-lescheck'+(d?' done':'')+'">'+(d?'✓':(i+1))+'</div>';var _nl=acadNewLabel(l.id);var pill=cs?'<span class="acad-cspill">Coming Soon</span>':(_nl?('<span class="acad-newpill'+(_nl==='Updated'?' upd':'')+'">'+_nl+'</span>'):'');return '<div class="acad-lesrow" onclick="acadGoLes(\''+m.id+'\',\''+l.id+'\')">'+mark+'<div class="acad-lestitle">'+l.title+pill+acadTrackBadge(l)+'</div><div class="acad-leslen">'+acadLen(l)+'</div><div class="acad-chev">›</div></div>';}).join('');return '<div class="acad-crumb"><a onclick="acadGoHome()">🎓 Optimum Academy</a> › '+m.title+'</div><h1 class="page">'+m.title+'</h1><p class="sub">'+m.summary+'</p>'+(m.asaCallout?('<div class="acad-callout">'+m.asaCallout+'</div>'):'')+'<div class="acad-course-prog"><div class="acad-cp-lab"><span>Module progress</span><span>'+p.pct+'%</span></div><div class="acad-cp-bar"><span style="width:'+p.pct+'%"></span></div></div><div class="acad-leslist">'+rows+'</div>'+(m.id==='start-here'?acadPathView():'')+'';}
+function acadLessonView(a,b){var m=acadFindMod(a);if(!m)return acadHomeView();var l=m.lessons.find(function(x){return x.id===b;});if(!l)return acadModuleView(a);var cs=acadIsCS(l);var done=!cs&&acadDone(l.id);var video=l.videoEmbedUrl?acadVideoBlock(l.videoEmbedUrl,l.poster):((cs&&l.poster)?acadCSPoster(l.poster):'<div class="acad-videophldr">🎥 Video coming soon</div>');var comingNote=cs?'<div class="acad-comingbox">⏳ <strong>Coming Soon.</strong> This lesson is on the way — the video and materials will be added here. It stays visible so you can see what is ahead, and it will not hold up your course completion.</div>':'';var kt=(l.keyTakeaways&&l.keyTakeaways.length)?'<div class="acad-sec"><h3>Key Takeaways</h3><ul class="acad-kt">'+l.keyTakeaways.map(function(t){return '<li>'+t+'</li>';}).join('')+'</ul></div>':'';var assets='';if(l.assets&&l.assets.length){assets='<div class="acad-sec"><h3>Assets</h3><div class="acad-assets">'+l.assets.map(function(x){var ic=x.type==='download'?'⬇':'🔗';if(x.url&&x.url.indexOf('js:')===0){return '<a class="acad-asset" style="cursor:pointer" onclick="'+x.url.slice(3)+'()">\u27a1 '+x.label+'</a>';}if(x.url&&x.url.indexOf('app:')===0){return '<a class="acad-asset" style="cursor:pointer" onclick="go(\''+x.url.slice(4)+'\')">➡ '+x.label+'</a>';}if(x.url)return '<a class="acad-asset" href="'+x.url+'" target="_blank" rel="noopener">'+ic+' '+x.label+'</a>';return '<span class="acad-asset coming">'+ic+' '+x.label+' — coming soon</span>';}).join('')+'</div></div>';}var dn='';if(l.doNext&&l.doNext.length){dn='<div class="acad-sec"><h3>Do This Next</h3><div class="acad-donext">'+l.doNext.map(function(t,i){var c=!!store.data.checks[acadDoKey(l,i)];return '<div class="acad-dn'+(c?' done':'')+'" onclick="acadToggleDo(\''+l.id+'\','+i+')"><div class="acad-dnbox">'+(c?'✓':'')+'</div><div class="acad-dntext">'+t+'</div></div>';}).join('')+'</div></div>';}var n=acadNext(a,b),pv=acadPrev(a,b);var nav='<div class="acad-lesnav">'+(pv?'<button class="acad-navbtn" onclick="acadGoLes(\''+pv.mod.id+'\',\''+pv.les.id+'\')">‹ Previous</button>':'<span></span>')+(cs?'<span class="acad-markbtn cs">Coming Soon</span>':'<button class="acad-markbtn'+(done?' done':'')+'" onclick="acadMarkComplete(\''+a+'\',\''+b+'\')">'+(done?'✓ Completed':'Mark Complete')+'</button>')+(n?'<button class="acad-navbtn" onclick="acadGoLes(\''+n.mod.id+'\',\''+n.les.id+'\')">Next ›</button>':'<span></span>')+'</div>';var vidNote=l.videoNote?('<div class="acad-vidnote">'+l.videoNote+'</div>'):'';var top='<div class="acad-lestop"><div class="acad-lesleft">'+video+comingNote+vidNote+'</div><div class="acad-lesright">'+(kt||'')+'</div></div>';return '<div class="acad-crumb"><a onclick="acadGoHome()">🎓 Optimum Academy</a> › <a onclick="acadGoMod(\''+m.id+'\')">'+m.title+'</a></div><div class="acad-lestag">'+m.title+'</div><h1 class="page" style="margin:2px 0 2px">'+l.title+'</h1><p class="sub">'+acadLen(l)+'</p>'+top+assets+dn+nav;}
 (function(){if(typeof go!=='function')return;var _g=go;window.go=function(v){if(v==='academy'){m5acad={view:'home',mod:null,les:null};m5acadQuery='';}_g(v);};})();
 
 </script>
