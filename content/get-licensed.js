@@ -1,0 +1,9 @@
+[
+  {id:'u_plug',check:true,l:'Get plugged in',d:'Join the community: <a href="https://www.facebook.com/groups/fflnational/" target="_blank">Facebook</a> · <a href="https://chat.whatsapp.com/JAX77XU8xCCG9iW0AyUYng" target="_blank">WhatsApp</a> · <a href="https://discord.gg/9kYZSFvYF" target="_blank">Discord</a>. Select FFL National as your main team.'},
+  {id:'u_exam',check:true,l:'Schedule your exam (within 2 weeks)',d:'<a href="https://partners.xcelsolutions.com/insurance-license/requirements?partner=fflnational-hkr597" target="_blank">Schedule / testing requirements →</a> Then text your recruiter a screenshot of your test date.<div class="m5-exam"><label for="u-examdate">My exam is booked for</label><input type="date" id="u-examdate" value="__EXAMDATE__" onchange="m5SetExamDate(this.value)"></div>'},
+  {id:'u_course',check:true,l:'Start the course',d:'<a href="https://partners.xcelsolutions.com/fflnational-hkr597" target="_blank">Register (Xcel) →</a> Select Life &amp; Health + the $199 package (not Premier). Code: fflnational-hkr597.'},
+  {id:'u_half',check:true,l:'Halfway through the course (50%)',d:'Text your manager when you hit it — this is the point most people stall, so we want to know you are through it.'},
+  {info:'ℹ️ Additional info (no checkoff): watch the <a href="https://youtu.be/GNJ3khgJG2g" target="_blank">Course Hack video</a>, text your manager at 50% complete, and check your <a href="https://partners.xcelsolutions.com/insurance-license/requirements?partner=fflnational-hkr597" target="_blank">state requirements</a> (some states require fingerprinting).'},
+  {id:'u_pass',check:true,l:'Passed my state test 🎉'},
+  {id:'u_apply',check:true,l:'Applied for my license',d:'Get your license number + NPN. <b>Checking this unlocks your Licensed Agent onboarding.</b>',unlock:true},
+]

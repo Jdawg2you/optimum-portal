@@ -1,0 +1,13 @@
+{
+  "_comment": "Which top-level data structures in index.html live in content/. A .json file holds a literal that is already JSON; a .js file holds a JavaScript literal kept exactly as written (WEEK refers to HUDDLE, so it cannot be JSON). Order does not matter.",
+  "content": [
+    { "name": "ACAD_LMS",  "file": "academy.json" },
+    { "name": "M5_STATES", "file": "states.json" },
+    { "name": "FAST",      "file": "fast-start.js" },
+    { "name": "GYL",       "file": "get-licensed.js" },
+    { "name": "CARRIERS",  "file": "carriers.js" },
+    { "name": "DAILY",     "file": "events-daily.js" },
+    { "name": "HUDDLE",    "file": "events-huddle.js" },
+    { "name": "WEEK",      "file": "events-week.js" }
+  ]
+}

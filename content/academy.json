@@ -1,0 +1,1643 @@
+[
+ {
+  "id": "start-here",
+  "order": 1,
+  "title": "Start Here",
+  "summary": "How Optimum Academy works + your first move.",
+  "lessons": [
+   {
+    "id": "0-0",
+    "order": 1,
+    "title": "Start Here: Welcome & How This Works",
+    "videoTargetSeconds": 90,
+    "videoEmbedUrl": "https://youtu.be/7U4e_LIXUDQ",
+    "assets": [],
+    "keyTakeaways": [
+     "This training is for new licensed agents — the moment you're licensed, go straight through it.",
+     "Contracting runs in PARALLEL: most agents contract and train at the same time. Don't wait on one to start the other.",
+     "Applied but not licensed yet? If your upline said start, you can — begin the lessons now, start contracting the day your license lands.",
+     "Not licensed yet? Your #1 real-world job is still to finish: submit the application, book fingerprints early (~a week to clear), pass the exam."
+    ],
+    "doNext": [
+     "If you're licensed: get contracting moving and start the next lesson today — in parallel.",
+     "If you're not licensed yet: submit your application and book fingerprints, then keep going through the training."
+    ],
+    "status": "published",
+    "poster": "posters/0-0.jpg",
+    "track": "clear_to_dial"
+   }
+  ]
+ },
+ {
+  "id": "clear-to-dial-attitude",
+  "order": 2,
+  "title": "Clear to Dial — Attitude",
+  "summary": "",
+  "lessons": [
+   {
+    "id": "a-1",
+    "order": 1,
+    "title": "ASA: Our Model of Success",
+    "status": "published",
+    "track": "clear_to_dial",
+    "keyTakeaways": [
+     "ASA = Attitude (how you choose to show up) · Schedule (your calendar, and you showing up, is your office) · Activity (the numbers your planner gives you).",
+     "No talent required. Different starts, same three habits.",
+     "One agent went 37 days without a sale and kept showing up; another did $50,000 in his first month. Both did ASA.",
+     "\"If you do ASA in a big way, you will win. I just can't tell you when.\""
+    ],
+    "doNext": [
+     "Write A / S / A on an index card, with one sentence each for how you'll show up this week.",
+     "Keep the card where you dial."
+    ],
+    "assets": [],
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://www.youtube.com/embed/fdH9p35SEN0",
+    "poster": "posters/a-1.jpg"
+   },
+   {
+    "id": "a-2",
+    "order": 2,
+    "title": "Attitude Is a Choice",
+    "status": "published",
+    "track": "clear_to_dial",
+    "keyTakeaways": [
+     "Mindset is what shows up; attitude is what you choose to do with it. You control the next move.",
+     "Our attitude: gratitude, optimism, a servant's heart. We know who's in charge.",
+     "The quiet voice never says \"quit.\" It says \"can you do this forever? Then why does today matter?\" Answer it with the next dial.",
+     "Attitude is contagious, both ways."
+    ],
+    "doNext": [
+     "Join tomorrow's 8:30 ET Morning Kickoff.",
+     "Before your first dial, write three things you're grateful for.",
+     "The next time the quiet voice talks, make a dial before you think about it."
+    ],
+    "assets": [
+     {
+      "label": "Morning Kickoff (8:30 ET) link (file/link to attach)",
+      "type": "link",
+      "url": ""
+     }
+    ],
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://www.youtube.com/embed/NO8V4O7izn8",
+    "poster": "posters/a-2.jpg"
+   },
+   {
+    "id": "a-3",
+    "order": 3,
+    "title": "Hot Mess Express vs. Perfect Prep",
+    "status": "published",
+    "track": "clear_to_dial",
+    "keyTakeaways": [
+     "Two extremes: the Hot Mess Express (all action, no prep) and Perfect Prep (all prep, no action). Live in the middle.",
+     "No amount of preparation prepares you for your first real dial. One hour of practical beats forty hours of conceptual.",
+     "Prepared enough = the open plus the five opening objections, cold.",
+     "The five: \"I don't remember filling that out\" · \"I already have coverage\" · \"I don't have time\" · \"I can't afford it\" · \"I can't qualify.\"",
+     "Ego in the back seat. We're not doing heart surgery; we're helping Miss Betty protect her family.",
+     "Most of your questions are about things you'll only learn by starting. Nobody can tell you what happens after your fifth dial until you've made five."
+    ],
+    "doNext": [
+     "Drill the five opening objections (Lesson 2.4.2) until you can answer without thinking.",
+     "Get in the live dial room today, even if all you do is listen."
+    ],
+    "assets": [],
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://www.youtube.com/embed/T93ynamNgDo",
+    "poster": "posters/a-3.jpg"
+   },
+   {
+    "id": "0-1",
+    "order": 4,
+    "title": "The Real Job (Set Expectations Hard)",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/YEYRlcB-f2o",
+    "assets": [],
+    "keyTakeaways": [
+     "1099, commission-only — no paycheck for showing up; you may not sell for the first two weeks, and sometimes that is part of learning.",
+     "100% virtual means the discipline is on you. No office — you build your own structure.",
+     "Plan 40–60 hours while learning; you run your own schedule, but coasting kills your business.",
+     "It's a real job that happens to be from home; it rewards effort.",
+     "Success is a decision, not a talent. Make it happen before it gets really hard.",
+     "Motivation fades — the decision is what carries you long after the feeling has passed."
+    ],
+    "doNext": [
+     "Write down, in one sentence, your decision to succeed — and the date. Keep it where you'll dial: \"I will succeed in my Insurance business no matter what — xx/xx/xxxx\" — sign it and post it up where you work every day.",
+     "Block 40–60 hours on your calendar this week like a real job.",
+     "Say it out loud: \"Success is a decision.\" Own it before day one."
+    ],
+    "status": "published",
+    "poster": "posters/0-1.jpg",
+    "track": "clear_to_dial"
+   },
+   {
+    "id": "0-2",
+    "order": 5,
+    "title": "The Opportunity & The Math (Why This Business)",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/X65PnF2Jx5s",
+    "assets": [
+     {
+      "label": "Income Calculator",
+      "type": "link",
+      "url": "http://tools.ffloptimum.com/#income"
+     }
+    ],
+    "keyTakeaways": [
+     "The industry exploded: our best year went from $22M to over $100M a month in 13 years.",
+     "The shift: face-to-face → 100% virtual → AI and CRM. The average agent's age dropped from 40s–50s to mid-20s — this is a business anyone can do!",
+     "This is an asset, not a paycheck. You're building something that can outlast you.",
+     "Tangible income: ~$1,000 from one family in a 45-minute virtual call, paid in ~2 days.",
+     "Building math: 20 agents x $15K/mo x ~15% override ≈ $20–25K/mo passive."
+    ],
+    "doNext": [
+     "Write your \"why\" and your 12-month income target.",
+     "Use the Income Calculator above to see your numbers. In the future, do this with your mentor too to build a plan for hitting your goals."
+    ],
+    "status": "published",
+    "poster": "posters/0-2.jpg",
+    "track": "clear_to_dial"
+   }
+  ]
+ },
+ {
+  "id": "clear-to-dial-schedule",
+  "order": 3,
+  "title": "Clear to Dial — Schedule",
+  "summary": "",
+  "lessons": [
+   {
+    "id": "s-1",
+    "order": 1,
+    "title": "The Winning Day",
+    "status": "published",
+    "track": "clear_to_dial",
+    "keyTakeaways": [
+     "8:00 ET: virtual office opens (Zoom on).",
+     "8:30–9:00 ET, Mon–Sat: Morning Kickoff (Greatest Salesman reading, top-10 goals, coaching).",
+     "9:00: dials start (8:00 Central; vets are up early). Go for a sale before lunch.",
+     "12:00 on most weekdays: live training (Mon Builder's, Tue Winning System for your first week or two, Thu SRS, Fri Shawn).",
+     "2:00 PM, Mon–Fri: Nuts & Bolts. Bring the morning's objections and app snags.",
+     "Afternoon into evening: dial block; many clients are home after 5.",
+     "Night: a five-minute recap (what worked, where you got stuck), then Goal Card (your 40 points), lock down today's sales, set tomorrow's #1.",
+     "Question mid-block? Write it down, keep dialing, bring it to Nuts & Bolts.",
+     "Rules: the 30-second rule, and prime dial hours are for dialing only (recruiting calls go early, at lunch, or after work)."
+    ],
+    "doNext": [
+     "Block tomorrow in your calendar exactly like this.",
+     "Set your Goal Card where you'll see it tonight."
+    ],
+    "assets": [
+     {
+      "label": "The Winning Day (one-page schedule) (file/link to attach)",
+      "type": "link",
+      "url": ""
+     }
+    ],
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://www.youtube.com/embed/Pn60afYc85w",
+    "poster": "posters/s-1.jpg"
+   },
+   {
+    "id": "s-2",
+    "order": 2,
+    "title": "The Winning Week",
+    "status": "published",
+    "track": "clear_to_dial",
+    "keyTakeaways": [
+     "Six days a week; Sunday is church and family. Long days early in the week, shorter Friday and Saturday.",
+     "Plan the life blocks (date night, the kid's concert) like dial blocks. Planned breaks protect the work blocks.",
+     "Before day one: fill out the Wants & Needs / Give Up sheet with your family (or on your own), then walk them through your schedule.",
+     "Weekly anchors: Kickoff 8:30 ET Mon–Sat · Mon 12pm Builder's + Monday evening agency sales call · Tue 12pm Winning System (once or twice, to learn leads) · Thu 12pm SRS (IULs and annuities) · Fri 12pm Shawn (the most important call of the week) · Sat New Agent Orientation (new agents).",
+     "Compare it to owning a business, not a 40-hour job. Big hours while you're new; you earn your time back."
+    ],
+    "doNext": [
+     "Fill out the Wants & Needs / Give Up sheet (with your family, or on your own) and walk them through your week.",
+     "Block your full Winning Week in your calendar: calls, dial blocks, family time.",
+     "Screenshot it and send it to your manager or mentor."
+    ],
+    "assets": [
+     {
+      "label": "Wants & Needs / Give Up sheet (file/link to attach)",
+      "type": "link",
+      "url": ""
+     },
+     {
+      "label": "Weekly calls calendar (file/link to attach)",
+      "type": "link",
+      "url": ""
+     }
+    ],
+    "videoTargetSeconds": 180,
+    "videoEmbedUrl": "https://www.youtube.com/embed/iUbShy1yuYc",
+    "poster": "posters/s-2.jpg"
+   }
+  ]
+ },
+ {
+  "id": "clear-to-dial-activity",
+  "order": 4,
+  "title": "Clear to Dial — Activity",
+  "summary": "",
+  "lessons": [
+   {
+    "id": "ac-1",
+    "order": 1,
+    "title": "From Your Number to Your Day",
+    "status": "published",
+    "track": "clear_to_dial",
+    "keyTakeaways": [
+     "Number → production → day. Agent Success Plan first, then the Optimum Activity Planner, then the Goal Card (Lesson AC.3).",
+     "Worked example: $15K/month take-home ≈ $33K monthly production ≈ 22–27 sales ≈ about 6 a week ≈ one sale a day.",
+     "The planner uses your real ratios (dials → contacts → presentations → sales), so you don't need anyone else's.",
+     "Your planner sets your daily dial number; 350 dials a day is our floor.",
+     "Your why is who this is really for, not \"more money.\""
+    ],
+    "doNext": [
+     "Build your Agent Success Plan in Agent Tools.",
+     "Screenshot the planner.",
+     "Bring your number, the screenshot, and your why to your strategy call."
+    ],
+    "assets": [
+     {
+      "label": "Agent Tools (Agent Success Plan + Optimum Activity Planner) (file/link to attach)",
+      "type": "link",
+      "url": ""
+     },
+     {
+      "label": "Goal Card (file/link to attach)",
+      "type": "link",
+      "url": ""
+     }
+    ],
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://www.youtube.com/embed/NacVQcf2jss",
+    "poster": "posters/ac-1.jpg"
+   },
+   {
+    "id": "ac-3",
+    "order": 2,
+    "title": "Your Goal Card: 40 Points a Day",
+    "status": "published",
+    "track": "clear_to_dial",
+    "keyTakeaways": [
+     "The Goal Card tracks your day in two-hour blocks. Dials are your base input; they're tracked but earn no points.",
+     "Points: Contact 1 · Appointment 2 · Presentation 3 · Sale 5. One person can be worth up to 11 points.",
+     "40 points a day is the target, and hitting it consistently is how agents get wildly successful here.",
+     "Many ways to 40. Example: 22 contacts + 4 presentations + 1 appointment + 1 sale = 41.",
+     "Save the card every night. It compares day, week and month, and with your premium and hours it shows what each dial and hour is worth.",
+     "Be your own boss. If you're not tracking, nobody can coach you, and most people overestimate what they did.",
+     "Separate yourself from the result. Get your 40 points; the sales follow. Points are the Activity in ASA."
+    ],
+    "doNext": [
+     "Open the Goal Card and set your daily point goal to 40.",
+     "Check the two-hour blocks you're working today.",
+     "Log your contacts, appointments, presentations and sales after every block, and save the card tonight."
+    ],
+    "assets": [
+     {
+      "label": "Goal Card (link)",
+      "type": "link",
+      "url": ""
+     },
+     {
+      "label": "40 Points cheat sheet (file/link to attach)",
+      "type": "link",
+      "url": ""
+     }
+    ],
+    "videoTargetSeconds": 210,
+    "videoEmbedUrl": "https://www.youtube.com/embed/7AofXl2exX4",
+    "poster": "posters/ac-3.jpg"
+   },
+   {
+    "id": "2-2-2",
+    "order": 3,
+    "title": "\"You Don't Need to Know More. You Need to Dial.\"",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/I6qSMpypx20",
+    "assets": [],
+    "keyTakeaways": [
+     "The excuse to kill: \"I need to learn the products before I dial.\" It feels responsible; it's actually avoidance.",
+     "Whole life — answer the health questions honestly, the quoter gives a price, that price holds for life, face amount is the face amount.",
+     "Term — set number of years, level premium, then it increases; the policy document shows the client exactly what to expect.",
+     "IUL is the only product with real depth — and it's a later track. It is not what's stopping you today.",
+     "You're not uncomfortable from lack of knowledge — you're uncomfortable because you haven't dialed. Clients aren't interrogating you.",
+     "\"Let me get my underwriter on the line\" is a trust builder, not a weakness. It says you cared enough to get it right. Use the dial room.",
+     "The study that matters: why do good people die with no coverage? Because agents didn't do their job. Belief in the product beats product knowledge."
+    ],
+    "doNext": [
+     "Write this line down and post it where you make your calls, so you always have it: \"I'm going to place you on a very brief soft hold while I speak to one of our senior underwriters to make sure we get you the best coverage for the best price. I'll be right back.\"",
+     "Get in the dial room today. Learn the product from live calls, not from a PDF."
+    ],
+    "status": "published",
+    "poster": "posters/2-2-2.jpg",
+    "track": "clear_to_dial"
+   },
+   {
+    "id": "4-2",
+    "order": 4,
+    "title": "The Standard: A Sale a Day",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/J3pGuEkMFDQ",
+    "assets": [
+     {
+      "label": "Goal Card",
+      "type": "link",
+      "url": "app:goalcard"
+     }
+    ],
+    "keyTakeaways": [
+     "The ramp: Month 1 → $10K, Month 2 → $20K, Month 3 → $30K in AP.",
+     "A sale a day is the non-negotiable under the monthly target.",
+     "Land the first sale early to kill end-of-day pressure and play loose.",
+     "Kyle: \"Don't get comfortable after one — go get five.\"",
+     "Reframes: \"you just haven't found your buyer yet\" and swap \"I missed my goal\" for \"I got better and I'm closer.\"",
+     "Early-days scoreboard: \"did I get better today,\" not just the number."
+    ],
+    "doNext": [],
+    "status": "published",
+    "poster": "posters/4-2.jpg",
+    "track": "clear_to_dial"
+   },
+   {
+    "id": "4-3",
+    "order": 5,
+    "title": "The Winning System",
+    "videoTargetSeconds": 0,
+    "videoEmbedUrl": "https://www.youtube.com/embed/AksfsmuKQiM",
+    "assets": [
+     {
+      "label": "Save the Tuesday call to your calendar — downloads a file, open it to add",
+      "type": "link",
+      "url": "js:m5AddWinSystem"
+     },
+     {
+      "label": "Join GOATLeads page (no cost to join)",
+      "type": "link",
+      "url": "https://goatleads.com/registration/new?affiliate_id=66c4aa379e0123651ad2f0e6"
+     },
+     {
+      "label": "Leads landing page",
+      "type": "link",
+      "url": "app:leads"
+     }
+    ],
+    "keyTakeaways": [
+     "Lead types: aged/$1 (where you start), fresh/real-time (higher intent), plus direct mail, telemarketed, Facebook/internet, referrals, and your own warm market.",
+     "You manage all your leads in GoatLeads.",
+     "Leads are PERISHABLE — work fresh leads fast, triple-dialing across the first 24 hours. Sitting on a lead is money thrown away.",
+     "The ramp skeleton: Month 1 — $500/week on aged ($1) leads; Month 2 — $500 aged + $500 fresh; Month 3 — $500 aged + $1,000 fresh → $30K.",
+     "Keep scaling by reinvesting while holding comfortable close and show ratios.",
+     "Your only two metrics: CPA (cost per acquisition) and what you keep.",
+     "It's taught live every Tuesday at 12pm ET. Come once or twice with your numbers; the live call is where current numbers and ratios get worked."
+    ],
+    "doNext": [
+     "Learn your lead types in GoatLeads.",
+     "Work every fresh lead within 24 hours.",
+     "Come to the Tuesday 12pm Winning System call once or twice, with your Activity Planner screenshot and your CPA number. Tap the calendar button above to save it.",
+     "Then head to the Leads page to join GOAT, register where you buy leads, and pick your strategy."
+    ],
+    "status": "published",
+    "poster": "posters/4-3.jpg",
+    "track": "clear_to_dial",
+    "dnRev": 2
+   }
+  ]
+ },
+ {
+  "id": "clear-to-dial-call-ready",
+  "order": 5,
+  "title": "Clear to Dial — Call-Ready",
+  "summary": "",
+  "lessons": [
+   {
+    "id": "1-3",
+    "order": 1,
+    "title": "Set Up Your Machine Before Day One",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/xbjv4Ji_oKE",
+    "assets": [
+     {
+      "label": "Cleared to Dial — New-Agent Checklist",
+      "type": "download",
+      "url": "https://portal.ffloptimum.com/cleared-to-dial-checklist.pdf"
+     }
+    ],
+    "keyTakeaways": [
+     "Stand up Goat Leads before you dial — the system's built-in dialer runs your calls from your phone easily.",
+     "Get into the Product Wizard so you can see which carriers will take the client and quote real numbers on the call (only when LiveDials is not available).",
+     "Learn the carrier lineup: Americo, Mutual of Omaha, American Amicable, Transamerica, Corebridge.",
+     "Cheap-and-ready beats fancy — get it live now, refine later.",
+     "Everything on the attached checklist should be done before your first call."
+    ],
+    "doNext": [
+     "Set up Goat Leads and bookmark the Product Wizard."
+    ],
+    "status": "published",
+    "poster": "posters/1-3.jpg",
+    "track": "clear_to_dial"
+   },
+   {
+    "id": "t-1",
+    "order": 2,
+    "title": "Your Call Toolkit: Script Navigator + Product Wizard",
+    "status": "coming_soon",
+    "track": "clear_to_dial",
+    "keyTakeaways": [
+     "Script Navigator = your script + client profile. It prompts the follow-ups (e.g., metformin → diabetes? A1C?).",
+     "One button pushes the profile into the Product Wizard, which ranks carriers likely to approve, by best fit for the client.",
+     "Turn off carriers you aren't contracted with yet.",
+     "Quote in the carrier's portal → numbers back into the Navigator → present Maximum Coverage / Recommended / Basic → copy and paste into the app.",
+     "Fallback, any time: the soft hold to the dial room's senior underwriter."
+    ],
+    "doNext": [
+     "Bookmark the Script Navigator and the Product Wizard.",
+     "Run one practice client through both tools, start to finish.",
+     "In the Wizard, turn off any carriers you aren't contracted with yet."
+    ],
+    "assets": [
+     {
+      "label": "Script Navigator — https\\://script.ffloptimum.com",
+      "type": "link",
+      "url": ""
+     },
+     {
+      "label": "Product Wizard — https\\://wizard.ffloptimum.com",
+      "type": "link",
+      "url": ""
+     }
+    ],
+    "videoTargetSeconds": 150
+   },
+   {
+    "id": "2-2",
+    "order": 3,
+    "title": "What You're Actually Selling: Veteran's Final Expense",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/anCs-X_YUeI",
+    "assets": [
+     {
+      "label": "Product Wizard — which carriers will actually take this client. Bookmarked it yet?",
+      "type": "link",
+      "url": "https://wizard.ffloptimum.com/"
+     }
+    ],
+    "keyTakeaways": [
+     "VFE = whole life for veterans: permanent, locked-in rate, builds cash value, day-one coverage (if approved).",
+     "The 3 types (for contrast on the call): Accidental-only / Term / Whole Life. Plus a 4th \"healthy\" permanent option = IUL bridge (later track).",
+     "Not everyone gets level: graded / guaranteed issue is still a win (GI = 110% return of premium if natural death in first 2 yrs).",
+     "Carriers: Americo, Mutual of Omaha, American Amicable, Transamerica, Chubb/Combined, Instabrain, National Life Group. Fit depends on health/age/bank.",
+     "ALWAYS: sell what they can KEEP. A lapsed policy comes off your book.",
+     "You don't memorize carrier fit: the Product Wizard ranks the carriers likely to approve each client."
+    ],
+    "doNext": [
+     "Get good at saying the benefits of whole life: permanent, locked-in, cash value, day-one.",
+     "Open the Product Wizard and run one practice client."
+    ],
+    "status": "published",
+    "poster": "posters/2-2.jpg",
+    "track": "clear_to_dial"
+   },
+   {
+    "id": "2-4-0",
+    "order": 4,
+    "title": "To Script or Not to Script (Why You Start With the Script)",
+    "videoTargetSeconds": 150,
+    "videoEmbedUrl": "https://youtu.be/mtzrFI2goak",
+    "assets": [
+     {
+      "label": "Insurance Script Navigator — the VET call, card by card",
+      "type": "link",
+      "url": "https://script.ffloptimum.com/?script=veteran"
+     },
+     {
+      "label": "The VET Script in full — read it or print it clean",
+      "type": "link",
+      "url": "https://script.ffloptimum.com/vet/script/"
+     }
+    ],
+    "keyTakeaways": [
+     "The two camps, both half-right: \"must use a script\" (you're new, no idea what to say) vs. \"never script\" (feels fake). Robotic reading loses — but \"speak from the heart\" with no words loses harder.",
+     "The resolution: script FIRST, then freedom. Structure now; your own voice is earned with reps.",
+     "Even Shawn (famous for \"no-script\") prescribes this: take the script, learn it, be in charge, ask a question when in doubt — start scripted and graduate off it. \"If a script's working, don't fix it.\"",
+     "Proof: one agent did $50K his first month just following the script; another did $10K her first week copying a closer's script, then layering in her own; Elizabeth — \"I just copy and paste\"; Edmond — your leader's word track is your \"$5M movie script.\"",
+     "When other trainers trash scripts: they're right for them, after thousands of reps. That's their destination, not their starting line — don't copy their freedom before you earn it.",
+     "The script is training wheels: read it → know it → own it → it disappears. A confused mind does nothing; structure gives you confidence.",
+     "No one said you have to follow it word for word, but it feels weird at first because you've never done it. Run it 27 more times before you change it.",
+     "Read the script until you're writing $40–50K a month. Then make it yours."
+    ],
+    "doNext": [
+     "Commit to running the VET script exactly as written for your first few weeks — no ad-libbing yet.",
+     "When you hear \"never use a script,\" remind yourself: that's a destination, not a starting line.",
+     "Read the script out loud today and daily until the words start to feel like yours."
+    ],
+    "status": "published",
+    "poster": "posters/2-4-0.jpg",
+    "track": "clear_to_dial"
+   },
+   {
+    "id": "2-4-1",
+    "order": 5,
+    "title": "The Open: The First 90 Seconds (VET script §1)",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/fiVaotmdVZg",
+    "assets": [
+     {
+      "label": "Insurance Script Navigator — the VET call, card by card",
+      "type": "link",
+      "url": "https://script.ffloptimum.com/?script=veteran"
+     }
+    ],
+    "keyTakeaways": [
+     "Goal of the open: sound expected, get one \"yes,\" take control with a question.",
+     "The 4 moves: name → pause; \"Veteran Underwriter\" intro; verify one detail; concern + who-are-you-protecting → pause.",
+     "The pause is the skill. Silence is where the \"why\" comes out.",
+     "One call. If they're truly busy, reschedule the same conversation (next lesson)."
+    ],
+    "doNext": [
+     "Read the open aloud 25x.",
+     "Keep the Script Navigator open and bookmarked."
+    ],
+    "status": "published",
+    "poster": "posters/2-4-1.jpg",
+    "track": "clear_to_dial"
+   },
+   {
+    "id": "2-4-2",
+    "order": 6,
+    "title": "Powering Through Opening Objections (The First 30 Seconds)",
+    "videoTargetSeconds": 150,
+    "videoEmbedUrl": "https://youtu.be/KftCnJHWeAU",
+    "assets": [
+     {
+      "label": "Insurance Script Navigator — the VET call, card by card",
+      "type": "link",
+      "url": "https://script.ffloptimum.com/?script=veteran"
+     },
+     {
+      "label": "Veteran Objections Cheat Sheet — opening & closing",
+      "type": "link",
+      "url": "https://script.ffloptimum.com/vet/objections/"
+     }
+    ],
+    "keyTakeaways": [
+     "An opening objection is a reflex, not a real no — a brush-off they give every caller. Fewer than 25% won't buy; the rest are buyers.",
+     "Never argue, never defend. The pattern every time: agree → reframe → ask a question that moves forward (back to DOB or burial/cremation/mortgage).",
+     "Shawn's universal tool: \"ask, don't defend\" — \"Okay, why?\" then silence. And loop back to the anchor: \"you filled this out to protect your family, correct?\"",
+     "Verbatim rebuttals exist for: \"What is this for?\", \"I already have coverage,\" \"I'm not interested,\" \"I can't qualify,\" \"I can't afford it\" (before any price), \"I don't remember filling this out,\" and \"Call me back\" (only if genuinely busy).",
+     "Every rebuttal ends by getting the DOB or the burial/cremation/mortgage question — get them talking, get them forward.",
+     "\"I'm busy\" is usually a brush-off — power through it. Only reschedule (next lesson) if they're genuinely busy. Don't reschedule a resister.",
+     "Drill until automatic: the only thing that beats a reflex is a reflex. You'll get these every call.",
+     "Clear to Dial minimum, the core five: \"I don't remember filling that out\" · \"I already have coverage\" · \"I don't have time\" · \"I can't afford it\" · \"I can't qualify.\""
+    ],
+    "doNext": [
+     "Memorize the rebuttal to all seven opening objections until you can fire back without thinking.",
+     "Practice live with a partner: have them say each opening objection out loud and you fire back your rebuttal — no hesitation, flat out."
+    ],
+    "status": "published",
+    "poster": "posters/2-4-2.jpg",
+    "track": "clear_to_dial"
+   },
+   {
+    "id": "2-6-1",
+    "order": 7,
+    "title": "Plan Education & Get Your Price",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://www.youtube.com/embed/4RTmvcqZZIY",
+    "assets": [
+     {
+      "label": "Policy Benefits — Plain-English Guide",
+      "type": "link",
+      "url": "https://portal.ffloptimum.com/policy-benefits.html"
+     },
+     {
+      "label": "Script Navigator",
+      "type": "link",
+      "url": "https://script.ffloptimum.com"
+     },
+     {
+      "label": "Product Wizard",
+      "type": "link",
+      "url": "https://wizard.ffloptimum.com"
+     }
+    ],
+    "keyTakeaways": [
+     "Educate by contrast: Accidental only (accidents only) · Term (10–30 years, then it expires; usually for healthy, younger clients) · Whole life (permanent, locked-in, builds value).",
+     "For healthy clients, a 4th option: more affordable permanent coverage, your future IUL bridge.",
+     "They already have a policy? Never call it bad. \"That was a good option when you got it… let's see what's best for you today.\" Compare, don't criticize.",
+     "They write down the five benefits: Permanent · Locked-In Rate · Living Benefits · Tax-Free · Cash Value.",
+     "Get the price: Script Navigator → Product Wizard → carrier quote → back into the Navigator.",
+     "Or soft-hold to the dial room's senior underwriter. It builds trust."
+    ],
+    "doNext": [
+     "Memorize the soft-hold line word for word.",
+     "Run one practice quote through the Navigator → Wizard → carrier portal flow."
+    ],
+    "status": "published",
+    "poster": "posters/2-6-1.jpg",
+    "track": "clear_to_dial",
+    "dnRev": 2
+   },
+   {
+    "id": "3-1",
+    "order": 8,
+    "title": "Live Dials & the Release Ladder",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://www.youtube.com/embed/q9b9yumMtpw",
+    "assets": [
+     {
+      "label": "Cleared to Dial — New-Agent Checklist",
+      "type": "download",
+      "url": "https://portal.ffloptimum.com/cleared-to-dial-checklist.pdf"
+     },
+     {
+      "label": "Cleared to Dial — New-Agent Checklist",
+      "type": "download",
+      "url": "https://portal.ffloptimum.com/cleared-to-dial-checklist.pdf"
+     }
+    ],
+    "keyTakeaways": [
+     "The live dial room runs all day, every day. It's your classroom and your backup. Join today.",
+     "Off mute on live calls: you ask, the room helps. I can't help you if I can't hear you.",
+     "You'll hear the closers get told no. Nobody closes everyone.",
+     "Coaching comes from your recorded calls: send one or two to your manager or mentor (the open and where it went sideways).",
+     "The Release Ladder: (1) Listen · (2) Shadow + take notes (bring your objection tally to 2pm Nuts & Bolts) · (3) Practice: answer each objection in your head as if you were the agent · (4) Supervised calls on your first aged leads · (5) Solo.",
+     "The solo gate is behavioral: the full script plus the core objections, unaided. Until then, you dial in the dial room, off mute."
+    ],
+    "doNext": [
+     "Join today's live dials with the Script Navigator open.",
+     "Start your objection tally: the first five you hear and how the closer handled each."
+    ],
+    "status": "published",
+    "poster": "posters/3-1.jpg",
+    "track": "clear_to_dial",
+    "dnRev": 2
+   }
+  ],
+  "asaCallout": "Activity: You don't need to know more. You need to dial. (2.2.2)"
+ },
+ {
+  "id": "attitude-deeper",
+  "order": 6,
+  "title": "Attitude, Deeper",
+  "summary": "",
+  "lessons": [
+   {
+    "id": "a-4",
+    "order": 1,
+    "title": "It Just Is: Same Event, Different Story",
+    "status": "published",
+    "track": "while_dialing",
+    "keyTakeaways": [
+     "A policy falling off is the same event whether it's your 1st or your 10th. Only the story changes. It just is.",
+     "\"That's lesson #728.\" Every lesson is paid for once.",
+     "The mirror: not \"they got lucky,\" but \"what did they do differently, and what can I do better?\"",
+     "Comparison is the thief of all joy, and it leads you to make excuses for yourself. Same talent, different skill.",
+     "After a hang-up: \"Were they my client anyway?\" Some will, some won't, so what, next.",
+     "Leads come in runs. Live in the middle: nobody should be able to tell from your mood whether you made four sales or none.",
+     "Fall in love with the process; detach from the result of any single call (Stan Smith)."
+    ],
+    "doNext": [
+     "After every \"no\" today, say \"next\" out loud and dial.",
+     "Pick one teammate who had a great day this week and ask what they did differently."
+    ],
+    "assets": [],
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://www.youtube.com/embed/QvuQHW0En6w",
+    "poster": "posters/a-4.jpg"
+   },
+   {
+    "id": "a-5",
+    "order": 2,
+    "title": "Would You Last the 37 Days?",
+    "status": "published",
+    "track": "while_dialing",
+    "keyTakeaways": [
+     "The dip is normal. Knowing it's coming is how people get through it.",
+     "One agent went 37 days without a sale and now leads one of the biggest organizations in the company.",
+     "My first 5 months: about $20K total after a 20-year corporate career. First in, last out, and I refused to quit.",
+     "The business works: 200 years old, millions underinsured, endless leads. If it isn't working yet, the fix is in you, and you can fix you.",
+     "Today's activity shows up in weeks, not hours. \"Time either promotes you or exposes you.\""
+    ],
+    "doNext": [
+     "Write down what you'll do on the day you want to quit.",
+     "Send it to your manager or mentor so someone else is holding it too."
+    ],
+    "assets": [],
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://www.youtube.com/embed/uv7Zi6_qzOY",
+    "poster": "posters/a-5.jpg"
+   },
+   {
+    "id": "a-6",
+    "order": 3,
+    "title": "Preach It, Act It, Become It",
+    "status": "published",
+    "track": "while_dialing",
+    "keyTakeaways": [
+     "Preach it: say who you're becoming, out loud, everywhere, starting with yourself. Kickoff goal-writing is preaching.",
+     "Act it: show up like it's already true, even in small steps.",
+     "Become it: repeated long enough, it's just who you are.",
+     "Slumps start when you stop preaching.",
+     "Changing a habit? Give it twice as long as you spent on the old one (\"double it\"). (Stan Smith)"
+    ],
+    "doNext": [
+     "Write one sentence: \"I'm the one who…\"",
+     "Post it in the team chat today.",
+     "Say it out loud before your first dial every day this week."
+    ],
+    "assets": [],
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://www.youtube.com/embed/3IL2QF2toMU",
+    "poster": "posters/a-6.jpg"
+   },
+   {
+    "id": "2-1",
+    "order": 4,
+    "title": "Mindset Foundations: \"It's a Skill Issue, Not a Lead Issue\"",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/QT-kE9jooXs",
+    "assets": [
+     {
+      "label": "The Greatest Salesman in the World (Og Mandino) — download on the Self Development page",
+      "type": "link",
+      "url": "app:selfdev"
+     },
+     {
+      "label": "Morning Kickoff (8:30 ET) — on your Dashboard",
+      "type": "link",
+      "url": "app:dashboard"
+     }
+    ],
+    "keyTakeaways": [
+     "Core belief to install: results come from skill + decision, not from leads.",
+     "The watch parable: if the value's obvious and the decision's made, you sell anything. Every lead is the watch.",
+     "Lie–Cheat–Steal (daily): Lie awake on goals; Cheat time from distractions; Steal (study) every good word track.",
+     "Work behind the work: a thousand reps at practice → ten closes at game time.",
+     "The 8:30 ET Morning Kickoff is rep #1 of your day: the Greatest Salesman reading plus your top-10 goals. Think and Grow Rich next."
+    ],
+    "doNext": [
+     "Join tomorrow's 8:30 ET Morning Kickoff.",
+     "Start The Greatest Salesman in the World today.",
+     "Write your #1 goal on a card/post-it/anything physical. Read it every morning and every night."
+    ],
+    "status": "published",
+    "poster": "posters/2-1.jpg",
+    "track": "while_dialing"
+   },
+   {
+    "id": "5-3",
+    "order": 5,
+    "title": "Identity & Longevity",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtube.com/shorts/pmMw3_Ve5uM",
+    "assets": [],
+    "keyTakeaways": [
+     "Work from identity, not toward things: Provider, Protector, Leader.",
+     "Set 2–5 year expectations, not 90 days. This is compound interest — most quit right before it pays.",
+     "Guard your environment: take problems to producers, not complainers. \"Successful people won't validate your feelings; negative people will.\"",
+     "Profitability over volume — it's about what you keep, not what you write.",
+     "Self-reliance. Own your outcomes.",
+     "Identity ladder: employee → entrepreneur → empire builder. \"Become more to do more.\"",
+     "Changing a habit? Give it twice as long as you spent on the old one: \"double it\" (Stan Smith). See A.6."
+    ],
+    "doNext": [
+     "Write your 3-year number and tape it where you dial.",
+     "Name one producer you'll take problems to — and one complainer you'll stop venting to."
+    ],
+    "status": "published",
+    "poster": "posters/5-3.jpg",
+    "portrait": true,
+    "track": "while_dialing"
+   }
+  ]
+ },
+ {
+  "id": "activity-deeper",
+  "order": 7,
+  "title": "Activity, Deeper",
+  "summary": "",
+  "lessons": [
+   {
+    "id": "ac-2",
+    "order": 1,
+    "title": "The Reverse Reality Check",
+    "status": "published",
+    "track": "while_dialing",
+    "keyTakeaways": [
+     "Reverse reality check: dials ÷ hours worked. 100 dials in 10 hours = about 10 minutes of real work per hour.",
+     "A no-answer dial takes 5–6 seconds; about 3 dials a minute is realistic.",
+     "Do the hard thing first: dial by hand, then add GOAT CRM with auto-dialing once you're hitting your number.",
+     "Tools speed up a working process; they don't create one.",
+     "The script feels weird because it's new, not because it's wrong. Run it 27 more times."
+    ],
+    "doNext": [
+     "Tonight, divide your dials by your hours and write the number on your Goal Card.",
+     "Tomorrow, hit your 40 points on the Goal Card (Lesson AC.3 shows how points work)."
+    ],
+    "assets": [
+     {
+      "label": "Goal Card (file/link to attach)",
+      "type": "link",
+      "url": ""
+     }
+    ],
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://www.youtube.com/embed/h_5pXnF8p_k",
+    "poster": "posters/ac-2.jpg"
+   }
+  ]
+ },
+ {
+  "id": "product-the-full-call",
+  "order": 8,
+  "title": "Product & the Full Call",
+  "summary": "",
+  "lessons": [
+   {
+    "id": "2-2-1",
+    "order": 1,
+    "title": "The Product Landscape (So You Can Speak to Anything)",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/fXzI-xhpRH0",
+    "assets": [],
+    "keyTakeaways": [
+     "You SELL VFE first — this lesson is so you can speak to anything and place clients correctly.",
+     "Term — temporary, cheapest per dollar; income/mortgage protection.",
+     "Whole life — permanent, fixed premium, guaranteed cash value; the base of final expense.",
+     "Universal life — permanent but flexible premium; needs monitoring — we don't really sell this.",
+     "IUL — cash value follows an index with a floor and a cap; tax-free retirement. Never oversell the illustration.",
+     "Final expense — small whole life ($10–25K) for burial = your VFE.",
+     "Mortgage protection — life policy protecting the family; doesn't necessarily pay off the house.",
+     "Living benefits / accelerated death benefit riders — access the death benefit while alive (critical/chronic/terminal). The modern differentiator."
+    ],
+    "doNext": [
+     "Get comfortable saying each of the product types in one sentence, out loud."
+    ],
+    "status": "published",
+    "poster": "posters/2-2-1.jpg",
+    "track": "while_dialing"
+   },
+   {
+    "id": "2-3",
+    "order": 2,
+    "title": "Tonality & Energy: \"It's Not What You Say\"",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/Wew7V68qvEM",
+    "assets": [],
+    "keyTakeaways": [
+     "Tone beats words. Same script, different energy = different result.",
+     "The 3 E's: Excitement, Emotion, Enthusiasm — you set the emotional temperature (but it's gotta be right; live dials and your mentor can help).",
+     "Match the moment: energy up on protection/benefits; slow and sincere on death/beneficiary questions.",
+     "Preparation = confidence. Know the script cold so your attention is on them.",
+     "\"Don't limp in all shy and cute on the call.\" Say your name with authority — you're the assigned Veteran Underwriter.",
+     "Confident, not needy: \"Whether you buy this or not, I'm not going to retire or quit. I'm looking for the people who filled this out and want to protect their family today. Does that sound like you?\""
+    ],
+    "doNext": [
+     "Record yourself reading the script open twice — once flat, once with the 3 E's. Hear the difference."
+    ],
+    "status": "published",
+    "poster": "posters/2-3.jpg",
+    "track": "while_dialing"
+   },
+   {
+    "id": "2-4-3",
+    "order": 3,
+    "title": "When They're Busy: Reschedule, Don't Lose Them (VET script §2)",
+    "videoTargetSeconds": 90,
+    "videoEmbedUrl": "https://youtu.be/sC5dpouZSjE",
+    "assets": [
+     {
+      "label": "Insurance Script Navigator — the VET call, card by card",
+      "type": "link",
+      "url": "https://script.ffloptimum.com/?script=veteran"
+     }
+    ],
+    "keyTakeaways": [
+     "Reframe first: \"it's never the perfect time\" — remove pressure.",
+     "Two choices, not open-ended. You lead the calendar.",
+     "Lock it: spell your name; confirm date/time; block 15 min buffer; text + \"reply C\"; \"good about keeping appointments?\"",
+     "Close the loop: \"no commitment on the call\" + have them say the time back."
+    ],
+    "doNext": [
+     "Practice offering two time choices without pausing to think.",
+     "Log into GOAT, make sure your digital business card is set up, and save its unique URL so you can easily share your agent business card with clients.",
+     "Set up your free agent site too, so you can send it whenever it's needed."
+    ],
+    "status": "published",
+    "poster": "posters/2-4-3.jpg",
+    "track": "while_dialing"
+   },
+   {
+    "id": "2-4-4",
+    "order": 4,
+    "title": "Trust & Licensing: Your Credentials (VET script §3)",
+    "videoTargetSeconds": 90,
+    "videoEmbedUrl": "https://youtu.be/6uQN2nP6yC8",
+    "assets": [
+     {
+      "label": "Insurance Script Navigator — the VET call, card by card",
+      "type": "link",
+      "url": "https://script.ffloptimum.com/?script=veteran"
+     }
+    ],
+    "keyTakeaways": [
+     "Give before you ask. Volunteer credentials to earn the right to sensitive questions.",
+     "Give: full name (spelled), direct number, NPN. Explain the NPN (\"business social\"). Text credentials live.",
+     "Permission line: ask permission to be transparent about finances and end-of-life — sets up the hard questions and gets a pre-yes."
+    ],
+    "doNext": [
+     "Have your NPN and a credentials text ready to send in one tap."
+    ],
+    "status": "published",
+    "poster": "posters/2-4-4.jpg",
+    "track": "while_dialing"
+   },
+   {
+    "id": "2-4-5",
+    "order": 5,
+    "title": "Frame Your Role & Get Permission to Lead (VET script §4)",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/XBNBxBYdcuk",
+    "assets": [
+     {
+      "label": "Insurance Script Navigator — the VET call, card by card",
+      "type": "link",
+      "url": "https://script.ffloptimum.com/?script=veteran"
+     }
+    ],
+    "keyTakeaways": [
+     "Reframe salesperson → advocate: \"Veteran Consultant assigned to your file,\" 40+ carriers, \"eyes and ears,\" you shop for them.",
+     "Set the agenda (take control): two areas — finances, then health — and why each protects them.",
+     "Pre-frame \"you have to qualify.\" This single move defuses future objections — now you're a team getting them approved.",
+     "End on a micro-commit: \"Sound good? Ready to begin?\""
+    ],
+    "doNext": [],
+    "status": "published",
+    "poster": "posters/2-4-5.jpg",
+    "track": "while_dialing"
+   },
+   {
+    "id": "2-5-1",
+    "order": 6,
+    "title": "Discover the Why (VET script §5)",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/Xam5MzoQOdE",
+    "assets": [],
+    "keyTakeaways": [
+     "No why, no sale — this section is non-negotiable on every VFE call.",
+     "Mirror their own words back: \"So, when I asked earlier, you said you wanted to…\"",
+     "Connect the request to the coverage they have or don't have — expose the gap.",
+     "Dig past the first answer; the emotional currency lives two or three layers down.",
+     "Ask, then go silent — silence pulls out the real reason. Don't rescue the pause.",
+     "Lock it in: \"OK, I understand why you made the request. Makes sense.\""
+    ],
+    "doNext": [
+     "Next time you role-play the script, ask at least three of these discovery questions so you practice getting to the real root of why they want coverage."
+    ],
+    "status": "published",
+    "poster": "posters/2-5-1.jpg",
+    "track": "while_dialing"
+   },
+   {
+    "id": "2-5-2",
+    "order": 7,
+    "title": "Burial, Cremation & the Beneficiary (VET script §6)",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/g7I3BwuiM48",
+    "assets": [],
+    "keyTakeaways": [
+     "This section turns an abstract why into a concrete dollar problem.",
+     "Burial: typically $10,000–$15,000. Cremation: $5,000–$8,000. State the real numbers.",
+     "Name the beneficiary and ask if they're local or would have to travel — travel adds cost and stress.",
+     "\"If something happened tomorrow…\" then PAUSE — let the weight land, don't fill the silence.",
+     "Validate every answer: \"Most people feel that way. That's exactly why we're doing this.\"",
+     "The soft close paints the picture: \"leave love in their hearts, not bills in the mailbox.\""
+    ],
+    "doNext": [
+     "Role-play walking a client through burial vs. cremation costs and naming their beneficiary, until it feels natural and caring — not scripted."
+    ],
+    "status": "published",
+    "poster": "posters/2-5-2.jpg",
+    "track": "while_dialing"
+   },
+   {
+    "id": "2-5-3",
+    "order": 8,
+    "title": "Budget & Discount Qualifiers (VET script §7)",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/kcj2_MRbxT0",
+    "assets": [
+     {
+      "label": "Script Navigator (builds the client profile)",
+      "type": "link",
+      "url": "https://script.ffloptimum.com"
+     }
+    ],
+    "keyTakeaways": [
+     "Frame the whole block as discounts: \"Couple quick questions to unlock any discounts.\"",
+     "Banking: local credit union or big bank — NOT online-only like Chime or GoBank; carriers need a real routing/account number.",
+     "Capture rent/own + amount, income after taxes, and any Social Security, retirement, or disability.",
+     "VFE-specific: \"Do you have a VA disability rating? What %?\"",
+     "Leftover question with ranges ($50 / $100–200 / $300+) sets the budget and prevents the objection later.",
+     "GOLDEN QUESTION — 401(k), Roth IRA, or larger savings flags IUL and upsell potential."
+    ],
+    "doNext": [
+     "Practice delivering all qualifiers as \"unlocking discounts,\" not an interrogation.",
+     "Flag any Chime/GoBank-type account on the spot and coach the client toward a draftable account."
+    ],
+    "status": "published",
+    "poster": "posters/2-5-3.jpg",
+    "track": "while_dialing"
+   },
+   {
+    "id": "2-5-4",
+    "order": 9,
+    "title": "The Health Snapshot (VET script §8)",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/y9RTbNAh00Y",
+    "assets": [],
+    "keyTakeaways": [
+     "This section determines carrier and plan — accuracy matters, so be efficient and non-judgmental.",
+     "Cover the majors: heart attack/stroke/cancer, blood pressure/diabetes/cholesterol, neuropathy/asthma/COPD, anxiety/PTSD/depression, kidney/liver, surgeries in last 5 years, overnight stays, COVID in last 2 years (hospitalized?).",
+     "Get height, weight, and every current prescription plus what it treats — meds reveal undisclosed conditions.",
+     "Never react — a flinch costs trust and honest answers.",
+     "Transition line reframes you as advocate, not gatekeeper: carriers review via the MIB; you submit the best possible request.",
+     "\"You design the plan — I'm just here to help you look good on paper\" puts you on their side."
+    ],
+    "doNext": [
+     "Get super comfortable asking the full health list smoothly.",
+     "Get comfortable with the MIB transition — it's your bridge into the close.",
+     "Enter every condition and med in the Script Navigator; it prompts the follow-ups (e.g., metformin → A1C) and pushes to the Product Wizard. Notice how the top-selling agents dig into these questions."
+    ],
+    "status": "published",
+    "poster": "posters/2-5-4.jpg",
+    "track": "while_dialing"
+   },
+   {
+    "id": "2-6-2",
+    "order": 10,
+    "title": "Present the Numbers: Maximum Coverage, Recommended, Basic (VET script §10)",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/n2pa7j7VKFk",
+    "assets": [],
+    "keyTakeaways": [
+     "Three options only. One feels like pressure. Five feels like a puzzle. Three feels like a choice.",
+     "Anchor Recommended as \"most popular.\" Maximum Coverage frames it as reasonable; Basic keeps an affordable yes on the table.",
+     "Tie it to the beneficiary. \"What you want to leave behind for [beneficiary]\" makes it emotional, not just financial.",
+     "The budget check — \"Does that feel comfortable for your monthly budget?\" — surfaces objections now, before the app.",
+     "Guide, don't push. You present and go quiet. Their choice = their commitment."
+    ],
+    "doNext": [
+     "Practice the pricing section and presenting the numbers three times so you get comfortable with the process."
+    ],
+    "status": "published",
+    "poster": "posters/2-6-2.jpg",
+    "track": "while_dialing",
+    "videoNote": "In this video you'll hear Gold, Silver and Basic. We now call them Maximum Coverage, Recommended and Basic, the same three options the Script Navigator shows."
+   },
+   {
+    "id": "2-6-3",
+    "order": 11,
+    "title": "Application & Banking (VET script §11)",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/UJlQBhIYuiQ",
+    "assets": [
+     {
+      "label": "E-App Completion Guide (how to take the app)",
+      "type": "link",
+      "url": "https://mytrustedadvisor.wixsite.com/eappguides"
+     }
+    ],
+    "keyTakeaways": [
+     "SSN last. Every other field first — trust is highest right before you ask.",
+     "SSN objection = the MIB explanation plus the license callback. You already proved you're legit at the open; remind them.",
+     "Banking is presumptive. \"Checking or savings?\" — not \"would you like to pay?\"",
+     "Banking objection: checking is the SAFEST payment — cards are what you protect, not bank drafts.",
+     "The alien line is intentional — it's warm, memorable, and gives them a reason to call you.",
+     "Never offer to email it. Emailing = a lost deal. Finish the app on the call."
+    ],
+    "doNext": [
+     "Rehearse the SSN and banking objection responses word for word.",
+     "Role-play one full app fill with a teammate — collecting SSN dead last.",
+     "Open the E-App Completion Guide, do a quick review, and bookmark it for when you're taking your first apps."
+    ],
+    "status": "published",
+    "poster": "posters/2-6-3.jpg",
+    "track": "while_dialing"
+   },
+   {
+    "id": "2-6-4",
+    "order": 12,
+    "title": "Approval & Underwriting Outcomes (VET script §12)",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/Xd6kLGx6y-I",
+    "assets": [],
+    "keyTakeaways": [
+     "You are the thermostat. Graded or denied is a routine detour, not a failure — say it like one.",
+     "Graded/denied → new app, new carrier. Copy the info over. This is why we carry Americo, Mutual of Omaha, American Amicable, Transamerica, Chubb/Combined, and more.",
+     "Guaranteed Issue explained: first 2 years natural causes = 110% of premiums back; accidental = full benefit; after 2 years = full death benefit.",
+     "The approval line builds loyalty and prevents cancellation in one breath: \"do not cancel — I can't guarantee you'll qualify again.\"",
+     "Confirm the four: carrier, policy number, premium (\"never change\"), draft date."
+    ],
+    "doNext": [
+     "Practice transitioning from one product to the next when a client doesn't qualify. It will happen on a live call at some point — get comfortable with how you'll transition so you stay calm and unshaken every time."
+    ],
+    "status": "published",
+    "poster": "posters/2-6-4.jpg",
+    "track": "while_dialing"
+   },
+   {
+    "id": "2-6-5",
+    "order": 13,
+    "title": "Wrap-Up, Loyalty & Referrals (VET script §13)",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/wkkppRiTHZs",
+    "assets": [
+     {
+      "label": "Legacy Safeguard — open it in Sales Tools",
+      "type": "link",
+      "url": "js:m5GoLegacy"
+     },
+     {
+      "label": "Client Retention & Service — texts, calls & scripts",
+      "type": "link",
+      "url": "js:m5GoRetention"
+     }
+    ],
+    "keyTakeaways": [
+     "Ask the 1–5 rating. A \"5\" out loud makes them a loyal, harder-to-cancel client.",
+     "\"Agent for life\" language inoculates them against competitor calls — they already have someone they trust.",
+     "Protect them: DNC registry (freecallerregistry.com) + the free gift, Legacy Safeguard.",
+     "Referral ask is warm and specific: \"who do you care about that would benefit?\" Then promise to carry the load.",
+     "Have referrals TEXT first so you know who they are.",
+     "Persistency + referrals = a business, not a paycheck.",
+     "Give them a picture so a name comes to mind: \"Who do you know who has grandkids they want to protect? Who just lost someone and saw what a funeral costs?\"",
+     "If they say \"no one,\" ask once more with a different picture before moving on."
+    ],
+    "doNext": [
+     "Practice the referral ask out loud until it feels natural.",
+     "Set yourself up with Legacy Safeguard so you're comfortable with that process going forward."
+    ],
+    "status": "published",
+    "poster": "posters/2-6-5.jpg",
+    "track": "while_dialing"
+   }
+  ],
+  "asaCallout": "Attitude: The script feels weird because it's new, not because it's wrong. Run it 27 more times. (AC.2)"
+ },
+ {
+  "id": "objections-deep-dive",
+  "order": 9,
+  "title": "Deep Dive on Objections",
+  "summary": "",
+  "lessons": [
+   {
+    "id": "2-7-1",
+    "order": 1,
+    "title": "Objection Mindset: The Deeper Game",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/BleZkruS5fg",
+    "assets": [],
+    "keyTakeaways": [
+     "Builds on the open: you already know the 25% rule and the anchor. This is the deeper game for the objections that come later in the call.",
+     "The objection is rarely the real objection. Underneath is one fear: \"will you fight for my family when I'm gone?\" Speak to the fear: \"I'll be relentless until your family gets paid.\"",
+     "Don't take it personally. Don't get too high or too low. Nobody should know your day by your voice.",
+     "Protect your emotional energy. No fake-selling, no 20-minute \"hoping.\" Ask straight, get the truth fast, move on.",
+     "Two tools: act busy (\"300 more people to call\"); an irrational objection gets a light, smiling irrational answer.",
+     "Reframe: an objection is a buying signal. A dead lead hangs up; an engaged prospect pushes back. Lean in."
+    ],
+    "doNext": [],
+    "status": "published",
+    "poster": "posters/2-7-1.jpg",
+    "track": "while_dialing"
+   },
+   {
+    "id": "2-7-2",
+    "order": 2,
+    "title": "Closing Objections (The Money Stalls)",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/2BlKBZvubzI",
+    "assets": [
+     {
+      "label": "Veteran Objections Cheat Sheet — opening & closing",
+      "type": "link",
+      "url": "https://script.ffloptimum.com/vet/objections/"
+     }
+    ],
+    "keyTakeaways": [
+     "Universal reframe: \"do you want me to go higher or lower, or is ___ good for you?\"",
+     "Sell approval first, price second. They can't overthink a policy they aren't approved for yet.",
+     "\"Start with what you know in your heart is always affordable\" defuses the spouse and shop-around stalls.",
+     "Stay in the one-call close. No callbacks to \"think about it.\""
+    ],
+    "doNext": [
+     "Review the Veteran Objections Cheat Sheet attached above — the closing half, the money stalls."
+    ],
+    "status": "published",
+    "poster": "posters/2-7-2.jpg",
+    "track": "while_dialing"
+   },
+   {
+    "id": "2-7-3",
+    "order": 3,
+    "title": "The Deep Drills (Spouse, Bank Info, \"In Writing\")",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/_LFl4QyfPyg",
+    "assets": [
+     {
+      "label": "Veteran Objections Cheat Sheet — opening & closing",
+      "type": "link",
+      "url": "https://script.ffloptimum.com/vet/objections/"
+     }
+    ],
+    "keyTakeaways": [
+     "Spouse stall: \"do you need her permission to protect her?\" Then the beneficiary logic chain — she decides everything except the policy you're buying for her.",
+     "Bank info (the deeper probe): you learned the \"checking is the safest payment\" reframe back in 2.6.3 — this is when they still resist. Don't defend, probe: \"Okay, why not?\" → \"What don't you feel comfortable with?\" → \"How would you like to protect your family when 100% of Americans pay this way?\"",
+     "\"In writing first\" is a stall. Sending an email breaks the close. Never take an email before the close."
+    ],
+    "doNext": [
+     "Review and practice the closing objections using the Veteran Objections Cheat Sheet above."
+    ],
+    "status": "published",
+    "poster": "posters/2-7-3.jpg",
+    "track": "while_dialing"
+   }
+  ],
+  "asaCallout": "Attitude: It just is. Same event, different story. (A.4)"
+ },
+ {
+  "id": "how-we-get-paid-compliance",
+  "order": 10,
+  "title": "How We Get Paid & Compliance",
+  "summary": "",
+  "lessons": [
+   {
+    "id": "gp-1",
+    "order": 1,
+    "title": "How You Get Paid: The Advance, Chargebacks & Persistency",
+    "videoTargetSeconds": 150,
+    "videoEmbedUrl": "https://youtu.be/MtJxHUTDUns",
+    "assets": [
+     {
+      "label": "Compensation Grid",
+      "type": "link",
+      "url": "https://drive.google.com/file/d/1w4ZNu10uKH44yC1GrD1FdjguYJLCA7Mx/view"
+     },
+     {
+      "label": "Chargebacks, Explained — the written version",
+      "type": "link",
+      "url": "https://tools.ffloptimum.com/chargebacks/"
+     }
+    ],
+    "keyTakeaways": [
+     "You're paid on advance — when the policy issues and the first payment drafts, the carrier fronts most of the first-year commission upfront.",
+     "The math (most carriers): advanced 75%. You get 9 of the first 12 months upfront; months 10–12 pay as-earned. Total = 100% of first-year commission, just front-loaded.",
+     "The advance is essentially an unsecured loan — the company fronts you unearned money, betting the policy sticks. You \"repay\" it by the policy staying on the books.",
+     "Chargeback = the unearned advance taken back if the policy lapses/cancels early. Not a punishment — the loan getting called.",
+     "Persistency = % of your book that stays on the books; a good closer keeps ~80–85%. Lock-downs + serving the real why protect it.",
+     "Two rules: keep a buffer from every advance; kill chargebacks by selling policies that stick.",
+     "Run it like a business: deposits go to your business account, and lead spend is a business expense.",
+     "Pay yourself the minimum you need, not the maximum you want, until the business has a cushion."
+    ],
+    "doNext": [
+     "Keep a buffer from your advances — don't spend it all as if it's earned.",
+     "Review your own persistency monthly; treat every chargeback as a lesson in what didn't stick.",
+     "Attend New Agent Orientation if you haven't yet — <a href=\"http://newagent.fflall.com/\" target=\"_blank\" rel=\"noopener\">newagent.fflall.com</a> (Saturdays 10 AM EST)"
+    ],
+    "status": "published",
+    "poster": "posters/gp-1.jpg",
+    "track": "while_dialing"
+   },
+   {
+    "id": "gp-2",
+    "order": 2,
+    "title": "Your Commission: One Flat Rate, Many Products",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/f_pq2Afez5g",
+    "assets": [
+     {
+      "label": "Compensation Grid",
+      "type": "link",
+      "url": "https://drive.google.com/file/d/1w4ZNu10uKH44yC1GrD1FdjguYJLCA7Mx/view"
+     },
+     {
+      "label": "Interactive Compensation by Product — your rate on every carrier",
+      "type": "link",
+      "url": "https://portal.ffloptimum.com/comp-grid.html"
+     },
+     {
+      "label": "Producer Bonus",
+      "type": "link",
+      "url": "https://drive.google.com/file/d/1QMbjz2HpePURBVBD432q9m49zG0coSGW/view"
+     },
+     {
+      "label": "Commission Estimator",
+      "type": "link",
+      "url": "http://tools.ffloptimum.com/#commission"
+     },
+     {
+      "label": "Income Calculator",
+      "type": "link",
+      "url": "http://tools.ffloptimum.com/#income"
+     }
+    ],
+    "keyTakeaways": [
+     "FFL gives you ONE flat commission rate (tied to your contract level) — not 75 different rates per product. That would be unmanageable.",
+     "That one rate translates to each carrier's product automatically. Because each product has its own schedule, some products pay a higher effective rate than others.",
+     "Two things tell you everything: the Compensation Grid (your rate) and the interactive comp grid (how that rate translates on every carrier's products).",
+     "New Agent Orientation is where this gets explained live — don't miss it."
+    ],
+    "doNext": [
+     "Open your interactive Compensation Grid and find your current rate.",
+     "Skim the Commission-by-Product Guide so you know which products pay more.",
+     "Use the Commission Estimator linked above to see how your pay on a specific policy breaks down.",
+     "Plan out your income with the Income Calculator above to see how many policies you'll want to write per week."
+    ],
+    "status": "published",
+    "poster": "posters/gp-2.jpg",
+    "track": "while_dialing"
+   },
+   {
+    "id": "gp-3",
+    "order": 3,
+    "title": "You Control Your Pay: Production Is Your Raise",
+    "videoTargetSeconds": 90,
+    "videoEmbedUrl": "https://youtu.be/8UAffcNZDn4",
+    "assets": [
+     {
+      "label": "Compensation Grid",
+      "type": "link",
+      "url": "https://drive.google.com/file/d/1w4ZNu10uKH44yC1GrD1FdjguYJLCA7Mx/view"
+     }
+    ],
+    "keyTakeaways": [
+     "You control your pay — your comp level isn't fixed; it rises with production.",
+     "More production → higher comp level. You decide your raise by how much you sell, not a schedule.",
+     "Where to learn the thresholds: the Production / Comp-Advancement Guide + New Agent Orientation."
+    ],
+    "doNext": [
+     "Find the next production level above you and write down the number to hit it.",
+     "Bring your comp questions to New Agent Orientation."
+    ],
+    "status": "published",
+    "poster": "posters/gp-3.jpg",
+    "track": "while_dialing"
+   },
+   {
+    "id": "ce-1",
+    "order": 4,
+    "title": "Compliance & Ethics: Protect the Client and Yourself",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtu.be/AJsKL8eUy_M",
+    "assets": [],
+    "keyTakeaways": [
+     "Suitability: only sell what fits the client's need and budget — a policy they can keep.",
+     "Replacement: replacing existing coverage has rules/forms — follow them; never churn a client into something worse.",
+     "DNC: respect Do Not Call; text codes only to the client's own matching phone number.",
+     "Illustrations (esp. IUL): never oversell projected returns; show conservative, explain floor/cap.",
+     "Never misrepresent, forge, or rush a client.",
+     "Red flags (from our leaders): a big first month (think $40K+) can trigger a carrier audit. That's fine; just make sure every app is clean and every client is real. Don't buy pre-closed leads from DMs, and text codes only to the matching number."
+    ],
+    "doNext": [
+     "On every sale, always ask yourself: is this the right solution for this client, and do I feel confident they can afford it and will keep it?"
+    ],
+    "status": "published",
+    "poster": "posters/ce-1.jpg",
+    "track": "while_dialing"
+   }
+  ],
+  "asaCallout": "Activity: Take the minimum you need, not the maximum you want. Keep the business funded. (GP.1)"
+ },
+ {
+  "id": "build-your-future",
+  "order": 11,
+  "title": "Build Your Future",
+  "summary": "Social, recruiting-as-referral, and identity.",
+  "lessons": [
+   {
+    "id": "4-4",
+    "order": 1,
+    "title": "Referrals That Compound",
+    "videoTargetSeconds": 75,
+    "videoEmbedUrl": "https://youtu.be/KtMSOUd46A4",
+    "assets": [],
+    "keyTakeaways": [
+     "You learned that referrals are the biggest way to compound your sales and increase persistency.",
+     "The move: ask to be put in a group chat with the beneficiaries — they already care; offer to help them too. The beneficiary is your first referral.",
+     "One strong referral can be worth thousands in AP — the trust you earned travels."
+    ],
+    "doNext": [],
+    "status": "published",
+    "poster": "posters/4-4.jpg",
+    "track": "while_dialing"
+   },
+   {
+    "id": "5-1",
+    "order": 2,
+    "title": "Social Media: Your Modern Résumé",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtube.com/shorts/CRSADN81wiA",
+    "assets": [],
+    "keyTakeaways": [
+     "Core frame: \"Social media is the modern-day résumé.\" People vet you online before they trust you.",
+     "One post a day — value-based only: your take on the opportunity, leadership, and selling. No dances, no memes.",
+     "Same discipline as dialing: show up daily, regardless of yesterday.",
+     "Good-news campaign in stories: a deal, the gym, community wins. Convert the best into permanent highlights.",
+     "It compounds slowly — expect months, not weeks. Tanner started at 700 followers and just showed up.",
+     "Weekly standard (Ronnie Salem): 3–5 reels a week and 8–12 stories a day, half your own and half reshares of teammates' wins.",
+     "Find your message with 5 questions (Stan Smith): What did you go through? What are you going through? What do you want to go through? What will you achieve? What have you already achieved?",
+     "Not a camera person? Start with stories and reshares. Stan hired a cameraman because he hated being on camera."
+    ],
+    "doNext": [
+     "Post your first value-based piece today.",
+     "Set a highlight titled \"Wins\" and drop your first good-news story in it."
+    ],
+    "status": "published",
+    "poster": "posters/5-1.jpg",
+    "portrait": true,
+    "track": "while_dialing"
+   },
+   {
+    "id": "5-2",
+    "order": 3,
+    "title": "Recruit From Day One (as a Referral)",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtube.com/shorts/txcPfzVu9ao",
+    "assets": [
+     {
+      "label": "Go to the Recruiting page",
+      "type": "link",
+      "url": "app:recruiting"
+     }
+    ],
+    "keyTakeaways": [
+     "Recruit day one = refer, not build. Point them at the opportunity, hand them to your upline, keep selling.",
+     "Warehouse analogy: you'd tell your out-of-work friends about great pay — and nobody would expect you to train them.",
+     "You don't hire, train, or build until managing partner at $40K/month.",
+     "The \"I need my own success story first\" objection — the honest translation: \"I won't share this unless I'm the star of the story.\" Tens of thousands of success stories already exist; use theirs.",
+     "The brother story: people's family and friends join other teams every week because the agent who knew them was waiting to look impressive.",
+     "Cost check: a real recruiting conversation is ~5 minutes + a text. There is no schedule split — always selling, always recruiting.",
+     "The priority rule (hard): on with a client + recruit calls → don't answer. On with a recruit + client calls back → answer.",
+     "Building math to internalize now: 5 agents x $15K x 25% spread ≈ $17K/month passive.",
+     "Biggest regret of builders: waiting too long to refer.",
+     "Start with the first 5 who come to mind: people you know are disciplined, coachable, and have good morals (Ronnie Salem).",
+     "Or throw the hook: \"I'm looking for someone who works hard and doesn't feel like they're where they need to be in life. Anyone come to mind?\"",
+     "Handing a prospect to your manager? Fact, fact, heart: \"[Prospect], meet [Manager]. [Fact]. [Fact]. [Why I trust them]. You two should talk.\" Then step back."
+    ],
+    "doNext": [
+     "List three people who need this opportunity — today, before you feel ready.",
+     "Pick one success story from the agency that isn't yours, and learn it well enough to tell it in thirty seconds.",
+     "Send one referral up to your upline this week.",
+     "Open the Recruiting page to grab the resources and set up your VBO recruiting webinar."
+    ],
+    "status": "published",
+    "poster": "posters/5-2.jpg",
+    "portrait": true,
+    "track": "while_dialing"
+   },
+   {
+    "id": "5-2b",
+    "order": 4,
+    "title": "The Five-Minute Recruiting Conversation",
+    "videoTargetSeconds": 120,
+    "videoEmbedUrl": "https://youtube.com/shorts/8y65W93OYL0",
+    "assets": [
+     {
+      "label": "One-page \"Out in the World\" recruiting card",
+      "type": "download",
+      "url": ""
+     }
+    ],
+    "keyTakeaways": [
+     "Who you're looking for: tired, frustrated, beaten down by their situation. Check-to-check. The 28-year-old still at home. The degree that doesn't pay the bills. Not \"high-level people\" — that phrase means nothing.",
+     "The only real filter: works hard, takes feedback, willing to change, does it with humility. Background and résumé don't predict this.",
+     "The 4-move conversation (~5 min): 1) \"How long have you been here?\" 2) \"You like it?\" 3) \"You seem really talented — would you ever look at something that could pay you more?\" 4) Give the offer + belief + contact: \"I do life insurance. Tons of leads, everybody's going to die, no experience needed. Here's my Instagram and my cell — hit me up either way.\"",
+     "Add the future-pace line: \"You're going to be thirty soon — I don't think this is where you want to be in fifteen years.\"",
+     "Less is more. 47 minutes breeds contempt and comfort. 5 minutes breeds curiosity — they chase you.",
+     "The follow-up is tiny: they message you → you send a licensing link (30 seconds) → hand them to your upline.",
+     "The challenge line: \"Why not you?\" Everybody cheers for everybody else; nobody ever asked them why not them.",
+     "Don't pitch: company size, revenue, comp grid, carriers. Not in the first conversation."
+    ],
+    "doNext": [
+     "Memorize the four questions. Say them out loud until they sound like conversation, not a script.",
+     "Have one of these conversations this week with someone who serves you — valet, barista, server, delivery driver.",
+     "Send whoever responds straight to your upline, and get back on the phones."
+    ],
+    "status": "published",
+    "poster": "posters/5-2b.jpg",
+    "portrait": true,
+    "track": "while_dialing"
+   }
+  ],
+  "asaCallout": "Attitude: Preach it, act it, become it. (A.6)"
+ },
+ {
+  "id": "product-tracks-later",
+  "order": 12,
+  "title": "Product Tracks (later)",
+  "summary": "Short intros to Mortgage, Inbound, and IUL. Coming soon.",
+  "lessons": [
+   {
+    "id": "6-1",
+    "order": 1,
+    "title": "Product Track Intro: Mortgage Protection (Placeholder)",
+    "videoTargetSeconds": 90,
+    "videoEmbedUrl": "",
+    "assets": [
+     {
+      "label": "Mortgage Protection Objections Cheat Sheet — opening & closing",
+      "type": "link",
+      "url": "https://script.ffloptimum.com/mortgage/objections/"
+     }
+    ],
+    "keyTakeaways": [
+     "Placeholder / orientation only — full script and videos come later.",
+     "When: after you've mastered Veteran's Final Expense. High-conversion next product.",
+     "Core frame: protect the family from the mortgage payment burden, not the whole house.",
+     "Word track: \"Your kids will sell the house and capture the equity; you just don't want to leave the payment burden on them.\"",
+     "The pivot: a small $10–30K policy that covers payments while the house sells."
+    ],
+    "doNext": [
+     "File the concept away. Keep your focus on VFE mastery — the full mortgage-protection track unlocks when you're ready."
+    ],
+    "status": "coming_soon",
+    "track": "while_dialing"
+   },
+   {
+    "id": "6-2",
+    "order": 2,
+    "title": "Product Track Intro: Inbound Calls (Placeholder)",
+    "videoTargetSeconds": 90,
+    "videoEmbedUrl": "",
+    "assets": [],
+    "keyTakeaways": [
+     "Placeholder / orientation only — full inbound script and videos come later.",
+     "What it is: \"on-demand final expense.\" Caller came to you, so they're warmer — but same skills.",
+     "Open: \"This is [name] with the Life Insurance Department on a recorded line — are you looking to cover a burial or cremation today?\"",
+     "It's not a free benefit — set that expectation early.",
+     "Pace: reach the financial inventory before 90 seconds.",
+     "Rule: over 85 → refer to Aetna."
+    ],
+    "doNext": [
+     "Note the difference between outbound and inbound in your own words. Keep sharpening your core VFE close — inbound rides on those same reps."
+    ],
+    "status": "coming_soon",
+    "track": "while_dialing"
+   },
+   {
+    "id": "6-3",
+    "order": 3,
+    "title": "Product Track Intro: IUL (Later Track)",
+    "videoTargetSeconds": 90,
+    "videoEmbedUrl": "",
+    "assets": [
+     {
+      "label": "IUL Objections Cheat Sheet — opening & closing",
+      "type": "link",
+      "url": "https://script.ffloptimum.com/iul/objections/"
+     }
+    ],
+    "keyTakeaways": [
+     "Later track — pursue after VFE mastery. Full IUL training is its own track.",
+     "What it is: the wealth-building product — tax-free growth, living benefits, \"be your own bank.\"",
+     "Bridge is built in: the VFE script's \"4th option\" nudges healthy clients toward IUL.",
+     "The one exception to one-call close: high-dollar IUL moves to a Zoom — the IUL script's \"Path A+++.\" Everything else still closes on the call.",
+     "Have an IUL prospect now? Bring it to Jesse; he'll run the case with you."
+    ],
+    "doNext": [
+     "Notice the \"4th option\" the next time you run the VFE script — that's your IUL seed. Stay locked on VFE fundamentals until the full IUL track opens."
+    ],
+    "status": "coming_soon",
+    "track": "while_dialing"
+   }
+  ],
+  "asaCallout": "Schedule: Master VFE first. The next track opens when your Winning Week is running. (S.2)"
+ },
+ {
+  "id": "outstanding-coming-soon",
+  "order": 13,
+  "title": "Outstanding / Coming Soon",
+  "summary": "Planned sections not built yet.",
+  "lessons": [
+   {
+    "id": "hi",
+    "order": 1,
+    "title": "Health Insurance (Group / Champ) — Coming Soon (placeholder)",
+    "videoTargetSeconds": 0,
+    "videoEmbedUrl": "",
+    "assets": [],
+    "keyTakeaways": [
+     "Health insurance (group / Champ Plan) is a whole separate section — planned, not built yet.",
+     "Not part of the core VFE onboarding; it's an additional track for later."
+    ],
+    "doNext": [
+     "Nothing yet — this section is coming. Stay focused on VFE."
+    ],
+    "status": "coming_soon",
+    "track": "while_dialing"
+   }
+  ]
+ }
+]
