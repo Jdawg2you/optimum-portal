@@ -1,6 +1,9 @@
 # optimum-portal
 
-portal.ffloptimum.com, served by GitHub Pages from `main`.
+portal.ffloptimum.com, served by GitHub Pages from `main`. **This repo is public.**
+
+Standing rules for anyone (or any Claude thread) working here: `CLAUDE.md`. Decisions and
+the backlog: `docs/decisions.md`. The original migration plan: `docs/HANDOFF.md`.
 
 ## Do not edit or upload `index.html`
 
