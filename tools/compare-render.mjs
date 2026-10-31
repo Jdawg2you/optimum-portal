@@ -13,6 +13,7 @@
 // build raised no page error the old one did not.
 //
 //   node tools/compare-render.mjs --old origin/main --new .
+//   ... --expect-diff view:academy,module:start-here   for a change meant to alter just those screens
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
@@ -140,7 +141,15 @@ const a = await walk(OLD);
 console.log(`old build: ${Object.keys(a.views).length} snapshots`);
 const b = await walk(NEW);
 const problems = [];
+// --expect-diff k1,k2: these snapshots are meant to change (and must); every other one must not.
+const expectDiff = new Set((arg('--expect-diff', '') || '').split(',').filter(Boolean));
 const keys = new Set([...Object.keys(a.views), ...Object.keys(b.views)]);
+for (const k of expectDiff) {
+  const x = a.views[k], y = b.views[k];
+  if (!x || !y) problems.push(`--expect-diff ${k}: no such snapshot`);
+  else if (x.html === y.html && x.text === y.text) problems.push(`${k}: expected to change, but renders the same as before`);
+  keys.delete(k);
+}
 let imgCount = 0;
 for (const k of keys) {
   const x = a.views[k], y = b.views[k];
@@ -161,7 +170,7 @@ for (const e of newErrors) problems.push('new page error: ' + e);
 if (b.local404.length) problems.push('missing local files in new build: ' + [...new Set(b.local404)].join(', '));
 
 if (process.env.RENDER_DUMP) fs.writeFileSync(process.env.RENDER_DUMP, JSON.stringify({ a, b }, null, 1));
-console.log(`compared ${keys.size} views/modules/lessons, ${imgCount} image placements, ${Object.keys(b.downloads).length} share downloads`);
+console.log(`compared ${keys.size} views/modules/lessons${expectDiff.size ? ` (+${expectDiff.size} expected to change, and changed)` : ''}, ${imgCount} image placements, ${Object.keys(b.downloads).length} share downloads`);
 if (a.errors.length) console.log(`page errors present in BOTH builds (pre-existing, not caused by this change): ${[...new Set(a.errors)].join(' | ')}`);
 if (problems.length) { console.log(problems.slice(0, 40).join('\n')); fail(`${problems.length} difference(s)`); }
 console.log('RENDER IDENTICAL');
