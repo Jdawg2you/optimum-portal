@@ -11,6 +11,7 @@
     "title": "Start Here: Welcome & How This Works",
     "videoTargetSeconds": 90,
     "videoEmbedUrl": "https://youtu.be/7U4e_LIXUDQ",
+    "videoSeconds": 50,
     "assets": [],
     "keyTakeaways": [
      "This training is for new licensed agents — the moment you're licensed, go straight through it.",
@@ -53,6 +54,7 @@
     "assets": [],
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://www.youtube.com/embed/fdH9p35SEN0",
+    "videoSeconds": 111,
     "poster": "posters/a-1.jpg"
    },
    {
@@ -81,6 +83,7 @@
     ],
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://www.youtube.com/embed/NO8V4O7izn8",
+    "videoSeconds": 103,
     "poster": "posters/a-2.jpg"
    },
    {
@@ -104,6 +107,7 @@
     "assets": [],
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://www.youtube.com/embed/T93ynamNgDo",
+    "videoSeconds": 104,
     "poster": "posters/a-3.jpg"
    },
    {
@@ -112,6 +116,7 @@
     "title": "The Real Job (Set Expectations Hard)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/YEYRlcB-f2o",
+    "videoSeconds": 102,
     "assets": [],
     "keyTakeaways": [
      "1099, commission-only — no paycheck for showing up; you may not sell for the first two weeks, and sometimes that is part of learning.",
@@ -136,6 +141,7 @@
     "title": "The Opportunity & The Math (Why This Business)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/X65PnF2Jx5s",
+    "videoSeconds": 121,
     "assets": [
      {
       "label": "Income Calculator",
@@ -196,6 +202,7 @@
     ],
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://www.youtube.com/embed/Pn60afYc85w",
+    "videoSeconds": 116,
     "poster": "posters/s-1.jpg"
    },
    {
@@ -230,6 +237,7 @@
     ],
     "videoTargetSeconds": 180,
     "videoEmbedUrl": "https://www.youtube.com/embed/iUbShy1yuYc",
+    "videoSeconds": 144,
     "poster": "posters/s-2.jpg"
    }
   ]
@@ -272,6 +280,7 @@
     ],
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://www.youtube.com/embed/NacVQcf2jss",
+    "videoSeconds": 103,
     "poster": "posters/ac-1.jpg"
    },
    {
@@ -308,6 +317,7 @@
     ],
     "videoTargetSeconds": 210,
     "videoEmbedUrl": "https://www.youtube.com/embed/7AofXl2exX4",
+    "videoSeconds": 168,
     "poster": "posters/ac-3.jpg"
    },
    {
@@ -316,6 +326,7 @@
     "title": "\"You Don't Need to Know More. You Need to Dial.\"",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/I6qSMpypx20",
+    "videoSeconds": 148,
     "assets": [],
     "keyTakeaways": [
      "The excuse to kill: \"I need to learn the products before I dial.\" It feels responsible; it's actually avoidance.",
@@ -340,6 +351,7 @@
     "title": "The Standard: A Sale a Day",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/J3pGuEkMFDQ",
+    "videoSeconds": 74,
     "assets": [
      {
       "label": "Goal Card",
@@ -366,6 +378,7 @@
     "title": "The Winning System",
     "videoTargetSeconds": 0,
     "videoEmbedUrl": "https://www.youtube.com/embed/AksfsmuKQiM",
+    "videoSeconds": 119,
     "assets": [
      {
       "label": "Save the Tuesday call to your calendar — downloads a file, open it to add",
@@ -417,6 +430,7 @@
     "title": "Set Up Your Machine Before Day One",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/xbjv4Ji_oKE",
+    "videoSeconds": 109,
     "assets": [
      {
       "label": "Cleared to Dial — New-Agent Checklist",
@@ -476,6 +490,7 @@
     "title": "What You're Actually Selling: Veteran's Final Expense",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/anCs-X_YUeI",
+    "videoSeconds": 122,
     "assets": [
      {
       "label": "Product Wizard — which carriers will actually take this client. Bookmarked it yet?",
@@ -505,6 +520,7 @@
     "title": "To Script or Not to Script (Why You Start With the Script)",
     "videoTargetSeconds": 150,
     "videoEmbedUrl": "https://youtu.be/mtzrFI2goak",
+    "videoSeconds": 216,
     "assets": [
      {
       "label": "Insurance Script Navigator — the VET call, card by card",
@@ -542,6 +558,7 @@
     "title": "The Open: The First 90 Seconds (VET script §1)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/fiVaotmdVZg",
+    "videoSeconds": 103,
     "assets": [
      {
       "label": "Insurance Script Navigator — the VET call, card by card",
@@ -569,6 +586,7 @@
     "title": "Powering Through Opening Objections (The First 30 Seconds)",
     "videoTargetSeconds": 150,
     "videoEmbedUrl": "https://youtu.be/KftCnJHWeAU",
+    "videoSeconds": 183,
     "assets": [
      {
       "label": "Insurance Script Navigator — the VET call, card by card",
@@ -605,6 +623,7 @@
     "title": "Plan Education & Get Your Price",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://www.youtube.com/embed/4RTmvcqZZIY",
+    "videoSeconds": 118,
     "assets": [
      {
       "label": "Policy Benefits — Plain-English Guide",
@@ -645,6 +664,7 @@
     "title": "Live Dials & the Release Ladder",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://www.youtube.com/embed/q9b9yumMtpw",
+    "videoSeconds": 128,
     "assets": [
      {
       "label": "Cleared to Dial — New-Agent Checklist",
@@ -705,6 +725,7 @@
     "assets": [],
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://www.youtube.com/embed/QvuQHW0En6w",
+    "videoSeconds": 129,
     "poster": "posters/a-4.jpg"
    },
    {
@@ -727,6 +748,7 @@
     "assets": [],
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://www.youtube.com/embed/uv7Zi6_qzOY",
+    "videoSeconds": 136,
     "poster": "posters/a-5.jpg"
    },
    {
@@ -750,6 +772,7 @@
     "assets": [],
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://www.youtube.com/embed/3IL2QF2toMU",
+    "videoSeconds": 94,
     "poster": "posters/a-6.jpg"
    },
    {
@@ -758,6 +781,7 @@
     "title": "Mindset Foundations: \"It's a Skill Issue, Not a Lead Issue\"",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/QT-kE9jooXs",
+    "videoSeconds": 110,
     "assets": [
      {
       "label": "The Greatest Salesman in the World (Og Mandino) — download on the Self Development page",
@@ -792,6 +816,7 @@
     "title": "Identity & Longevity",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtube.com/shorts/pmMw3_Ve5uM",
+    "videoSeconds": 76,
     "assets": [],
     "keyTakeaways": [
      "Work from identity, not toward things: Provider, Protector, Leader.",
@@ -845,6 +870,7 @@
     ],
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://www.youtube.com/embed/h_5pXnF8p_k",
+    "videoSeconds": 101,
     "poster": "posters/ac-2.jpg"
    }
   ]
@@ -861,6 +887,7 @@
     "title": "The Product Landscape (So You Can Speak to Anything)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/fXzI-xhpRH0",
+    "videoSeconds": 121,
     "assets": [],
     "keyTakeaways": [
      "You SELL VFE first — this lesson is so you can speak to anything and place clients correctly.",
@@ -885,6 +912,7 @@
     "title": "Tonality & Energy: \"It's Not What You Say\"",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/Wew7V68qvEM",
+    "videoSeconds": 111,
     "assets": [],
     "keyTakeaways": [
      "Tone beats words. Same script, different energy = different result.",
@@ -907,6 +935,7 @@
     "title": "When They're Busy: Reschedule, Don't Lose Them (VET script §2)",
     "videoTargetSeconds": 90,
     "videoEmbedUrl": "https://youtu.be/sC5dpouZSjE",
+    "videoSeconds": 88,
     "assets": [
      {
       "label": "Insurance Script Navigator — the VET call, card by card",
@@ -935,6 +964,7 @@
     "title": "Trust & Licensing: Your Credentials (VET script §3)",
     "videoTargetSeconds": 90,
     "videoEmbedUrl": "https://youtu.be/6uQN2nP6yC8",
+    "videoSeconds": 81,
     "assets": [
      {
       "label": "Insurance Script Navigator — the VET call, card by card",
@@ -960,6 +990,7 @@
     "title": "Frame Your Role & Get Permission to Lead (VET script §4)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/XBNBxBYdcuk",
+    "videoSeconds": 101,
     "assets": [
      {
       "label": "Insurance Script Navigator — the VET call, card by card",
@@ -984,6 +1015,7 @@
     "title": "Discover the Why (VET script §5)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/Xam5MzoQOdE",
+    "videoSeconds": 107,
     "assets": [],
     "keyTakeaways": [
      "No why, no sale — this section is non-negotiable on every VFE call.",
@@ -1006,6 +1038,7 @@
     "title": "Burial, Cremation & the Beneficiary (VET script §6)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/g7I3BwuiM48",
+    "videoSeconds": 93,
     "assets": [],
     "keyTakeaways": [
      "This section turns an abstract why into a concrete dollar problem.",
@@ -1028,6 +1061,7 @@
     "title": "Budget & Discount Qualifiers (VET script §7)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/kcj2_MRbxT0",
+    "videoSeconds": 119,
     "assets": [
      {
       "label": "Script Navigator (builds the client profile)",
@@ -1057,6 +1091,7 @@
     "title": "The Health Snapshot (VET script §8)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/y9RTbNAh00Y",
+    "videoSeconds": 95,
     "assets": [],
     "keyTakeaways": [
      "This section determines carrier and plan — accuracy matters, so be efficient and non-judgmental.",
@@ -1081,6 +1116,7 @@
     "title": "Present the Numbers: Maximum Coverage, Recommended, Basic (VET script §10)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/n2pa7j7VKFk",
+    "videoSeconds": 117,
     "assets": [],
     "keyTakeaways": [
      "Three options only. One feels like pressure. Five feels like a puzzle. Three feels like a choice.",
@@ -1103,6 +1139,7 @@
     "title": "Application & Banking (VET script §11)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/UJlQBhIYuiQ",
+    "videoSeconds": 136,
     "assets": [
      {
       "label": "E-App Completion Guide (how to take the app)",
@@ -1133,6 +1170,7 @@
     "title": "Approval & Underwriting Outcomes (VET script §12)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/Xd6kLGx6y-I",
+    "videoSeconds": 98,
     "assets": [],
     "keyTakeaways": [
      "You are the thermostat. Graded or denied is a routine detour, not a failure — say it like one.",
@@ -1154,6 +1192,7 @@
     "title": "Wrap-Up, Loyalty & Referrals (VET script §13)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/wkkppRiTHZs",
+    "videoSeconds": 75,
     "assets": [
      {
       "label": "Legacy Safeguard — open it in Sales Tools",
@@ -1199,6 +1238,7 @@
     "title": "Objection Mindset: The Deeper Game",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/BleZkruS5fg",
+    "videoSeconds": 162,
     "assets": [],
     "keyTakeaways": [
      "Builds on the open: you already know the 25% rule and the anchor. This is the deeper game for the objections that come later in the call.",
@@ -1219,6 +1259,7 @@
     "title": "Closing Objections (The Money Stalls)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/2BlKBZvubzI",
+    "videoSeconds": 113,
     "assets": [
      {
       "label": "Veteran Objections Cheat Sheet — opening & closing",
@@ -1245,6 +1286,7 @@
     "title": "The Deep Drills (Spouse, Bank Info, \"In Writing\")",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/_LFl4QyfPyg",
+    "videoSeconds": 113,
     "assets": [
      {
       "label": "Veteran Objections Cheat Sheet — opening & closing",
@@ -1279,6 +1321,7 @@
     "title": "How You Get Paid: The Advance, Chargebacks & Persistency",
     "videoTargetSeconds": 150,
     "videoEmbedUrl": "https://youtu.be/MtJxHUTDUns",
+    "videoSeconds": 148,
     "assets": [
      {
       "label": "Compensation Grid",
@@ -1316,6 +1359,7 @@
     "title": "Your Commission: One Flat Rate, Many Products",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/f_pq2Afez5g",
+    "videoSeconds": 84,
     "assets": [
      {
       "label": "Compensation Grid",
@@ -1365,6 +1409,7 @@
     "title": "You Control Your Pay: Production Is Your Raise",
     "videoTargetSeconds": 90,
     "videoEmbedUrl": "https://youtu.be/8UAffcNZDn4",
+    "videoSeconds": 54,
     "assets": [
      {
       "label": "Compensation Grid",
@@ -1391,6 +1436,7 @@
     "title": "Compliance & Ethics: Protect the Client and Yourself",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtu.be/AJsKL8eUy_M",
+    "videoSeconds": 86,
     "assets": [],
     "keyTakeaways": [
      "Suitability: only sell what fits the client's need and budget — a policy they can keep.",
@@ -1422,6 +1468,7 @@
     "title": "Referrals That Compound",
     "videoTargetSeconds": 75,
     "videoEmbedUrl": "https://youtu.be/KtMSOUd46A4",
+    "videoSeconds": 51,
     "assets": [],
     "keyTakeaways": [
      "You learned that referrals are the biggest way to compound your sales and increase persistency.",
@@ -1439,6 +1486,7 @@
     "title": "Social Media: Your Modern Résumé",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtube.com/shorts/CRSADN81wiA",
+    "videoSeconds": 76,
     "assets": [],
     "keyTakeaways": [
      "Core frame: \"Social media is the modern-day résumé.\" People vet you online before they trust you.",
@@ -1465,6 +1513,7 @@
     "title": "Recruit From Day One (as a Referral)",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtube.com/shorts/txcPfzVu9ao",
+    "videoSeconds": 125,
     "assets": [
      {
       "label": "Go to the Recruiting page",
@@ -1503,6 +1552,7 @@
     "title": "The Five-Minute Recruiting Conversation",
     "videoTargetSeconds": 120,
     "videoEmbedUrl": "https://youtube.com/shorts/8y65W93OYL0",
+    "videoSeconds": 135,
     "assets": [
      {
       "label": "One-page \"Out in the World\" recruiting card",

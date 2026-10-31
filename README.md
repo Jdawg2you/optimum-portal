@@ -83,3 +83,4 @@ The chat itself lives in `brain.html` and `ask-optimum.js`.
 | `node tools/compare-render.mjs --old origin/main --new .` | every view and lesson renders identically (for refactors, not content changes) |
 | `node tools/cert-check.mjs --old origin/main --new .` | the certificate on a cold cache |
 | `node tools/live-check.mjs https://portal.ffloptimum.com` | the live site serves HEAD byte for byte |
+| `node tools/video-lengths.mjs --check` | each lesson's stored `videoSeconds` matches its YouTube length (run without `--check` to update after adding or replacing a video; it drives "about N min of video left") |
