@@ -1,0 +1,10 @@
+{
+  "name": "optimum-portal-tools",
+  "private": true,
+  "type": "module",
+  "description": "Build checks and browser tests for portal.ffloptimum.com. Not served to agents.",
+  "dependencies": {
+    "acorn": "8.14.0",
+    "puppeteer-core": "23.11.1"
+  }
+}
