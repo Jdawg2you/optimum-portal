@@ -34,7 +34,8 @@ say "2/7 Build index.html from source/ + content/ (refuses a page that fails ver
 node tools/build.mjs
 
 say "3/7 Stage the page and what it serves"
-PRE_INDEX=$(git write-tree)   # a dry run puts the index back exactly as it was
+PRE_INDEX=$(git write-tree)   # a dry run puts the index back exactly as it was, even when it stops early
+trap '[ "$DRY" = 1 ] && git read-tree "$PRE_INDEX"' EXIT
 git add -- index.html source content assets posters
 OTHER=$(git status --porcelain --untracked-files=no | grep -v '^[MADR] ' || true)
 [ -z "$OTHER" ] || die "uncommitted changes outside what deploy stages:
@@ -49,7 +50,6 @@ else
   [ -n "$MSG" ] || { [ "$DRY" = 1 ] && MSG="dry run"; } || die "give a commit message: ./deploy.sh \"what changed\""
   if [ "$DRY" = 1 ]; then
     say "5/7 Dry run: would commit"; git diff --cached --stat
-    git read-tree "$PRE_INDEX"
   else
     say "5/7 Commit"; git commit -q -m "$MSG"
   fi
