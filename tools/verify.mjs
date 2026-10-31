@@ -31,7 +31,8 @@ const INLINE_IMAGE_LIMIT = 4096;
 export function referencedFiles(html) {
   const refs = new Set();
   for (const m of html.matchAll(/(?<![\w/.%-])((?:assets|posters)\/[\w./%-]+?\.(?:jpe?g|png|gif|webp|svg|pdf|mp4|ico|js|css))(?![\w-])/gi)) refs.add(m[1]);
-  for (const m of html.matchAll(/(?:\b(?:src|href|poster)=["']|url\(['"]?)(\/?[^"')#?:${}<>\s]+\.(?:html|pdf|png|jpe?g|ico|js|css|webp|svg|gif|mp4))(?:\?[^"')]*)?["')]/gi)) {
+  // Quotes may be escaped (\" inside a JS or JSON string), so allow a backslash before each.
+  for (const m of html.matchAll(/(?:\b(?:src|href|poster)=\\?["']|url\(\\?['"]?)(\/?[^"'\\)#?:${}<>\s]+\.(?:html|pdf|png|jpe?g|ico|js|css|webp|svg|gif|mp4))(?:\?[^"'\\)]*)?\\?["')]/gi)) {
     if (m[1].startsWith('//')) continue;
     refs.add(m[1].replace(/^\//, ''));
   }

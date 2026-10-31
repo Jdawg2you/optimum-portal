@@ -67,6 +67,14 @@ console.log('clean copy passes verify');
   execFileSync('/bin/sh', ['-c', 'git init -q && git add -A && git rm -q --cached assets/img/huddle.jpg'], { cwd: d });
   expectRule('an image on disk but never committed (the 29 Oct upload bug)', ['assets'], d); }
 { const d = copy();
+  fs.copyFileSync(path.join(d, 'assets/img/pop.jpg'), path.join(d, 'promo-new.jpg'));
+  const a = JSON.parse(rd(d, 'content/academy.json'));
+  a[0].lessons[0].keyTakeaways[0] += ' <img src="promo-new.jpg">';
+  wr(d, 'content/academy.json', JSON.stringify(a, null, 1) + '\n');
+  rebuild(d);
+  execFileSync('/bin/sh', ['-c', 'git init -q && git add -A && git rm -q --cached promo-new.jpg'], { cwd: d });
+  expectRule('an uncommitted image referenced from lesson text (escaped quotes inside JSON)', ['assets'], d); }
+{ const d = copy();
   const a = JSON.parse(rd(d, 'content/academy.json'));
   a[0].lessons[0].keyTakeaways[0] += ' </script><script>alert(1)</script> <!-- x';
   wr(d, 'content/academy.json', JSON.stringify(a, null, 1) + '\n');
