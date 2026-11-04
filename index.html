@@ -1084,21 +1084,24 @@ const ACADEMY=[
 const SCRIPTS=[['VET Script (Veteran — outbound)','Start here'],['IUL Script (Bifurcated)','After you\'re selling'],['Inbound Script','Inbound leads'],['Mortgage Protection Script (Hybrid)','MP'],['Short Duration Inbound Script','Inbound']];
 const SALES_TOOLS=[['📂','Sales Scripts','All 5 call scripts in one place'],['💻','Electronic Applications','Carrier e-app platforms'],['🏢','Carriers','Portals, underwriting guides, contacts'],['🎓','Continuing Education','Stay compliant'],['📊','Presentation Materials','Brochures, illustrations, needs analysis'],['🖥️','Sales Presentations','Decks for every product']];
 const RECRUITING=[['📲 Share FFL — Invite App','https://tools.ffloptimum.com/share/'],['Why recruit from Day 1','Philosophy + mindset'],['Best recruiting resource (PDF)','https://www.fflsolidity.com'],['Your VBO recruiting webinar','https://www.fflvbo.com/join.html'],['Enroll a new hire','https://www.joinfflnational.com/'],['Compensation docs (5)','General, by product, IUL/annuity, producer & VP bonus'],['\uD83D\uDCD8 Optimum Recruiter Playbook','https://portal.ffloptimum.com/recruiter-playbook.html'],['\uD83D\uDCDD Recruiting Interview Script & Scorecard','https://portal.ffloptimum.com/recruiting-interview-script.html']];
+/* Each book's Amazon button opens Amazon's book search for its title and author, so the
+   link cannot go stale the way a product page or an edition can. */
+function m5Amazon(b){return 'https://www.amazon.com/s?i=stripbooks&k='+encodeURIComponent(b.t+(b.by?' '+b.by:''));}
 const BOOKS=[
-  {t:'Think and Grow Rich',by:'Napoleon Hill',blurb:'Master your mindset, belief, and persistence for success.',pdf:'https://oceanofpdf.com/authors/napoleon-hill/pdf-epub-think-and-grow-rich-the-landmark-bestseller-now-revised-and-updated-for-the-21st-century-download-35412028785/'},
-  {t:'Outwitting the Devil',by:'Napoleon Hill',blurb:'Beat the fear, doubt, and procrastination that hold you back.',pdf:'https://oceanofpdf.com/authors/napoleon-hill/pdf-epub-outwitting-the-devil-the-secret-to-freedom-and-success-download/',wb:'https://oceanofpdf.com/authors/napoleon-hill/pdf-epub-outwitting-the-deviltm-action-guide-deluxe-hardcover-interactive-study-guide-official-publication-of-the-napoleon-hill-foundation-download/'},
-  {t:'The Greatest Salesman in the World',by:'Og Mandino',blurb:'Discipline, persistence, and purpose in sales.',pdf:'https://oceanofpdf.com/authors/og-mandino/pdf-epub-the-greatest-salesman-in-the-world-download-58521370129/',scrolls:'https://portal.ffloptimum.com/the-ten-scrolls.pdf'},
-  {t:'As a Man Thinketh',by:'James Allen',blurb:'Your thoughts shape your results.',pdf:'https://oceanofpdf.com/authors/james-allen/pdf-epub-as-a-man-thinketh-download-51322501174/'},
-  {t:'The Psychology of Selling',by:'Brian Tracy',blurb:'The mental strategies behind top producers.',pdf:'https://oceanofpdf.com/authors/brian-tracy/pdf-epub-the-psychology-of-selling-increase-your-sales-faster-and-easier-than-you-ever-thought-possible-download-66599489964/'},
-  {t:'Radical Responsibility',by:'Fleet Maull',blurb:'Stop blaming; own every outcome.',pdf:'https://oceanofpdf.com/authors/ph-d-maull-fleet/pdf-epub-radical-responsibility-how-to-move-beyond-blame-fearlessly-live-your-highest-purpose-and-become-an-unstoppable-force-for-good-download/'},
-  {t:'What to Say When You Talk to Yourself',by:'Shad Helmstetter',blurb:'Reprogram your inner voice for confidence.',pdf:'https://oceanofpdf.com/authors/shad-helmstetter/pdf-epub-what-to-say-when-you-talk-to-your-self-download/'},
-  {t:'Extreme Ownership',by:'Jocko Willink & Leif Babin',blurb:'Take full responsibility; eliminate excuses.',pdf:'https://oceanofpdf.com/authors/jocko-willink/pdf-epub-extreme-ownership-how-u-s-navy-seals-lead-and-win-download/'},
+  {t:'Think and Grow Rich',by:'Napoleon Hill',blurb:'Master your mindset, belief, and persistence for success.'},
+  {t:'Outwitting the Devil',by:'Napoleon Hill',blurb:'Beat the fear, doubt, and procrastination that hold you back.'},
+  {t:'The Greatest Salesman in the World',by:'Og Mandino',blurb:'Discipline, persistence, and purpose in sales.',scrolls:'https://portal.ffloptimum.com/the-ten-scrolls.pdf'},
+  {t:'As a Man Thinketh',by:'James Allen',blurb:'Your thoughts shape your results.'},
+  {t:'The Psychology of Selling',by:'Brian Tracy',blurb:'The mental strategies behind top producers.'},
+  {t:'Radical Responsibility',by:'Fleet Maull',blurb:'Stop blaming; own every outcome.'},
+  {t:'What to Say When You Talk to Yourself',by:'Shad Helmstetter',blurb:'Reprogram your inner voice for confidence.'},
+  {t:'Extreme Ownership',by:'Jocko Willink & Leif Babin',blurb:'Take full responsibility; eliminate excuses.'},
   {t:'The Purpose Driven Life',by:'Rick Warren',blurb:'Reconnect with your deeper why.'},
   {t:'The Noticer',by:'Andy Andrews',blurb:'A story with priceless lessons on perspective.'},
   {t:'177 Mental Toughness Secrets of the World Class',by:'Steve Siebold',blurb:'Habits and philosophies of the great ones.'},
   {t:'Go Pro',by:'Eric Worre',blurb:'Team building, duplication, and recruiting.'},
   {t:'Do More Now',by:'',blurb:'Insurance business guidance — learn from the best.'},
-  {t:'Goals!',by:'Brian Tracy',blurb:'Get everything you want, faster than you thought.',pdf:'https://oceanofpdf.com/authors/brian-tracy/pdf-epub-goals-how-to-get-everything-you-want-3rd-ed-download/'}];
+  {t:'Goals!',by:'Brian Tracy',blurb:'Get everything you want, faster than you thought.'}];
 /* Resources grouping — order here is the order on the page.
    Any tile key not listed still shows, under "More". */
 const RES_GROUPS=[
@@ -1610,7 +1613,7 @@ function carrierCard(c){
 function listCard(title,sub,rows){return `<div class="listcard"><h3>${title}</h3>${sub?`<div class="lc-sub">${sub}</div>`:''}${rows.map(r=>`<div class="li"><div><div class="lt">${r[0]}</div>${r[1]?`<div class="ld">${r[1]}</div>`:''}</div><button class="openbtn" onclick="${r[1]&&r[1].startsWith('http')?`window.open('${r[1]}','_blank')`:`toast('Opening…')`}">Open</button></div>`).join('')}</div>`;}
 function vRecruiting(){return `<h1 class="page">Recruiting</h1><p class="sub">Build your team — resources, webinar system, and comp.</p>${listCard('Recruiting Resources','',RECRUITING)}`;}
 function vSelfDev(){return `<h1 class="page">Self Development</h1><p class="sub">Books, listens, and tools the top producers use.</p>
-  <div class="listcard"><h3>📚 Books to Read</h3>${BOOKS.map(b=>`<div class="bookcard"><div class="bookcover">${m5BookCover(b.t)}</div><div class="bookinfo"><div class="booktitle">${b.t}${b.by?` <span style="font-weight:500;color:var(--ink-soft)">· ${b.by}</span>`:''}</div><div class="bookblurb">${b.blurb}</div><div class="bookbtns">${b.pdf?`<button class="openbtn" onclick="window.open('${b.pdf}','_blank')">PDF &amp; ePub</button>`:''}${b.wb?`<button class="openbtn" onclick="window.open('${b.wb}','_blank')">PDF Workbook</button>`:''}${b.scrolls?`<button class="openbtn" onclick="window.open('${b.scrolls}','_blank')">Ten Scrolls&mdash; Mantra/Practical Application/Prayer</button>`:''}<button class="openbtn" onclick="toast('Opening Amazon…')">Amazon</button></div></div></div>`).join('')}</div>
+  <div class="listcard"><h3>📚 Books to Read</h3>${BOOKS.map(b=>`<div class="bookcard"><div class="bookcover">${m5BookCover(b.t)}</div><div class="bookinfo"><div class="booktitle">${b.t}${b.by?` <span style="font-weight:500;color:var(--ink-soft)">· ${b.by}</span>`:''}</div><div class="bookblurb">${b.blurb}</div><div class="bookbtns">${b.scrolls?`<button class="openbtn" onclick="window.open('${b.scrolls}','_blank')">Ten Scrolls&mdash; Mantra/Practical Application/Prayer</button>`:''}<button class="openbtn" onclick="window.open('${m5Amazon(b)}','_blank')">Amazon</button></div></div></div>`).join('')}</div>
   ${listCard('🎧 Things to Listen To','',[['Jim Rohn — Building Your Network Marketing Business',''],['Charisma on Command (YouTube)','']])}
   ${listCard('🛠️ Tools We Use','',[['Remarkable Tablet','Client notes'],['Quality Headset','Affordable']])}`;}
 /* ---- Training videos (public YouTube) -------------------------------------
@@ -5636,7 +5639,7 @@ try{
   if(typeof m5RowList==='function'){
     window.vSelfDev=function(){
       var bookCards=(typeof BOOKS!=='undefined'?BOOKS:[]).map(function(b){
-        return '<div class="bookcard"><div class="bookcover">'+(typeof m5BookCover==='function'?m5BookCover(b.t):'')+'</div><div class="bookinfo"><div class="booktitle">'+b.t+(b.by?' <span style="font-weight:500;color:var(--ink-soft)">· '+b.by+'</span>':'')+'</div><div class="bookblurb">'+(b.blurb||'')+'</div><div class="bookbtns">'+(b.pdf?'<button class="openbtn" onclick="window.open(\''+b.pdf+'\',\'_blank\')">PDF &amp; ePub</button>':'')+(b.wb?'<button class="openbtn" onclick="window.open(\''+b.wb+'\',\'_blank\')">PDF Workbook</button>':'')+(b.scrolls?'<button class="openbtn m5-scrollsbtn" onclick="window.open(\''+b.scrolls+'\',\'_blank\')">Ten Scrolls&mdash; Mantra/Practical Application/Prayer</button>':'')+'<button class="openbtn" onclick="toast(\'Opening Amazon…\')">Amazon</button></div></div></div>';
+        return '<div class="bookcard"><div class="bookcover">'+(typeof m5BookCover==='function'?m5BookCover(b.t):'')+'</div><div class="bookinfo"><div class="booktitle">'+b.t+(b.by?' <span style="font-weight:500;color:var(--ink-soft)">· '+b.by+'</span>':'')+'</div><div class="bookblurb">'+(b.blurb||'')+'</div><div class="bookbtns">'+(b.scrolls?'<button class="openbtn m5-scrollsbtn" onclick="window.open(\''+b.scrolls+'\',\'_blank\')">Ten Scrolls&mdash; Mantra/Practical Application/Prayer</button>':'')+'<button class="openbtn" onclick="window.open(\''+m5Amazon(b)+'\',\'_blank\')">Amazon</button></div></div></div>';
       }).join('');
       var listenItems=[
         {l:'Jim Rohn — Building Your Network Marketing Business',d:'Classic audio on building the business.'},
@@ -7859,7 +7862,7 @@ function m5sIndex(scope){
       }
     });
   } else if(scope==='selfdev'){
-    if(typeof BOOKS!=='undefined'){ BOOKS.forEach(function(b){ push('📚',b.t,(b.by||''),'Books to Read', b.pdf?m5sAct(b.pdf):"toast('Opening Amazon…')"); }); }
+    if(typeof BOOKS!=='undefined'){ BOOKS.forEach(function(b){ push('📚',b.t,(b.by||''),'Books to Read', m5sAct(m5Amazon(b))); }); }
     push('🎧','Jim Rohn — Building Your Network Marketing Business','Classic audio on building the business.','Things to Listen To',"toast('Link coming soon.')");
     push('🎧','Charisma on Command (YouTube)','Presence, connection & communication.','Things to Listen To',m5sAct('https://www.youtube.com/@Charismaoncommand'));
     push('▶️','Videos on Mindset & Motivation','Coming soon.','Videos on Mindset & Motivation',"toast('Coming soon.')");
