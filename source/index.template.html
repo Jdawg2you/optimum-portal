@@ -1973,16 +1973,25 @@ function m5CallVis(c,now){
   return {show: now< st+w, timeLabel:c.t, live: now>=st};
 }
 /* Focus filter: which calls an agent should go to (Jesse, 7 Nov 2026).
-   A call's focus is its own f:[...] list; until Jesse assigns one, the LIFE and
-   HEALTH tags stand in. Calls outside the chosen focus are greyed, never hidden.
-   The Events page and the dashboard card keep separate choices and defaults. */
+   Two kinds of button. Stage (New Agent, Accelerate) comes from a call's st:[...];
+   track (Life, Health) from its tr:[...], else its LIFE/HEALTH tag, and a call with
+   no track suits both. A call stays lit when it fits a chosen stage AND a chosen
+   track; a kind with nothing chosen doesn't filter. So New Agent + Life lights the
+   new-life calls, New Agent + Health the new-health ones. Others are greyed, never
+   hidden. The Events page and the dashboard card keep separate choices and defaults. */
 var M5_FOCI={new:'New Agent',life:'Life Focused',health:'Health Focused',accel:'Accelerate Your Growth'};
 var M5_FOCI_SHORT={new:'New Agent',life:'Life',health:'Health',accel:'Accelerate'};
 var M5_FOCUS_DEF={events:['new'],dash:['new','life']};
 var M5_FOCUS_ROW={events:'.m5-callrow',dash:'.m5-call'};
-function m5FocusOf(c){if(c.f)return c.f;if(c.tag==='LIFE')return ['life'];if(c.tag==='HEALTH')return ['health'];return [];}
+function m5FocusOf(c){var tr=c.tr||(c.tag==='LIFE'?['life']:c.tag==='HEALTH'?['health']:[]);
+  return (c.st||[]).map(function(x){return 'st:'+x;}).concat(tr.map(function(x){return 'tr:'+x;}));}
 function m5FocusGet(w){try{var v=JSON.parse(localStorage.getItem('m5focus_'+w));if(Array.isArray(v))return v;}catch(e){}return M5_FOCUS_DEF[w].slice();}
-function m5FocusHit(f,sel){if(!sel.length)return true;for(var i=0;i<f.length;i++){if(sel.indexOf(f[i])>=0)return true;}return false;}
+function m5FocusHit(f,sel){
+  function fits(kind,keys){var want=sel.filter(function(k){return keys.indexOf(k)>=0;});if(!want.length)return true;
+    var has=f.filter(function(t){return t.indexOf(kind)===0;}).map(function(t){return t.slice(3);});
+    if(kind==='tr:'&&!has.length)return true;
+    return has.some(function(x){return want.indexOf(x)>=0;});}
+  return fits('st:',['new','accel'])&&fits('tr:',['life','health']);}
 function m5FocusCls(c,w){return m5FocusHit(m5FocusOf(c),m5FocusGet(w))?'':' m5-fdim';}
 function m5FocusAttr(c){return ' data-focus="'+m5FocusOf(c).join(' ')+'"';}
 function m5FocusPills(w,keys){var sel=m5FocusGet(w),L=(w==='dash'?M5_FOCI_SHORT:M5_FOCI);
