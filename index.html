@@ -2092,14 +2092,15 @@ function m5CallVis(c,now){
    track; a kind with nothing chosen doesn't filter. A call with no stage (Manhattan
    Life) lights only when one of its tracks is chosen. So New Agent + Life lights the
    new-life calls, New Agent + Health the new-health ones. Others are greyed, never
-   hidden. The Events page and the dashboard card keep separate choices and defaults. */
+   hidden. Both start at New Agent + Life on every visit; a change lasts only for
+   that visit (sessionStorage), so the next login is back to the standard. */
 var M5_FOCI={new:'New Agent',life:'Life Focused',health:'Health Focused',accel:'Accelerate Your Growth'};
 var M5_FOCI_SHORT={new:'New Agent',life:'Life',health:'Health',accel:'Accelerate'};
-var M5_FOCUS_DEF={events:['new'],dash:['new','life']};
+var M5_FOCUS_DEF={events:['new','life'],dash:['new','life']};
 var M5_FOCUS_ROW={events:'.m5-callrow',dash:'.m5-call'};
 function m5FocusOf(c){var tr=c.tr||(c.tag==='LIFE'?['life']:c.tag==='HEALTH'?['health']:[]);
   return (c.st||[]).map(function(x){return 'st:'+x;}).concat(tr.map(function(x){return 'tr:'+x;}));}
-function m5FocusGet(w){try{var v=JSON.parse(localStorage.getItem('m5focus_'+w));if(Array.isArray(v))return v;}catch(e){}return M5_FOCUS_DEF[w].slice();}
+function m5FocusGet(w){try{var v=JSON.parse(sessionStorage.getItem('m5focus_'+w));if(Array.isArray(v))return v;}catch(e){}return M5_FOCUS_DEF[w].slice();}
 function m5FocusHit(f,sel){
   function fits(kind,keys){var want=sel.filter(function(k){return keys.indexOf(k)>=0;});if(!want.length)return true;
     var has=f.filter(function(t){return t.indexOf(kind)===0;}).map(function(t){return t.slice(3);});
@@ -2115,7 +2116,7 @@ function m5FocusPills(w,keys){var sel=m5FocusGet(w),L=(w==='dash'?M5_FOCI_SHORT:
   return keys.map(function(k){var on=sel.indexOf(k)>=0;
     return '<button type="button" class="m5-fpill'+(on?' on':'')+'" aria-pressed="'+on+'" onclick="event.preventDefault();event.stopPropagation();m5CallFocusToggle(\''+w+'\',\''+k+'\',this)">'+L[k]+'</button>';}).join('');}
 function m5CallFocusToggle(w,k,btn){var sel=m5FocusGet(w),i=sel.indexOf(k);if(i>=0)sel.splice(i,1);else sel.push(k);
-  try{localStorage.setItem('m5focus_'+w,JSON.stringify(sel));}catch(e){}
+  try{sessionStorage.setItem('m5focus_'+w,JSON.stringify(sel));}catch(e){}
   var on=sel.indexOf(k)>=0;btn.classList.toggle('on',on);btn.setAttribute('aria-pressed',on);
   document.querySelectorAll(M5_FOCUS_ROW[w]+'[data-focus]').forEach(function(el){
     el.classList.toggle('m5-fdim',!m5FocusHit(el.getAttribute('data-focus').split(' ').filter(Boolean),sel));});}
