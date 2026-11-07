@@ -1194,7 +1194,7 @@ function imageCard(k,src,name,cap){return `<div class="listcard"><div class="lc-
 
 /* events (real schedule) */
 const DAILY=[
-  {n:'Morning Kickoff',t:'8:30 AM ET · Zoom Room',link:'https://thedialteam.fflall.com/',s:510,days:[1,2,3,4,5,6],win:60,tag:'OFS',st:['new','accel'],
+  {n:'Morning Kickoff',t:'8:30 AM ET · Zoom Room',link:'https://thedialteam.fflall.com/',s:510,days:[1,2,3,4,5,6],win:60,tag:'OFS',st:['accel'],
    d:'Daily reading for mindset, then set your goal for the day before you dial.',dm:'Reading + goals'},
   {n:'Live Dials (Virtual Office)',t:'8:00 AM ET \u2014 open all day',link:'https://thedialteam.fflall.com/',s:480,allday:true,allEnd:1080,tag:'OFS',st:['new'],
    d:'The virtual office. Drop in and dial alongside the team any time of day.',dm:'Dial with the team'},
@@ -1217,7 +1217,7 @@ const WEEK={
  2:[HUDDLE,
     {n:'The Winning System',t:'12:00 PM ET',link:'https://zoom.fflall.com',s:720,tag:'LIFE',st:['new'],
      d:'The repeatable system behind a consistent week of production.',dm:'The system'},
-    {n:'Manhattan Life Product Training',t:'3:00 PM ET',link:'https://ww3.familyfirstlife.com/login',s:900,tag:'HEALTH',st:['new'],note:'Agent Portal \u2192 Training Schedule',
+    {n:'Manhattan Life Product Training',t:'3:00 PM ET',link:'https://ww3.familyfirstlife.com/login',s:900,tag:'HEALTH',note:'Agent Portal \u2192 Training Schedule',
      d:'Carrier product training on Manhattan Life.',dm:'Product training'},
     {n:'POP Stories Sell',t:'7:00 PM ET',link:'https://HealthFirstVBO.com',s:1140,tag:'HEALTH',st:['new'],
      d:'Selling health with stories instead of features.',dm:'Sell with stories'}],
@@ -1227,7 +1227,7 @@ const WEEK={
  4:[HUDDLE,
     {n:'Simple Retirement Solutions Call',t:'12:00 PM ET',link:'https://srsliftoff.com/',s:720,tag:'LIFE',st:['accel'],tr:[],
      d:'IULs and annuities \u2014 how to open the retirement conversation.',dm:'IUL & annuity'},
-    {n:'Manhattan Life Product Training',t:'3:00 PM ET',link:'https://ww3.familyfirstlife.com/login',s:900,tag:'HEALTH',st:['new'],note:'Agent Portal \u2192 Training Schedule',
+    {n:'Manhattan Life Product Training',t:'3:00 PM ET',link:'https://ww3.familyfirstlife.com/login',s:900,tag:'HEALTH',note:'Agent Portal \u2192 Training Schedule',
      d:'Carrier product training on Manhattan Life.',dm:'Product training'}],
  5:[HUDDLE,
     {n:'Millionaire Maker w/ Shawn Meaike',t:'12:00 PM ET',link:'https://join.smeaike.com',s:720,tag:'BIZ',st:['new'],
@@ -2089,7 +2089,8 @@ function m5CallVis(c,now){
    Two kinds of button. Stage (New Agent, Accelerate) comes from a call's st:[...];
    track (Life, Health) from its tr:[...], else its LIFE/HEALTH tag, and a call with
    no track suits both. A call stays lit when it fits a chosen stage AND a chosen
-   track; a kind with nothing chosen doesn't filter. So New Agent + Life lights the
+   track; a kind with nothing chosen doesn't filter. A call with no stage (Manhattan
+   Life) lights only when one of its tracks is chosen. So New Agent + Life lights the
    new-life calls, New Agent + Health the new-health ones. Others are greyed, never
    hidden. The Events page and the dashboard card keep separate choices and defaults. */
 var M5_FOCI={new:'New Agent',life:'Life Focused',health:'Health Focused',accel:'Accelerate Your Growth'};
@@ -2104,6 +2105,9 @@ function m5FocusHit(f,sel){
     var has=f.filter(function(t){return t.indexOf(kind)===0;}).map(function(t){return t.slice(3);});
     if(kind==='tr:'&&!has.length)return true;
     return has.some(function(x){return want.indexOf(x)>=0;});}
+  /* no stage: the call is for a track at any stage, so it lights only when that track is chosen */
+  if(!f.some(function(t){return t.indexOf('st:')===0;}))
+    return f.some(function(t){return t.indexOf('tr:')===0&&sel.indexOf(t.slice(3))>=0;});
   return fits('st:',['new','accel'])&&fits('tr:',['life','health']);}
 function m5FocusCls(c,w){return m5FocusHit(m5FocusOf(c),m5FocusGet(w))?'':' m5-fdim';}
 function m5FocusAttr(c){return ' data-focus="'+m5FocusOf(c).join(' ')+'"';}

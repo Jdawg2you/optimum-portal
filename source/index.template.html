@@ -1976,7 +1976,8 @@ function m5CallVis(c,now){
    Two kinds of button. Stage (New Agent, Accelerate) comes from a call's st:[...];
    track (Life, Health) from its tr:[...], else its LIFE/HEALTH tag, and a call with
    no track suits both. A call stays lit when it fits a chosen stage AND a chosen
-   track; a kind with nothing chosen doesn't filter. So New Agent + Life lights the
+   track; a kind with nothing chosen doesn't filter. A call with no stage (Manhattan
+   Life) lights only when one of its tracks is chosen. So New Agent + Life lights the
    new-life calls, New Agent + Health the new-health ones. Others are greyed, never
    hidden. The Events page and the dashboard card keep separate choices and defaults. */
 var M5_FOCI={new:'New Agent',life:'Life Focused',health:'Health Focused',accel:'Accelerate Your Growth'};
@@ -1991,6 +1992,9 @@ function m5FocusHit(f,sel){
     var has=f.filter(function(t){return t.indexOf(kind)===0;}).map(function(t){return t.slice(3);});
     if(kind==='tr:'&&!has.length)return true;
     return has.some(function(x){return want.indexOf(x)>=0;});}
+  /* no stage: the call is for a track at any stage, so it lights only when that track is chosen */
+  if(!f.some(function(t){return t.indexOf('st:')===0;}))
+    return f.some(function(t){return t.indexOf('tr:')===0&&sel.indexOf(t.slice(3))>=0;});
   return fits('st:',['new','accel'])&&fits('tr:',['life','health']);}
 function m5FocusCls(c,w){return m5FocusHit(m5FocusOf(c),m5FocusGet(w))?'':' m5-fdim';}
 function m5FocusAttr(c){return ' data-focus="'+m5FocusOf(c).join(' ')+'"';}
