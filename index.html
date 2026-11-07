@@ -2100,8 +2100,8 @@ function m5FocusCls(c,w){return m5FocusHit(m5FocusOf(c),m5FocusGet(w))?'':' m5-f
 function m5FocusAttr(c){return ' data-focus="'+m5FocusOf(c).join(' ')+'"';}
 function m5FocusPills(w,keys){var sel=m5FocusGet(w),L=(w==='dash'?M5_FOCI_SHORT:M5_FOCI);
   return keys.map(function(k){var on=sel.indexOf(k)>=0;
-    return '<button type="button" class="m5-fpill'+(on?' on':'')+'" aria-pressed="'+on+'" onclick="event.preventDefault();event.stopPropagation();m5FocusToggle(\''+w+'\',\''+k+'\',this)">'+L[k]+'</button>';}).join('');}
-function m5FocusToggle(w,k,btn){var sel=m5FocusGet(w),i=sel.indexOf(k);if(i>=0)sel.splice(i,1);else sel.push(k);
+    return '<button type="button" class="m5-fpill'+(on?' on':'')+'" aria-pressed="'+on+'" onclick="event.preventDefault();event.stopPropagation();m5CallFocusToggle(\''+w+'\',\''+k+'\',this)">'+L[k]+'</button>';}).join('');}
+function m5CallFocusToggle(w,k,btn){var sel=m5FocusGet(w),i=sel.indexOf(k);if(i>=0)sel.splice(i,1);else sel.push(k);
   try{localStorage.setItem('m5focus_'+w,JSON.stringify(sel));}catch(e){}
   var on=sel.indexOf(k)>=0;btn.classList.toggle('on',on);btn.setAttribute('aria-pressed',on);
   document.querySelectorAll(M5_FOCUS_ROW[w]+'[data-focus]').forEach(function(el){
