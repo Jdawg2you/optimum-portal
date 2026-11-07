@@ -2022,7 +2022,7 @@ function m5DashCalls(){
       '<div class="m5-ctime">'+v.timeLabel+((c.dm||c.note)?' · '+(c.dm||c.note):'')+(v.live?' <span class="m5-livedot">● live</span>':'')+'</div>'+
       '<span class="m5-join">Join</span></a>';
   }).join('');
-  return '<div class="m5-widget m5-callswidget"><div class="m5-wtitle"><span class="m5-wti" data-ico="calendar"></span>'+(isTomorrow?'Tomorrow’s Calls':'Today’s Calls')+'<span class="m5-fpills sm">'+m5FocusPills('dash',['new','life','health'])+'</span></div>'+
+  return '<div class="m5-widget m5-callswidget"><div class="m5-wtitle"><span class="m5-wti" data-ico="calendar"></span>'+(isTomorrow?'Tomorrow’s Calls':'Today’s Calls')+'<span class="m5-fpills sm">'+m5FocusPills('dash',['new','life','health','accel'])+'</span></div>'+
     '<div class="m5-wsub">'+headDay+' · all times ET</div>'+
     '<div class="m5-callstack">'+rows+'</div></div>';
 }
