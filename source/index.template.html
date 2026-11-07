@@ -1252,6 +1252,8 @@ function go(view){
 
 /* ---------- AUTH ---------- */
 function doLogin(){
+  /* every login starts the focus buttons back at New Agent + Life */
+  try{sessionStorage.removeItem('m5focus_events');sessionStorage.removeItem('m5focus_dash');}catch(e){}
   var first=(document.getElementById('li-first').value||'').trim();
   var last=(document.getElementById('li-last').value||'').trim();
   var email=(document.getElementById('li-email').value||'').trim();
