@@ -1972,6 +1972,27 @@ function m5CallVis(c,now){
   if(st<0)return {show:true,timeLabel:c.t,live:false};
   return {show: now< st+w, timeLabel:c.t, live: now>=st};
 }
+/* Focus filter: which calls an agent should go to (Jesse, 7 Nov 2026).
+   A call's focus is its own f:[...] list; until Jesse assigns one, the LIFE and
+   HEALTH tags stand in. Calls outside the chosen focus are greyed, never hidden.
+   The Events page and the dashboard card keep separate choices and defaults. */
+var M5_FOCI={new:'New Agent',life:'Life Focused',health:'Health Focused',accel:'Accelerate Your Growth'};
+var M5_FOCI_SHORT={new:'New Agent',life:'Life',health:'Health',accel:'Accelerate'};
+var M5_FOCUS_DEF={events:['new'],dash:['new','life']};
+var M5_FOCUS_ROW={events:'.m5-callrow',dash:'.m5-call'};
+function m5FocusOf(c){if(c.f)return c.f;if(c.tag==='LIFE')return ['life'];if(c.tag==='HEALTH')return ['health'];return [];}
+function m5FocusGet(w){try{var v=JSON.parse(localStorage.getItem('m5focus_'+w));if(Array.isArray(v))return v;}catch(e){}return M5_FOCUS_DEF[w].slice();}
+function m5FocusHit(f,sel){if(!sel.length)return true;for(var i=0;i<f.length;i++){if(sel.indexOf(f[i])>=0)return true;}return false;}
+function m5FocusCls(c,w){return m5FocusHit(m5FocusOf(c),m5FocusGet(w))?'':' m5-fdim';}
+function m5FocusAttr(c){return ' data-focus="'+m5FocusOf(c).join(' ')+'"';}
+function m5FocusPills(w,keys){var sel=m5FocusGet(w),L=(w==='dash'?M5_FOCI_SHORT:M5_FOCI);
+  return keys.map(function(k){var on=sel.indexOf(k)>=0;
+    return '<button type="button" class="m5-fpill'+(on?' on':'')+'" aria-pressed="'+on+'" onclick="event.preventDefault();event.stopPropagation();m5FocusToggle(\''+w+'\',\''+k+'\',this)">'+L[k]+'</button>';}).join('');}
+function m5FocusToggle(w,k,btn){var sel=m5FocusGet(w),i=sel.indexOf(k);if(i>=0)sel.splice(i,1);else sel.push(k);
+  try{localStorage.setItem('m5focus_'+w,JSON.stringify(sel));}catch(e){}
+  var on=sel.indexOf(k)>=0;btn.classList.toggle('on',on);btn.setAttribute('aria-pressed',on);
+  document.querySelectorAll(M5_FOCUS_ROW[w]+'[data-focus]').forEach(function(el){
+    el.classList.toggle('m5-fdim',!m5FocusHit(el.getAttribute('data-focus').split(' ').filter(Boolean),sel));});}
 function m5DashCalls(){
   var et=m5ETNow(); var now=et.mins; var day=et.day;
   var vis=[]; m5DayCalls(day).forEach(function(c){var v=m5CallVis(c,now); if(v&&v.show)vis.push({c:c,v:v});});
@@ -1981,14 +2002,14 @@ function m5DashCalls(){
     m5DayCalls(tday).forEach(function(c){ vis.push({c:c,v:{show:true,timeLabel:c.t,live:false}}); });
   }
   var rows=vis.map(function(o){var c=o.c,v=o.v;
-    return '<a class="m5-call" href="'+c.link+'" target="_blank" rel="noopener">'+
+    return '<a class="m5-call'+m5FocusCls(c,'dash')+'"'+m5FocusAttr(c)+' href="'+c.link+'" target="_blank" rel="noopener">'+
       '<div class="m5-chead"><span class="m5-cicon" data-ico="'+m5CallIco(c.n)+'"></span><div class="m5-ct">'+c.n+'</div>'+(c.tag?'<span class="m5-ctag '+c.tag+'">'+c.tag+'</span>':'')+'</div>'+
       /* micro description rides on the time line so the card keeps the exact
          height it had before descriptions existed. */
       '<div class="m5-ctime">'+v.timeLabel+((c.dm||c.note)?' · '+(c.dm||c.note):'')+(v.live?' <span class="m5-livedot">● live</span>':'')+'</div>'+
       '<span class="m5-join">Join</span></a>';
   }).join('');
-  return '<div class="m5-widget m5-callswidget"><div class="m5-wtitle"><span class="m5-wti" data-ico="calendar"></span>'+(isTomorrow?'Tomorrow’s Calls':'Today’s Calls')+'</div>'+
+  return '<div class="m5-widget m5-callswidget"><div class="m5-wtitle"><span class="m5-wti" data-ico="calendar"></span>'+(isTomorrow?'Tomorrow’s Calls':'Today’s Calls')+'<span class="m5-fpills sm">'+m5FocusPills('dash',['new','life','health'])+'</span></div>'+
     '<div class="m5-wsub">'+headDay+' · all times ET</div>'+
     '<div class="m5-callstack">'+rows+'</div></div>';
 }
@@ -2802,6 +2823,15 @@ nav.side{padding:9px 10px}
 .m5-crtag.BIZ{background:#eaf0fd;color:#2f5fd0}
 .m5-crtag.LIFE{background:#eef5ff;color:#1f4fa8}
 .m5-crtag.HEALTH{background:#e7f4f1;color:#177a68}
+.m5-focusbar{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin:18px 0 16px}
+.m5-focuslbl{font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#8a93a5;margin-right:4px}
+.m5-fpill{font:inherit;font-size:12.5px;font-weight:700;color:#5b6475;background:#fff;border:1px solid #d9dde6;border-radius:999px;padding:6px 14px;cursor:pointer;transition:.12s}
+.m5-fpill:hover{border-color:#16233f;color:#16233f}
+.m5-fpill.on{background:#16233f;border-color:#16233f;color:#fff}
+.m5-fpills.sm{margin-left:auto;display:inline-flex;gap:4px}
+.m5-fpills.sm .m5-fpill{font-size:10.5px;padding:3px 9px}
+.m5-fdim{opacity:.38;filter:grayscale(1);transition:opacity .15s}
+.m5-fdim:hover{opacity:.75}
 /* Priority star on a call name. Deliberately inline-flex with a vertical-align
    nudge rather than making .m5-crname a flexbox: .m5-crtag already relies on
    inline-block + vertical-align, and switching the parent to flex would change
@@ -3897,7 +3927,7 @@ try{
       var _cal=_idx>=0?'<button class="m5-crcal" onclick="m5AddCal('+_idx+')">＋ Calendar</button>':'';
       var _tag=e.tag?'<span class="m5-crtag '+e.tag+'">'+e.tag+'</span>':'';
       var _desc=compact?(e.dm||''):(e.d||'');
-      return '<div class="m5-callrow"><span class="m5-crchip">'+m5icon(m5CallIcon(e.n))+'</span>'+
+      return '<div class="m5-callrow'+m5FocusCls(e,'events')+'"'+m5FocusAttr(e)+'><span class="m5-crchip">'+m5icon(m5CallIcon(e.n))+'</span>'+
         '<span class="m5-crtext"><span class="m5-crname">'+e.n+_tag+window.m5PriStar(e.n)+'</span>'+
         '<span class="m5-crtime">'+e.t+(e.note?' · '+e.note:'')+'</span>'+
         (_desc?'<span class="m5-crdesc">'+_desc+'</span>':'')+'</span>'+
@@ -3921,6 +3951,8 @@ try{
       var h='<h1 class="page">Virtual Calls/Events</h1><p class="sub">Today\'s calls, upcoming events, your full weekly schedule, and recordings — all in one place (all times ET).</p>';
       var _liveDials=null; for(var _i=0;_i<DAILY.length;_i++){ if(/live dials/i.test(DAILY[_i].n)){_liveDials=DAILY[_i];break;} }
       var _todayCalls=(WEEK[today]||[]);
+      // 0) FOCUS: greys out the calls outside the agent's focus
+      h+='<div class="m5-focusbar"><span class="m5-focuslbl">Where should you focus?</span>'+m5FocusPills('events',['new','life','health','accel'])+'</div>';
       // 1) TODAY
       h+='<div class="m5-callsec m5-todaysec"><div class="m5-callsec-h m5-todayhd">Today · '+_et.label+' <span class="m5-etpill">Eastern</span></div>';
       if(_todayCalls.length){
@@ -3967,7 +3999,6 @@ try{
          its sign-up button to the site on top of the download. */
       var _flyers=[
         {k:'reading',   n:'Morning Kickoff',              d:'Mon–Sat 8:30 AM ET · daily reading and goal setting.',                 f:'morning-kickoff.jpg'},
-        {k:'huddle',    n:'Nuts & Bolts Huddle',          d:'Mon–Fri 2:00 PM ET · midday coaching in the Optimum breakout.',        f:'nuts-and-bolts-huddle.jpg'},
         {k:'vbo',       n:'Virtual Business Overview',    d:'Every day, five times a day · send prospects and recruits here.',      f:'virtual-business-overview.jpg'},
         {k:'pop',       n:'HealthFirst POP Selling System',d:'Wednesdays 7:00 PM ET · the POP system start to finish.',             f:'healthfirst-pop.jpg'},
         {k:'manhattan', n:'Manhattan Life Product Training',d:'Tuesdays & Thursdays 3:00 PM ET · products, strategies, Q&A.',       f:'manhattan-life-training.jpg'},

@@ -1,2 +1,2 @@
-{n:'Nuts & Bolts Huddle',t:'2:00 PM ET',link:'https://thedialteam.fflall.com/',s:840,win:45,note:'\u201cOptimum\u201d breakout on Live Dials',tag:'OFS',
-  d:'Midday coaching for agents in the field \u2014 bring what you are stuck on.',dm:'Midday coaching'}
+{n:'New Agent Onboarding',t:'11:30 AM – 12:00 PM ET',link:'https://thedialteam.fflall.com/',s:690,win:30,note:'“Optimum” breakout on Live Dials',tag:'OFS',f:['new'],
+  d:'Thirty minutes for new agents, Monday to Friday. A different topic each day, and it repeats every week.',dm:'New agents · daily topic'}
