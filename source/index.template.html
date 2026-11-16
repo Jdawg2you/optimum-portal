@@ -2520,6 +2520,8 @@ function acadLessonView(a,b){var m=acadFindMod(a);if(!m)return acadHomeView();va
 .agm-ht{flex:1;min-width:0}
 .agm-name{font-size:18px;font-weight:800;line-height:1.2}
 .agm-sub{font-size:12.5px;color:#b9c6de;margin-top:3px}
+.agm-ph{display:inline-block;margin-top:5px;font-size:13.5px;font-weight:700;color:#fff;text-decoration:none;letter-spacing:.01em}
+.agm-ph:hover{text-decoration:underline}
 .agm-x{appearance:none;border:0;background:rgba(255,255,255,.12);color:#fff;width:30px;height:30px;border-radius:9px;cursor:pointer;font-size:15px;line-height:1;flex:0 0 auto}
 .agm-x:hover{background:rgba(255,255,255,.24)}
 .agm-b{padding:16px 20px 20px}
@@ -3423,6 +3425,9 @@ body.m5-previewing #m5-prelic .m5-signout{visibility:hidden}
 .m5hc-no{font:inherit;font-weight:700;background:#fff;border:1px solid #d6dce8;border-radius:10px;padding:10px 16px;cursor:pointer;color:#16233f}
 .m5hc-yes{font:inherit;font-weight:800;background:#1f7a4d;color:#fff;border:0;border-radius:10px;padding:10px 16px;cursor:pointer}
 @media(max-width:520px){.m5hc-r{grid-template-columns:1fr auto}.m5hc-l{grid-column:1/-1;font-size:12px}.m5hc-f>button{flex:1 1 auto}}
+.nr-ph{margin:10px 0 -4px;font-size:13.5px;font-weight:700}
+.nr-ph a{color:inherit;text-decoration:none}
+.nr-ph a:hover{text-decoration:underline}
 .nr-acts{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 4px}
   .nr-act{display:inline-flex;align-items:center;gap:6px;text-decoration:none;
     background:#fff;border:1px solid #dbe3f0;border-radius:9px;padding:8px 13px;
@@ -4835,6 +4840,9 @@ function m5AgRows(){
   }).join('');
 }
 function m5AgEsc(s){ return String(s==null?'':s).replace(/[&<>]/g,function(c){return ({'&':'&amp;','<':'&lt;','>':'&gt;'})[c];}); }
+/* (555) 123-4567 for a 10-digit US number (a leading 1 dropped); anything else as typed. */
+function m5PhPretty(p){ var d=String(p||'').replace(/\D/g,''); if(d.length===11&&d[0]==='1') d=d.slice(1);
+  return d.length===10? '('+d.slice(0,3)+') '+d.slice(3,6)+'-'+d.slice(6) : String(p||'').trim(); }
 /* Show the year only when it is not this one. Two date columns sitting side by side made
    the omission dangerous: "Sep 1" against "Aug 14" reads as two weeks apart when it is
    really eleven months, which is the exact confusion these columns exist to prevent. */
@@ -5568,7 +5576,8 @@ function m5AgCard(k){
   var html='<div class="agm-back" id="agm-back" onclick="if(event.target===this)m5AgClose()">'+
     '<div class="agm" role="dialog" aria-modal="true" aria-label="Agent card">'+
       '<div class="agm-h"><div class="agm-av">'+ini+'</div>'+
-        '<div class="agm-ht"><div class="agm-name">'+nm+'</div><div class="agm-sub">'+sub+'</div></div>'+
+        '<div class="agm-ht"><div class="agm-name">'+nm+'</div><div class="agm-sub">'+sub+'</div>'+
+          (phone?'<a class="agm-ph" href="tel:'+phone+'">\ud83d\udcde '+m5AgEsc(m5PhPretty(a.phone))+'</a>':'')+'</div>'+
         '<button type="button" class="agm-x" onclick="m5AgClose()" aria-label="Close">\u2715</button></div>'+
       '<div class="agm-b">'+
         m5OnbSwitch(k,'coach')+
@@ -6643,6 +6652,7 @@ if(_rcEm||_rcPh){
     return on ? '<a class="nr-act" href="'+href+'">'+ic+' '+lbl+'</a>'
               : '<span class="nr-act off">'+ic+' '+lbl+'</span>';
   };
+  if(_rcPh) h+='<div class="nr-ph"><a href="tel:'+_rcPh+'">\ud83d\udcde '+m5RcEsc(m5PhPretty(a.phone))+'</a></div>';
   h+='<div class="nr-acts">'
     + _rcAct('mailto:'+_rcEm,'\u2709\ufe0f','Email',!!_rcEm)
     + _rcAct('sms:'+_rcPh,'\ud83d\udcac','Text',!!_rcPh)
