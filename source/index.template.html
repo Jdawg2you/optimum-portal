@@ -2520,8 +2520,8 @@ function acadLessonView(a,b){var m=acadFindMod(a);if(!m)return acadHomeView();va
 .agm-ht{flex:1;min-width:0}
 .agm-name{font-size:18px;font-weight:800;line-height:1.2}
 .agm-sub{font-size:12.5px;color:#b9c6de;margin-top:3px}
-.agm .agm-h a.agm-ph{display:inline-block;margin-top:5px;font-size:13.5px;font-weight:700;color:#fff;text-decoration:none;letter-spacing:.01em}
-.agm .agm-h a.agm-ph:hover{text-decoration:underline}
+.agm .agm-h a.agm-tel{display:inline-block;margin-top:5px;font-size:13.5px;font-weight:700;color:#fff;text-decoration:none;letter-spacing:.01em}
+.agm .agm-h a.agm-tel:hover{text-decoration:underline}
 .agm-x{appearance:none;border:0;background:rgba(255,255,255,.12);color:#fff;width:30px;height:30px;border-radius:9px;cursor:pointer;font-size:15px;line-height:1;flex:0 0 auto}
 .agm-x:hover{background:rgba(255,255,255,.24)}
 .agm-b{padding:16px 20px 20px}
@@ -5577,7 +5577,7 @@ function m5AgCard(k){
     '<div class="agm" role="dialog" aria-modal="true" aria-label="Agent card">'+
       '<div class="agm-h"><div class="agm-av">'+ini+'</div>'+
         '<div class="agm-ht"><div class="agm-name">'+nm+'</div><div class="agm-sub">'+sub+'</div>'+
-          (phone?'<a class="agm-ph" href="tel:'+phone+'">\ud83d\udcde '+m5AgEsc(m5PhPretty(a.phone))+'</a>':'')+'</div>'+
+          (phone?'<a class="agm-tel" href="tel:'+phone+'">\ud83d\udcde '+m5AgEsc(m5PhPretty(a.phone))+'</a>':'')+'</div>'+
         '<button type="button" class="agm-x" onclick="m5AgClose()" aria-label="Close">\u2715</button></div>'+
       '<div class="agm-b">'+
         m5OnbSwitch(k,'coach')+
